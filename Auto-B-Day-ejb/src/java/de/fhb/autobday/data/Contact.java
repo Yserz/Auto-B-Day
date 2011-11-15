@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.data;
 
 import java.io.Serializable;
@@ -27,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen
  */
 @Entity
 @Table(name = "contact")

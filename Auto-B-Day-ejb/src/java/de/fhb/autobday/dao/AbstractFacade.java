@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.dao;
 
 import java.util.List;
@@ -9,7 +5,7 @@ import javax.persistence.EntityManager;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen
  */
 public abstract class AbstractFacade<T> {
 	private Class<T> entityClass;

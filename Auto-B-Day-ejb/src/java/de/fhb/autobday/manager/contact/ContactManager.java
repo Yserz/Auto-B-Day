@@ -12,11 +12,10 @@ import javax.ejb.Stateless;
 @Stateless
 public class ContactManager implements ContactManagerLocal {
 	private final static Logger LOGGER = Logger.getLogger(ContactManager.class.getName());
-	
+		
 	@EJB
 	private ContactFacade contactDAO;
 	
-	// Add business logic below. (Right-click in editor and choose
-	// "Insert Code > Add Business Method")
+	
 	
 }

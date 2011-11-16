@@ -14,13 +14,13 @@ import javax.ejb.Local;
 @Local
 public interface ABDManagerLocal {
 
-	List<Abduser> showAllUser();
+	List<Abduser> getAllUser();
 
-	List<Abdgroup> showAllGroups();
+	List<Abdgroup> getAllGroups();
 
-	List<Accountdata> showAllAccountdata();
+	List<Accountdata> getAllAccountdata();
 
-	List<Contact> showAllContacts();
+	List<Contact> getAllContacts();
 	
 	String hallo();
 }

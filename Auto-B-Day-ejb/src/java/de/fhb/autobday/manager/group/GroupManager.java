@@ -1,6 +1,7 @@
 package de.fhb.autobday.manager.group;
 
 import de.fhb.autobday.dao.AbdgroupFacade;
+import de.fhb.autobday.data.Abdgroup;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,7 +16,11 @@ public class GroupManager implements GroupManagerLocal {
 
 	@EJB
 	private AbdgroupFacade groupDAO;
-	// Add business logic below. (Right-click in editor and choose
-	// "Insert Code > Add Business Method")
+
 	
+
+	@Override
+	public Abdgroup getGroup(int groupid) {
+		return groupDAO.find(groupid);
+	}
 }

@@ -8,19 +8,24 @@ import de.fhb.autobday.data.Abduser;
 import de.fhb.autobday.data.Abdgroup;
 import de.fhb.autobday.data.Accountdata;
 import de.fhb.autobday.data.Contact;
+import de.fhb.autobday.manager.group.GroupManager;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author Michael Koppen
  */
-@Stateless
+@Startup
+@Singleton
 public class ABDManager implements ABDManagerLocal, Serializable {
 	private final static Logger LOGGER = Logger.getLogger(ABDManager.class.getName());
 	
@@ -32,28 +37,29 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 	private AccountdataFacade accountdataDAO;
 	@EJB
 	private ContactFacade contactDAO;
+	
 
 
 	public ABDManager() {
 	}
 
 	@Override
-	public List<Abduser> showAllUser() {
+	public List<Abduser> getAllUser() {
 		return userDAO.findAll();
 	}
 
 	@Override
-	public List<Abdgroup> showAllGroups() {
+	public List<Abdgroup> getAllGroups() {
 		return groupDAO.findAll();
 	}
 
 	@Override
-	public List<Accountdata> showAllAccountdata() {
+	public List<Accountdata> getAllAccountdata() {
 		return accountdataDAO.findAll();
 	}
 
 	@Override
-	public List<Contact> showAllContacts() {
+	public List<Contact> getAllContacts() {
 		return contactDAO.findAll();
 	}
 	@Override
@@ -61,8 +67,34 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 		return "hallo";
 	}
 	@Schedule(minute="*/1", hour="*")
-	private void bla(){
+	private void checkEveryMinute(){
 		System.out.println("every minute idle message..."+new Date());
+		
 	}
-	
+	@Schedule(hour="5")
+	private void checkEveryDay(){
+		System.out.println("every hour idle message..."+new Date());
+		
+		Abdgroup aktGroup = null;
+		String parsedTemplate = "";
+		Collection<Contact> birthdayContacts = contactDAO.findContactByBday(new Date());
+		
+		
+		for (Contact aktContact : birthdayContacts) {
+			if (aktContact.getActive()==true) {
+				aktGroup = aktContact.getAbdgroup();
+				if (aktGroup.getActive()==true) {
+					parsedTemplate = parseTemplate(aktGroup.getTemplate(), 
+												   aktGroup.getAccount().getAbduser(), 
+												   aktContact);
+				}
+			}
+		}
+		
+	}
+	private String parseTemplate(String unparsedTemplate, Abduser user, Contact contact) {
+		//TODO get information about user and contact
+		//TODO Parse the template with information
+		return null;
+	}
 }

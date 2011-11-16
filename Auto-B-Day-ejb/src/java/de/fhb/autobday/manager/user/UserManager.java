@@ -1,6 +1,9 @@
 package de.fhb.autobday.manager.user;
 
 import de.fhb.autobday.dao.AbduserFacade;
+import de.fhb.autobday.data.Abduser;
+import de.fhb.autobday.data.Accountdata;
+import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -17,11 +20,9 @@ public class UserManager implements UserManagerLocal {
 	private AbduserFacade userDAO;
 	
 	public UserManager() {
+		
 	}
-	
-	// Add business logic below. (Right-click in editor and choose
-	// "Insert Code > Add Business Method")
-
-	
-	
+	public Abduser getUser(int userid){
+		return userDAO.find(userid);
+	}
 }

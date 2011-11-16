@@ -1,6 +1,8 @@
 package de.fhb.autobday.dao;
 
 import de.fhb.autobday.data.Contact;
+import java.util.Collection;
+import java.util.Date;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -19,6 +21,10 @@ public class ContactFacade extends AbstractFacade<Contact> {
 	protected EntityManager getEntityManager() {
 		return em;
 	}
+	public Collection<Contact> findContactByBday(Date bday) {
+        return (Collection<Contact>) em.createNamedQuery("Contact.findByBday")
+				.setParameter("bday", bday).getResultList();
+    }
 
 	public ContactFacade() {
 		super(Contact.class);

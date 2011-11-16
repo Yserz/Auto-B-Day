@@ -11,12 +11,10 @@ import de.fhb.autobday.data.Contact;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.enterprise.context.Dependent;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 
 /**
  *
@@ -24,6 +22,8 @@ import javax.inject.Named;
  */
 @Stateless
 public class ABDManager implements ABDManagerLocal, Serializable {
+	private final static Logger LOGGER = Logger.getLogger(ABDManager.class.getName());
+	
 	@EJB
 	private AbduserFacade userDAO;
 	@EJB

@@ -1,7 +1,7 @@
 package de.fhb.autobday.manager.user;
 
 import de.fhb.autobday.dao.AbduserFacade;
-import de.fhb.autobday.manager.account.AccountManagerLocal;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -11,6 +11,8 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class UserManager implements UserManagerLocal {
+	private final static Logger LOGGER = Logger.getLogger(UserManager.class.getName());
+	
 	@EJB
 	private AbduserFacade userDAO;
 	

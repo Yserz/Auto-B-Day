@@ -475,9 +475,41 @@ exists or setup the property manually. For example like this:
         <!-- You can override this target in the ../build.xml file. -->
     </target>
     <target depends="compile" if="is.server.weblogic" name="library-inclusion-in-archive">
-        <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
+        <basename file="${file.reference.gdata-base-1.0.jar}" property="manifest.file.reference.gdata-base-1.0.jar"/>
+        <basename file="${file.reference.gdata-calendar-2.0.jar}" property="manifest.file.reference.gdata-calendar-2.0.jar"/>
+        <basename file="${file.reference.gdata-calendar-meta-2.0.jar}" property="manifest.file.reference.gdata-calendar-meta-2.0.jar"/>
+        <basename file="${file.reference.gdata-client-1.0.jar}" property="manifest.file.reference.gdata-client-1.0.jar"/>
+        <basename file="${file.reference.gdata-client-meta-1.0.jar}" property="manifest.file.reference.gdata-client-meta-1.0.jar"/>
+        <basename file="${file.reference.gdata-contacts-3.0.jar}" property="manifest.file.reference.gdata-contacts-3.0.jar"/>
+        <basename file="${file.reference.gdata-contacts-meta-3.0.jar}" property="manifest.file.reference.gdata-contacts-meta-3.0.jar"/>
+        <basename file="${file.reference.gdata-core-1.0.jar}" property="manifest.file.reference.gdata-core-1.0.jar"/>
+        <basename file="${file.reference.google-collect-1.0-rc1.jar}" property="manifest.file.reference.google-collect-1.0-rc1.jar"/>
+        <basename file="${file.reference.jsr305.jar}" property="manifest.file.reference.jsr305.jar"/>
+        <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 jar-5 jar-6 jar-7 jar-8 jar-9 jar-10 "/>
+            <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.gdata-base-1.0.jar}"/>
+            <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.gdata-calendar-2.0.jar}"/>
+            <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.gdata-calendar-meta-2.0.jar}"/>
+            <attribute name="jar-4-Extension-Name" value="${manifest.file.reference.gdata-client-1.0.jar}"/>
+            <attribute name="jar-5-Extension-Name" value="${manifest.file.reference.gdata-client-meta-1.0.jar}"/>
+            <attribute name="jar-6-Extension-Name" value="${manifest.file.reference.gdata-contacts-3.0.jar}"/>
+            <attribute name="jar-7-Extension-Name" value="${manifest.file.reference.gdata-contacts-meta-3.0.jar}"/>
+            <attribute name="jar-8-Extension-Name" value="${manifest.file.reference.gdata-core-1.0.jar}"/>
+            <attribute name="jar-9-Extension-Name" value="${manifest.file.reference.google-collect-1.0-rc1.jar}"/>
+            <attribute name="jar-10-Extension-Name" value="${manifest.file.reference.jsr305.jar}"/>
+        </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
+        <copyfiles files="${file.reference.gdata-base-1.0.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.gdata-calendar-2.0.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.gdata-calendar-meta-2.0.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.gdata-client-1.0.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.gdata-client-meta-1.0.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.gdata-contacts-3.0.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.gdata-contacts-meta-3.0.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.gdata-core-1.0.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.google-collect-1.0-rc1.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.jsr305.jar}" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">

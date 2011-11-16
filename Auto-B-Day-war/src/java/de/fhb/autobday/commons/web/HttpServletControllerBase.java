@@ -64,6 +64,7 @@ public abstract class HttpServletControllerBase extends HttpServlet {
 		// um die Operation, die ausgefueht werden soll zu bestimmen
 	    String op = getOperation(req);
 	    // dann wird die entsprechende Aktion aus der Map geholt ...
+		System.out.println("OP: "+op);
 	    HttpRequestActionBase action = (HttpRequestActionBase)actions.get(op);
 	    // ... und angestossen
 		

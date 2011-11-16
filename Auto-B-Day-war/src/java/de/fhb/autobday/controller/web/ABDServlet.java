@@ -87,7 +87,7 @@ public class ABDServlet extends HttpServletControllerBase {
 		super.init(conf);
 		
 		HttpRequestActionBase action = null;
-		actions = new HashMap();
+		//actions = new HashMap();
 		
 		action = new ShowAllUserAction();
 		actions.put("ShowAllUser", action);

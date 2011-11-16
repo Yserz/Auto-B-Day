@@ -8,6 +8,7 @@ import de.fhb.autobday.data.Abduser;
 import de.fhb.autobday.data.Abdgroup;
 import de.fhb.autobday.data.Accountdata;
 import de.fhb.autobday.data.Contact;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -22,7 +23,7 @@ import javax.inject.Named;
  * @author Michael Koppen
  */
 @Stateless
-public class ABDManager implements ABDManagerLocal {
+public class ABDManager implements ABDManagerLocal, Serializable {
 	@EJB
 	private AbduserFacade userDAO;
 	@EJB

@@ -2,7 +2,7 @@ package de.fhb.autobday.manager.connector;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen
  */
 public interface IImporter {
 	

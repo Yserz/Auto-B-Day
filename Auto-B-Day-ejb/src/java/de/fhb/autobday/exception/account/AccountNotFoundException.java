@@ -1,12 +1,11 @@
-package de.fhb.autobday.exception.autobday.account;
+package de.fhb.autobday.exception.account;
 
-import de.fhb.autobday.exception.ABDException;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen
  */
-public class AccountNotFoundException extends ABDException{
+public class AccountNotFoundException extends AccountException{
 	/**
 	 * Konstruktor
 	 */

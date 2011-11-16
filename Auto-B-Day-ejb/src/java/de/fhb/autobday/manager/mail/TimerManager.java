@@ -3,8 +3,9 @@ package de.fhb.autobday.manager.mail;
 import javax.ejb.Stateless;
 
 /**
+ * TODO This will may change position to ABDManager!!!
  *
- * @author MacYser
+ * @author Michael Koppen
  */
 @Stateless
 public class TimerManager implements TimerManagerLocal {

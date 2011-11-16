@@ -4,7 +4,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen
  */
 @Local
 public interface UserManagerLocal {

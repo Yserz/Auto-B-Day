@@ -1,16 +1,16 @@
-package de.fhb.autobday.exception.autobday.account;
+package de.fhb.autobday.exception.user;
 
 import de.fhb.autobday.exception.ABDException;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen
  */
-public class AccountException extends ABDException{
+public class UserException extends ABDException {
 	/**
 	 * Konstruktor
 	 */
-	public AccountException() {
+	public UserException() {
 		super();
 	}
 	
@@ -18,7 +18,7 @@ public class AccountException extends ABDException{
 	 * Konstruktor mit Parameter fuer die Message
 	 * @param string
 	 */
-	public AccountException(String string) {
+	public UserException(String string) {
 		super(string);
 	}
 }

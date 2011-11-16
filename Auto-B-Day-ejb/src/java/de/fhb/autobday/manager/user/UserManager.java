@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen
  */
 @Stateless
 public class UserManager implements UserManagerLocal {

@@ -8,5 +8,11 @@ import javax.ejb.Local;
  */
 @Local
 public interface AccountManagerLocal {
+
+	void addAccount();
+
+	void removeAccount();
+
+	void importContacts();
 	
 }

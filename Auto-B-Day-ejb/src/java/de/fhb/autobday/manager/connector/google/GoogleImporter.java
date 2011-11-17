@@ -19,17 +19,23 @@ public class GoogleImporter extends AImporter{
 	
 	private ContactFeed resultFeed;
 	private boolean connectionEtablished;
+	private Accountdata accdata;
 
 	public GoogleImporter() {
 		connectionEtablished = false;
 		resultFeed = null;
+		accdata = null;
 	}
 	
 	@Override
 	public void getConnection(Accountdata data) {
 		connectionEtablished = false;
-		System.out.println("Username: "+data.getUsername());
-		System.out.println("Passwort: "+data.getPasswort());
+		accdata = data;
+		
+		System.out.println("Username: "+accdata.getUsername());
+		System.out.println("Passwort: "+accdata.getPasswort());
+		
+		
 		
 		System.out.println("WARNING: User credentials not be used by connector!");
 		//TODO Wenn daten in Datenbank, credentials aus übergabeparameter setzen
@@ -51,8 +57,7 @@ public class GoogleImporter extends AImporter{
 
 	@Override
 	public void importContacts() {
-		if (connectionEtablished) {
-			
+		if (connectionEtablished && accdata != null) {
 			//TODO push the data from RESULTFEED through the ACCOUNTDATA into the DATABASE.
 			
 			throw new UnsupportedOperationException("Not supported yet.");

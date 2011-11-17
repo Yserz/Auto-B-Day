@@ -22,6 +22,18 @@ public class AccountManager implements AccountManagerLocal {
 	// Add business logic below. (Right-click in editor and choose
 	// "Insert Code > Add Business Method")
 
+	@Override
+	public void addAccount() {
+	}
+
+	@Override
+	public void removeAccount() {
+	}
+
+	@Override
+	public void importContacts() {
+	}
+
 	
 	
 }

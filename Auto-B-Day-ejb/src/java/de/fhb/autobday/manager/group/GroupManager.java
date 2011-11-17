@@ -23,4 +23,21 @@ public class GroupManager implements GroupManagerLocal {
 	public Abdgroup getGroup(int groupid) {
 		return groupDAO.find(groupid);
 	}
+
+	@Override
+	public void setTemplate() {
+	}
+
+	@Override
+	public void getTemplate() {
+	}
+
+	@Override
+	public void testTemplate() {
+	}
+
+	@Override
+	public void setActive() {
+	}
+	
 }

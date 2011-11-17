@@ -7,6 +7,8 @@ import javax.ejb.Local;
  * @author Michael Koppen
  */
 @Local
-public interface TimerManagerLocal {
+public interface MailManagerLocal {
+
+	void sendMail();
 	
 }

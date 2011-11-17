@@ -10,4 +10,8 @@ import javax.ejb.Local;
 @Local
 public interface UserManagerLocal {
 	Abduser getUser(int userid);
+
+	void login();
+
+	void logout();
 }

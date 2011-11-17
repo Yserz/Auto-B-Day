@@ -22,7 +22,17 @@ public class UserManager implements UserManagerLocal {
 	public UserManager() {
 		
 	}
+	@Override
 	public Abduser getUser(int userid){
 		return userDAO.find(userid);
 	}
+
+	@Override
+	public void login() {
+	}
+
+	@Override
+	public void logout() {
+	}
+	
 }

@@ -66,12 +66,14 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 	public String hallo() {
 		return "hallo";
 	}
+	
 	@Schedule(minute="*/1", hour="*")
 	private void checkEveryMinute(){
 		System.out.println("every minute idle message..."+new Date());
 		
 	}
-	@Schedule(hour="5")
+	
+	@Schedule(minute="50", hour="23")
 	private void checkEveryDay(){
 		System.out.println("every hour idle message..."+new Date());
 		
@@ -79,14 +81,20 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 		String parsedTemplate = "";
 		Collection<Contact> birthdayContacts = contactDAO.findContactByBday(new Date());
 		
-		
-		for (Contact aktContact : birthdayContacts) {
-			if (aktContact.getActive()==true) {
-				aktGroup = aktContact.getAbdgroup();
-				if (aktGroup.getActive()==true) {
-					parsedTemplate = parseTemplate(aktGroup.getTemplate(), 
-												   aktGroup.getAccount().getAbduser(), 
-												   aktContact);
+		if (birthdayContacts.isEmpty()) {
+			System.out.println("No Birthdaycontacts found");
+		}else{
+			for (Contact aktContact : birthdayContacts) {
+				System.out.println("Contact: "+aktContact.toString());
+				if (aktContact.getActive()==true) {
+					System.out.println("Contakt is aktive");
+					aktGroup = aktContact.getAbdgroup();
+					if (aktGroup.getActive()==true) {
+						System.out.println("parentgroup is aktive");
+						parsedTemplate = parseTemplate(aktGroup.getTemplate(), 
+													   aktGroup.getAccount().getAbduser(), 
+													   aktContact);
+					}
 				}
 			}
 		}

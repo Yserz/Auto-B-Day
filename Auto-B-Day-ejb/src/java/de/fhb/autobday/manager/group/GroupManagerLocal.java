@@ -11,4 +11,12 @@ import javax.ejb.Local;
 public interface GroupManagerLocal {
 
 	Abdgroup getGroup(int groupid);
+
+	void setTemplate();
+
+	void getTemplate();
+
+	void testTemplate();
+
+	void setActive();
 }

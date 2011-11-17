@@ -15,6 +15,10 @@ public class ContactManager implements ContactManagerLocal {
 		
 	@EJB
 	private ContactFacade contactDAO;
+
+	@Override
+	public void setActive() {
+	}
 	
 	
 	

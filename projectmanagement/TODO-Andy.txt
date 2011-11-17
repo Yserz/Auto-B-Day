@@ -16,7 +16,8 @@ TODO - Andy
 
 *** Session 	***
 
-- 
+- Tags für Templates ausdenken
+- Templates parsen
 
 *** GUI 		***
 

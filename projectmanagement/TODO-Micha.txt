@@ -20,4 +20,5 @@ TODO - Micha
 
 *** GUI 		***
 
-- 
+- CDI zum laufen bringen
+- PrimeFaces 3.x einbinden

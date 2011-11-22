@@ -1,5 +1,13 @@
 /Auto-B-Day-war/nbproject/private/
 /Auto-B-Day-ejb/nbproject/private/
+/.settings
+/.project
+/Auto-B-Day-war/.settings
+/Auto-B-Day-war/.project
+
+/Auto-B-Day-ejb/.settings
+/Auto-B-Day-ejb/.project
+
 /build/
 /dist/
 /nbproject/private/

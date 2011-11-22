@@ -6,7 +6,10 @@ import de.fhb.autobday.controller.web.actions.ShowAllUserAction;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,12 +22,13 @@ import javax.servlet.http.HttpServletResponse;
  * @author Michael Koppen
  */
 @WebServlet(name = "ABDServlet",
-			loadOnStartup = 1,
 			urlPatterns = {
 				"/ABDServlet"
 			})
+@Named("ABDServlet")
 public class ABDServlet extends HttpServletControllerBase {
-
+	@Inject
+	private ShowAllUserAction showAllUserAction;
 	/** 
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 	 * @param request servlet request
@@ -89,8 +93,7 @@ public class ABDServlet extends HttpServletControllerBase {
 		HttpRequestActionBase action = null;
 		//actions = new HashMap();
 		
-		action = new ShowAllUserAction();
-		actions.put("ShowAllUser", action);
+		actions.put("ShowAllUser", showAllUserAction);
 	}
 	
 }

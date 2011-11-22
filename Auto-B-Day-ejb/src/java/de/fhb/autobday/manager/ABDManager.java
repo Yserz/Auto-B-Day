@@ -24,8 +24,7 @@ import javax.ejb.Stateless;
  *
  * @author Michael Koppen
  */
-@Startup
-@Singleton
+@Stateless
 public class ABDManager implements ABDManagerLocal, Serializable {
 	private final static Logger LOGGER = Logger.getLogger(ABDManager.class.getName());
 	

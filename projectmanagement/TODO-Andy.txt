@@ -4,6 +4,8 @@ TODO - Andy
 
 --- Allgemein 	---
 
+contacts aktivieren/deaktivieren nachtragen im UseCase
+
 - 
 
 *** DB 			***

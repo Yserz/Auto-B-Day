@@ -60,6 +60,8 @@ public class GoogleImporter extends AImporter{
 		if (connectionEtablished && accdata != null) {
 			//TODO push the data from RESULTFEED through the ACCOUNTDATA into the DATABASE.
 			
+			
+			
 			throw new UnsupportedOperationException("Not supported yet.");
 		} else {
 			throw new UnsupportedOperationException("Please Connect the service first.");

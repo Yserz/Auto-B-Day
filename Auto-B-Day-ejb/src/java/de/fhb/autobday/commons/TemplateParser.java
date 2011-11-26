@@ -2,14 +2,16 @@ package de.fhb.autobday.commons;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.fhb.autobday.data.Contact;
+
 /**
  * TemplateParser parst Templates fuer autobday messages
- * In einem vorgefertigten Template muessen Ausdr�cke diese Form haben:
- * {AUSDRUCK[0-4]}
+ * In einem vorgefertigten Template muessen Ausdruecke diese Form haben:
+ * ${AUSDRUCK}
  * 
  * Beispiel-Template:
  * 
- * {ANSPRACHE2} {NAME2},\n{GLUECKWUNSCH2}\n{ABSCHIED1} {ABSENDER1} \n ;) !"
+ * "Lieb${e/er} ${NAME}, ich wuensche dir alles gute zum Geburtstag!";
  * 
  * @author Andy Klay (klay@fh-brandenburg.de)
  *
@@ -17,150 +19,110 @@ import java.util.regex.Pattern;
 public class TemplateParser {
 
 	public static final String TAG_NAME = "NAME";
+	public static final String TAG_COMPLETENAME = "COMPLETENAME";
 	public static final String TAG_ANSPRACHE = "ANSPRACHE";
 	public static final String TAG_GLUECKWUNSCH = "GLUECKWUNSCH";
 	public static final String TAG_ABSCHIEDSFLOSKEL = "ABSCHIED";
-	public static final String TAG_ABSENDER = "ABSENDER";
-	
-	private String absenderName;
-	private String addressatenName;
-	
+//	public static final String TAG_ABSENDER = "ABSENDER";
 
-//	public static final String[] NAME = new String[] {
-//		"Aylin","name1", "name2", "name5", "name5" };
-
-	public static final String[] ANSPRACHE = new String[] {
-		"Sehr geehrter","Sehr geehrte", "Hallo lieber", "Hallo liebe", "Hallo" };
-	
-	public static final String[] GLUECKWUNSCH = new String[] {
-		"Herzlichen Glueckwunsch zum Geburtstag!","Alles erdenklich gute w�nschen wir dir!", "Spruch 3", "Spruch 4","Spruch 5" };
-	
-	public static final String[] ABSCHIED = new String[] {
-		"Gru� und Kuss","Ganz lieben Gruß", "Spruch 3", "Spruch 4","wuenschen dir" };
-	
-//	public static final String[] ABSENDER = new String[] {
-//		"dein Andy","Felix", "dein Schatz" , "dein Stecher" };
 	
 	/**
 	 * Konstruktor
 	 * @param absenderName
 	 * @param addressatenName
 	 */
-	public TemplateParser(String absenderName, String addressatenName){
-		this.absenderName=absenderName;
-		this.addressatenName=addressatenName;
-	}
-
+	public TemplateParser(){}
+	
 	/**
-	 * 
-	 * parst aus einem fuer den Templateparser gueltigen Ausdruck eine fertigen Emailtext
-	 * @param args
-	 * @throws TemplateParserException 
+	 *  parst templates mit den Format zeichen ${Ausdruck}
+	 *  moegliche Ausdruecke sind:
+	 *  
+	 *  NAME = vorname des Contacts
+	 *  COMPLETENAME= Vorname Nachname
+	 *  
+	 *  
+	 *  oder
+	 *  
+	 *  Geschlechtspezifische Inhalte wie z.b e/er
+	 *  
+	 *  
+	 * @param template
+	 * @param contact
+	 * @return
 	 */
-	public String parse(String input){
+	public String parse(String template, Contact contact){
 
 		StringBuilder output = new StringBuilder();
 		//Pattern fuer die Klammern erstellen
-		Pattern pattern = Pattern.compile("\\{\\w+}");
-		Matcher matcher = pattern.matcher(input);
+		Pattern pattern = Pattern.compile("\\$\\{\\S+\\}");
+		Matcher matcher = pattern.matcher(template);
 		int lastend = 0;
 		
 		// klammerausdruck finden
 		while (matcher.find()) {
 			
 			//anhaengen des Text zwischen den ausdruecken
-			output.append(input.substring(lastend, matcher.start()));
+			output.append(template.substring(lastend, matcher.start()));
 			//merke das ende fuer den Anfang des naechsten zwischen Textes
 			lastend = matcher.end();
 
 			// Inhalt des Klammerausdrucks auswerten
 			String innerGroup = matcher.group();
-			Pattern innerPattern = Pattern.compile(TAG_NAME + "[0-9]" + "|" + TAG_ANSPRACHE + "[0-9]" + "|" + TAG_GLUECKWUNSCH + "[0-9]" + "|" + TAG_ABSCHIEDSFLOSKEL + "[0-9]" + "|" + TAG_ABSENDER + "[0-9]");
+			Pattern innerPattern = Pattern.compile(TAG_NAME + "|"+ TAG_COMPLETENAME+ "|" + "[a-z]+/+[a-z]+");
 			Matcher innerMatcher = innerPattern.matcher(innerGroup);
 
 			if (innerMatcher.find()) {
 				// gueltigen Ausdruck gefunden
 				// hole inhalte
-				String tagExpression = innerGroup.substring(innerMatcher.start(),innerMatcher.end()-1);
-				String numberExpression = innerGroup.substring(innerMatcher.end()-1,innerMatcher.end());
-				//nummer des Ausdrucks parsen
-				int number=getNumberOfExpression(numberExpression);
+				String tagExpression = innerGroup.substring(innerMatcher.start(),innerMatcher.end());
 
 				//auswertung des Tags
 				if (tagExpression.equals(TAG_NAME)) {
-					output.append(this.getAddressatenName());
-				} else if (tagExpression.equals(TAG_ANSPRACHE)) {
-					output.append(ANSPRACHE[number]);	
-				} else if (tagExpression.equals(TAG_GLUECKWUNSCH)) {
-					output.append(GLUECKWUNSCH[number]);	
-				} else if (tagExpression.equals(TAG_ABSCHIEDSFLOSKEL)) {
-					output.append(ABSCHIED[number]);	
-				} else if (tagExpression.equals(TAG_ABSENDER)) {
-					output.append(this.getAbsenderName());	
+//					output.append(contact.getFirstname());
+					output.append("testname");
+				} else if (tagExpression.equals(TAG_COMPLETENAME)) {
+					output.append(contact.getFirstname()+" "+contact.getName());
+				} else if (tagExpression.contains("/")) {
+					output.append(this.parseSlashExpression(tagExpression,'m'));	
 				}
 			}
 		}		
 		
 		//Textende anhaengen
-		output.append(input.substring(lastend,input.length()));
+		output.append(template.substring(lastend,template.length()));
 		
 		return output.toString();
 	}
 	
-	public String getAbsenderName() {
-		return absenderName;
-	}
-
-	public void setAbsenderName(String absenderName) {
-		this.absenderName = absenderName;
-	}
-
-	public String getAddressatenName() {
-		return addressatenName;
-	}
-
-	public void setAddressatenName(String addressatenName) {
-		this.addressatenName = addressatenName;
-	}
+	
 
 	/**
-	 *  Gibt die Ziffer, die in einem Ausdruck enthalten ist zurueck,
-	 *  sofern sie im gueltigen bereich von 0-4 liegt
-	 *  
-	 * @param expression
-	 * @return
-	 * @throws TemplateParserException
+	 * parst Strings,
+	 * die geschelchtsspezifische Inhalte mit einem Slash trennen,je nach Geschlecht.
+	 * nach diesem Muster weiblich/maennlich z.B. e/er
+	 * 
+	 * @param String expression
+	 * @param Char sex
+	 * @return String
 	 */
-	public int getNumberOfExpression(String expression){
+	public String parseSlashExpression(String expression, char sex){
 		
-		//rueckgabewert
-		int outputValue=0;
-		
-		Pattern numberPattern = Pattern.compile("0|1|2|3|4");
+		Pattern numberPattern = Pattern.compile("/");
 		Matcher numberMatcher = numberPattern.matcher(expression);
-		String actualSubstring ="";
+		String contentLeft ="";
+		String contentRight ="";
 		
-		//suche nummer
+		//suche Slash
 		if (numberMatcher.find()) {
-			
-			//substring holen
-			actualSubstring = expression.substring(numberMatcher.start(),numberMatcher.end());
-
-			//nummern vergleichen
-			if (actualSubstring.equals("0")) {
-				outputValue=0;
-			} else if (actualSubstring.equals("1")) {
-				outputValue=1;	
-			} else if (actualSubstring.equals("2")) {
-				outputValue=2;
-			} else if (actualSubstring.equals("3")) {
-				outputValue=3;
-			} else if (actualSubstring.equals("4")) {
-				outputValue=4;	
-			}
+			contentLeft=expression.substring(0, numberMatcher.start());
+			contentRight=expression.substring(numberMatcher.end(), expression.length());
 		}
 
-		return outputValue;
+		if(sex=='w'){
+			return contentLeft;
+		}else{
+			return contentRight;
+		}
 	}
-
+	
 }

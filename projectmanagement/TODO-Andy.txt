@@ -5,9 +5,7 @@ TODO - Andy
 --- Allgemein 	---
 
 @myself/teammates
-Tempalte parsen geht soweit, aber noch ein problem mit dem Mockobject Oo,
-Mocken scheint nicht ganz zu funktionieren
-
+Tempalte parsen geht, mocken auch, jetzt doch verstanden
 
 *** DB 			***
 

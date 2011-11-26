@@ -29,18 +29,6 @@ public class TemplateParserTest {
     	
     	//mock vom colaborateur erzeugen
         mock = EasyMock.createMock(Contact.class);
-        //attribute setzen
-        mock.setActive(true);
-        mock.setBday(new Date(22,11,1988));
-        mock.setId(1);
-        mock.setAbdgroup(null);
-        mock.setFirstname("Max");
-        mock.setHashid("hashid");
-        mock.setMail("mocktester@mock.de");
-        mock.setName("MockTesterMann");
-        mock.setSex('m');
-        mock.setUrlid("localhost/blubb");
-
         
         //die zu testende Klasse 
         classUnderTest = new TemplateParser();
@@ -49,15 +37,14 @@ public class TemplateParserTest {
     @Test
     public void myFirstMockTestMethod() {
     	
-         EasyMock.replay(mock);   	
-
         String testString="Lieb${e/er} ${NAME}, ich wuensche dir alles gute zum Geburtstag!";
-
-    	assertEquals("TemplateContactTest","Lieber Max, ich wuensche dir alles gute zum Geburtstag!",classUnderTest.parse(testString, mock));
-        
-//    	assertTrue(classUnderTest.verarbeite(mock));
     	
-
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(mock.getFirstname()).andReturn("Max").times(1);
+		// Setup is finished need to activate the mock
+		EasyMock.replay(mock);
+		
+    	assertEquals("TemplateContactTest","Lieber Max, ich wuensche dir alles gute zum Geburtstag!",classUnderTest.parse(testString, mock));    	
     }
     
     @Test

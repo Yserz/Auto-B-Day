@@ -78,8 +78,7 @@ public class TemplateParser {
 
 				//auswertung des Tags
 				if (tagExpression.equals(TAG_NAME)) {
-//					output.append(contact.getFirstname());
-					output.append("testname");
+					output.append(contact.getFirstname());
 				} else if (tagExpression.equals(TAG_COMPLETENAME)) {
 					output.append(contact.getFirstname()+" "+contact.getName());
 				} else if (tagExpression.contains("/")) {

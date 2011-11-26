@@ -4,9 +4,10 @@ TODO - Andy
 
 --- Allgemein 	---
 
-contacts aktivieren/deaktivieren nachtragen im UseCase
+@myself/teammates
+Tempalte parsen geht soweit, aber noch ein problem mit dem Mockobject Oo,
+Mocken scheint nicht ganz zu funktionieren
 
-- 
 
 *** DB 			***
 
@@ -18,8 +19,7 @@ contacts aktivieren/deaktivieren nachtragen im UseCase
 
 *** Session 	***
 
-- Tags für Templates ausdenken
-- Templates parsen
+
 
 *** GUI 		***
 

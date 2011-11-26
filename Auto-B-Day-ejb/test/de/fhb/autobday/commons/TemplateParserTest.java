@@ -17,7 +17,7 @@ import de.fhb.autobday.data.Contact;
  *
  *
  */
-public class TemplateTest {
+public class TemplateParserTest {
 	
 	
     private TemplateParser classUnderTest;

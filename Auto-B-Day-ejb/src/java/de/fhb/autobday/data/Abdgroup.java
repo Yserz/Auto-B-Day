@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "Abdgroup.findAll", query = "SELECT a FROM Abdgroup a"),
 	@NamedQuery(name = "Abdgroup.findById", query = "SELECT a FROM Abdgroup a WHERE a.id = :id"),
 	@NamedQuery(name = "Abdgroup.findByName", query = "SELECT a FROM Abdgroup a WHERE a.name = :name"),
+	@NamedQuery(name = "Abdgroup.findGroupFromAccount", query = "SELECT a FROM Abdgroup a WHERE a.name = :name AND a.account = :account"),
 	@NamedQuery(name = "Abdgroup.findByActive", query = "SELECT a FROM Abdgroup a WHERE a.active = :active")})
 public class Abdgroup implements Serializable {
 	private static final long serialVersionUID = 1L;

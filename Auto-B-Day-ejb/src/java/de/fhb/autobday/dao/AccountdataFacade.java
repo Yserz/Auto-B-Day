@@ -1,6 +1,8 @@
 package de.fhb.autobday.dao;
 
+
 import de.fhb.autobday.data.Accountdata;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -23,5 +25,6 @@ public class AccountdataFacade extends AbstractFacade<Accountdata> {
 	public AccountdataFacade() {
 		super(Accountdata.class);
 	}
+	
 	
 }

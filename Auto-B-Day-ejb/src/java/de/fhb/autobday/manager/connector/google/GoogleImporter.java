@@ -6,7 +6,6 @@ import com.google.gdata.data.contacts.ContactFeed;
 import com.google.gdata.data.contacts.ContactGroupEntry;
 import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.GroupMembershipInfo;
-import com.google.gdata.data.extensions.ExtendedProperty;
 import com.google.gdata.data.extensions.Name;
 import com.google.gdata.util.ServiceException;
 
@@ -149,6 +148,14 @@ public class GoogleImporter extends AImporter {
 			try {
 				//TODO push the data from RESULTFEED through the ACCOUNTDATA into the DATABASE.
 
+				/*TODO may take a look at: 
+				 * http://code.google.com/intl/de-DE/apis/contacts/docs/3.0/developers_guide.html#retrieving_with_query
+				 * 
+				 * setStringCustomParameter("group", groupId)
+				 *  - Retrieve contacts belonging to the specified group Atom Id.
+				 * 
+				 * 
+				 */
 				URL feedUrl;
 				
 				feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");

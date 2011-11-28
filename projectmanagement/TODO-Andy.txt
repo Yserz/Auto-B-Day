@@ -5,8 +5,7 @@ TODO - Andy
 --- Allgemein 	---
 
 @myself/teammates
-- Tempalte parsen geht, mocken auch, jetzt doch verstanden
-- Use-Cases als lesbares format für die präse speichern(kann das nich mit vp 8.0 öffnen)
+Tempalte parsen geht, mocken auch, jetzt doch verstanden
 
 *** DB 			***
 

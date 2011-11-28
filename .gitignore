@@ -1,20 +1,22 @@
-/Auto-B-Day-war/nbproject/
-/Auto-B-Day-ejb/nbproject/
-/nbproject/
-/nbproject/private/
 /Auto-B-Day-war/nbproject/private/
 /Auto-B-Day-ejb/nbproject/private/
 /.settings
 /.project
+
 /Auto-B-Day-war/.settings
 /Auto-B-Day-war/.project
+/Auto-B-Day-war/.classpath
 
 /Auto-B-Day-ejb/.settings
 /Auto-B-Day-ejb/.project
+/Auto-B-Day-ejb/.classpath
+/Auto-B-Day-ejb/lib
+
+/lib
 
 /build/
 /dist/
-
+/nbproject/private/
 /Auto-B-Day-ejb/dist/
 /Auto-B-Day-ejb/build/
 /Auto-B-Day-war/build/

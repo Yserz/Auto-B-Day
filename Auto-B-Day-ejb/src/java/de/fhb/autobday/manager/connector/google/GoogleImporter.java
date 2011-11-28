@@ -11,12 +11,14 @@ import com.google.gdata.util.ServiceException;
 
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
 import de.fhb.autobday.dao.ContactFacade;
+import de.fhb.autobday.data.Abdgroup;
 import de.fhb.autobday.data.Accountdata;
 import de.fhb.autobday.data.Contact;
 import de.fhb.autobday.manager.connector.AImporter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -162,53 +164,12 @@ public class GoogleImporter extends AImporter {
 				ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
 				
 				ContactFacade contactFacade = new ContactFacade();
-				Contact contact;
-				String firstname;
-				String name;
-				Date birthday;
-				String mailadress;
-				boolean importing = true;
+				List<Abdgroup> groups = new ArrayList(accdata.getAbdgroupCollection());
+				Abdgroup group;
 
 				List<ContactEntry> contacts = resultFeed.getEntries();
 				for (ContactEntry contactEntry : contacts) {
-					importing = true;
-					contact = new Contact();
-					firstname = contactEntry.getName().getGivenName().getValue();
-					contact.setFirstname(firstname);
-					name = contactEntry.getName().getFamilyName().getValue();
-					contact.setName(name);
-					birthday = GoogleBirthdayConverter.convertBirthday(contactEntry.getBirthday().getValue());
-					if (birthday != null) {
-						contact.setBday(birthday);
-					} else {
-						importing = false;
-					}
-					if (contactEntry.getEmailAddresses().isEmpty()) {
-						importing = false;
-					} else {
-						mailadress = contactEntry.getEmailAddresses().get(0).getAddress();
-						contact.setMail(mailadress);
-					}
-					if (contactEntry.getGender().getValue() == contactEntry.getGender().getValue().FEMALE) {
-						contact.setSex('w');
-					} else {
-						contact.setSex('m');
-					}
-					// //////////////////
-					
-					System.out.println("");
-					System.out.println("Groups:");
-					for (GroupMembershipInfo group : contactEntry.getGroupMembershipInfos()) {
-						String groupHref = group.getHref();
-						System.out.println("  Id: " + groupHref);
-					}
-					
-					// //////////////////
-					
-					contact.setActive(true);
-					if (importing) {
-						contactFacade.create(contact);
-					}
+					//group = existGroup(groups,contactEntry.getGroupMembershipInfos().get(0).)
 				}
 
 				throw new UnsupportedOperationException("Not supported yet.");
@@ -220,5 +181,56 @@ public class GoogleImporter extends AImporter {
 		} else {
 			throw new UnsupportedOperationException("Please Connect the service first.");
 		}
+	}
+	
+	private Contact mapGContacttoContact(ContactEntry contactEntry){
+		Contact contact;
+		String firstname;
+		String name;
+		Date birthday;
+		String mailadress;
+
+		contact = new Contact();
+		firstname = contactEntry.getName().getGivenName().getValue();
+		contact.setFirstname(firstname);
+		name = contactEntry.getName().getFamilyName().getValue();
+		contact.setName(name);
+		birthday = GoogleBirthdayConverter.convertBirthday(contactEntry.getBirthday().getValue());
+		if (birthday != null) {
+			contact.setBday(birthday);
+		} 
+		if (!contactEntry.getEmailAddresses().isEmpty()) {
+			mailadress = contactEntry.getEmailAddresses().get(0).getAddress();
+			contact.setMail(mailadress);
+		}
+		if (contactEntry.getGender().getValue() == contactEntry.getGender().getValue().FEMALE) {
+			contact.setSex('w');
+		} else {
+			contact.setSex('m');
+		}
+		// //////////////////
+		
+		System.out.println("");
+		System.out.println("Groups:");
+		for (GroupMembershipInfo group : contactEntry.getGroupMembershipInfos()) {
+			String groupHref = group.getHref();
+			System.out.println("  Id: " + groupHref);
+		}
+		
+		// //////////////////
+		
+		contact.setActive(true);
+		
+		return contact;
+
+	}
+	
+	private Abdgroup existGroup(List<Abdgroup> groups, String group){
+		for (Abdgroup abdgroup : groups) {
+			if (abdgroup.getName().equals(group)){
+				return abdgroup;
+			}
+		}
+		return null;
 	}
 }

@@ -1,9 +1,9 @@
 package de.fhb.autobday.manager;
 
-import de.fhb.autobday.data.Abdaccount;
-import de.fhb.autobday.data.Abdcontact;
 import de.fhb.autobday.data.Abdgroup;
 import de.fhb.autobday.data.Abduser;
+import de.fhb.autobday.data.Accountdata;
+import de.fhb.autobday.data.Contact;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -18,9 +18,9 @@ public interface ABDManagerLocal {
 
 	List<Abdgroup> getAllGroups();
 
-	List<Abdaccount> getAllAccountdata();
+	List<Accountdata> getAllAccountdata();
 
-	List<Abdcontact> getAllContacts();
+	List<Contact> getAllContacts();
 	
 	String hallo();
 }

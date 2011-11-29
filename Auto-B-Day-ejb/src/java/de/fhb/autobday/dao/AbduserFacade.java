@@ -1,20 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.dao;
 
 import de.fhb.autobday.data.Abduser;
+import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen
  */
 @Stateless
-public class AbduserFacade extends AbstractFacade<Abduser> {
+@LocalBean
+public class AbduserFacade extends AbstractFacade<Abduser>{
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 

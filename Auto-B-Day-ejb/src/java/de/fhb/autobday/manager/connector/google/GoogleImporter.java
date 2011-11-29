@@ -10,10 +10,10 @@ import com.google.gdata.data.extensions.Name;
 import com.google.gdata.util.ServiceException;
 
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
-import de.fhb.autobday.dao.AbdcontactFacade;
-import de.fhb.autobday.data.Abdaccount;
-import de.fhb.autobday.data.Abdcontact;
+import de.fhb.autobday.dao.ContactFacade;
 import de.fhb.autobday.data.Abdgroup;
+import de.fhb.autobday.data.Accountdata;
+import de.fhb.autobday.data.Contact;
 import de.fhb.autobday.manager.connector.AImporter;
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +31,7 @@ public class GoogleImporter extends AImporter {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
 	private boolean connectionEtablished;
-	private Abdaccount accdata;
+	private Accountdata accdata;
 	private ContactsService myService;
 
 	public GoogleImporter() {
@@ -41,7 +41,7 @@ public class GoogleImporter extends AImporter {
 	}
 
 	@Override
-	public void getConnection(Abdaccount data) {
+	public void getConnection(Accountdata data) {
 		connectionEtablished = false;
 		accdata = data;
 
@@ -167,7 +167,7 @@ public class GoogleImporter extends AImporter {
 				feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 				ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
 				
-				AbdcontactFacade contactFacade = new AbdcontactFacade();
+				ContactFacade contactFacade = new ContactFacade();
 				List<Abdgroup> groups = new ArrayList(accdata.getAbdgroupCollection());
 				Abdgroup group;
 
@@ -187,14 +187,14 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 	
-	private Abdcontact mapGContacttoContact(ContactEntry contactEntry){
-		Abdcontact contact;
+	private Contact mapGContacttoContact(ContactEntry contactEntry){
+		Contact contact;
 		String firstname;
 		String name;
 		Date birthday;
 		String mailadress;
 
-		contact = new Abdcontact();
+		contact = new Contact();
 		firstname = contactEntry.getName().getGivenName().getValue();
 		contact.setFirstname(firstname);
 		name = contactEntry.getName().getFamilyName().getValue();

@@ -49,7 +49,6 @@ CREATE TABLE IF NOT EXISTS `abdcontact` (
   `sex` char(1) DEFAULT NULL,
   `mail` varchar(255) NOT NULL,
   `bday` date NOT NULL,
-  `active` tinyint(1) NOT NULL,
   `hashid` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -66,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `abdgroup` (
   `name` varchar(255) NOT NULL,
   `template` text NOT NULL,
   `active` tinyint(1) NOT NULL,
-  UNIQUE KEY `id` (`id`),
+  PRIMARY KEY `id` (`id`),
   KEY `account` (`account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

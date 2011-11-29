@@ -5,24 +5,19 @@
 package de.fhb.autobday.data;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,7 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "Abdcontact.findBySex", query = "SELECT a FROM Abdcontact a WHERE a.sex = :sex"),
 	@NamedQuery(name = "Abdcontact.findByMail", query = "SELECT a FROM Abdcontact a WHERE a.mail = :mail"),
 	@NamedQuery(name = "Abdcontact.findByBday", query = "SELECT a FROM Abdcontact a WHERE a.bday = :bday"),
-	@NamedQuery(name = "Abdcontact.findByActive", query = "SELECT a FROM Abdcontact a WHERE a.active = :active"),
 	@NamedQuery(name = "Abdcontact.findByHashid", query = "SELECT a FROM Abdcontact a WHERE a.hashid = :hashid")})
 public class Abdcontact implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -69,15 +63,9 @@ public class Abdcontact implements Serializable {
 	private Date bday;
 	@Basic(optional = false)
     @NotNull
-    @Column(name = "active")
-	private boolean active;
-	@Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "hashid")
 	private String hashid;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abdcontact", fetch = FetchType.LAZY)
-	private Collection<Abdgrouptocontact> abdgrouptocontactCollection;
 
 	public Abdcontact() {
 	}
@@ -86,11 +74,10 @@ public class Abdcontact implements Serializable {
 		this.id = id;
 	}
 
-	public Abdcontact(String id, String mail, Date bday, boolean active, String hashid) {
+	public Abdcontact(String id, String mail, Date bday, String hashid) {
 		this.id = id;
 		this.mail = mail;
 		this.bday = bday;
-		this.active = active;
 		this.hashid = hashid;
 	}
 
@@ -142,29 +129,12 @@ public class Abdcontact implements Serializable {
 		this.bday = bday;
 	}
 
-	public boolean getActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
 	public String getHashid() {
 		return hashid;
 	}
 
 	public void setHashid(String hashid) {
 		this.hashid = hashid;
-	}
-
-	@XmlTransient
-	public Collection<Abdgrouptocontact> getAbdgrouptocontactCollection() {
-		return abdgrouptocontactCollection;
-	}
-
-	public void setAbdgrouptocontactCollection(Collection<Abdgrouptocontact> abdgrouptocontactCollection) {
-		this.abdgrouptocontactCollection = abdgrouptocontactCollection;
 	}
 
 	@Override

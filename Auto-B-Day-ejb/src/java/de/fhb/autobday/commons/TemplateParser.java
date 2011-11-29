@@ -52,6 +52,7 @@ public class TemplateParser {
 	 */
 	public String parse(String template, Contact contact){
 
+		Contact.class.getFields()[0].getName();
 		StringBuilder output = new StringBuilder();
 		//Pattern fuer die Klammern erstellen
 		Pattern pattern = Pattern.compile("\\$\\{\\S+\\}");

@@ -9,6 +9,10 @@ import javax.ejb.Local;
 @Local
 public interface MailManagerLocal {
 
-	void sendMail();
+	void sendBdayMail();
+
+	void sendNotificationMail();
+
+	void sendForgotPasswordMail();
 	
 }

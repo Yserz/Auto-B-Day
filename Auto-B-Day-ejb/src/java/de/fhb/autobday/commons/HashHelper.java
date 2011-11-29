@@ -15,7 +15,7 @@ public class HashHelper {
 	/**
 	 * Diese Methode führt die eigentliche Berechnung des Hashwertes aus.
 	 */
-    private String calculateHash(MessageDigest algorithm, String pw) throws UnsupportedEncodingException{
+    private static String calculateHash(MessageDigest algorithm, String pw) throws UnsupportedEncodingException{
 
         // get the hash value as byte array
         byte[] hash = algorithm.digest(pw.getBytes("UTF-8"));
@@ -25,7 +25,7 @@ public class HashHelper {
 	/**
 	 * Diese Methode formatiert den Byte-Array in einen Hexwert.
 	 */
-    private String byteArray2Hex(byte[] hash) {
+    private static String byteArray2Hex(byte[] hash) {
         Formatter formatter = new Formatter();
         for (byte b : hash) {
             formatter.format("%02x", b);
@@ -40,7 +40,7 @@ public class HashHelper {
 	 * @throws UnsupportedEncodingException 
 	 * @throws NoSuchAlgorithmException 
 	 */
-    public String calcSHA1(String pw) 
+    public static String calcSHA1(String pw) 
 			throws UnsupportedEncodingException, NoSuchAlgorithmException{
 
         MessageDigest sha1 = MessageDigest.getInstance("SHA1");      
@@ -55,7 +55,7 @@ public class HashHelper {
 	 * @throws UnsupportedEncodingException
 	 * @throws NoSuchAlgorithmException  
 	 */
-	public String calcMD5(String pw) 
+	public static String calcMD5(String pw) 
 			throws UnsupportedEncodingException, NoSuchAlgorithmException{
 
         MessageDigest md5  = MessageDigest.getInstance("MD5");        

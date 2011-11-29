@@ -11,6 +11,7 @@ import com.google.gdata.util.ServiceException;
 
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
 import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
@@ -63,12 +64,11 @@ public class GoogleImporter extends AImporter {
 		connectionEtablished = true;
 	}
 	
-	public ContactGroupFeed getAllGroups() {
+	public List<ContactGroupEntry> getAllGroups() {
 		URL feedUrl;
 		try {
 			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
 			ContactGroupFeed resultFeed = myService.getFeed(feedUrl, ContactGroupFeed.class);
-			
 			for (ContactGroupEntry groupEntry : resultFeed.getEntries()) {
 				System.out.println("Atom Id: " + groupEntry.getId());
 				System.out.println("Group Name: " + groupEntry.getTitle().getPlainText());
@@ -80,7 +80,7 @@ public class GoogleImporter extends AImporter {
 				}
 			}
 			
-			return resultFeed;
+			return resultFeed.getEntries();
 		
 		} catch (IOException ex) {
 			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
@@ -111,17 +111,18 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 
-	public void getAllContacts() {
+	public List<ContactEntry> getAllContacts() {
 		URL feedUrl;
 		try {
 			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 			ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
+			return resultFeed.getEntries();
 		} catch (IOException ex) {
 			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (ServiceException ex) {
 			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
 		}
-
+		return null;
 	}
 	public void getSingleContact(String id) {
 		URL entryUrl;
@@ -151,7 +152,6 @@ public class GoogleImporter extends AImporter {
 	@Override
 	public void importContacts() {
 		if (connectionEtablished && accdata != null) {
-			try {
 				//TODO push the data from RESULTFEED through the ACCOUNTDATA into the DATABASE.
 
 				/*TODO may take a look at: 
@@ -162,26 +162,31 @@ public class GoogleImporter extends AImporter {
 				 * 
 				 * 
 				 */
-				URL feedUrl;
 				
-				feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
-				ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
+				String groupid,groupname,grouptemplate="Hier soll das Template rein";
+				Boolean active=true;
+				AbdGroup abdgroupEntry;
+				AbdGroupFacade abdGroupFacade = new AbdGroupFacade();
+				List<ContactGroupEntry> groups = getAllGroups();
+				List<AbdGroup> abdgroups = new ArrayList<AbdGroup>(accdata.getAbdGroupCollection());
+				List<ContactEntry> contacts = getAllContacts();
 				
-				AbdContactFacade contactFacade = new AbdContactFacade();
-				List<AbdGroup> groups = new ArrayList(accdata.getAbdGroupCollection());
-				AbdGroup group;
-
-				List<ContactEntry> contacts = resultFeed.getEntries();
-				for (ContactEntry contactEntry : contacts) {
-					//group = existGroup(groups,contactEntry.getGroupMembershipInfos().get(0).)
+				for (ContactGroupEntry groupentry : groups) {
+					groupid = groupentry.getId();
+					if (existGroup(abdgroups,groupid)==null){
+						abdgroupEntry = new AbdGroup(groupid);
+						groupname=groupentry.getTitle().getPlainText();
+						abdgroupEntry.setName(groupname);
+						abdgroupEntry.setTemplate(grouptemplate);
+						abdgroupEntry.setActive(active);
+						abdGroupFacade.create(abdgroupEntry);
+					}
 				}
-
-				throw new UnsupportedOperationException("Not supported yet.");
-			} catch (IOException ex) {
-				Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
-			} catch (ServiceException ex) {
-				Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
-			}
+				
+				for (ContactEntry contactEntry : contacts) {
+					contactEntry.getGroupMembershipInfos().get(0).getHref();
+				}
+				
 		} else {
 			throw new UnsupportedOperationException("Please Connect the service first.");
 		}
@@ -231,7 +236,7 @@ public class GoogleImporter extends AImporter {
 	
 	private AbdGroup existGroup(List<AbdGroup> groups, String group){
 		for (AbdGroup abdgroup : groups) {
-			if (abdgroup.getName().equals(group)){
+			if (abdgroup.getId().equals(group)){
 				return abdgroup;
 			}
 		}

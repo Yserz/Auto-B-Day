@@ -83,9 +83,9 @@ public class GoogleImporter extends AImporter {
 			return resultFeed;
 		
 		} catch (IOException ex) {
-			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		} catch (ServiceException ex) {
-			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		}
 		return null;
 	}
@@ -105,9 +105,9 @@ public class GoogleImporter extends AImporter {
 			}
 			
 		} catch (IOException ex) {
-			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		} catch (ServiceException ex) {
-			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		}
 	}
 
@@ -117,9 +117,9 @@ public class GoogleImporter extends AImporter {
 			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 			ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
 		} catch (IOException ex) {
-			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		} catch (ServiceException ex) {
-			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		}
 
 	}
@@ -142,9 +142,9 @@ public class GoogleImporter extends AImporter {
 			}
 			
 		} catch (IOException ex) {
-			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		} catch (ServiceException ex) {
-			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		}
 	}
 
@@ -178,9 +178,9 @@ public class GoogleImporter extends AImporter {
 
 				throw new UnsupportedOperationException("Not supported yet.");
 			} catch (IOException ex) {
-				Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+				LOGGER.log(Level.SEVERE, null, ex);
 			} catch (ServiceException ex) {
-				Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
+				LOGGER.log(Level.SEVERE, null, ex);
 			}
 		} else {
 			throw new UnsupportedOperationException("Please Connect the service first.");

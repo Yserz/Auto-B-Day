@@ -4,7 +4,9 @@
  */
 package de.fhb.autobday.dao;
 
-import de.fhb.autobday.data.Abduser;
+import de.fhb.autobday.data.Abdcontact;
+import java.util.Collection;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,16 +16,19 @@ import javax.persistence.PersistenceContext;
  * @author MacYser
  */
 @Stateless
-public class AbduserFacade extends AbstractFacade<Abduser> {
+public class AbdcontactFacade extends AbstractFacade<Abdcontact> {
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 
 	protected EntityManager getEntityManager() {
 		return em;
 	}
-
-	public AbduserFacade() {
-		super(Abduser.class);
+	public Collection<Abdcontact> findContactByBday(Date bday) {
+        return (Collection<Abdcontact>) em.createNamedQuery("Contact.findByBday")
+				.setParameter("bday", bday).getResultList();
+    }
+	public AbdcontactFacade() {
+		super(Abdcontact.class);
 	}
 	
 }

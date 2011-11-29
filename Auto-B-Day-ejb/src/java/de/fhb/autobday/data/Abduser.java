@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package de.fhb.autobday.data;
 
 import java.io.Serializable;
@@ -10,7 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -22,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Michael Koppen
+ * @author MacYser
  */
 @Entity
 @Table(name = "abduser")
@@ -30,7 +33,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
 	@NamedQuery(name = "Abduser.findAll", query = "SELECT a FROM Abduser a"),
 	@NamedQuery(name = "Abduser.findById", query = "SELECT a FROM Abduser a WHERE a.id = :id"),
-	@NamedQuery(name = "Abduser.findByUsername", query = "SELECT a FROM Abduser a WHERE a.username = :username")})
+	@NamedQuery(name = "Abduser.findByUsername", query = "SELECT a FROM Abduser a WHERE a.username = :username"),
+	@NamedQuery(name = "Abduser.findByPasswort", query = "SELECT a FROM Abduser a WHERE a.passwort = :passwort"),
+	@NamedQuery(name = "Abduser.findBySalt", query = "SELECT a FROM Abduser a WHERE a.salt = :salt"),
+	@NamedQuery(name = "Abduser.findByName", query = "SELECT a FROM Abduser a WHERE a.name = :name"),
+	@NamedQuery(name = "Abduser.findByFirstname", query = "SELECT a FROM Abduser a WHERE a.firstname = :firstname")})
 public class Abduser implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -41,35 +48,31 @@ public class Abduser implements Serializable {
 	private Integer id;
 	@Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 56)
+    @Size(min = 1, max = 255)
     @Column(name = "username")
 	private String username;
 	@Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 255)
     @Column(name = "passwort")
 	private String passwort;
 	@Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 255)
     @Column(name = "salt")
 	private String salt;
 	@Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 255)
     @Column(name = "name")
 	private String name;
 	@Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 255)
     @Column(name = "firstname")
 	private String firstname;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abduser", fetch = FetchType.LAZY)
-	private Collection<Accountdata> accountdataCollection;
+	private Collection<Abdaccount> abdaccountCollection;
 
 	public Abduser() {
 	}
@@ -136,12 +139,12 @@ public class Abduser implements Serializable {
 	}
 
 	@XmlTransient
-	public Collection<Accountdata> getAccountdataCollection() {
-		return accountdataCollection;
+	public Collection<Abdaccount> getAbdaccountCollection() {
+		return abdaccountCollection;
 	}
 
-	public void setAccountdataCollection(Collection<Accountdata> accountdataCollection) {
-		this.accountdataCollection = accountdataCollection;
+	public void setAbdaccountCollection(Collection<Abdaccount> abdaccountCollection) {
+		this.abdaccountCollection = abdaccountCollection;
 	}
 
 	@Override

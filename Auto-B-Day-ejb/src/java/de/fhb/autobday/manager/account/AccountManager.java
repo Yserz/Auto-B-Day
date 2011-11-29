@@ -1,6 +1,6 @@
 package de.fhb.autobday.manager.account;
 
-import de.fhb.autobday.dao.AccountdataFacade;
+import de.fhb.autobday.dao.AbdaccountFacade;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -14,7 +14,7 @@ public class AccountManager implements AccountManagerLocal {
 	private final static Logger LOGGER = Logger.getLogger(AccountManager.class.getName());
 	
 	@EJB
-	private AccountdataFacade accountdataDAO;
+	private AbdaccountFacade accountdataDAO;
 	
 	public AccountManager() {
 	}

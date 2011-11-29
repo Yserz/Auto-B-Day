@@ -1,62 +1,65 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package de.fhb.autobday.data;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Michael Koppen
+ * @author MacYser
  */
 @Entity
-@Table(name = "contact")
+@Table(name = "abdcontact")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Contact.findAll", query = "SELECT c FROM Contact c"),
-	@NamedQuery(name = "Contact.findById", query = "SELECT c FROM Contact c WHERE c.id = :id"),
-	@NamedQuery(name = "Contact.findByName", query = "SELECT c FROM Contact c WHERE c.name = :name"),
-	@NamedQuery(name = "Contact.findByFirstname", query = "SELECT c FROM Contact c WHERE c.firstname = :firstname"),
-	@NamedQuery(name = "Contact.findBySex", query = "SELECT c FROM Contact c WHERE c.sex = :sex"),
-	@NamedQuery(name = "Contact.findByBday", query = "SELECT c FROM Contact c WHERE c.bday = :bday"),
-	@NamedQuery(name = "Contact.findByActive", query = "SELECT c FROM Contact c WHERE c.active = :active"),
-	@NamedQuery(name = "Contact.findByHashid", query = "SELECT c FROM Contact c WHERE c.hashid = :hashid")})
-public class Contact implements Serializable {
+	@NamedQuery(name = "Abdcontact.findAll", query = "SELECT a FROM Abdcontact a"),
+	@NamedQuery(name = "Abdcontact.findById", query = "SELECT a FROM Abdcontact a WHERE a.id = :id"),
+	@NamedQuery(name = "Abdcontact.findByName", query = "SELECT a FROM Abdcontact a WHERE a.name = :name"),
+	@NamedQuery(name = "Abdcontact.findByFirstname", query = "SELECT a FROM Abdcontact a WHERE a.firstname = :firstname"),
+	@NamedQuery(name = "Abdcontact.findBySex", query = "SELECT a FROM Abdcontact a WHERE a.sex = :sex"),
+	@NamedQuery(name = "Abdcontact.findByMail", query = "SELECT a FROM Abdcontact a WHERE a.mail = :mail"),
+	@NamedQuery(name = "Abdcontact.findByBday", query = "SELECT a FROM Abdcontact a WHERE a.bday = :bday"),
+	@NamedQuery(name = "Abdcontact.findByActive", query = "SELECT a FROM Abdcontact a WHERE a.active = :active"),
+	@NamedQuery(name = "Abdcontact.findByHashid", query = "SELECT a FROM Abdcontact a WHERE a.hashid = :hashid")})
+public class Abdcontact implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "id")
-	private Integer id;
-	@Size(max = 56)
+	private String id;
+	@Size(max = 255)
     @Column(name = "name")
 	private String name;
-	@Size(max = 56)
+	@Size(max = 255)
     @Column(name = "firstname")
 	private String firstname;
 	@Column(name = "sex")
 	private Character sex;
 	@Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 255)
     @Column(name = "mail")
 	private String mail;
 	@Basic(optional = false)
@@ -70,40 +73,32 @@ public class Contact implements Serializable {
 	private boolean active;
 	@Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 255)
     @Column(name = "hashid")
 	private String hashid;
-	@Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
-    @Column(name = "urlid")
-	private String urlid;
-	@JoinColumn(name = "abdgroup", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private Abdgroup abdgroup;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abdcontact", fetch = FetchType.LAZY)
+	private Collection<Abdgrouptocontact> abdgrouptocontactCollection;
 
-	public Contact() {
+	public Abdcontact() {
 	}
 
-	public Contact(Integer id) {
+	public Abdcontact(String id) {
 		this.id = id;
 	}
 
-	public Contact(Integer id, String mail, Date bday, boolean active, String hashid, String urlid) {
+	public Abdcontact(String id, String mail, Date bday, boolean active, String hashid) {
 		this.id = id;
 		this.mail = mail;
 		this.bday = bday;
 		this.active = active;
 		this.hashid = hashid;
-		this.urlid = urlid;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -163,20 +158,13 @@ public class Contact implements Serializable {
 		this.hashid = hashid;
 	}
 
-	public String getUrlid() {
-		return urlid;
+	@XmlTransient
+	public Collection<Abdgrouptocontact> getAbdgrouptocontactCollection() {
+		return abdgrouptocontactCollection;
 	}
 
-	public void setUrlid(String urlid) {
-		this.urlid = urlid;
-	}
-
-	public Abdgroup getAbdgroup() {
-		return abdgroup;
-	}
-
-	public void setAbdgroup(Abdgroup abdgroup) {
-		this.abdgroup = abdgroup;
+	public void setAbdgrouptocontactCollection(Collection<Abdgrouptocontact> abdgrouptocontactCollection) {
+		this.abdgrouptocontactCollection = abdgrouptocontactCollection;
 	}
 
 	@Override
@@ -189,10 +177,10 @@ public class Contact implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Contact)) {
+		if (!(object instanceof Abdcontact)) {
 			return false;
 		}
-		Contact other = (Contact) object;
+		Abdcontact other = (Abdcontact) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}
@@ -201,7 +189,7 @@ public class Contact implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.Contact[ id=" + id + " ]";
+		return "de.fhb.autobday.data.Abdcontact[ id=" + id + " ]";
 	}
 	
 }

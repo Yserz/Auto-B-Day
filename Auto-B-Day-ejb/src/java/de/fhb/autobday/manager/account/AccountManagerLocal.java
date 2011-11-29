@@ -13,6 +13,6 @@ public interface AccountManagerLocal {
 
 	void removeAccount();
 
-	void importContacts();
+	void importGroupsAndContacts();
 	
 }

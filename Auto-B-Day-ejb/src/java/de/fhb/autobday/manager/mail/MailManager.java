@@ -13,9 +13,19 @@ public class MailManager implements MailManagerLocal {
 	private final static Logger LOGGER = Logger.getLogger(MailManager.class.getName());
 
 	@Override
-	public void sendMail() {
+	public void sendBdayMail() {
 	}
 
+	@Override
+	public void sendNotificationMail() {
+	}
+
+	@Override
+	public void sendForgotPasswordMail() {
+	}
 	
+	private void sendMail() {
+		
+	}
 	
 }

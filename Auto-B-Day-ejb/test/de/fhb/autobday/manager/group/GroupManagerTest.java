@@ -7,6 +7,8 @@ package de.fhb.autobday.manager.group;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import javax.ejb.embeddable.EJBContainer;
+
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -19,6 +21,9 @@ import static org.junit.Assert.*;
  * @author MacYser
  */
 public class GroupManagerTest {
+	
+	private AbdGroup mock;
+	private GroupManager managerTest;
 	
 	public GroupManagerTest() {
 	}
@@ -33,6 +38,8 @@ public class GroupManagerTest {
 	
 	@Before
 	public void setUp() {
+		mock = EasyMock.createMock(AbdGroup.class);
+		managerTest = new GroupManager();
 	}
 	
 	@After
@@ -64,7 +71,7 @@ public class GroupManagerTest {
 		System.out.println("setTemplate");
 		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
-		instance.setTemplate();
+		instance.setTemplate(0, null);
 		container.close();
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
@@ -78,7 +85,7 @@ public class GroupManagerTest {
 		System.out.println("getTemplate");
 		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
-		instance.getTemplate();
+		instance.getTemplate(0);
 		container.close();
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
@@ -92,7 +99,7 @@ public class GroupManagerTest {
 		System.out.println("testTemplate");
 		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
-		instance.testTemplate();
+		instance.testTemplate(0, null);
 		container.close();
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
@@ -104,12 +111,16 @@ public class GroupManagerTest {
 	@Test
 	public void testSetActive() throws Exception {
 		System.out.println("setActive");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
-		instance.setActive();
-		container.close();
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		//EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		//GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
+		managerTest.setActive(1, false);
+		boolean expResult = false;
+		boolean result = mock.getActive();
+		EasyMock.expect(mock.getActive()).andReturn(false).times(1);
+		EasyMock.replay(mock);
+		//assertEquals(false, result);
+		EasyMock.verify(mock);
+		//container.close();
 	}
 
 	/**
@@ -126,25 +137,40 @@ public class GroupManagerTest {
 		String result = instance.parseTemplate(template, contact);
 		assertEquals(expResult, result);
 		container.close();
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+
 	}
 
 	/**
 	 * Test of parseSlashExpression method, of class GroupManager.
 	 */
 	@Test
-	public void testParseSlashExpression() throws Exception {
+	public void testParseSlashExpressionW() throws Exception {
 		System.out.println("parseSlashExpression");
-		String expression = "";
-		char sex = ' ';
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
-		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
-		String expResult = "";
+		String expression = "she/he";
+		char sex = 'w';
+		//EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		//GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
+		GroupManager instance = new GroupManager();
+		String expResult = "she";
 		String result = instance.parseSlashExpression(expression, sex);
 		assertEquals(expResult, result);
-		container.close();
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		//container.close();
+	}
+	
+	/**
+	 * Test of parseSlashExpression method, of class GroupManager.
+	 */
+	@Test
+	public void testParseSlashExpressionM() throws Exception {
+		System.out.println("parseSlashExpression");
+		String expression = "she/he";
+		char sex = 'm';
+		//EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		//GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
+		GroupManager instance = new GroupManager();
+		String expResult = "he";
+		String result = instance.parseSlashExpression(expression, sex);
+		assertEquals(expResult, result);
+		//container.close();
 	}
 }

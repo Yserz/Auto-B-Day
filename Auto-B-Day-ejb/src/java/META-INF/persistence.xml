@@ -6,7 +6,6 @@
     <class>de.fhb.autobday.data.AbdContact</class>
     <class>de.fhb.autobday.data.AbdGroupToContact</class>
     <class>de.fhb.autobday.data.AbdGroup</class>
-    <class>de.fhb.autobday.data.AbdGroupToContactPK</class>
     <class>de.fhb.autobday.data.AbdUser</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>

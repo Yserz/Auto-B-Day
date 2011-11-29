@@ -9,6 +9,7 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -76,7 +77,6 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 	private void checkEveryDay(){
 		System.out.println("every hour idle message..."+new Date());
 		
-		AbdGroup aktGroup = null;
 		String parsedTemplate = "";
 		Collection<AbdContact> birthdayContacts = contactDAO.findContactByBday(new Date());
 		
@@ -85,9 +85,15 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 		}else{
 			for (AbdContact aktContact : birthdayContacts) {
 				System.out.println("Contact: "+aktContact.toString());
-				//TODO find contacts group
+				Collection<AbdGroupToContact> aktContactInGroups = aktContact.getAbdGroupToContactCollection();
+				for (AbdGroupToContact aktGroupToContact : aktContactInGroups) {
+					if (aktGroupToContact.getActive()) {
+						if (aktGroupToContact.getAbdGroup().getActive()) {
+							//TODO sendMail
+						}
+					}
+				}
 			}
 		}
-		
 	}
 }

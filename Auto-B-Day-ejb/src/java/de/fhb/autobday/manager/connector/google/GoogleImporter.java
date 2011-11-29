@@ -63,7 +63,7 @@ public class GoogleImporter extends AImporter {
 		connectionEtablished = true;
 	}
 	
-	public void getAllGroups() {
+	public ContactGroupFeed getAllGroups() {
 		URL feedUrl;
 		try {
 			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
@@ -79,11 +79,15 @@ public class GoogleImporter extends AImporter {
 									   + groupEntry.getSystemGroup().getId());
 				}
 			}
+			
+			return resultFeed;
+		
 		} catch (IOException ex) {
 			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (ServiceException ex) {
 			Logger.getLogger(GoogleImporter.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		return null;
 	}
 	
 	public void getSingleGroup(String id) {

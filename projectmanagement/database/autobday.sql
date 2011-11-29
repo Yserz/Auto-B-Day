@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 10. Nov 2011 um 22:13
+-- Erstellungszeit: 29. Nov 2011 um 12:23
 -- Server Version: 5.5.16
 -- PHP-Version: 5.3.8
 
@@ -23,18 +23,66 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `abdaccount`
+--
+
+CREATE TABLE IF NOT EXISTS `abdaccount` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `abduser` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `passwort` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `abduser` (`abduser`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `abdcontact`
+--
+
+CREATE TABLE IF NOT EXISTS `abdcontact` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `firstname` varchar(255) DEFAULT NULL,
+  `sex` char(1) DEFAULT NULL,
+  `mail` varchar(255) NOT NULL,
+  `bday` date NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `hashid` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `abdgroup`
 --
 
 CREATE TABLE IF NOT EXISTS `abdgroup` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(255) NOT NULL,
   `account` int(11) NOT NULL,
-  `name` varchar(56) NOT NULL,
-  `template` text NOT NULL,/*DEFAULT NULL???*/
+  `name` varchar(255) NOT NULL,
+  `template` text NOT NULL,
   `active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`),
   KEY `account` (`account`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `abdgrouptocontact`
+--
+
+CREATE TABLE IF NOT EXISTS `abdgrouptocontact` (
+  `group` varchar(255) NOT NULL,
+  `contact` varchar(255) NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`group`,`contact`),
+  KEY `contact` (`contact`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -44,49 +92,12 @@ CREATE TABLE IF NOT EXISTS `abdgroup` (
 
 CREATE TABLE IF NOT EXISTS `abduser` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(56) NOT NULL,
-  `passwort` text NOT NULL,
-  `salt` text NOT NULL,
-  `name` text NOT NULL,
-  `firstname` text NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `passwort` varchar(255) NOT NULL,
+  `salt` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `accountdata`
---
-
-CREATE TABLE IF NOT EXISTS `accountdata` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `abduser` int(11) NOT NULL,
-  `username` varchar(56) NOT NULL,
-  `passwort` text NOT NULL,
-  `type` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `abduser` (`abduser`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `contact`
---
-
-CREATE TABLE IF NOT EXISTS `contact` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `abdgroup` int(11) NOT NULL,
-  `name` varchar(56) DEFAULT NULL,
-  `firstname` varchar(56) DEFAULT NULL,
-  `sex` char(1) DEFAULT NULL,
-  `mail` text NOT NULL,
-  `bday` date NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `hashid` varchar(20) NOT NULL,
-  `urlid` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `abdgroup` (`abdgroup`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
@@ -94,22 +105,23 @@ CREATE TABLE IF NOT EXISTS `contact` (
 --
 
 --
+-- Constraints der Tabelle `abdaccount`
+--
+ALTER TABLE `abdaccount`
+  ADD CONSTRAINT `abdaccount_ibfk_1` FOREIGN KEY (`abduser`) REFERENCES `abduser` (`id`);
+
+--
 -- Constraints der Tabelle `abdgroup`
 --
 ALTER TABLE `abdgroup`
-  ADD CONSTRAINT `abdgroup_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accountdata` (`id`);
+  ADD CONSTRAINT `abdgroup_ibfk_1` FOREIGN KEY (`account`) REFERENCES `abdaccount` (`id`);
 
 --
--- Constraints der Tabelle `accountdata`
+-- Constraints der Tabelle `abdgrouptocontact`
 --
-ALTER TABLE `accountdata`
-  ADD CONSTRAINT `accountdata_ibfk_1` FOREIGN KEY (`abduser`) REFERENCES `abduser` (`id`);
-
---
--- Constraints der Tabelle `contact`
---
-ALTER TABLE `contact`
-  ADD CONSTRAINT `contact_ibfk_1` FOREIGN KEY (`abdgroup`) REFERENCES `abdgroup` (`id`);
+ALTER TABLE `abdgrouptocontact`
+  ADD CONSTRAINT `abdgrouptocontact_ibfk_2` FOREIGN KEY (`contact`) REFERENCES `abdcontact` (`id`),
+  ADD CONSTRAINT `abdgrouptocontact_ibfk_1` FOREIGN KEY (`group`) REFERENCES `abdgroup` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

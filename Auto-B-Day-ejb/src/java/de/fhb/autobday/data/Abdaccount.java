@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package de.fhb.autobday.data;
 
 import java.io.Serializable;
@@ -11,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -24,16 +27,18 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Michael Koppen
+ * @author MacYser
  */
 @Entity
-@Table(name = "accountdata")
+@Table(name = "abdaccount")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Accountdata.findAll", query = "SELECT a FROM Accountdata a"),
-	@NamedQuery(name = "Accountdata.findById", query = "SELECT a FROM Accountdata a WHERE a.id = :id"),
-	@NamedQuery(name = "Accountdata.findByUsername", query = "SELECT a FROM Accountdata a WHERE a.username = :username")})
-public class Accountdata implements Serializable {
+	@NamedQuery(name = "Abdaccount.findAll", query = "SELECT a FROM Abdaccount a"),
+	@NamedQuery(name = "Abdaccount.findById", query = "SELECT a FROM Abdaccount a WHERE a.id = :id"),
+	@NamedQuery(name = "Abdaccount.findByUsername", query = "SELECT a FROM Abdaccount a WHERE a.username = :username"),
+	@NamedQuery(name = "Abdaccount.findByPasswort", query = "SELECT a FROM Abdaccount a WHERE a.passwort = :passwort"),
+	@NamedQuery(name = "Abdaccount.findByType", query = "SELECT a FROM Abdaccount a WHERE a.type = :type")})
+public class Abdaccount implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,19 +48,17 @@ public class Accountdata implements Serializable {
 	private Integer id;
 	@Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 56)
+    @Size(min = 1, max = 255)
     @Column(name = "username")
 	private String username;
 	@Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 255)
     @Column(name = "passwort")
 	private String passwort;
 	@Basic(optional = false)
     @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 255)
     @Column(name = "type")
 	private String type;
 	@JoinColumn(name = "abduser", referencedColumnName = "id")
@@ -64,14 +67,14 @@ public class Accountdata implements Serializable {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
 	private Collection<Abdgroup> abdgroupCollection;
 
-	public Accountdata() {
+	public Abdaccount() {
 	}
 
-	public Accountdata(Integer id) {
+	public Abdaccount(Integer id) {
 		this.id = id;
 	}
 
-	public Accountdata(Integer id, String username, String passwort, String type) {
+	public Abdaccount(Integer id, String username, String passwort, String type) {
 		this.id = id;
 		this.username = username;
 		this.passwort = passwort;
@@ -137,10 +140,10 @@ public class Accountdata implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Accountdata)) {
+		if (!(object instanceof Abdaccount)) {
 			return false;
 		}
-		Accountdata other = (Accountdata) object;
+		Abdaccount other = (Abdaccount) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}
@@ -149,7 +152,7 @@ public class Accountdata implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.Accountdata[ id=" + id + " ]";
+		return "de.fhb.autobday.data.Abdaccount[ id=" + id + " ]";
 	}
 	
 }

@@ -2,8 +2,6 @@ package de.fhb.autobday.manager.user;
 
 import de.fhb.autobday.dao.AbduserFacade;
 import de.fhb.autobday.data.Abduser;
-import de.fhb.autobday.data.Accountdata;
-import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

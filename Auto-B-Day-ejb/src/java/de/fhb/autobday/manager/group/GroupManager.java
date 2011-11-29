@@ -1,8 +1,8 @@
 package de.fhb.autobday.manager.group;
 
 import de.fhb.autobday.dao.AbdgroupFacade;
+import de.fhb.autobday.data.Abdcontact;
 import de.fhb.autobday.data.Abdgroup;
-import de.fhb.autobday.data.Contact;
 
 import java.lang.reflect.Field;
 import java.util.logging.Logger;
@@ -69,13 +69,13 @@ public class GroupManager implements GroupManagerLocal {
 	 * @param contact
 	 * @return
 	 */
-	public String parseTemplate(String template, Contact contact){
+	public String parseTemplate(String template, Abdcontact contact){
 
 		StringBuilder patternBuilder=new StringBuilder();		
 		StringBuilder output = new StringBuilder();
 		
 		//create compile-pattern string
-		for(Field field :Contact.class.getFields()){
+		for(Field field :Abdcontact.class.getFields()){
 			patternBuilder.append(field.getName());
 			patternBuilder.append("|");
 		}
@@ -118,28 +118,28 @@ public class GroupManager implements GroupManagerLocal {
 				
 				try{	
 
-					if (tagExpression.equals(Contact.class.getFields()[0])) {
-						System.out.println(Contact.class.getFields()[0]);
+					if (tagExpression.equals(Abdcontact.class.getFields()[0])) {
+						System.out.println(Abdcontact.class.getFields()[0]);
 						output.append(contact.getId());
 						
-					} else if (tagExpression.equals(Contact.class.getFields()[1])) {
-						System.out.println(Contact.class.getFields()[1]);
+					} else if (tagExpression.equals(Abdcontact.class.getFields()[1])) {
+						System.out.println(Abdcontact.class.getFields()[1]);
 						output.append(contact.getName());
 						
-					} else if (tagExpression.equals(Contact.class.getFields()[2])) {
-						System.out.println(Contact.class.getFields()[2]);
+					} else if (tagExpression.equals(Abdcontact.class.getFields()[2])) {
+						System.out.println(Abdcontact.class.getFields()[2]);
 						output.append(contact.getFirstname());
 						
-					} else if (tagExpression.equals(Contact.class.getFields()[3])) {
-						System.out.println(Contact.class.getFields()[3]);
+					} else if (tagExpression.equals(Abdcontact.class.getFields()[3])) {
+						System.out.println(Abdcontact.class.getFields()[3]);
 						output.append(contact.getSex());
 						
-					} else if (tagExpression.equals(Contact.class.getFields()[4])) {
-						System.out.println(Contact.class.getFields()[4]);
+					} else if (tagExpression.equals(Abdcontact.class.getFields()[4])) {
+						System.out.println(Abdcontact.class.getFields()[4]);
 						output.append(contact.getMail());
 						
-					} else if (tagExpression.equals(Contact.class.getFields()[5])) {
-						System.out.println(Contact.class.getFields()[5]);
+					} else if (tagExpression.equals(Abdcontact.class.getFields()[5])) {
+						System.out.println(Abdcontact.class.getFields()[5]);
 						output.append(contact.getBday());
 						
 					} else if (tagExpression.contains("/")) {

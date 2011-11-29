@@ -1,20 +1,20 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package de.fhb.autobday.dao;
 
-
-import de.fhb.autobday.data.Accountdata;
-
-import javax.ejb.LocalBean;
+import de.fhb.autobday.data.Abdaccount;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Michael Koppen
+ * @author MacYser
  */
 @Stateless
-@LocalBean
-public class AccountdataFacade extends AbstractFacade<Accountdata> {
+public class AbdaccountFacade extends AbstractFacade<Abdaccount> {
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 
@@ -22,9 +22,8 @@ public class AccountdataFacade extends AbstractFacade<Accountdata> {
 		return em;
 	}
 
-	public AccountdataFacade() {
-		super(Accountdata.class);
+	public AbdaccountFacade() {
+		super(Abdaccount.class);
 	}
-	
 	
 }

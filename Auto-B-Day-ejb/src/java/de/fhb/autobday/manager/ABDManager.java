@@ -1,14 +1,13 @@
 package de.fhb.autobday.manager;
 
+import de.fhb.autobday.dao.AbdaccountFacade;
+import de.fhb.autobday.dao.AbdcontactFacade;
 import de.fhb.autobday.dao.AbdgroupFacade;
 import de.fhb.autobday.dao.AbduserFacade;
-import de.fhb.autobday.dao.AccountdataFacade;
-import de.fhb.autobday.dao.ContactFacade;
+import de.fhb.autobday.data.Abdaccount;
+import de.fhb.autobday.data.Abdcontact;
 import de.fhb.autobday.data.Abduser;
 import de.fhb.autobday.data.Abdgroup;
-import de.fhb.autobday.data.Accountdata;
-import de.fhb.autobday.data.Contact;
-import de.fhb.autobday.manager.group.GroupManager;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -16,8 +15,6 @@ import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
 /**
@@ -33,9 +30,9 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 	@EJB
 	private AbdgroupFacade groupDAO;
 	@EJB
-	private AccountdataFacade accountdataDAO;
+	private AbdaccountFacade accountdataDAO;
 	@EJB
-	private ContactFacade contactDAO;
+	private AbdcontactFacade contactDAO;
 	
 
 
@@ -53,12 +50,12 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 	}
 
 	@Override
-	public List<Accountdata> getAllAccountdata() {
+	public List<Abdaccount> getAllAccountdata() {
 		return accountdataDAO.findAll();
 	}
 
 	@Override
-	public List<Contact> getAllContacts() {
+	public List<Abdcontact> getAllContacts() {
 		return contactDAO.findAll();
 	}
 	@Override
@@ -78,12 +75,12 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 		
 		Abdgroup aktGroup = null;
 		String parsedTemplate = "";
-		Collection<Contact> birthdayContacts = contactDAO.findContactByBday(new Date());
+		Collection<Abdcontact> birthdayContacts = contactDAO.findContactByBday(new Date());
 		
 		if (birthdayContacts.isEmpty()) {
 			System.out.println("No Birthdaycontacts found");
 		}else{
-			for (Contact aktContact : birthdayContacts) {
+			for (Abdcontact aktContact : birthdayContacts) {
 				System.out.println("Contact: "+aktContact.toString());
 				if (aktContact.getActive()==true) {
 					System.out.println("Contakt is aktive");
@@ -99,7 +96,7 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 		}
 		
 	}
-	private String parseTemplate(String unparsedTemplate, Abduser user, Contact contact) {
+	private String parseTemplate(String unparsedTemplate, Abduser user, Abdcontact contact) {
 		//TODO get information about user and contact
 		//TODO Parse the template with information
 		return null;

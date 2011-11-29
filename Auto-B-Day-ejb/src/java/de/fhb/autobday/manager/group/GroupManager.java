@@ -1,10 +1,7 @@
 package de.fhb.autobday.manager.group;
 
-import de.fhb.autobday.dao.AbdGroupFacade;
-import de.fhb.autobday.data.AbdContact;
-import de.fhb.autobday.data.AbdGroup;
-
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,10 +9,16 @@ import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
+import de.fhb.autobday.exception.group.GroupException;
+
 /**
- *
- * @author Michael Koppen
- */
+*
+* @author Andy Klay <klay@fh-brandenburg.de>
+*/
 @Stateless
 public class GroupManager implements GroupManagerLocal {
 	private final static Logger LOGGER = Logger.getLogger(GroupManager.class.getName());
@@ -23,7 +26,6 @@ public class GroupManager implements GroupManagerLocal {
 	@EJB
 	private AbdGroupFacade groupDAO;
 
-	
 
 	@Override
 	public AbdGroup getGroup(int groupid) {
@@ -31,45 +33,109 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public void setTemplate() {
+	public void setTemplate(int groupid, String template) {
+		LOGGER.fine("setTemplate");
+		LOGGER.fine("groupid :"+groupid);
+		LOGGER.fine("template :"+template);
+		
+		//TODO implementation coming soon
+		
+		AbdGroup actualGroup = groupDAO.find(groupid);
+		
+		actualGroup.setTemplate(template);
 	}
 
 	@Override
-	public void getTemplate() {
+	public String getTemplate(int groupid) {
+		
+		LOGGER.fine("getTemplate");
+		LOGGER.fine("groupid :"+groupid);
+		
+		//TODO implementation coming soon
+		
+		AbdGroup actualGroup = groupDAO.find(groupid);
+		String output="dummy";
+		
+		output=actualGroup.getTemplate();
+		
+		return output;
 	}
 
 	@Override
-	public void testTemplate() {
+	public String testTemplate(int groupid, String contactid) throws GroupException{
+		
+		LOGGER.fine("testTemplate");
+		LOGGER.fine("groupid :"+groupid);
+		LOGGER.fine("contactid :"+contactid);
+		
+		//TODO implementation coming soon
+		
+		AbdGroup actualGroup = groupDAO.find(groupid);
+		String template = actualGroup.getTemplate();
+		String output="dummy";
+		
+		Collection<AbdGroupToContact> contactsOfGroup = actualGroup.getAbdGroupToContactCollection();
+		
+		AbdContact chosenContact=null;
+		
+		for(AbdGroupToContact actual : contactsOfGroup){
+			if(actual.getAbdContact().getId().equals(contactid)){
+				//found Contact
+				chosenContact=actual.getAbdContact();
+			}
+		}
+		
+		if(chosenContact== null){
+			throw new GroupException("Contact " + contactid + "not found!");
+		}
+		
+		output=this.parseTemplate(template, chosenContact);
+		
+		return output;
 	}
 
 	@Override
-	public void setActive() {
+	public void setActive(int groupid, boolean active) {
+		
+		LOGGER.fine("setActive");
+		LOGGER.fine("groupid :"+groupid);
+		
+		//TODO implementation coming soon
+		
+		
+		AbdGroup actualGroup = groupDAO.find(groupid);
+		
+		actualGroup.setActive(active);
 	}
 	
 	
 	/**
-	 *  parst templates mit den Format zeichen ${Ausdruck}
-	 *  moegliche Ausdruecke sind:
-	 *  Attribute von Contacts wie z.b.
+	 *  parses templates with the character format ${validExpression}
+	 *  possible Expresions are:
+	 *  attribute of Contacts for e.g.
 	 *  
-	 *  id
-	 *  name
-	 *  firstname
-	 *  sex
-	 *  mail
-	 *  bday
+	 *  - id
+	 *  - name
+	 *  - firstname
+	 *  - sex
+	 *  - mail
+	 *  - bday
 	 *  
 	 *  
-	 *  oder
+	 *  or
 	 *  
-	 *  Geschlechtspezifische Inhalte wie z.b e/er
-	 *  
+	 *  gender specific content expressions
+	 *  e.g. e/er
 	 *  
 	 * @param template
 	 * @param contact
 	 * @return
 	 */
 	public String parseTemplate(String template, AbdContact contact){
+		
+		LOGGER.fine("parseTemplate");
+		LOGGER.fine("template :"+template);
+		LOGGER.fine("contact :"+contact);		
 
 		StringBuilder patternBuilder=new StringBuilder();		
 		StringBuilder output = new StringBuilder();
@@ -80,34 +146,34 @@ public class GroupManager implements GroupManagerLocal {
 			patternBuilder.append("|");
 		}
 		
-		//pattern for slashexpression
+		//pattern for slash-expression
 		patternBuilder.append("[a-z]+/+[a-z]+");
 		
 
-		//Pattern fuer die Klammern erstellen
+		//create pattern for identifing of clamp-expresions
 		Pattern pattern = Pattern.compile("\\$\\{\\S+\\}");
 		Matcher matcher = pattern.matcher(template);
 		int lastend = 0;
 		
-		// klammerausdruck finden
+		//find clamp expression
 		while (matcher.find()) {
 			
-			//anhaengen des Text zwischen den ausdruecken
+			//appending of text between expresions
 			output.append(template.substring(lastend, matcher.start()));
 			//merke das ende fuer den Anfang des naechsten zwischen Textes
 			lastend = matcher.end();
 
-			// Inhalt des Klammerausdrucks auswerten
+			//analyze content of clamp
 			String innerGroup = matcher.group();
 			Pattern innerPattern = Pattern.compile(patternBuilder.toString());
 			Matcher innerMatcher = innerPattern.matcher(innerGroup);
 
 			if (innerMatcher.find()) {
-				// gueltigen Ausdruck gefunden
-				// hole inhalte
+				// found valid expression
+				// fetch content
 				String tagExpression = innerGroup.substring(innerMatcher.start(),innerMatcher.end());
 
-				//auswertung des Tags
+				//evaluate of tag
 				//TODO dynamischer machen
 //				//search for identity
 //				for(Field field :Contact.class.getFields()){
@@ -148,11 +214,13 @@ public class GroupManager implements GroupManagerLocal {
 				
 				}catch (NullPointerException e) {
 					// TODO: handle exception
+					System.err.println(e.getStackTrace());
+					LOGGER.finest(e.getStackTrace().toString());
 				}
 			}
 		}		
 		
-		//Textende anhaengen
+		//append textend
 		output.append(template.substring(lastend,template.length()));
 		
 		return output.toString();
@@ -161,13 +229,12 @@ public class GroupManager implements GroupManagerLocal {
 	
 
 	/**
-	 * parst Strings,
-	 * die geschelchtsspezifische Inhalte mit einem Slash trennen,je nach Geschlecht.
-	 * nach diesem Muster weiblich/maennlich z.B. e/er
+	 * parses strings wtih gender specific the contents separated by a slash, depending on gender.
+	 * according to this model female/male e.g. e/er
 	 * 
 	 * @param String expression
 	 * @param Char sex
-	 * @return String
+	 * @return String decesionOfOne
 	 */
 	public String parseSlashExpression(String expression, char sex){
 		
@@ -176,7 +243,7 @@ public class GroupManager implements GroupManagerLocal {
 		String contentLeft ="";
 		String contentRight ="";
 		
-		//suche Slash
+		//search slash
 		if (numberMatcher.find()) {
 			contentLeft=expression.substring(0, numberMatcher.start());
 			contentRight=expression.substring(numberMatcher.end(), expression.length());
@@ -189,3 +256,4 @@ public class GroupManager implements GroupManagerLocal {
 		}
 	}
 }
+

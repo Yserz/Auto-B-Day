@@ -1,7 +1,7 @@
 package de.fhb.autobday.manager.group;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,10 +9,10 @@ import java.util.regex.Pattern;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.group.GroupException;
 
 /**
@@ -25,6 +25,9 @@ public class GroupManager implements GroupManagerLocal {
 
 	@EJB
 	private AbdGroupFacade groupDAO;
+	
+	@EJB
+	private AbdContactFacade contactDAO;
 
 
 	@Override
@@ -34,9 +37,9 @@ public class GroupManager implements GroupManagerLocal {
 
 	@Override
 	public void setTemplate(int groupid, String template) {
-		LOGGER.fine("setTemplate");
-		LOGGER.fine("groupid :"+groupid);
-		LOGGER.fine("template :"+template);
+		LOGGER.info("setTemplate");
+		LOGGER.info("groupid :"+groupid);
+		LOGGER.info("template :"+template);
 		
 		//TODO implementation coming soon
 		
@@ -48,8 +51,8 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public String getTemplate(int groupid) {
 		
-		LOGGER.fine("getTemplate");
-		LOGGER.fine("groupid :"+groupid);
+		LOGGER.info("getTemplate");
+		LOGGER.info("groupid :"+groupid);
 		
 		//TODO implementation coming soon
 		
@@ -64,28 +67,18 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public String testTemplate(int groupid, String contactid) throws GroupException{
 		
-		LOGGER.fine("testTemplate");
-		LOGGER.fine("groupid :"+groupid);
-		LOGGER.fine("contactid :"+contactid);
+		LOGGER.info("testTemplate");
+		LOGGER.info("groupid :"+groupid);
+		LOGGER.info("contactid :"+contactid);
 		
 		//TODO implementation coming soon
 		
 		AbdGroup actualGroup = groupDAO.find(groupid);
 		String template = actualGroup.getTemplate();
 		String output="dummy";
+		AbdContact chosenContact=contactDAO.find(contactid);
 		
-		Collection<AbdGroupToContact> contactsOfGroup = actualGroup.getAbdGroupToContactCollection();
-		
-		AbdContact chosenContact=null;
-		
-		for(AbdGroupToContact actual : contactsOfGroup){
-			if(actual.getAbdContact().getId().equals(contactid)){
-				//found Contact
-				chosenContact=actual.getAbdContact();
-			}
-		}
-		
-		if(chosenContact== null){
+		if(chosenContact==null){
 			throw new GroupException("Contact " + contactid + "not found!");
 		}
 		
@@ -97,10 +90,8 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public void setActive(int groupid, boolean active) {
 		
-		LOGGER.fine("setActive");
-		LOGGER.fine("groupid :"+groupid);
-		
-		//TODO implementation coming soon
+		LOGGER.info("setActive");
+		LOGGER.info("groupid :"+groupid);
 		
 		
 		AbdGroup actualGroup = groupDAO.find(groupid);
@@ -133,9 +124,9 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	public String parseTemplate(String template, AbdContact contact){
 		
-		LOGGER.fine("parseTemplate");
-		LOGGER.fine("template :"+template);
-		LOGGER.fine("contact :"+contact);		
+		LOGGER.info("parseTemplate");
+		LOGGER.info("template :"+template);
+		LOGGER.info("contact :"+contact);		
 
 		StringBuilder patternBuilder=new StringBuilder();		
 		StringBuilder output = new StringBuilder();
@@ -213,9 +204,7 @@ public class GroupManager implements GroupManagerLocal {
 					}				
 				
 				}catch (NullPointerException e) {
-					// TODO: handle exception
-					System.err.println(e.getStackTrace());
-					LOGGER.finest(e.getStackTrace().toString());
+					LOGGER.log(Level.SEVERE, null, e);
 				}
 			}
 		}		

@@ -1,6 +1,6 @@
 package de.fhb.autobday.manager.user;
 
-import de.fhb.autobday.data.Abduser;
+import de.fhb.autobday.data.AbdUser;
 import javax.ejb.Local;
 
 /**
@@ -9,7 +9,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface UserManagerLocal {
-	Abduser getUser(int userid);
+	AbdUser getUser(int userid);
 
 	void login();
 

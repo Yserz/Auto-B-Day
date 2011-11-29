@@ -4,7 +4,7 @@
  */
 package de.fhb.autobday.dao;
 
-import de.fhb.autobday.data.Abdaccount;
+import de.fhb.autobday.data.AbdAccount;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author MacYser
  */
 @Stateless
-public class AbdaccountFacade extends AbstractFacade<Abdaccount> {
+public class AbdAccountFacade extends AbstractFacade<AbdAccount> {
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 
@@ -22,8 +22,8 @@ public class AbdaccountFacade extends AbstractFacade<Abdaccount> {
 		return em;
 	}
 
-	public AbdaccountFacade() {
-		super(Abdaccount.class);
+	public AbdAccountFacade() {
+		super(AbdAccount.class);
 	}
 	
 }

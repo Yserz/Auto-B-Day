@@ -10,10 +10,10 @@ import com.google.gdata.data.extensions.Name;
 import com.google.gdata.util.ServiceException;
 
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
-import de.fhb.autobday.dao.AbdcontactFacade;
-import de.fhb.autobday.data.Abdaccount;
-import de.fhb.autobday.data.Abdcontact;
-import de.fhb.autobday.data.Abdgroup;
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.manager.connector.AImporter;
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +31,7 @@ public class GoogleImporter extends AImporter {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
 	private boolean connectionEtablished;
-	private Abdaccount accdata;
+	private AbdAccount accdata;
 	private ContactsService myService;
 
 	public GoogleImporter() {
@@ -41,7 +41,7 @@ public class GoogleImporter extends AImporter {
 	}
 
 	@Override
-	public void getConnection(Abdaccount data) {
+	public void getConnection(AbdAccount data) {
 		connectionEtablished = false;
 		accdata = data;
 
@@ -167,9 +167,9 @@ public class GoogleImporter extends AImporter {
 				feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 				ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
 				
-				AbdcontactFacade contactFacade = new AbdcontactFacade();
-				List<Abdgroup> groups = new ArrayList(accdata.getAbdgroupCollection());
-				Abdgroup group;
+				AbdContactFacade contactFacade = new AbdContactFacade();
+				List<AbdGroup> groups = new ArrayList(accdata.getAbdGroupCollection());
+				AbdGroup group;
 
 				List<ContactEntry> contacts = resultFeed.getEntries();
 				for (ContactEntry contactEntry : contacts) {
@@ -187,14 +187,14 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 	
-	private Abdcontact mapGContacttoContact(ContactEntry contactEntry){
-		Abdcontact contact;
+	private AbdContact mapGContacttoContact(ContactEntry contactEntry){
+		AbdContact contact;
 		String firstname;
 		String name;
 		Date birthday;
 		String mailadress;
 
-		contact = new Abdcontact();
+		contact = new AbdContact();
 		firstname = contactEntry.getName().getGivenName().getValue();
 		contact.setFirstname(firstname);
 		name = contactEntry.getName().getFamilyName().getValue();
@@ -223,14 +223,14 @@ public class GoogleImporter extends AImporter {
 		
 		// //////////////////
 		
-		contact.setActive(true);
+		//contact.setActive(true);
 		
 		return contact;
 
 	}
 	
-	private Abdgroup existGroup(List<Abdgroup> groups, String group){
-		for (Abdgroup abdgroup : groups) {
+	private AbdGroup existGroup(List<AbdGroup> groups, String group){
+		for (AbdGroup abdgroup : groups) {
 			if (abdgroup.getName().equals(group)){
 				return abdgroup;
 			}

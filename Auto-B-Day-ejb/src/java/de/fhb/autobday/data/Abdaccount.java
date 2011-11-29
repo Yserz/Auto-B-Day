@@ -33,12 +33,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "abdaccount")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Abdaccount.findAll", query = "SELECT a FROM Abdaccount a"),
-	@NamedQuery(name = "Abdaccount.findById", query = "SELECT a FROM Abdaccount a WHERE a.id = :id"),
-	@NamedQuery(name = "Abdaccount.findByUsername", query = "SELECT a FROM Abdaccount a WHERE a.username = :username"),
-	@NamedQuery(name = "Abdaccount.findByPasswort", query = "SELECT a FROM Abdaccount a WHERE a.passwort = :passwort"),
-	@NamedQuery(name = "Abdaccount.findByType", query = "SELECT a FROM Abdaccount a WHERE a.type = :type")})
-public class Abdaccount implements Serializable {
+	@NamedQuery(name = "AbdAccount.findAll", query = "SELECT a FROM AbdAccount a"),
+	@NamedQuery(name = "AbdAccount.findById", query = "SELECT a FROM AbdAccount a WHERE a.id = :id"),
+	@NamedQuery(name = "AbdAccount.findByUsername", query = "SELECT a FROM AbdAccount a WHERE a.username = :username"),
+	@NamedQuery(name = "AbdAccount.findByPasswort", query = "SELECT a FROM AbdAccount a WHERE a.passwort = :passwort"),
+	@NamedQuery(name = "AbdAccount.findByType", query = "SELECT a FROM AbdAccount a WHERE a.type = :type")})
+public class AbdAccount implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,18 +63,18 @@ public class Abdaccount implements Serializable {
 	private String type;
 	@JoinColumn(name = "abduser", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private Abduser abduser;
+	private AbdUser abduser;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
-	private Collection<Abdgroup> abdgroupCollection;
+	private Collection<AbdGroup> abdGroupCollection;
 
-	public Abdaccount() {
+	public AbdAccount() {
 	}
 
-	public Abdaccount(Integer id) {
+	public AbdAccount(Integer id) {
 		this.id = id;
 	}
 
-	public Abdaccount(Integer id, String username, String passwort, String type) {
+	public AbdAccount(Integer id, String username, String passwort, String type) {
 		this.id = id;
 		this.username = username;
 		this.passwort = passwort;
@@ -113,21 +113,21 @@ public class Abdaccount implements Serializable {
 		this.type = type;
 	}
 
-	public Abduser getAbduser() {
+	public AbdUser getAbduser() {
 		return abduser;
 	}
 
-	public void setAbduser(Abduser abduser) {
+	public void setAbduser(AbdUser abduser) {
 		this.abduser = abduser;
 	}
 
 	@XmlTransient
-	public Collection<Abdgroup> getAbdgroupCollection() {
-		return abdgroupCollection;
+	public Collection<AbdGroup> getAbdGroupCollection() {
+		return abdGroupCollection;
 	}
 
-	public void setAbdgroupCollection(Collection<Abdgroup> abdgroupCollection) {
-		this.abdgroupCollection = abdgroupCollection;
+	public void setAbdGroupCollection(Collection<AbdGroup> abdGroupCollection) {
+		this.abdGroupCollection = abdGroupCollection;
 	}
 
 	@Override
@@ -140,10 +140,10 @@ public class Abdaccount implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Abdaccount)) {
+		if (!(object instanceof AbdAccount)) {
 			return false;
 		}
-		Abdaccount other = (Abdaccount) object;
+		AbdAccount other = (AbdAccount) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}
@@ -152,7 +152,7 @@ public class Abdaccount implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.Abdaccount[ id=" + id + " ]";
+		return "de.fhb.autobday.data.AbdAccount[ id=" + id + " ]";
 	}
 	
 }

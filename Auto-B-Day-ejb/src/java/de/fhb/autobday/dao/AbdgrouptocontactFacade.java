@@ -4,7 +4,7 @@
  */
 package de.fhb.autobday.dao;
 
-import de.fhb.autobday.data.Abdgrouptocontact;
+import de.fhb.autobday.data.AbdGroupToContact;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author MacYser
  */
 @Stateless
-public class AbdgrouptocontactFacade extends AbstractFacade<Abdgrouptocontact> {
+public class AbdGroupToContactFacade extends AbstractFacade<AbdGroupToContact> {
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 
@@ -22,8 +22,8 @@ public class AbdgrouptocontactFacade extends AbstractFacade<Abdgrouptocontact> {
 		return em;
 	}
 
-	public AbdgrouptocontactFacade() {
-		super(Abdgrouptocontact.class);
+	public AbdGroupToContactFacade() {
+		super(AbdGroupToContact.class);
 	}
 	
 }

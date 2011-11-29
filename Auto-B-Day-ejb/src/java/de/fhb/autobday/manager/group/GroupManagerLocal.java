@@ -1,7 +1,7 @@
 package de.fhb.autobday.manager.group;
 
-import de.fhb.autobday.data.Abdcontact;
-import de.fhb.autobday.data.Abdgroup;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
 
 import javax.ejb.Local;
 
@@ -12,7 +12,7 @@ import javax.ejb.Local;
 @Local
 public interface GroupManagerLocal {
 
-	Abdgroup getGroup(int groupid);
+	AbdGroup getGroup(int groupid);
 
 	void setTemplate();
 
@@ -22,7 +22,7 @@ public interface GroupManagerLocal {
 
 	void setActive();
 	
-	String parseTemplate(String template, Abdcontact contact);
+	String parseTemplate(String template, AbdContact contact);
 	
 	String parseSlashExpression(String expression, char sex);
 }

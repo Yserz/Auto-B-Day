@@ -32,11 +32,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "abdgroup")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Abdgroup.findAll", query = "SELECT a FROM Abdgroup a"),
-	@NamedQuery(name = "Abdgroup.findById", query = "SELECT a FROM Abdgroup a WHERE a.id = :id"),
-	@NamedQuery(name = "Abdgroup.findByName", query = "SELECT a FROM Abdgroup a WHERE a.name = :name"),
-	@NamedQuery(name = "Abdgroup.findByActive", query = "SELECT a FROM Abdgroup a WHERE a.active = :active")})
-public class Abdgroup implements Serializable {
+	@NamedQuery(name = "AbdGroup.findAll", query = "SELECT a FROM AbdGroup a"),
+	@NamedQuery(name = "AbdGroup.findById", query = "SELECT a FROM AbdGroup a WHERE a.id = :id"),
+	@NamedQuery(name = "AbdGroup.findByName", query = "SELECT a FROM AbdGroup a WHERE a.name = :name"),
+	@NamedQuery(name = "AbdGroup.findByActive", query = "SELECT a FROM AbdGroup a WHERE a.active = :active")})
+public class AbdGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
     @Basic(optional = false)
@@ -59,20 +59,20 @@ public class Abdgroup implements Serializable {
     @NotNull
     @Column(name = "active")
 	private boolean active;
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abdgroup", fetch = FetchType.LAZY)
-	private Collection<Abdgrouptocontact> abdgrouptocontactCollection;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abdGroup", fetch = FetchType.LAZY)
+	private Collection<AbdGroupToContact> abdGroupToContactCollection;
 	@JoinColumn(name = "account", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private Abdaccount account;
+	private AbdAccount account;
 
-	public Abdgroup() {
+	public AbdGroup() {
 	}
 
-	public Abdgroup(String id) {
+	public AbdGroup(String id) {
 		this.id = id;
 	}
 
-	public Abdgroup(String id, String name, String template, boolean active) {
+	public AbdGroup(String id, String name, String template, boolean active) {
 		this.id = id;
 		this.name = name;
 		this.template = template;
@@ -112,19 +112,19 @@ public class Abdgroup implements Serializable {
 	}
 
 	@XmlTransient
-	public Collection<Abdgrouptocontact> getAbdgrouptocontactCollection() {
-		return abdgrouptocontactCollection;
+	public Collection<AbdGroupToContact> getAbdGroupToContactCollection() {
+		return abdGroupToContactCollection;
 	}
 
-	public void setAbdgrouptocontactCollection(Collection<Abdgrouptocontact> abdgrouptocontactCollection) {
-		this.abdgrouptocontactCollection = abdgrouptocontactCollection;
+	public void setAbdGroupToContactCollection(Collection<AbdGroupToContact> abdGroupToContactCollection) {
+		this.abdGroupToContactCollection = abdGroupToContactCollection;
 	}
 
-	public Abdaccount getAccount() {
+	public AbdAccount getAccount() {
 		return account;
 	}
 
-	public void setAccount(Abdaccount account) {
+	public void setAccount(AbdAccount account) {
 		this.account = account;
 	}
 
@@ -138,10 +138,10 @@ public class Abdgroup implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Abdgroup)) {
+		if (!(object instanceof AbdGroup)) {
 			return false;
 		}
-		Abdgroup other = (Abdgroup) object;
+		AbdGroup other = (AbdGroup) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}
@@ -150,7 +150,7 @@ public class Abdgroup implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.Abdgroup[ id=" + id + " ]";
+		return "de.fhb.autobday.data.AbdGroup[ id=" + id + " ]";
 	}
 	
 }

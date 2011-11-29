@@ -31,14 +31,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "abduser")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Abduser.findAll", query = "SELECT a FROM Abduser a"),
-	@NamedQuery(name = "Abduser.findById", query = "SELECT a FROM Abduser a WHERE a.id = :id"),
-	@NamedQuery(name = "Abduser.findByUsername", query = "SELECT a FROM Abduser a WHERE a.username = :username"),
-	@NamedQuery(name = "Abduser.findByPasswort", query = "SELECT a FROM Abduser a WHERE a.passwort = :passwort"),
-	@NamedQuery(name = "Abduser.findBySalt", query = "SELECT a FROM Abduser a WHERE a.salt = :salt"),
-	@NamedQuery(name = "Abduser.findByName", query = "SELECT a FROM Abduser a WHERE a.name = :name"),
-	@NamedQuery(name = "Abduser.findByFirstname", query = "SELECT a FROM Abduser a WHERE a.firstname = :firstname")})
-public class Abduser implements Serializable {
+	@NamedQuery(name = "AbdUser.findAll", query = "SELECT a FROM AbdUser a"),
+	@NamedQuery(name = "AbdUser.findById", query = "SELECT a FROM AbdUser a WHERE a.id = :id"),
+	@NamedQuery(name = "AbdUser.findByUsername", query = "SELECT a FROM AbdUser a WHERE a.username = :username"),
+	@NamedQuery(name = "AbdUser.findByPasswort", query = "SELECT a FROM AbdUser a WHERE a.passwort = :passwort"),
+	@NamedQuery(name = "AbdUser.findBySalt", query = "SELECT a FROM AbdUser a WHERE a.salt = :salt"),
+	@NamedQuery(name = "AbdUser.findByName", query = "SELECT a FROM AbdUser a WHERE a.name = :name"),
+	@NamedQuery(name = "AbdUser.findByFirstname", query = "SELECT a FROM AbdUser a WHERE a.firstname = :firstname")})
+public class AbdUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,16 +72,16 @@ public class Abduser implements Serializable {
     @Column(name = "firstname")
 	private String firstname;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abduser", fetch = FetchType.LAZY)
-	private Collection<Abdaccount> abdaccountCollection;
+	private Collection<AbdAccount> abdAccountCollection;
 
-	public Abduser() {
+	public AbdUser() {
 	}
 
-	public Abduser(Integer id) {
+	public AbdUser(Integer id) {
 		this.id = id;
 	}
 
-	public Abduser(Integer id, String username, String passwort, String salt, String name, String firstname) {
+	public AbdUser(Integer id, String username, String passwort, String salt, String name, String firstname) {
 		this.id = id;
 		this.username = username;
 		this.passwort = passwort;
@@ -139,12 +139,12 @@ public class Abduser implements Serializable {
 	}
 
 	@XmlTransient
-	public Collection<Abdaccount> getAbdaccountCollection() {
-		return abdaccountCollection;
+	public Collection<AbdAccount> getAbdAccountCollection() {
+		return abdAccountCollection;
 	}
 
-	public void setAbdaccountCollection(Collection<Abdaccount> abdaccountCollection) {
-		this.abdaccountCollection = abdaccountCollection;
+	public void setAbdAccountCollection(Collection<AbdAccount> abdAccountCollection) {
+		this.abdAccountCollection = abdAccountCollection;
 	}
 
 	@Override
@@ -157,10 +157,10 @@ public class Abduser implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Abduser)) {
+		if (!(object instanceof AbdUser)) {
 			return false;
 		}
-		Abduser other = (Abduser) object;
+		AbdUser other = (AbdUser) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}
@@ -169,7 +169,7 @@ public class Abduser implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.Abduser[ id=" + id + " ]";
+		return "de.fhb.autobday.data.AbdUser[ id=" + id + " ]";
 	}
 	
 }

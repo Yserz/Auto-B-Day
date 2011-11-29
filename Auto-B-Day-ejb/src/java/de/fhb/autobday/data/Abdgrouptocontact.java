@@ -26,47 +26,47 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "abdgrouptocontact")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Abdgrouptocontact.findAll", query = "SELECT a FROM Abdgrouptocontact a"),
-	@NamedQuery(name = "Abdgrouptocontact.findByGroup", query = "SELECT a FROM Abdgrouptocontact a WHERE a.abdgrouptocontactPK.group = :group"),
-	@NamedQuery(name = "Abdgrouptocontact.findByContact", query = "SELECT a FROM Abdgrouptocontact a WHERE a.abdgrouptocontactPK.contact = :contact"),
-	@NamedQuery(name = "Abdgrouptocontact.findByActive", query = "SELECT a FROM Abdgrouptocontact a WHERE a.active = :active")})
-public class Abdgrouptocontact implements Serializable {
+	@NamedQuery(name = "AbdGroupToContact.findAll", query = "SELECT a FROM AbdGroupToContact a"),
+	@NamedQuery(name = "AbdGroupToContact.findByGroup", query = "SELECT a FROM AbdGroupToContact a WHERE a.abdGroupToContactPK.group = :group"),
+	@NamedQuery(name = "AbdGroupToContact.findByContact", query = "SELECT a FROM AbdGroupToContact a WHERE a.abdGroupToContactPK.contact = :contact"),
+	@NamedQuery(name = "AbdGroupToContact.findByActive", query = "SELECT a FROM AbdGroupToContact a WHERE a.active = :active")})
+public class AbdGroupToContact implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@EmbeddedId
-	protected AbdgrouptocontactPK abdgrouptocontactPK;
+	protected AbdGroupToContactPK abdGroupToContactPK;
 	@Basic(optional = false)
     @NotNull
     @Column(name = "active")
 	private boolean active;
 	@JoinColumn(name = "group", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private Abdgroup abdgroup;
+	private AbdGroup abdGroup;
 	@JoinColumn(name = "contact", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private Abdcontact abdcontact;
+	private AbdContact abdContact;
 
-	public Abdgrouptocontact() {
+	public AbdGroupToContact() {
 	}
 
-	public Abdgrouptocontact(AbdgrouptocontactPK abdgrouptocontactPK) {
-		this.abdgrouptocontactPK = abdgrouptocontactPK;
+	public AbdGroupToContact(AbdGroupToContactPK abdGroupToContactPK) {
+		this.abdGroupToContactPK = abdGroupToContactPK;
 	}
 
-	public Abdgrouptocontact(AbdgrouptocontactPK abdgrouptocontactPK, boolean active) {
-		this.abdgrouptocontactPK = abdgrouptocontactPK;
+	public AbdGroupToContact(AbdGroupToContactPK abdGroupToContactPK, boolean active) {
+		this.abdGroupToContactPK = abdGroupToContactPK;
 		this.active = active;
 	}
 
-	public Abdgrouptocontact(String group, String contact) {
-		this.abdgrouptocontactPK = new AbdgrouptocontactPK(group, contact);
+	public AbdGroupToContact(String group, String contact) {
+		this.abdGroupToContactPK = new AbdGroupToContactPK(group, contact);
 	}
 
-	public AbdgrouptocontactPK getAbdgrouptocontactPK() {
-		return abdgrouptocontactPK;
+	public AbdGroupToContactPK getAbdGroupToContactPK() {
+		return abdGroupToContactPK;
 	}
 
-	public void setAbdgrouptocontactPK(AbdgrouptocontactPK abdgrouptocontactPK) {
-		this.abdgrouptocontactPK = abdgrouptocontactPK;
+	public void setAbdGroupToContactPK(AbdGroupToContactPK abdGroupToContactPK) {
+		this.abdGroupToContactPK = abdGroupToContactPK;
 	}
 
 	public boolean getActive() {
@@ -77,37 +77,37 @@ public class Abdgrouptocontact implements Serializable {
 		this.active = active;
 	}
 
-	public Abdgroup getAbdgroup() {
-		return abdgroup;
+	public AbdGroup getAbdGroup() {
+		return abdGroup;
 	}
 
-	public void setAbdgroup(Abdgroup abdgroup) {
-		this.abdgroup = abdgroup;
+	public void setAbdGroup(AbdGroup abdGroup) {
+		this.abdGroup = abdGroup;
 	}
 
-	public Abdcontact getAbdcontact() {
-		return abdcontact;
+	public AbdContact getAbdContact() {
+		return abdContact;
 	}
 
-	public void setAbdcontact(Abdcontact abdcontact) {
-		this.abdcontact = abdcontact;
+	public void setAbdContact(AbdContact abdContact) {
+		this.abdContact = abdContact;
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (abdgrouptocontactPK != null ? abdgrouptocontactPK.hashCode() : 0);
+		hash += (abdGroupToContactPK != null ? abdGroupToContactPK.hashCode() : 0);
 		return hash;
 	}
 
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Abdgrouptocontact)) {
+		if (!(object instanceof AbdGroupToContact)) {
 			return false;
 		}
-		Abdgrouptocontact other = (Abdgrouptocontact) object;
-		if ((this.abdgrouptocontactPK == null && other.abdgrouptocontactPK != null) || (this.abdgrouptocontactPK != null && !this.abdgrouptocontactPK.equals(other.abdgrouptocontactPK))) {
+		AbdGroupToContact other = (AbdGroupToContact) object;
+		if ((this.abdGroupToContactPK == null && other.abdGroupToContactPK != null) || (this.abdGroupToContactPK != null && !this.abdGroupToContactPK.equals(other.abdGroupToContactPK))) {
 			return false;
 		}
 		return true;
@@ -115,7 +115,7 @@ public class Abdgrouptocontact implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.Abdgrouptocontact[ abdgrouptocontactPK=" + abdgrouptocontactPK + " ]";
+		return "de.fhb.autobday.data.AbdGroupToContact[ abdGroupToContactPK=" + abdGroupToContactPK + " ]";
 	}
 	
 }

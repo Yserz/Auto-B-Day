@@ -5,19 +5,24 @@
 package de.fhb.autobday.data;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,15 +32,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "abdcontact")
 @XmlRootElement
 @NamedQueries({
-	@NamedQuery(name = "Abdcontact.findAll", query = "SELECT a FROM Abdcontact a"),
-	@NamedQuery(name = "Abdcontact.findById", query = "SELECT a FROM Abdcontact a WHERE a.id = :id"),
-	@NamedQuery(name = "Abdcontact.findByName", query = "SELECT a FROM Abdcontact a WHERE a.name = :name"),
-	@NamedQuery(name = "Abdcontact.findByFirstname", query = "SELECT a FROM Abdcontact a WHERE a.firstname = :firstname"),
-	@NamedQuery(name = "Abdcontact.findBySex", query = "SELECT a FROM Abdcontact a WHERE a.sex = :sex"),
-	@NamedQuery(name = "Abdcontact.findByMail", query = "SELECT a FROM Abdcontact a WHERE a.mail = :mail"),
-	@NamedQuery(name = "Abdcontact.findByBday", query = "SELECT a FROM Abdcontact a WHERE a.bday = :bday"),
-	@NamedQuery(name = "Abdcontact.findByHashid", query = "SELECT a FROM Abdcontact a WHERE a.hashid = :hashid")})
-public class Abdcontact implements Serializable {
+	@NamedQuery(name = "AbdContact.findAll", query = "SELECT a FROM AbdContact a"),
+	@NamedQuery(name = "AbdContact.findById", query = "SELECT a FROM AbdContact a WHERE a.id = :id"),
+	@NamedQuery(name = "AbdContact.findByName", query = "SELECT a FROM AbdContact a WHERE a.name = :name"),
+	@NamedQuery(name = "AbdContact.findByFirstname", query = "SELECT a FROM AbdContact a WHERE a.firstname = :firstname"),
+	@NamedQuery(name = "AbdContact.findBySex", query = "SELECT a FROM AbdContact a WHERE a.sex = :sex"),
+	@NamedQuery(name = "AbdContact.findByMail", query = "SELECT a FROM AbdContact a WHERE a.mail = :mail"),
+	@NamedQuery(name = "AbdContact.findByBday", query = "SELECT a FROM AbdContact a WHERE a.bday = :bday"),
+	@NamedQuery(name = "AbdContact.findByHashid", query = "SELECT a FROM AbdContact a WHERE a.hashid = :hashid")})
+public class AbdContact implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
     @Basic(optional = false)
@@ -66,15 +71,17 @@ public class Abdcontact implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "hashid")
 	private String hashid;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abdContact", fetch = FetchType.LAZY)
+	private Collection<AbdGroupToContact> abdGroupToContactCollection;
 
-	public Abdcontact() {
+	public AbdContact() {
 	}
 
-	public Abdcontact(String id) {
+	public AbdContact(String id) {
 		this.id = id;
 	}
 
-	public Abdcontact(String id, String mail, Date bday, String hashid) {
+	public AbdContact(String id, String mail, Date bday, String hashid) {
 		this.id = id;
 		this.mail = mail;
 		this.bday = bday;
@@ -137,6 +144,15 @@ public class Abdcontact implements Serializable {
 		this.hashid = hashid;
 	}
 
+	@XmlTransient
+	public Collection<AbdGroupToContact> getAbdGroupToContactCollection() {
+		return abdGroupToContactCollection;
+	}
+
+	public void setAbdGroupToContactCollection(Collection<AbdGroupToContact> abdGroupToContactCollection) {
+		this.abdGroupToContactCollection = abdGroupToContactCollection;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
@@ -147,10 +163,10 @@ public class Abdcontact implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof Abdcontact)) {
+		if (!(object instanceof AbdContact)) {
 			return false;
 		}
-		Abdcontact other = (Abdcontact) object;
+		AbdContact other = (AbdContact) object;
 		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
 			return false;
 		}
@@ -159,7 +175,7 @@ public class Abdcontact implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.Abdcontact[ id=" + id + " ]";
+		return "de.fhb.autobday.data.AbdContact[ id=" + id + " ]";
 	}
 	
 }

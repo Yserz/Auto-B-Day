@@ -4,7 +4,7 @@
  */
 package de.fhb.autobday.dao;
 
-import de.fhb.autobday.data.Abdcontact;
+import de.fhb.autobday.data.AbdContact;
 import java.util.Collection;
 import java.util.Date;
 import javax.ejb.Stateless;
@@ -16,19 +16,19 @@ import javax.persistence.PersistenceContext;
  * @author MacYser
  */
 @Stateless
-public class AbdcontactFacade extends AbstractFacade<Abdcontact> {
+public class AbdContactFacade extends AbstractFacade<AbdContact> {
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 
 	protected EntityManager getEntityManager() {
 		return em;
 	}
-	public Collection<Abdcontact> findContactByBday(Date bday) {
-        return (Collection<Abdcontact>) em.createNamedQuery("Contact.findByBday")
+	public Collection<AbdContact> findContactByBday(Date bday) {
+        return (Collection<AbdContact>) em.createNamedQuery("Contact.findByBday")
 				.setParameter("bday", bday).getResultList();
     }
-	public AbdcontactFacade() {
-		super(Abdcontact.class);
+	public AbdContactFacade() {
+		super(AbdContact.class);
 	}
 	
 }

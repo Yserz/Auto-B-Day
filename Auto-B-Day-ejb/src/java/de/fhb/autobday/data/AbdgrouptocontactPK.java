@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
  * @author MacYser
  */
 @Embeddable
-public class AbdgrouptocontactPK implements Serializable {
+public class AbdGroupToContactPK implements Serializable {
 	@Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -28,10 +28,10 @@ public class AbdgrouptocontactPK implements Serializable {
     @Column(name = "contact")
 	private String contact;
 
-	public AbdgrouptocontactPK() {
+	public AbdGroupToContactPK() {
 	}
 
-	public AbdgrouptocontactPK(String group, String contact) {
+	public AbdGroupToContactPK(String group, String contact) {
 		this.group = group;
 		this.contact = contact;
 	}
@@ -63,10 +63,10 @@ public class AbdgrouptocontactPK implements Serializable {
 	@Override
 	public boolean equals(Object object) {
 		// TODO: Warning - this method won't work in the case the id fields are not set
-		if (!(object instanceof AbdgrouptocontactPK)) {
+		if (!(object instanceof AbdGroupToContactPK)) {
 			return false;
 		}
-		AbdgrouptocontactPK other = (AbdgrouptocontactPK) object;
+		AbdGroupToContactPK other = (AbdGroupToContactPK) object;
 		if ((this.group == null && other.group != null) || (this.group != null && !this.group.equals(other.group))) {
 			return false;
 		}
@@ -78,7 +78,7 @@ public class AbdgrouptocontactPK implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.AbdgrouptocontactPK[ group=" + group + ", contact=" + contact + " ]";
+		return "de.fhb.autobday.data.AbdGroupToContactPK[ group=" + group + ", contact=" + contact + " ]";
 	}
 	
 }

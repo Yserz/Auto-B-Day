@@ -1,13 +1,14 @@
 package de.fhb.autobday.manager;
 
-import de.fhb.autobday.dao.AbdaccountFacade;
-import de.fhb.autobday.dao.AbdcontactFacade;
-import de.fhb.autobday.dao.AbdgroupFacade;
-import de.fhb.autobday.dao.AbduserFacade;
-import de.fhb.autobday.data.Abdaccount;
-import de.fhb.autobday.data.Abdcontact;
-import de.fhb.autobday.data.Abduser;
-import de.fhb.autobday.data.Abdgroup;
+import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.dao.AbdGroupToContactFacade;
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.data.AbdGroup;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -26,13 +27,15 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 	private final static Logger LOGGER = Logger.getLogger(ABDManager.class.getName());
 	
 	@EJB
-	private AbduserFacade userDAO;
+	private AbdUserFacade userDAO;
 	@EJB
-	private AbdgroupFacade groupDAO;
+	private AbdGroupFacade groupDAO;
 	@EJB
-	private AbdaccountFacade accountdataDAO;
+	private AbdGroupToContactFacade grouptocontactDAO;
 	@EJB
-	private AbdcontactFacade contactDAO;
+	private AbdAccountFacade accountdataDAO;
+	@EJB
+	private AbdContactFacade contactDAO;
 	
 
 
@@ -40,22 +43,22 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 	}
 
 	@Override
-	public List<Abduser> getAllUser() {
+	public List<AbdUser> getAllUser() {
 		return userDAO.findAll();
 	}
 
 	@Override
-	public List<Abdgroup> getAllGroups() {
+	public List<AbdGroup> getAllGroups() {
 		return groupDAO.findAll();
 	}
 
 	@Override
-	public List<Abdaccount> getAllAccountdata() {
+	public List<AbdAccount> getAllAccountdata() {
 		return accountdataDAO.findAll();
 	}
 
 	@Override
-	public List<Abdcontact> getAllContacts() {
+	public List<AbdContact> getAllContacts() {
 		return contactDAO.findAll();
 	}
 	@Override
@@ -73,32 +76,18 @@ public class ABDManager implements ABDManagerLocal, Serializable {
 	private void checkEveryDay(){
 		System.out.println("every hour idle message..."+new Date());
 		
-		Abdgroup aktGroup = null;
+		AbdGroup aktGroup = null;
 		String parsedTemplate = "";
-		Collection<Abdcontact> birthdayContacts = contactDAO.findContactByBday(new Date());
+		Collection<AbdContact> birthdayContacts = contactDAO.findContactByBday(new Date());
 		
 		if (birthdayContacts.isEmpty()) {
 			System.out.println("No Birthdaycontacts found");
 		}else{
-			for (Abdcontact aktContact : birthdayContacts) {
+			for (AbdContact aktContact : birthdayContacts) {
 				System.out.println("Contact: "+aktContact.toString());
-				if (aktContact.getActive()==true) {
-					System.out.println("Contakt is aktive");
-					aktGroup = aktContact.getAbdgroup();
-					if (aktGroup.getActive()==true) {
-						System.out.println("parentgroup is aktive");
-						parsedTemplate = parseTemplate(aktGroup.getTemplate(), 
-													   aktGroup.getAccount().getAbduser(), 
-													   aktContact);
-					}
-				}
+				//TODO find contacts group
 			}
 		}
 		
-	}
-	private String parseTemplate(String unparsedTemplate, Abduser user, Abdcontact contact) {
-		//TODO get information about user and contact
-		//TODO Parse the template with information
-		return null;
 	}
 }

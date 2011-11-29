@@ -1,7 +1,7 @@
 package de.fhb.autobday.manager.user;
 
-import de.fhb.autobday.dao.AbduserFacade;
-import de.fhb.autobday.data.Abduser;
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdUser;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -15,13 +15,13 @@ public class UserManager implements UserManagerLocal {
 	private final static Logger LOGGER = Logger.getLogger(UserManager.class.getName());
 	
 	@EJB
-	private AbduserFacade userDAO;
+	private AbdUserFacade userDAO;
 	
 	public UserManager() {
 		
 	}
 	@Override
-	public Abduser getUser(int userid){
+	public AbdUser getUser(int userid){
 		return userDAO.find(userid);
 	}
 

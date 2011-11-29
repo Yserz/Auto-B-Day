@@ -42,6 +42,10 @@ public class GoogleImporter extends AImporter {
 
 	@Override
 	public void getConnection(AbdAccount data) {
+		
+		LOGGER.info("getConnection");
+		LOGGER.info("data :" + data.getId());
+		
 		connectionEtablished = false;
 		accdata = data;
 
@@ -64,6 +68,9 @@ public class GoogleImporter extends AImporter {
 	}
 	
 	public ContactGroupFeed getAllGroups() {
+		
+		LOGGER.info("getAllGroups");
+		
 		URL feedUrl;
 		try {
 			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
@@ -90,10 +97,15 @@ public class GoogleImporter extends AImporter {
 		return null;
 	}
 	
-	public void getSingleGroup(String id) {
+	public void getSingleGroup(String groupid) {
+		
+		LOGGER.info("getSingleGroup");
+		LOGGER.info("groupid :" + groupid);
+		
+		
 		URL entryUrl;
 		try {
-			entryUrl = new URL("https://www.google.com/m8/feeds/groups/default/"+id);
+			entryUrl = new URL("https://www.google.com/m8/feeds/groups/default/"+groupid);
 			ContactGroupEntry resultEntry = myService.getEntry(entryUrl, ContactGroupEntry.class);
 			
 			System.out.println("Atom Id: " + resultEntry.getId());
@@ -112,6 +124,9 @@ public class GoogleImporter extends AImporter {
 	}
 
 	public void getAllContacts() {
+		
+		LOGGER.info("getAllContacts");
+		
 		URL feedUrl;
 		try {
 			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
@@ -123,10 +138,14 @@ public class GoogleImporter extends AImporter {
 		}
 
 	}
-	public void getSingleContact(String id) {
+	public void getSingleContact(String contactid) {
+		
+		LOGGER.info("getSingleContact");
+		LOGGER.info("contactid :" + contactid);
+		
 		URL entryUrl;
 		try {
-			entryUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full/"+id);
+			entryUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full/"+contactid);
 			ContactEntry resultEntry = myService.getEntry(entryUrl, ContactEntry.class);
 			
 			System.out.println("ID: "+resultEntry.getId());
@@ -150,6 +169,9 @@ public class GoogleImporter extends AImporter {
 
 	@Override
 	public void importContacts() {
+		
+		LOGGER.info("importContacts");
+		
 		if (connectionEtablished && accdata != null) {
 			try {
 				//TODO push the data from RESULTFEED through the ACCOUNTDATA into the DATABASE.
@@ -188,6 +210,10 @@ public class GoogleImporter extends AImporter {
 	}
 	
 	private AbdContact mapGContacttoContact(ContactEntry contactEntry){
+		
+		LOGGER.info("mapGContacttoContact");
+		LOGGER.info("contactEntry :" + contactEntry.getId());
+		
 		AbdContact contact;
 		String firstname;
 		String name;
@@ -230,6 +256,10 @@ public class GoogleImporter extends AImporter {
 	}
 	
 	private AbdGroup existGroup(List<AbdGroup> groups, String group){
+		
+		LOGGER.info("existGroup");
+		LOGGER.info("group :" + group);
+		
 		for (AbdGroup abdgroup : groups) {
 			if (abdgroup.getName().equals(group)){
 				return abdgroup;

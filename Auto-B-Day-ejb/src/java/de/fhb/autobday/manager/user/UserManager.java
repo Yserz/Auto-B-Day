@@ -12,7 +12,8 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author Michael Koppen
+* @author Andy Klay <klay@fh-brandenburg.de>
+* 
  */
 @Stateless
 public class UserManager implements UserManagerLocal {

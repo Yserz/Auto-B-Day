@@ -31,19 +31,19 @@ public class GroupManager implements GroupManagerLocal {
 
 
 	@Override
-	public AbdGroup getGroup(int groupid) {
-		return groupDAO.find(groupid);
+	public AbdGroup getGroup(int groupId) {
+		return groupDAO.find(groupId);
 	}
 
 	@Override
-	public void setTemplate(int groupid, String template) {
+	public void setTemplate(int groupId, String template) {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"groupid: " + groupid);
+		LOGGER.log(Level.INFO,"groupid: " + groupId);
 		LOGGER.log(Level.INFO,"template: " + template);
 		
 		
-		AbdGroup actualGroup = groupDAO.find(groupid);
+		AbdGroup actualGroup = groupDAO.find(groupId);
 		
 		actualGroup.setTemplate(template);
 	}
@@ -63,20 +63,20 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public String testTemplate(int groupid, String contactid) throws GroupException{
+	public String testTemplate(int groupId, String contactId) throws GroupException{
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"groupid: "+groupid);
-		LOGGER.log(Level.INFO,"contactid: "+contactid);
+		LOGGER.log(Level.INFO,"groupid: "+groupId);
+		LOGGER.log(Level.INFO,"contactid: "+contactId);
 		
-		AbdGroup actualGroup = groupDAO.find(groupid);
+		AbdGroup actualGroup = groupDAO.find(groupId);
 		String template = actualGroup.getTemplate();
 		String output="dummy";
-		AbdContact chosenContact=contactDAO.find(contactid);
+		AbdContact chosenContact=contactDAO.find(contactId);
 		
 		if(chosenContact==null){
-			LOGGER.log(Level.SEVERE, "Contact " + contactid + "not found!");
-			throw new GroupException("Contact " + contactid + "not found!");
+			LOGGER.log(Level.SEVERE, "Contact " + contactId + "not found!");
+			throw new GroupException("Contact " + contactId + "not found!");
 		}
 		
 		output=this.parseTemplate(template, chosenContact);
@@ -85,13 +85,13 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public void setActive(int groupid, boolean active) {
+	public void setActive(int groupId, boolean active) {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"groupid: "+groupid);
+		LOGGER.log(Level.INFO,"groupid: "+groupId);
 		
 		
-		AbdGroup actualGroup = groupDAO.find(groupid);
+		AbdGroup actualGroup = groupDAO.find(groupId);
 		
 		actualGroup.setActive(active);
 	}

@@ -63,7 +63,7 @@ public class UserManagerTest {
 		System.out.println("login");
 		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		UserManagerLocal instance = (UserManagerLocal)container.getContext().lookup("java:global/classes/UserManager");
-		instance.login();
+//		instance.login(loginName, password);
 		container.close();
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");

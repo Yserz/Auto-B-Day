@@ -45,7 +45,7 @@ public class ContactManagerTest {
 		System.out.println("setActive");
 		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		ContactManagerLocal instance = (ContactManagerLocal)container.getContext().lookup("java:global/classes/ContactManager");
-		instance.setActive();
+//		instance.setActive(contactId, active)
 		container.close();
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");

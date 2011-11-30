@@ -8,7 +8,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen, Andy Klay <klay@fh-brandenburg.de>
  */
 @Local
 public interface GroupManagerLocal {

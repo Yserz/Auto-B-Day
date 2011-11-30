@@ -75,6 +75,7 @@ public class GroupManager implements GroupManagerLocal {
 		AbdContact chosenContact=contactDAO.find(contactid);
 		
 		if(chosenContact==null){
+			LOGGER.log(Level.SEVERE, "Contact " + contactid + "not found!");
 			throw new GroupException("Contact " + contactid + "not found!");
 		}
 		

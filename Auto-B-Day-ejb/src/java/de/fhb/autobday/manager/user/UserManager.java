@@ -39,17 +39,20 @@ public class UserManager implements UserManagerLocal {
 		AbdUser user = null;
 		
 		if(loginName==null||password==null||password.equals("")){
+			LOGGER.log(Level.SEVERE, "Invalid input!");
 			throw new UserException("Invalid input!");
 		}
 		
 		user=userDAO.find(loginName);
 		
 		if(user==null){
+			LOGGER.log(Level.SEVERE, "User not found!");
 			throw new UserNotFoundException("User not found!");
 		}
 		
 		
 		if(!user.getPasswort().equals(password)){
+			LOGGER.log(Level.SEVERE, "Invalid password!");
 			throw new UserException("Invalid password!");
 		}
 		
@@ -58,6 +61,7 @@ public class UserManager implements UserManagerLocal {
 
 	@Override
 	public void logout() {
+		LOGGER.log(Level.INFO,"logout");
 	}
 	
 }

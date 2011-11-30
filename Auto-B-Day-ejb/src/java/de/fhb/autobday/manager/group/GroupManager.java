@@ -37,11 +37,11 @@ public class GroupManager implements GroupManagerLocal {
 
 	@Override
 	public void setTemplate(int groupid, String template) {
-		LOGGER.info("setTemplate");
-		LOGGER.info("groupid :"+groupid);
-		LOGGER.info("template :"+template);
 		
-		//TODO implementation coming soon
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO,"groupid: " + groupid);
+		LOGGER.log(Level.INFO,"template: " + template);
+		
 		
 		AbdGroup actualGroup = groupDAO.find(groupid);
 		
@@ -51,10 +51,8 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public String getTemplate(int groupid) {
 		
-		LOGGER.info("getTemplate");
-		LOGGER.info("groupid :"+groupid);
-		
-		//TODO implementation coming soon
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO,"groupid: "+groupid);
 		
 		AbdGroup actualGroup = groupDAO.find(groupid);
 		String output="dummy";
@@ -67,11 +65,9 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public String testTemplate(int groupid, String contactid) throws GroupException{
 		
-		LOGGER.info("testTemplate");
-		LOGGER.info("groupid :"+groupid);
-		LOGGER.info("contactid :"+contactid);
-		
-		//TODO implementation coming soon
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO,"groupid: "+groupid);
+		LOGGER.log(Level.INFO,"contactid: "+contactid);
 		
 		AbdGroup actualGroup = groupDAO.find(groupid);
 		String template = actualGroup.getTemplate();
@@ -79,6 +75,7 @@ public class GroupManager implements GroupManagerLocal {
 		AbdContact chosenContact=contactDAO.find(contactid);
 		
 		if(chosenContact==null){
+			LOGGER.log(Level.SEVERE, "Contact " + contactid + "not found!");
 			throw new GroupException("Contact " + contactid + "not found!");
 		}
 		
@@ -90,8 +87,8 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public void setActive(int groupid, boolean active) {
 		
-		LOGGER.info("setActive");
-		LOGGER.info("groupid :"+groupid);
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO,"groupid: "+groupid);
 		
 		
 		AbdGroup actualGroup = groupDAO.find(groupid);
@@ -124,9 +121,9 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	public String parseTemplate(String template, AbdContact contact){
 		
-		LOGGER.info("parseTemplate");
-		LOGGER.info("template :"+template);
-		LOGGER.info("contact :"+contact);		
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO,"template: "+template);
+		LOGGER.log(Level.INFO,"contact: "+contact);		
 
 		StringBuilder patternBuilder=new StringBuilder();		
 		StringBuilder output = new StringBuilder();
@@ -226,6 +223,10 @@ public class GroupManager implements GroupManagerLocal {
 	 * @return String decesionOfOne
 	 */
 	public String parseSlashExpression(String expression, char sex){
+		
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO,"expression: "+expression);
+		LOGGER.log(Level.INFO,"sex: "+sex);		
 		
 		Pattern numberPattern = Pattern.compile("/");
 		Matcher numberMatcher = numberPattern.matcher(expression);

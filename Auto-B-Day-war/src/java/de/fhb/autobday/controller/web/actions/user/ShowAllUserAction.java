@@ -1,4 +1,4 @@
-package de.fhb.autobday.controller.web.actions;
+package de.fhb.autobday.controller.web.actions.user;
 
 import de.fhb.autobday.commons.web.HttpRequestActionBase;
 
@@ -21,7 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Named("ShowAllUserAction")
 @RequestScoped
-public class ShowAllUserAction extends HttpRequestActionBase implements Serializable {
+public class ShowAllUserAction extends HttpRequestActionBase {
+	
 	@Inject
 	private ABDManagerLocal abdManager;
 	

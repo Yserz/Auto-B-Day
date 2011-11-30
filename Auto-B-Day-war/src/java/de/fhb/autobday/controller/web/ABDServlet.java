@@ -2,7 +2,8 @@ package de.fhb.autobday.controller.web;
 
 import de.fhb.autobday.commons.web.HttpRequestActionBase;
 import de.fhb.autobday.commons.web.HttpServletControllerBase;
-import de.fhb.autobday.controller.web.actions.ShowAllUserAction;
+import de.fhb.autobday.controller.web.actions.user.ShowAllUserAction;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;

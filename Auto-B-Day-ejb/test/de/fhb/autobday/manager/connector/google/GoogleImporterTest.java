@@ -59,8 +59,8 @@ public class GoogleImporterTest {
 		System.out.println("getAllGroups");
 		GoogleImporter instance = new GoogleImporter();
 		ContactGroupFeed expResult = null;
-		ContactGroupFeed result = instance.getAllGroups();
-		assertEquals(expResult, result);
+		//ContactGroupFeed result = instance.getAllGroups();
+		//assertEquals(expResult, result);
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}

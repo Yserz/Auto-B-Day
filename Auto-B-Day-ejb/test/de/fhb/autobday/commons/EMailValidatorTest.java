@@ -34,6 +34,7 @@ public class EMailValidatorTest {
 	
 	@After
 	public void tearDown() {
+		
 	}
 
 	/**
@@ -42,12 +43,11 @@ public class EMailValidatorTest {
 	@Test
 	public void testIsEmail() {
 		System.out.println("isEmail");
-		String mailAddress = "";
-		boolean expResult = false;
-		boolean result = EMailValidator.isEmail(mailAddress);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		assertTrue("standard mail",					EMailValidator.isEmail("test@dawanda.com"));
+		assertTrue("mail with numbers",				EMailValidator.isEmail("test123@dawanda.com"));
+		assertTrue("mail with number in domain",	EMailValidator.isEmail("test@123dawanda.com"));
+		assertFalse("mail without domain",			EMailValidator.isEmail("test@dawanda"));
+		assertFalse("mail too short",				EMailValidator.isEmail("t@dawanda.com"));
 	}
 
 	/**
@@ -56,11 +56,11 @@ public class EMailValidatorTest {
 	@Test
 	public void testIsGoogleMail() {
 		System.out.println("isGoogleMail");
-		String mailAddress = "";
-		boolean expResult = false;
-		boolean result = EMailValidator.isGoogleMail(mailAddress);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		assertTrue("standard googlemail",			EMailValidator.isEmail("test@googlemail.com"));
+		assertTrue("standard gmail",				EMailValidator.isEmail("test@gmail.com"));
+		assertFalse("mail without domain",			EMailValidator.isEmail("test@gmail"));
+		assertFalse("mail without domain",			EMailValidator.isEmail("test@googlemail"));
+		assertFalse("mail too",						EMailValidator.isEmail("t@googlemail.com"));
+		assertFalse("mail too short",				EMailValidator.isEmail("t@gmail.com"));
 	}
 }

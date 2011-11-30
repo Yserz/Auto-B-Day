@@ -1,16 +1,17 @@
 package de.fhb.autobday.manager.contact;
 
-import de.fhb.autobday.dao.AbdContactFacade;
-import de.fhb.autobday.data.AbdContact;
-import de.fhb.autobday.exception.contact.ContactException;
-import de.fhb.autobday.exception.group.GroupException;
-
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.sun.org.apache.bcel.internal.classfile.CodeException;
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupToContactFacade;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroupToContact;
+import de.fhb.autobday.exception.contact.ContactException;
 
 /**
  *
@@ -23,22 +24,58 @@ public class ContactManager implements ContactManagerLocal {
 	@EJB
 	private AbdContactFacade contactDAO;
 
+	@EJB
+	private AbdGroupToContactFacade groupToContactDAO;
+	
 	@Override
 	public void setActive(String contactId, boolean active) throws ContactException {
 		
+		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"active: " + active);	
+		LOGGER.log(Level.INFO,"contactId: " + contactId);
+		LOGGER.log(Level.INFO,"active: " + active);
+		
 		
 		AbdContact contact=contactDAO.find(contactId);
+		
 		
 		if(contact==null){
 			LOGGER.log(Level.SEVERE, "Contact " + contactId + "not found!");
 			throw new ContactException("Contact " + contactId + "not found!");
 		}
 		
-		//TODO
+		
+		AbdGroupToContact groupToContact=null;
+		
+		
+		List<AbdGroupToContact> allGroupToContact = groupToContactDAO.findAll();
+		
+		
+		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
+			if(actualGroupToContact.getAbdContact().equals(contact)){
+				groupToContact=actualGroupToContact;
+			}
+		}
+		
+		
+		if(groupToContact==null){
+			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
+			throw new ContactException("Relation groupToContact not found!");
+		}
+		
+		
+		groupToContact.setActive(active);
+		
+		
 	}
 	
 	
 	
 }
+
+
+
+
+
+
+

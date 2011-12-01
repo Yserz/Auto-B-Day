@@ -35,6 +35,7 @@ public class GroupManager implements GroupManagerLocal {
 		return groupDAO.find(groupId);
 	}
 
+
 	@Override
 	public void setTemplate(int groupId, String template) {
 		

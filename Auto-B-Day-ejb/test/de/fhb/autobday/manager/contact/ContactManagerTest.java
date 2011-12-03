@@ -4,19 +4,29 @@
  */
 package de.fhb.autobday.manager.contact;
 
+import static org.junit.Assert.fail;
+
 import javax.ejb.embeddable.EJBContainer;
+
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.manager.group.GroupManager;
 
 /**
  *
  * @author MacYser
  */
 public class ContactManagerTest {
+	
+	private AbdContact mock;
+	private ContactManager contactTest;
 	
 	public ContactManagerTest() {
 	}
@@ -31,6 +41,8 @@ public class ContactManagerTest {
 	
 	@Before
 	public void setUp() {
+		mock = EasyMock.createMock(AbdContact.class);
+		contactTest = new ContactManager();
 	}
 	
 	@After

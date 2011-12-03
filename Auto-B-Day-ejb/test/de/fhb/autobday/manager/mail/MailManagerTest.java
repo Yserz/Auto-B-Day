@@ -73,7 +73,7 @@ public class MailManagerTest {
 		System.out.println("sendForgotPasswordMail");
 		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
-		instance.sendForgotPasswordMail();
+//		instance.sendForgotPasswordMail();
 		container.close();
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");

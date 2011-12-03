@@ -35,6 +35,8 @@ public class ContactManager implements ContactManagerLocal {
 		LOGGER.log(Level.INFO,"contactId: " + contactId);
 		LOGGER.log(Level.INFO,"active: " + active);
 		
+		AbdGroupToContact groupToContact=null;
+		List<AbdGroupToContact> allGroupToContact=null;
 		
 		AbdContact contact=contactDAO.find(contactId);
 		
@@ -45,10 +47,7 @@ public class ContactManager implements ContactManagerLocal {
 		}
 		
 		
-		AbdGroupToContact groupToContact=null;
-		
-		
-		List<AbdGroupToContact> allGroupToContact = groupToContactDAO.findAll();
+		allGroupToContact = groupToContactDAO.findAll();
 		
 		
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
@@ -66,16 +65,12 @@ public class ContactManager implements ContactManagerLocal {
 		
 		groupToContact.setActive(active);
 		
+		//save into database
+		groupToContactDAO.edit(groupToContact);
+		
 		
 	}
 	
 	
 	
 }
-
-
-
-
-
-
-

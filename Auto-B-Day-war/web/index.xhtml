@@ -4,9 +4,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
 	<h:body>
 		<h1>Registrierung</h1>
+		<h:form>
+			
+			<h:panelGrid columns="2">
+				<h:outputText value="Name:" />
+				<h:inputText value="" />
+
+				<h:outputText value="Telephone" />
+				<h:inputText value="" />
+
+				<h:outputText value="Calendar:" />
+				<h:inputText value="#{ActDateBean.printDate}" />
+				<p:calendar pattern="dd/MM/yyyy" locale="pt" value="#{ActDateBean.date}" />
+				
+				<h:commandButton value="ok" action="#{ActDateBean.printDate}" />
+
+			</h:panelGrid>
+		</h:form>
+		
+		<!--
 		<h:form>  
 			<h:outputLabel for="email">E-Mail</h:outputLabel>
 			<h:inputText id="email" value="#{register.email}"/>
@@ -15,9 +35,9 @@
 			<h:inputSecret id="password" value="#{register.password}"/>
 			
 			<h:commandButton value="Registrieren" action="#{registerBean.registerAccount}" />
-			
-
 
 		</h:form>
+		<p:spinner /> 
+		-->
 	</h:body>
 </html>

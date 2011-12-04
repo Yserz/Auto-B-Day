@@ -103,7 +103,7 @@ public class GoogleImporter extends AImporter {
 	public void getSingleGroup(String groupid) {
 		
 		LOGGER.info("getSingleGroup");
-		LOGGER.info("groupid :" + groupid);
+		LOGGER.log(Level.INFO, "groupid :{0}", groupid);
 		
 		
 		URL entryUrl;
@@ -226,7 +226,7 @@ public class GoogleImporter extends AImporter {
 	private AbdContact mapGContacttoContact(ContactEntry contactEntry){
 		
 		LOGGER.info("mapGContacttoContact");
-		LOGGER.info("contactEntry :" + contactEntry.getId());
+		LOGGER.log(Level.INFO, "contactEntry :{0}", contactEntry.getId());
 		
 		AbdContact contact;
 		String firstname;
@@ -263,7 +263,7 @@ public class GoogleImporter extends AImporter {
 	private AbdGroup existGroup(List<AbdGroup> groups, String group){
 		
 		LOGGER.info("existGroup");
-		LOGGER.info("group :" + group);
+		LOGGER.log(Level.INFO, "group :{0}", group);
 		
 		for (AbdGroup abdgroup : groups) {
 			if (abdgroup.getId().equals(group)){

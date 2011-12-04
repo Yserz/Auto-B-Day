@@ -1,8 +1,0 @@
-----------------------------------------------------------------
-2011-11-30 08:24:22.427 GMT:
-Booten von Derby Version The Apache Software Foundation - Apache Derby - 10.6.2.1 - (999685): Instanz a816c00e-0133-f393-13d6-000002975a40
-für Datenbankverzeichnis /private/var/folders/tO/tOXAs-LBF-i9chcVGhIqJ++++TI/-Tmp-/gfembed5515575755862879965tmp/lib/databases/ejbtimer   mit Klassenladeprogrammn sun.misc.Launcher$AppClassLoader@37b90b39
-
-java.vendor=Apple Inc.
-java.runtime.version=1.6.0_29-b11-402-10M3527
-Das Ladeprogramm für Datenbankklassen wurde gestartet - derby.database.classpath=''

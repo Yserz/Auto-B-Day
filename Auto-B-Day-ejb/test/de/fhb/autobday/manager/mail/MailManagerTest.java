@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
  * @author MacYser
  */
 public class MailManagerTest {
+	private EJBContainer container;
 	
 	public MailManagerTest() {
 	}
@@ -31,10 +32,12 @@ public class MailManagerTest {
 	
 	@Before
 	public void setUp() {
+		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 	}
 	
 	@After
 	public void tearDown() {
+		container.close();
 	}
 
 	/**
@@ -43,10 +46,9 @@ public class MailManagerTest {
 	@Test
 	public void testSendBdayMail() throws Exception {
 		System.out.println("sendBdayMail");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
 		instance.sendBdayMail();
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -57,10 +59,9 @@ public class MailManagerTest {
 	@Test
 	public void testSendNotificationMail() throws Exception {
 		System.out.println("sendNotificationMail");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
 		instance.sendNotificationMail();
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -71,10 +72,9 @@ public class MailManagerTest {
 	@Test
 	public void testSendForgotPasswordMail() throws Exception {
 		System.out.println("sendForgotPasswordMail");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
 //		instance.sendForgotPasswordMail();
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}

@@ -14,12 +14,9 @@
 	    Beispiel eines Ant-Builds zur Erstellung eines JUnit-Test und Report
 	</description>
 
-	<property file="../build.properties" />
-
 	<path id="junit.classpath">
 		<fileset dir="${ejb.lib.dir}">
-			<include name="default/*.jar" />
-			<include name="test/*.jar" />
+			<include name="**/*.jar" />
 		</fileset>
 	</path>
 

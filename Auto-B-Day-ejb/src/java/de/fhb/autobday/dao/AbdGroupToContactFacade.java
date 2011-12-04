@@ -4,6 +4,10 @@
  */
 package de.fhb.autobday.dao;
 
+import java.util.Collection;
+import java.util.Date;
+
+import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroupToContact;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -25,5 +29,11 @@ public class AbdGroupToContactFacade extends AbstractFacade<AbdGroupToContact> {
 	public AbdGroupToContactFacade() {
 		super(AbdGroupToContact.class);
 	}
+	
+	public Collection<AbdGroupToContact> findContactByContact(String id) {
+        return (Collection<AbdGroupToContact>) em.createNamedQuery("Contact.findByContact")
+				.setParameter("contact", id).getResultList();
+    }
+
 	
 }

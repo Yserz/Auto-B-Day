@@ -12,9 +12,11 @@ import com.google.gdata.util.ServiceException;
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.manager.connector.AImporter;
 import java.io.IOException;
 import java.net.URL;
@@ -26,6 +28,7 @@ import java.util.logging.Logger;
 
 /**
  *
+ * @author Tino Reuschel
  * @author Michael Koppen
  */
 public class GoogleImporter extends AImporter {
@@ -68,7 +71,6 @@ public class GoogleImporter extends AImporter {
 		connectionEtablished = true;
 	}
 	
-
 	public List<ContactGroupEntry> getAllGroups() {
 	
 		LOGGER.info("getAllGroups");
@@ -124,7 +126,6 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 
-
 	public List<ContactEntry> getAllContacts() {
 
 		LOGGER.info("getAllContacts");
@@ -141,6 +142,7 @@ public class GoogleImporter extends AImporter {
 		}
 		return null;
 	}
+	
 	public void getSingleContact(String contactid) {
 		
 		LOGGER.info("getSingleContact");
@@ -176,24 +178,18 @@ public class GoogleImporter extends AImporter {
 		LOGGER.info("importContacts");
 		
 		if (connectionEtablished && accdata != null) {
-				//TODO push the data from RESULTFEED through the ACCOUNTDATA into the DATABASE.
-
-				/*TODO may take a look at: 
-				 * http://code.google.com/intl/de-DE/apis/contacts/docs/3.0/developers_guide.html#retrieving_with_query
-				 * 
-				 * setStringCustomParameter("group", groupId)
-				 *  - Retrieve contacts belonging to the specified group Atom Id.
-				 * 
-				 * 
-				 */
 				
 				String groupid,groupname,grouptemplate="Hier soll das Template rein";
 				Boolean active=true;
 				AbdGroup abdgroupEntry;
+				AbdContact abdcontact;
+				AbdContact abdcontacthelp;
 				AbdGroupFacade abdGroupFacade = new AbdGroupFacade();
+				AbdContactFacade abdContactFacade = new AbdContactFacade();
 				List<ContactGroupEntry> groups = getAllGroups();
 				List<AbdGroup> abdgroups = new ArrayList<AbdGroup>(accdata.getAbdGroupCollection());
 				List<ContactEntry> contacts = getAllContacts();
+				List<GroupMembershipInfo> groupMembershipInfo;
 				
 				for (ContactGroupEntry groupentry : groups) {
 					groupid = groupentry.getId();
@@ -208,7 +204,17 @@ public class GoogleImporter extends AImporter {
 				}
 				
 				for (ContactEntry contactEntry : contacts) {
-					contactEntry.getGroupMembershipInfos().get(0).getHref();
+					abdcontact = mapGContacttoContact(contactEntry);
+					abdcontacthelp=abdContactFacade.find(abdcontact.getId());
+					if (abdcontacthelp ==  null){
+						abdContactFacade.create(abdcontact);
+					} else {
+						if (!abdcontact.equals(abdcontacthelp)){
+							abdContactFacade.edit(abdcontact);
+						}
+					}
+					groupMembershipInfo=contactEntry.getGroupMembershipInfos();
+					insertGroupMembership(contactEntry.getId(),groupMembershipInfo);
 				}
 				
 
@@ -227,8 +233,11 @@ public class GoogleImporter extends AImporter {
 		String name;
 		Date birthday;
 		String mailadress;
+		String id;
 
 		contact = new AbdContact();
+		id = contactEntry.getId();
+		contact.setId(id);
 		firstname = contactEntry.getName().getGivenName().getValue();
 		contact.setFirstname(firstname);
 		name = contactEntry.getName().getFamilyName().getValue();
@@ -246,18 +255,6 @@ public class GoogleImporter extends AImporter {
 		} else {
 			contact.setSex('m');
 		}
-		// //////////////////
-		
-		System.out.println("");
-		System.out.println("Groups:");
-		for (GroupMembershipInfo group : contactEntry.getGroupMembershipInfos()) {
-			String groupHref = group.getHref();
-			System.out.println("  Id: " + groupHref);
-		}
-		
-		// //////////////////
-		
-		//contact.setActive(true);
 		
 		return contact;
 
@@ -274,5 +271,42 @@ public class GoogleImporter extends AImporter {
 			}
 		}
 		return null;
+	}
+
+	private void insertGroupMembership(String id, List<GroupMembershipInfo> groupMembership){
+		AbdGroupToContactFacade abdGroupToContactFacade = new AbdGroupToContactFacade();
+		AbdGroupToContact abdGroupToContactEntity;
+		AbdContactFacade abdContactFacade = new AbdContactFacade();
+		AbdGroupFacade abdGroupFacade = new AbdGroupFacade();
+		List<AbdGroupToContact> abdGroupMembership = new ArrayList<AbdGroupToContact> (abdGroupToContactFacade.findContactByContact(id));
+		for (int i = 0; i < groupMembership.size(); i++) {
+			if(existMembership(groupMembership.get(i).getHref(), abdGroupMembership)){
+				groupMembership.remove(i);
+			}
+		}
+		if (!abdGroupMembership.isEmpty()){
+			for (AbdGroupToContact abdGroupToContact : abdGroupMembership) {
+				abdGroupToContactFacade.remove(abdGroupToContact);
+			}
+		}
+		if (!groupMembership.isEmpty()){
+			for (GroupMembershipInfo groupMembershipInfo : groupMembership) {
+				abdGroupToContactEntity = new AbdGroupToContact();
+				abdGroupToContactEntity.setAbdContact(abdContactFacade.find(id));
+				abdGroupToContactEntity.setAbdGroup(abdGroupFacade.find(groupMembershipInfo.getHref()));
+				abdGroupToContactEntity.setActive(true);
+				abdGroupToContactFacade.create(abdGroupToContactEntity);
+			}
+		}
+	}
+	
+	private boolean existMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
+		for (int i = 0; i < abdGroupMembership.size(); i++) {
+			if(abdGroupMembership.get(i).getAbdGroup().getName() == groupid){
+				abdGroupMembership.remove(i);
+				return true;
+			}
+		}
+		return false;
 	}
 }

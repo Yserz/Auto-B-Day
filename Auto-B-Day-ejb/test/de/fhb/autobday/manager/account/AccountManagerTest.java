@@ -59,7 +59,7 @@ public class AccountManagerTest {
 		System.out.println("removeAccount");
 		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		AccountManagerLocal instance = (AccountManagerLocal)container.getContext().lookup("java:global/classes/AccountManager");
-		instance.removeAccount();
+//		instance.removeAccount(accountId);
 		container.close();
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");

@@ -2,6 +2,8 @@ package de.fhb.autobday.manager.mail;
 
 import javax.ejb.Local;
 
+import de.fhb.autobday.exception.mail.MailException;
+
 /**
  *
  * @author Michael Koppen
@@ -13,6 +15,6 @@ public interface MailManagerLocal {
 
 	void sendNotificationMail();
 
-	void sendForgotPasswordMail();
+	void sendForgotPasswordMail(int userId) throws MailException;
 	
 }

@@ -4,19 +4,22 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Stateless;
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.mail.MailException;
 
 /**
  * TODO This will may change position to ABDManager!!!
@@ -29,6 +32,10 @@ public class MailManager implements MailManagerLocal {
 
 	private final static Logger LOGGER = Logger.getLogger(MailManager.class.getName());
 	private Session mailSession;
+	
+
+	@EJB
+	private AbdUserFacade userDAO;
 
 	public MailManager() {
 		connectToMailServer();
@@ -75,13 +82,33 @@ public class MailManager implements MailManagerLocal {
 	}
 
 	@Override
-	public void sendForgotPasswordMail() {
+	public void sendForgotPasswordMail(int userId) throws MailException {
 		// enge zusammenarbeit mit usermanager
-		//TODO getUser
+		
+		
+		//getUser
+		AbdUser user = null;
+		
+		user=userDAO.find(userId);
+		
+		if(user==null){
+			LOGGER.log(Level.SEVERE, "User " + userId + "not found!");
+			throw new MailException("User " + userId + "not found!");
+		}
+		
 		//TODO getUsersmail
+		String userMailAdress="";
+//		String userMail=user.get???
+		
 		//TODO generate new password
-		//TODO save new password into database
+		String newPassword="password";
+		
+		// save new password into database
+		user.setPasswort(newPassword);
+		userDAO.edit(user);
+		
 		//TODO Send mail with new Password
+		
 	}
 
 	private void sendMail(MimeMessage message) {

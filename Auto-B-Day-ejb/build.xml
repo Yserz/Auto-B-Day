@@ -14,32 +14,34 @@
 	    Beispiel eines Ant-Builds zur Erstellung eines JUnit-Test und Report
 	</description>
 
-	<property file="build.properties" />
+	<property file="../build.properties" />
 
 	<path id="junit.classpath">
-		<fileset dir="${lib.dir}">
+		<fileset dir="${ejb.lib.dir}">
 			<include name="default/*.jar" />
 			<include name="test/*.jar" />
 		</fileset>
 	</path>
 
+	<target name="default" depends="clean, init, compile, test, cob-rep">
+	</target>
+	
 	<target name="init">
-		<mkdir dir="${classes.dir}" />
-		<mkdir dir="${reports.xml.dir}" />
-		<mkdir dir="${reports.html.dir}" />
+		<mkdir dir="${ejb.classes.dir}" />
+		<mkdir dir="${ejb.reports.xml.dir}" />
+		<mkdir dir="${ejb.reports.html.dir}" />
 		<mkdir dir="${inst.dir}" />
 		<mkdir dir="${cob.rep.html}" />
-		<mkdir dir="${cob.rep.xml}" />
 		<mkdir dir="${cob.rep.xml}" />
 		<mkdir dir="${cs.rep.xml}" />
 		<mkdir dir="${cs.rep.html}" />
 	</target>
 
 	<target name="compile" depends="init">
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
+		<javac srcdir="${ejb.src.dir}" destdir="${ejb.classes.dir}" debug="yes">
 			<classpath refid="junit.classpath" />
 		</javac>
-		<javac srcdir="${test.dir}" destdir="${classes.dir}" debug="yes">
+		<javac srcdir="${ejb.test.dir}" destdir="${ejb.classes.dir}" debug="yes">
 			<classpath refid="junit.classpath" />
 		</javac>
 	</target>
@@ -50,36 +52,36 @@
 		 	<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobdata}" />
 		 	<classpath location="${inst.dir}" />
 
-			<classpath location="${classes.dir}" />
+			<classpath location="${ejb.classes.dir}" />
 			<classpath refid="junit.classpath" />
 
 		 	<formatter type="brief" usefile="false"/>
 			<formatter type="xml" />
-		 	<test name="${testcase}" todir="${reports.xml.dir}" if="testcase"/>
+		 	<test name="${testcase}" todir="${ejb.reports.xml.dir}" if="testcase"/>
 		 	<!-- ant test -Dtestcase=<fully qualified classname> -->
 		 	<!--
 		 	  <sysproperty key="docs.dir" value="${test.dir}/org"/>  
 		 	  Manche Tests benötigen System Properties, diese können im Test umdefiniert werden.
 		 	-->
-		 	<batchtest todir="${reports.xml.dir}" unless="testcase">
-				<fileset dir="${test.dir}">
+		 	<batchtest todir="${ejb.reports.xml.dir}" unless="testcase">
+				<fileset dir="${ejb.test.dir}">
 					<include name="**/*Test.java" />
 				</fileset>
 			</batchtest>
 		</junit>
 
-		<junitreport todir="${reports.xml.dir}">
-			<fileset dir="${reports.xml.dir}">
+		<junitreport todir="${ejb.reports.xml.dir}">
+			<fileset dir="${ejb.reports.xml.dir}">
 				<include name="TEST-*.xml" />
 			</fileset>
-			<report format="frames" todir="${reports.html.dir}" />
+			<report format="frames" todir="${ejb.reports.html.dir}" />
 		</junitreport>
 		<fail message="Tests failed. Check log and/or reports."	if="test.failed"/>
 	</target>
 
 	<target name="clean" description="Remove all files created by the build/test process.">
-		<delete dir="${classes.dir}" />
-		<delete dir="${reports.dir}" />
+		<delete dir="${ejb.classes.dir}" />
+		<delete dir="${ejb.reports.dir}" />
 
 		<delete file="${cobdata}" />
 		<delete dir="${inst.dir}" />
@@ -93,7 +95,7 @@
 	<taskdef classpathref="junit.classpath" resource="tasks.properties" />
 	<target name="cob-instr" depends="compile">
 		<cobertura-instrument todir="${inst.dir}" datafile="${cobdata}">
-		    <fileset dir="${classes.dir}">
+		    <fileset dir="${ejb.classes.dir}">
 		        <include name="**/*.class" />
 		        <exclude name="**/*Test.class" />
 		        <exclude name="**/*Suite.class" />
@@ -102,8 +104,8 @@
 	</target>
 
 	<target name="cob-rep" depends="cob-instr, test" description="erzeugt Cobertura Reports">
-		<cobertura-report format="html" datafile="${cobdata}" destdir="${cob.rep.html}" srcdir="${src.dir}" />
-		<cobertura-report format="xml" datafile="${cobdata}" destdir="${cob.rep.xml}" srcdir="${src.dir}" />
+		<cobertura-report format="html" datafile="${cobdata}" destdir="${cob.rep.html}" srcdir="${ejb.src.dir}" />
+		<cobertura-report format="xml" datafile="${cobdata}" destdir="${cob.rep.xml}" srcdir="${ejb.src.dir}" />
 	</target>
 
     <!--

@@ -33,6 +33,10 @@ import java.util.logging.Logger;
  */
 public class GoogleImporter extends AImporter {
 
+	public void setMyService(ContactsService myService) {
+		this.myService = myService;
+	}
+
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
 	private boolean connectionEtablished;
 	private AbdAccount accdata;
@@ -223,7 +227,7 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 	
-	private AbdContact mapGContacttoContact(ContactEntry contactEntry){
+	protected AbdContact mapGContacttoContact(ContactEntry contactEntry){
 		
 		LOGGER.info("mapGContacttoContact");
 		LOGGER.log(Level.INFO, "contactEntry :{0}", contactEntry.getId());

@@ -33,10 +33,6 @@ import java.util.logging.Logger;
  */
 public class GoogleImporter extends AImporter {
 
-	public void setMyService(ContactsService myService) {
-		this.myService = myService;
-	}
-
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
 	private boolean connectionEtablished;
 	private AbdAccount accdata;

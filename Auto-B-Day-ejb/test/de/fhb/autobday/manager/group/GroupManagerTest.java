@@ -144,14 +144,18 @@ public class GroupManagerTest {
 	 */
 	@Test
 	public void testParseSlashExpressionW() throws Exception {
+		
 		System.out.println("parseSlashExpression");
+		
 		String expression = "she/he";
 		char sex = 'w';
+		
 		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
 		String expResult = "she";
+		
 		String result = instance.parseSlashExpression(expression, sex);
+		
 		assertEquals(expResult, result);
-		//
 	}
 	
 	/**

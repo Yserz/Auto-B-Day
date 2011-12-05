@@ -1,6 +1,6 @@
 package de.fhb.autobday.manager.contact;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,10 +15,11 @@ import de.fhb.autobday.exception.contact.ContactException;
 
 /**
  *
- * @author Michael Koppen, Andy Klay <klay@fh-brandenburg.de>
+ * @author Andy Klay <klay@fh-brandenburg.de>
  */
 @Stateless
 public class ContactManager implements ContactManagerLocal {
+	
 	private final static Logger LOGGER = Logger.getLogger(ContactManager.class.getName());
 		
 	@EJB
@@ -36,7 +37,7 @@ public class ContactManager implements ContactManagerLocal {
 		LOGGER.log(Level.INFO,"active: " + active);
 		
 		AbdGroupToContact groupToContact=null;
-		List<AbdGroupToContact> allGroupToContact=null;
+		Collection<AbdGroupToContact> allGroupToContact=null;
 		
 		AbdContact contact=contactDAO.find(contactId);
 		
@@ -47,8 +48,7 @@ public class ContactManager implements ContactManagerLocal {
 		}
 		
 		
-		allGroupToContact = groupToContactDAO.findAll();
-		
+		allGroupToContact = groupToContactDAO.findContactByContact(contactId);
 		
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
 			if(actualGroupToContact.getAbdContact().equals(contact)){
@@ -70,7 +70,5 @@ public class ContactManager implements ContactManagerLocal {
 		
 		
 	}
-	
-	
 	
 }

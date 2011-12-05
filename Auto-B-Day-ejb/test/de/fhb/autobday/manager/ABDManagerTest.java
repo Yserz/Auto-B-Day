@@ -18,6 +18,7 @@ import static org.junit.Assert.*;
  * @author MacYser
  */
 public class ABDManagerTest {
+	private EJBContainer container;
 	
 	public ABDManagerTest() {
 	}
@@ -32,10 +33,12 @@ public class ABDManagerTest {
 	
 	@Before
 	public void setUp() {
+		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 	}
 	
 	@After
 	public void tearDown() {
+		container.close();
 	}
 
 	/**
@@ -44,12 +47,12 @@ public class ABDManagerTest {
 	@Test
 	public void testGetAllUser() throws Exception {
 		System.out.println("getAllUser");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		
 		ABDManagerLocal instance = (ABDManagerLocal)container.getContext().lookup("java:global/classes/ABDManager");
 		List expResult = null;
 		List result = instance.getAllUser();
 		assertEquals(expResult, result);
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -60,12 +63,11 @@ public class ABDManagerTest {
 	@Test
 	public void testGetAllGroups() throws Exception {
 		System.out.println("getAllGroups");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		ABDManagerLocal instance = (ABDManagerLocal)container.getContext().lookup("java:global/classes/ABDManager");
 		List expResult = null;
 		List result = instance.getAllGroups();
 		assertEquals(expResult, result);
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -76,12 +78,11 @@ public class ABDManagerTest {
 	@Test
 	public void testGetAllAccountdata() throws Exception {
 		System.out.println("getAllAccountdata");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		ABDManagerLocal instance = (ABDManagerLocal)container.getContext().lookup("java:global/classes/ABDManager");
 		List expResult = null;
 		List result = instance.getAllAccountdata();
 		assertEquals(expResult, result);
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -92,12 +93,11 @@ public class ABDManagerTest {
 	@Test
 	public void testGetAllContacts() throws Exception {
 		System.out.println("getAllContacts");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		ABDManagerLocal instance = (ABDManagerLocal)container.getContext().lookup("java:global/classes/ABDManager");
 		List expResult = null;
 		List result = instance.getAllContacts();
 		assertEquals(expResult, result);
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -108,12 +108,11 @@ public class ABDManagerTest {
 	@Test
 	public void testHallo() throws Exception {
 		System.out.println("hallo");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		ABDManagerLocal instance = (ABDManagerLocal)container.getContext().lookup("java:global/classes/ABDManager");
 		String expResult = "";
 		String result = instance.hallo();
 		assertEquals(expResult, result);
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}

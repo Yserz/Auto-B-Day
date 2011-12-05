@@ -35,12 +35,13 @@ public class UserManager implements UserManagerLocal {
 	public AbdUser login(String loginName, String password) throws UserException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"loginName: " + loginName);
+		LOGGER.log(Level.INFO, "loginName: {0}", loginName);
 		
 		AbdUser user = null;
 		
 		if(loginName==null||password==null||password.equals("")){
 			LOGGER.log(Level.SEVERE, "Invalid input!");
+			//TODO Spezifische Exception!!
 			throw new UserException("Invalid input!");
 		}
 		
@@ -54,6 +55,7 @@ public class UserManager implements UserManagerLocal {
 		
 		if(!user.getPasswort().equals(password)){
 			LOGGER.log(Level.SEVERE, "Invalid password!");
+			//TODO Spezifische Exception!!
 			throw new UserException("Invalid password!");
 		}
 		

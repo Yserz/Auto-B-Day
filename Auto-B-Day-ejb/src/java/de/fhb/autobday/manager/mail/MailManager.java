@@ -96,7 +96,8 @@ public class MailManager implements MailManagerLocal {
 		user=userDAO.find(userId);
 		
 		if(user==null){
-			LOGGER.log(Level.SEVERE, "User " + userId + "not found!");
+			LOGGER.log(Level.SEVERE, "User {0}not found!", userId);
+			//TODO Spezifische Exception!!
 			throw new MailException("User " + userId + "not found!");
 		}
 		

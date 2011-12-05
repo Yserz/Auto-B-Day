@@ -53,14 +53,15 @@ public class AccountManager implements AccountManagerLocal {
 	public void removeAccount(int accountId) throws AccountException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"accountId: " + accountId);
+		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
 		//search
 		AbdAccount account=accountdataDAO.find(accountId);
 		
 		//if account not found
 		if(account==null){
-			LOGGER.log(Level.SEVERE, "Account " + accountId + "not found!");
+			LOGGER.log(Level.SEVERE, "Account {0}not found!", accountId);
+			//TODO AccountNotFoundException!!
 			throw new AccountException("Account " + accountId + "not found!");
 		}
 		

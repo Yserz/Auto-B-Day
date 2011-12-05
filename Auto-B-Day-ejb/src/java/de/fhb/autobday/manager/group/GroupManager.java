@@ -40,8 +40,8 @@ public class GroupManager implements GroupManagerLocal {
 	public void setTemplate(int groupId, String template) {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"groupid: " + groupId);
-		LOGGER.log(Level.INFO,"template: " + template);
+		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
+		LOGGER.log(Level.INFO, "template: {0}", template);
 		
 		
 		AbdGroup actualGroup = groupDAO.find(groupId);
@@ -53,7 +53,7 @@ public class GroupManager implements GroupManagerLocal {
 	public String getTemplate(int groupid) {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"groupid: "+groupid);
+		LOGGER.log(Level.INFO, "groupid: {0}", groupid);
 		
 		AbdGroup actualGroup = groupDAO.find(groupid);
 		String output="dummy";
@@ -67,8 +67,8 @@ public class GroupManager implements GroupManagerLocal {
 	public String testTemplate(int groupId, String contactId) throws GroupException{
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"groupid: "+groupId);
-		LOGGER.log(Level.INFO,"contactid: "+contactId);
+		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
+		LOGGER.log(Level.INFO, "contactid: {0}", contactId);
 		
 		AbdGroup actualGroup = groupDAO.find(groupId);
 		String template = actualGroup.getTemplate();
@@ -76,7 +76,8 @@ public class GroupManager implements GroupManagerLocal {
 		AbdContact chosenContact=contactDAO.find(contactId);
 		
 		if(chosenContact==null){
-			LOGGER.log(Level.SEVERE, "Contact " + contactId + "not found!");
+			LOGGER.log(Level.SEVERE, "Contact {0}not found!", contactId);
+			//TODO Spezifische exception!!!
 			throw new GroupException("Contact " + contactId + "not found!");
 		}
 		
@@ -89,7 +90,7 @@ public class GroupManager implements GroupManagerLocal {
 	public void setActive(int groupId, boolean active) {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"groupid: "+groupId);
+		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
 		
 		
 		AbdGroup actualGroup = groupDAO.find(groupId);
@@ -120,11 +121,12 @@ public class GroupManager implements GroupManagerLocal {
 	 * @param contact
 	 * @return
 	 */
+	@Override
 	public String parseTemplate(String template, AbdContact contact){
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"template: "+template);
-		LOGGER.log(Level.INFO,"contact: "+contact);		
+		LOGGER.log(Level.INFO, "template: {0}", template);
+		LOGGER.log(Level.INFO, "contact: {0}", contact);
 
 		StringBuilder patternBuilder=new StringBuilder();		
 		StringBuilder output = new StringBuilder();
@@ -223,11 +225,12 @@ public class GroupManager implements GroupManagerLocal {
 	 * @param Char sex
 	 * @return String decesionOfOne
 	 */
+	@Override
 	public String parseSlashExpression(String expression, char sex){
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"expression: "+expression);
-		LOGGER.log(Level.INFO,"sex: "+sex);		
+		LOGGER.log(Level.INFO, "expression: {0}", expression);
+		LOGGER.log(Level.INFO, "sex: {0}", sex);
 		
 		Pattern numberPattern = Pattern.compile("/");
 		Matcher numberMatcher = numberPattern.matcher(expression);

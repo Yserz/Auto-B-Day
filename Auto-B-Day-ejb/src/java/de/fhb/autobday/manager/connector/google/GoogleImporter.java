@@ -48,7 +48,7 @@ public class GoogleImporter extends AImporter {
 	public void getConnection(AbdAccount data) {
 		
 		LOGGER.info("getConnection");
-		LOGGER.info("data :" + data.getId());
+		LOGGER.log(Level.INFO, "data :{0}", data.getId());
 		
 		connectionEtablished = false;
 		accdata = data;
@@ -146,7 +146,7 @@ public class GoogleImporter extends AImporter {
 	public void getSingleContact(String contactid) {
 		
 		LOGGER.info("getSingleContact");
-		LOGGER.info("contactid :" + contactid);
+		LOGGER.log(Level.INFO, "contactid :{0}", contactid);
 		
 		URL entryUrl;
 		try {

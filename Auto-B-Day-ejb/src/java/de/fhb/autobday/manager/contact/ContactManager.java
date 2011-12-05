@@ -33,8 +33,8 @@ public class ContactManager implements ContactManagerLocal {
 		
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"contactId: " + contactId);
-		LOGGER.log(Level.INFO,"active: " + active);
+		LOGGER.log(Level.INFO, "contactId: {0}", contactId);
+		LOGGER.log(Level.INFO, "active: {0}", active);
 		
 		AbdGroupToContact groupToContact=null;
 		Collection<AbdGroupToContact> allGroupToContact=null;
@@ -43,7 +43,8 @@ public class ContactManager implements ContactManagerLocal {
 		
 		
 		if(contact==null){
-			LOGGER.log(Level.SEVERE, "Contact " + contactId + "not found!");
+			LOGGER.log(Level.SEVERE, "Contact {0}not found!", contactId);
+			//TODO ContactNotFoundException!!
 			throw new ContactException("Contact " + contactId + "not found!");
 		}
 		
@@ -59,6 +60,7 @@ public class ContactManager implements ContactManagerLocal {
 		
 		if(groupToContact==null){
 			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
+			//TODO neues Exceptionpackage anlegen und neue exception (z.B. NoContactInThisGroupException)
 			throw new ContactException("Relation groupToContact not found!");
 		}
 		

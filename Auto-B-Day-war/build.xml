@@ -10,7 +10,6 @@
 <project name="Auto-B-Day-war" default="default" basedir=".">
     <description>Builds, tests, and runs the project Auto-B-Day-war.</description>
     <!--<import file="nbproject/build-impl.xml"/>-->
-
 	<description>
 	    Beispiel eines Ant-Builds zur Erstellung eines JUnit-Test und Report
 	</description>
@@ -87,7 +86,6 @@
 		<delete dir="${war.inst.dir}" />
 		<delete dir="${war.cob.rep}" />
 	</target>
-
 
 	<!-- =================================
 		          target: Cobertura

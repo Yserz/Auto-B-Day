@@ -10,6 +10,7 @@
 <project name="Auto-B-Day-ejb" default="default" basedir="." xmlns:ejbjarproject="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
     <description>Builds, tests, and runs the project Auto-B-Day-ejb.</description>
     <!--<import file="nbproject/build-impl.xml"/>-->
+	
 	<description>
 	    Beispiel eines Ant-Builds zur Erstellung eines JUnit-Test und Report
 	</description>
@@ -56,7 +57,7 @@
 
 		 	<formatter type="brief" usefile="false"/>
 			<formatter type="xml" />
-		 	<test name="${testcase}" todir="${ejb.reports.xml.dir}" if="testcase"/>
+		 	<test name="${testcase}" todir="${ejb.reports.xml.dir}" if="testcase"/>-->
 		 	<!-- ant test -Dtestcase=<fully qualified classname> -->
 		 	<!--
 		 	  <sysproperty key="docs.dir" value="${test.dir}/org"/>  
@@ -87,7 +88,6 @@
 		<delete dir="${ejb.cob.rep}" />
 	</target>
 
-
 	<!-- =================================
 		          target: Cobertura
 		 ================================= -->
@@ -106,7 +106,6 @@
 		<cobertura-report format="html" datafile="${ejb.cobdata}" destdir="${ejb.cob.rep.html}" srcdir="${ejb.src.dir}" />
 		<cobertura-report format="xml" datafile="${ejb.cobdata}" destdir="${ejb.cob.rep.xml}" srcdir="${ejb.src.dir}" />
 	</target>
-
     <!--
 
     There exist several targets which are by default empty and which can be 

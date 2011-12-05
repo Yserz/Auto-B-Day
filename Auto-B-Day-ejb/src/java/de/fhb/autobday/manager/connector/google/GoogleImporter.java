@@ -52,7 +52,7 @@ public class GoogleImporter extends AImporter {
 	public void getConnection(AbdAccount data) {
 		
 		LOGGER.info("getConnection");
-		LOGGER.info("data :" + data.getId());
+		LOGGER.log(Level.INFO, "data :{0}", data.getId());
 		
 		connectionEtablished = false;
 		accdata = data;
@@ -150,7 +150,7 @@ public class GoogleImporter extends AImporter {
 	public void getSingleContact(String contactid) {
 		
 		LOGGER.info("getSingleContact");
-		LOGGER.info("contactid :" + contactid);
+		LOGGER.log(Level.INFO, "contactid :{0}", contactid);
 		
 		URL entryUrl;
 		try {
@@ -218,7 +218,7 @@ public class GoogleImporter extends AImporter {
 						}
 					}
 					groupMembershipInfo=contactEntry.getGroupMembershipInfos();
-					insertGroupMembership(contactEntry.getId(),groupMembershipInfo);
+					updateGroupMembership(contactEntry.getId(),groupMembershipInfo);
 				}
 				
 
@@ -277,14 +277,14 @@ public class GoogleImporter extends AImporter {
 		return null;
 	}
 
-	private void insertGroupMembership(String id, List<GroupMembershipInfo> groupMembership){
+	private void updateGroupMembership(String id, List<GroupMembershipInfo> groupMembership){
 		AbdGroupToContactFacade abdGroupToContactFacade = new AbdGroupToContactFacade();
 		AbdGroupToContact abdGroupToContactEntity;
 		AbdContactFacade abdContactFacade = new AbdContactFacade();
 		AbdGroupFacade abdGroupFacade = new AbdGroupFacade();
 		List<AbdGroupToContact> abdGroupMembership = new ArrayList<AbdGroupToContact> (abdGroupToContactFacade.findContactByContact(id));
 		for (int i = 0; i < groupMembership.size(); i++) {
-			if(existMembership(groupMembership.get(i).getHref(), abdGroupMembership)){
+			if(diffMembership(groupMembership.get(i).getHref(), abdGroupMembership)){
 				groupMembership.remove(i);
 			}
 		}
@@ -304,7 +304,7 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 	
-	private boolean existMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
+	private boolean diffMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
 		for (int i = 0; i < abdGroupMembership.size(); i++) {
 			if(abdGroupMembership.get(i).getAbdGroup().getId().equals(groupid)){
 				abdGroupMembership.remove(i);

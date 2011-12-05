@@ -19,8 +19,7 @@
 
 	<path id="junit.classpath">
 		<fileset dir="${war.lib.dir}">
-			<include name="default/*.jar" />
-			<include name="test/*.jar" />
+			<include name="**/*.jar" />
 		</fileset>
 	</path>
 
@@ -31,12 +30,11 @@
 		<mkdir dir="${war.classes.dir}" />
 		<mkdir dir="${war.reports.xml.dir}" />
 		<mkdir dir="${war.reports.html.dir}" />
-		<mkdir dir="${inst.dir}" />
-		<mkdir dir="${cob.rep.html}" />
-		<mkdir dir="${cob.rep.xml}" />
-		<mkdir dir="${cob.rep.xml}" />
-		<mkdir dir="${cs.rep.xml}" />
-		<mkdir dir="${cs.rep.html}" />
+		<mkdir dir="${war.inst.dir}" />
+		<mkdir dir="${war.cob.rep.html}" />
+		<mkdir dir="${war.cob.rep.xml}" />
+		<mkdir dir="${war.cs.rep.xml}" />
+		<mkdir dir="${war.cs.rep.html}" />
 	</target>
 
 	<target name="compile" depends="init">
@@ -51,8 +49,8 @@
 	<target name="test" depends="compile">
 		 <junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
 
-		 	<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobdata}" />
-		 	<classpath location="${inst.dir}" />
+		 	<sysproperty key="net.sourceforge.cobertura.datafile" file="${war.cobdata}" />
+		 	<classpath location="${war.inst.dir}" />
 
 			<classpath location="${war.classes.dir}" />
 			<classpath refid="junit.classpath" />
@@ -85,9 +83,9 @@
 		<delete dir="${war.classes.dir}" />
 		<delete dir="${war.reports.dir}" />
 
-		<delete file="${cobdata}" />
-		<delete dir="${inst.dir}" />
-		<delete dir="${cob.rep}" />
+		<delete file="${war.cobdata}" />
+		<delete dir="${war.inst.dir}" />
+		<delete dir="${war.cob.rep}" />
 	</target>
 
 
@@ -96,7 +94,7 @@
 		 ================================= -->
 	<taskdef classpathref="junit.classpath" resource="tasks.properties" />
 	<target name="cob-instr" depends="compile">
-		<cobertura-instrument todir="${inst.dir}" datafile="${cobdata}">
+		<cobertura-instrument todir="${war.inst.dir}" datafile="${war.cobdata}">
 		    <fileset dir="${war.classes.dir}">
 		        <include name="**/*.class" />
 		        <exclude name="**/*Test.class" />
@@ -106,8 +104,8 @@
 	</target>
 
 	<target name="cob-rep" depends="cob-instr, test" description="erzeugt Cobertura Reports">
-		<cobertura-report format="html" datafile="${cobdata}" destdir="${cob.rep.html}" srcdir="${war.src.dir}" />
-		<cobertura-report format="xml" datafile="${cobdata}" destdir="${cob.rep.xml}" srcdir="${war.src.dir}" />
+		<cobertura-report format="html" datafile="${war.cobdata}" destdir="${war.cob.rep.html}" srcdir="${war.src.dir}" />
+		<cobertura-report format="xml" datafile="${war.cobdata}" destdir="${war.cob.rep.xml}" srcdir="${war.src.dir}" />
 	</target>
     <!--
 

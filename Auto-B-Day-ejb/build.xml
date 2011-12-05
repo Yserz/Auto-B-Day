@@ -14,6 +14,8 @@
 	    Beispiel eines Ant-Builds zur Erstellung eines JUnit-Test und Report
 	</description>
 
+	<property file="build.properties" />
+
 	<path id="junit.classpath">
 		<fileset dir="${ejb.lib.dir}">
 			<include name="**/*.jar" />
@@ -27,11 +29,11 @@
 		<mkdir dir="${ejb.classes.dir}" />
 		<mkdir dir="${ejb.reports.xml.dir}" />
 		<mkdir dir="${ejb.reports.html.dir}" />
-		<mkdir dir="${inst.dir}" />
-		<mkdir dir="${cob.rep.html}" />
-		<mkdir dir="${cob.rep.xml}" />
-		<mkdir dir="${cs.rep.xml}" />
-		<mkdir dir="${cs.rep.html}" />
+		<mkdir dir="${ejb.inst.dir}" />
+		<mkdir dir="${ejb.cob.rep.html}" />
+		<mkdir dir="${ejb.cob.rep.xml}" />
+		<mkdir dir="${ejb.cs.rep.xml}" />
+		<mkdir dir="${ejb.cs.rep.html}" />
 	</target>
 
 	<target name="compile" depends="init">
@@ -46,8 +48,8 @@
 	<target name="test" depends="compile">
 		 <junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
 
-		 	<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobdata}" />
-		 	<classpath location="${inst.dir}" />
+		 	<sysproperty key="net.sourceforge.cobertura.datafile" file="${ejb.cobdata}" />
+		 	<classpath location="${ejb.inst.dir}" />
 
 			<classpath location="${ejb.classes.dir}" />
 			<classpath refid="junit.classpath" />
@@ -80,18 +82,18 @@
 		<delete dir="${ejb.classes.dir}" />
 		<delete dir="${ejb.reports.dir}" />
 
-		<delete file="${cobdata}" />
-		<delete dir="${inst.dir}" />
-		<delete dir="${cob.rep}" />
+		<delete file="${ejb.cobdata}" />
+		<delete dir="${ejb.inst.dir}" />
+		<delete dir="${ejb.cob.rep}" />
 	</target>
 
 
 	<!-- =================================
 		          target: Cobertura
 		 ================================= -->
-	<taskdef classpathref="junit.classpath" resource="tasks.properties" />
+	<!--<taskdef classpathref="junit.classpath" resource="tasks.properties" />-->
 	<target name="cob-instr" depends="compile">
-		<cobertura-instrument todir="${inst.dir}" datafile="${cobdata}">
+		<cobertura-instrument todir="${inst.dir}" datafile="${ejb.cobdata}">
 		    <fileset dir="${ejb.classes.dir}">
 		        <include name="**/*.class" />
 		        <exclude name="**/*Test.class" />
@@ -101,8 +103,8 @@
 	</target>
 
 	<target name="cob-rep" depends="cob-instr, test" description="erzeugt Cobertura Reports">
-		<cobertura-report format="html" datafile="${cobdata}" destdir="${cob.rep.html}" srcdir="${ejb.src.dir}" />
-		<cobertura-report format="xml" datafile="${cobdata}" destdir="${cob.rep.xml}" srcdir="${ejb.src.dir}" />
+		<cobertura-report format="html" datafile="${ejb.cobdata}" destdir="${ejb.cob.rep.html}" srcdir="${ejb.src.dir}" />
+		<cobertura-report format="xml" datafile="${ejb.cobdata}" destdir="${ejb.cob.rep.xml}" srcdir="${ejb.src.dir}" />
 	</target>
 
     <!--

@@ -1,6 +1,8 @@
 package de.fhb.autobday.manager.mail;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +19,9 @@ import javax.mail.internet.MimeMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import de.fhb.autobday.commons.PasswortGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.mail.MailException;
 
@@ -85,23 +89,24 @@ public class MailManager implements MailManagerLocal {
 	public void sendForgotPasswordMail(int userId) throws MailException {
 		// enge zusammenarbeit mit usermanager
 		
-		
 		//getUser
 		AbdUser user = null;
+		List<AbdAccount> accounts;
 		
 		user=userDAO.find(userId);
 		
 		if(user==null){
-			LOGGER.log(Level.SEVERE, "User " + userId + "not found!");
+			LOGGER.log(Level.SEVERE, "User {0}not found!", userId);
+			//TODO Spezifische Exception!!
 			throw new MailException("User " + userId + "not found!");
 		}
 		
 		//TODO getUsersmail
-		String userMailAdress="";
-//		String userMail=user.get???
+		accounts = new ArrayList<AbdAccount>(user.getAbdAccountCollection());
+		String userMailAdress=accounts.get(0).getUsername();
 		
-		//TODO generate new password
-		String newPassword="password";
+		//generate new Password
+		String newPassword=PasswortGenerator.generatePassword();
 		
 		// save new password into database
 		user.setPasswort(newPassword);
@@ -137,6 +142,7 @@ public class MailManager implements MailManagerLocal {
 		mailSession = Session.getDefaultInstance(props, null);
 
 	}
+	
 	private void connectToOwnMailServer() {
 		try {
 			InitialContext ic = new InitialContext();

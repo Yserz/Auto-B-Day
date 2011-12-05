@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.manager.account;
 
 import javax.ejb.embeddable.EJBContainer;
@@ -17,6 +13,7 @@ import static org.junit.Assert.*;
  * @author MacYser
  */
 public class AccountManagerTest {
+	private EJBContainer container;
 	
 	public AccountManagerTest() {
 	}
@@ -31,10 +28,12 @@ public class AccountManagerTest {
 	
 	@Before
 	public void setUp() {
+		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 	}
 	
 	@After
 	public void tearDown() {
+		container.close();
 	}
 
 	/**
@@ -43,10 +42,9 @@ public class AccountManagerTest {
 	@Test
 	public void testAddAccount() throws Exception {
 		System.out.println("addAccount");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		AccountManagerLocal instance = (AccountManagerLocal)container.getContext().lookup("java:global/classes/AccountManager");
 		instance.addAccount();
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -57,10 +55,9 @@ public class AccountManagerTest {
 	@Test
 	public void testRemoveAccount() throws Exception {
 		System.out.println("removeAccount");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		AccountManagerLocal instance = (AccountManagerLocal)container.getContext().lookup("java:global/classes/AccountManager");
 //		instance.removeAccount(accountId);
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -71,10 +68,9 @@ public class AccountManagerTest {
 	@Test
 	public void testImportGroupsAndContacts() throws Exception {
 		System.out.println("importGroupsAndContacts");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		AccountManagerLocal instance = (AccountManagerLocal)container.getContext().lookup("java:global/classes/AccountManager");
 		instance.importGroupsAndContacts();
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}

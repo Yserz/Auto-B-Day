@@ -19,7 +19,18 @@
 		<property file="build.properties" />
 		
 		<import file="Auto-B-Day-ejb/build.xml"/>
+		
+		<target name="default" depends="EJB">
+		</target>
+		
+		<target name="EJB" depends="clean, init, compile, test, cob-rep">
+		</target>
+		<!--
 		<import file="Auto-B-Day-war/build.xml"/>
+		
+		<target name="WAR" depends="default, clean, init, compile, test, cob-rep">
+		</target>
+		-->
 		<!--
 		<target name="default" depends="clean, init, compile, test, cob-rep">
 		</target>

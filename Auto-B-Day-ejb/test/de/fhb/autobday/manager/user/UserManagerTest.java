@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  * @author MacYser
  */
 public class UserManagerTest {
-	
+	private EJBContainer container;
 	public UserManagerTest() {
 	}
 
@@ -32,10 +32,12 @@ public class UserManagerTest {
 	
 	@Before
 	public void setUp() {
+		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 	}
 	
 	@After
 	public void tearDown() {
+		container.close();
 	}
 
 	/**
@@ -45,12 +47,12 @@ public class UserManagerTest {
 	public void testGetUser() throws Exception {
 		System.out.println("getUser");
 		int userid = 0;
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		
 		UserManagerLocal instance = (UserManagerLocal)container.getContext().lookup("java:global/classes/UserManager");
 		AbdUser expResult = null;
 		AbdUser result = instance.getUser(userid);
 		assertEquals(expResult, result);
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -61,10 +63,9 @@ public class UserManagerTest {
 	@Test
 	public void testLogin() throws Exception {
 		System.out.println("login");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		UserManagerLocal instance = (UserManagerLocal)container.getContext().lookup("java:global/classes/UserManager");
 //		instance.login(loginName, password);
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}
@@ -75,10 +76,9 @@ public class UserManagerTest {
 	@Test
 	public void testLogout() throws Exception {
 		System.out.println("logout");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		UserManagerLocal instance = (UserManagerLocal)container.getContext().lookup("java:global/classes/UserManager");
 		instance.logout();
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}

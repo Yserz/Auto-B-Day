@@ -24,6 +24,7 @@ import de.fhb.autobday.manager.group.GroupManager;
  * @author MacYser
  */
 public class ContactManagerTest {
+	private EJBContainer container;
 	
 	private AbdContact mock;
 	private ContactManager contactTest;
@@ -41,12 +42,15 @@ public class ContactManagerTest {
 	
 	@Before
 	public void setUp() {
+		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		
 		mock = EasyMock.createMock(AbdContact.class);
 		contactTest = new ContactManager();
 	}
 	
 	@After
 	public void tearDown() {
+		container.close();
 	}
 
 	/**
@@ -55,10 +59,10 @@ public class ContactManagerTest {
 	@Test
 	public void testSetActive() throws Exception {
 		System.out.println("setActive");
-		EJBContainer container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		
 		ContactManagerLocal instance = (ContactManagerLocal)container.getContext().lookup("java:global/classes/ContactManager");
 //		instance.setActive(contactId, active)
-		container.close();
+		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
 	}

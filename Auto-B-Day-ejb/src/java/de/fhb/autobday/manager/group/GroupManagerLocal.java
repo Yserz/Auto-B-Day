@@ -2,6 +2,7 @@ package de.fhb.autobday.manager.group;
 
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.group.GroupException;
 
 import javax.ejb.Local;
@@ -45,7 +46,7 @@ public interface GroupManagerLocal {
 	 * @return String - message
 	 * @throws GroupException
 	 */
-	String testTemplate(int groupid, String contactid)throws GroupException;
+	String testTemplate(int groupid, String contactid) throws GroupException, ContactNotFoundException;
 
 	/**
 	 * set group to Active stat for sending mails

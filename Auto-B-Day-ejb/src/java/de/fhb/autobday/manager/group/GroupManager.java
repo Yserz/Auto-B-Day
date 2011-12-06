@@ -13,9 +13,11 @@ import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.group.GroupException;
 
 /**
+*
 *
 * @author Andy Klay <klay@fh-brandenburg.de>
 */
@@ -64,7 +66,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public String testTemplate(int groupId, String contactId) throws GroupException{
+	public String testTemplate(int groupId, String contactId) throws GroupException, ContactNotFoundException{
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
@@ -76,9 +78,8 @@ public class GroupManager implements GroupManagerLocal {
 		AbdContact chosenContact=contactDAO.find(contactId);
 		
 		if(chosenContact==null){
-			LOGGER.log(Level.SEVERE, "Contact {0}not found!", contactId);
-			//TODO Spezifische exception!!!
-			throw new GroupException("Contact " + contactId + "not found!");
+			LOGGER.log(Level.SEVERE, "Contact {0} not found!", contactId);
+			throw new ContactNotFoundException("Contact " + contactId + "not found!");
 		}
 		
 		output=this.parseTemplate(template, chosenContact);

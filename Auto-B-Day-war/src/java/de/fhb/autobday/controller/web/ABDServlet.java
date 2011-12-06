@@ -2,7 +2,7 @@ package de.fhb.autobday.controller.web;
 
 import de.fhb.autobday.commons.web.HttpRequestActionBase;
 import de.fhb.autobday.commons.web.HttpServletControllerBase;
-import de.fhb.autobday.controller.web.actions.user.ShowAllUserAction;
+//import de.fhb.autobday.controller.web.actions.user.ShowAllUserAction;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,8 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 			})
 @Named("ABDServlet")
 public class ABDServlet extends HttpServletControllerBase {
-	@Inject
-	private ShowAllUserAction showAllUserAction;
+	//@Inject
+	//private ShowAllUserAction showAllUserAction;
 	/** 
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 	 * @param request servlet request
@@ -94,7 +94,7 @@ public class ABDServlet extends HttpServletControllerBase {
 		HttpRequestActionBase action = null;
 		//actions = new HashMap();
 		
-		actions.put("ShowAllUser", showAllUserAction);
+		//actions.put("ShowAllUser", showAllUserAction);
 	}
 	
 }

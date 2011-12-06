@@ -9,60 +9,8 @@
 <!-- in the project's Project Properties dialog box.-->
 <project name="Auto-B-Day" default="default" basedir="." xmlns:ear="http://www.netbeans.org/ns/j2ee-earproject/2">
     <description>Builds, tests, and runs the project Auto-B-Day.</description>
-    <!--<import file="nbproject/build-impl.xml"/>-->
-
-	<description>
-	    Beispiel eines Ant-Builds zur Erstellung eines JUnit-Test und Report
-	    </description>
-
-		<property file="build.properties" />
-		
-		<import file="Auto-B-Day-ejb/build.xml"/>
-		
-		<target name="default" depends="EJB">
-		</target>
-		
-		<target name="EJB" depends="clean, init, compile, test, cob-rep">
-		</target>
-		<!--
-		<import file="Auto-B-Day-war/build.xml"/>
-		
-		<target name="WAR" depends="default, clean, init, compile, test, cob-rep">
-		</target>
-		-->
-		<!--
-		<target name="default" depends="clean, init, compile, test, cob-rep">
-		</target>
-
-		<target name="init">
-		
-		</target>
-
-		<target name="compile" depends="init">
-			
-			
-		</target>
-
-		<target name="test" depends="compile">
-			 
-		</target>
-
-		<target name="clean" description="Remove all files created by the build/test process.">
-			
-		</target>
-
--->
-		<!-- =================================
-			          target: Cobertura
-			 ================================= --><!--
-		<target name="cob-instr" depends="compile">
-		
-		</target>
-
-		<target name="cob-rep" depends="cob-instr, test" description="erzeugt Cobertura Reports">
-			
-		</target>
--->
+    <import file="nbproject/build-impl.xml"/>
+	
     <!--
 
     There exist several targets which are by default empty and which can be 

@@ -11,17 +11,17 @@
 		<h:form>
 			
 			<h:panelGrid columns="2">
-				<h:outputText value="Name:" />
+				<h:outputText value="Name: #{ActDateBeanTest.printHallo}" />
 				<h:inputText value="" />
 
 				<h:outputText value="Telephone" />
 				<h:inputText value="" />
 
 				<h:outputText value="Calendar:" />
-				<h:inputText value="#{ActDateBean.printDate}" />
-				<p:calendar pattern="dd/MM/yyyy" locale="pt" value="#{ActDateBean.date}" />
+				<h:inputText value="#{ActDateBeanTest.printDate}" />
+				<p:calendar pattern="dd/MM/yyyy" locale="pt" value="#{ActDateBeanTest.date}" />
 				
-				<h:commandButton value="ok" action="#{ActDateBean.printDate}" />
+				<h:commandButton value="ok" action="#{ActDateBeanTest.printDate}" />
 
 			</h:panelGrid>
 		</h:form>

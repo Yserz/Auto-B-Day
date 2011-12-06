@@ -5,23 +5,22 @@
 package de.fhb.autobday.beans;
 
 import java.util.Date;
-import javax.enterprise.context.Dependent;
-import javax.faces.bean.ManagedBean;
-import javax.inject.Named;
 
 /**
  *
  * @author MacYser
  */
-@Named
-@Dependent
-public class ActDateBean {
+public class ActDateBeanTest {
 	private Date date = new Date();
+	private String hallo = "hallo";
 
 
 	
 	public void printDate(){
 		System.out.println(date);
+	}
+	public String printHallo(){
+		return hallo;
 	}
 	
 	public Date getDate() {

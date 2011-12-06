@@ -30,7 +30,7 @@ public class AbdGroupToContactFacade extends AbstractFacade<AbdGroupToContact> {
 		super(AbdGroupToContact.class);
 	}
 	
-	public Collection<AbdGroupToContact> findContactByContact(String id) {
+	public Collection<AbdGroupToContact> findGroupByContact(String id) {
         return (Collection<AbdGroupToContact>) em.createNamedQuery("Contact.findByContact")
 				.setParameter("contact", id).getResultList();
     }

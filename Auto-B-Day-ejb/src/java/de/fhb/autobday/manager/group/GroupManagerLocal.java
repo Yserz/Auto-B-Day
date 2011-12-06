@@ -20,7 +20,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @return AbdGroup
 	 */
-	AbdGroup getGroup(int groupid);
+	AbdGroup getGroup(String groupid);
 
 	/**
 	 * set the template of a group with specific id
@@ -28,7 +28,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param template
 	 */
-	void setTemplate(int groupid, String template);
+	void setTemplate(String groupid, String template);
 
 	/**
 	 * get the template  of a group with specific id
@@ -36,7 +36,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @return String
 	 */
-	String getTemplate(int groupid);
+	String getTemplate(String groupid);
 
 	/**
 	 *test template of group with a contact 
@@ -46,7 +46,7 @@ public interface GroupManagerLocal {
 	 * @return String - message
 	 * @throws GroupException
 	 */
-	String testTemplate(int groupid, String contactid) throws GroupException, ContactNotFoundException;
+	String testTemplate(String groupid, String contactid) throws GroupException, ContactNotFoundException;
 
 	/**
 	 * set group to Active stat for sending mails
@@ -54,7 +54,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param boolean - active
 	 */
-	void setActive(int groupid, boolean active);
+	void setActive(String groupid, boolean active);
 	
 	String parseTemplate(String template, AbdContact contact);
 	

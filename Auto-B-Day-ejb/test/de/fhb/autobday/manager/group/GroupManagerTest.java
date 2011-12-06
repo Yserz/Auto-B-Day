@@ -3,6 +3,9 @@ package de.fhb.autobday.manager.group;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,6 +20,7 @@ import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.manager.contact.ContactManager;
 
 /**
@@ -101,8 +105,28 @@ public class GroupManagerTest {
 	public void testGetTemplate() throws Exception {
 		System.out.println("getTemplate");
 		
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		
+		//test variables
+		String groupId="friends";	
+		String template="template";
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
+		String output="";
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		output=managerUnderTest.getTemplate(groupId);
+		
+		// verify
+		assertEquals("Template test", template, output);		
+//		EasyMock.verify(contactDAOMock);
+		
 	}
 
 	/**
@@ -121,8 +145,27 @@ public class GroupManagerTest {
 	 */
 	@Test
 	public void testSetActive() throws Exception {
+		
 		System.out.println("setActive");
-
+		
+		//test variables
+		String groupId="family";
+		boolean isActive=true;		
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
+		groupDAOMock.edit(group);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.setActive(groupId, isActive);
+		
+		// verify
+		EasyMock.verify(groupDAOMock);
 	}
 
 	/**
@@ -130,13 +173,16 @@ public class GroupManagerTest {
 	 */
 	@Test
 	public void testParseTemplate() throws Exception {
+		
 		System.out.println("parseTemplate");
+		
 		String template = "";
 		AbdContact contact = null;
-//		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
 		String expResult = "";
-//		String result = instance.parseTemplate(template, contact);
-//		assertEquals(expResult, result);
+		
+		String result = managerUnderTest.parseTemplate(template, contact);
+		
+		assertEquals(expResult, result);
 		
 
 	}
@@ -151,13 +197,10 @@ public class GroupManagerTest {
 		
 		String expression = "she/he";
 		char sex = 'w';
-		
-//		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
 		String expResult = "she";
+		String result = managerUnderTest.parseSlashExpression(expression, sex);
 		
-//		String result = instance.parseSlashExpression(expression, sex);
-		
-//		assertEquals(expResult, result);
+		assertEquals(expResult, result);
 	}
 	
 	/**
@@ -168,9 +211,9 @@ public class GroupManagerTest {
 		System.out.println("parseSlashExpression");
 		String expression = "she/he";
 		char sex = 'm';
-//		GroupManagerLocal instance = (GroupManagerLocal)container.getContext().lookup("java:global/classes/GroupManager");
 		String expResult = "he";
-//		String result = instance.parseSlashExpression(expression, sex);
-//		assertEquals(expResult, result);
+		
+		String result = managerUnderTest.parseSlashExpression(expression, sex);
+		assertEquals(expResult, result);
 	}
 }

@@ -33,13 +33,13 @@ public class GroupManager implements GroupManagerLocal {
 
 
 	@Override
-	public AbdGroup getGroup(int groupId) {
+	public AbdGroup getGroup(String groupId) {
 		return groupDAO.find(groupId);
 	}
 
 
 	@Override
-	public void setTemplate(int groupId, String template) {
+	public void setTemplate(String groupId, String template) {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
@@ -52,12 +52,12 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public String getTemplate(int groupid) {
+	public String getTemplate(String groupId) {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "groupid: {0}", groupid);
+		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
 		
-		AbdGroup actualGroup = groupDAO.find(groupid);
+		AbdGroup actualGroup = groupDAO.find(groupId);
 		String output="dummy";
 		
 		output=actualGroup.getTemplate();
@@ -66,7 +66,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public String testTemplate(int groupId, String contactId) throws GroupException, ContactNotFoundException{
+	public String testTemplate(String groupId, String contactId) throws GroupException, ContactNotFoundException{
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
@@ -88,7 +88,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public void setActive(int groupId, boolean active) {
+	public void setActive(String groupId, boolean active) {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
@@ -97,6 +97,9 @@ public class GroupManager implements GroupManagerLocal {
 		AbdGroup actualGroup = groupDAO.find(groupId);
 		
 		actualGroup.setActive(active);
+		
+		//save into DB
+		groupDAO.edit(actualGroup);
 	}
 	
 	

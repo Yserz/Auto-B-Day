@@ -4,9 +4,11 @@ TODO - Andy
 
 --- Allgemein 	---
 
-@myself/teammates
-Tempalte parsen geht, mocken auch, jetzt doch verstanden
-testest
+- ein paar weitere Tests implementieren
+- TODOs in manager machen außer email, da tino dran arbeitet
+- Doku weiter machen
+
+
 *** DB 			***
 
 - 

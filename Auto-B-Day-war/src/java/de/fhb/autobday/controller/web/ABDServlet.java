@@ -1,22 +1,31 @@
 package de.fhb.autobday.controller.web;
 
-import de.fhb.autobday.commons.web.HttpRequestActionBase;
-import de.fhb.autobday.commons.web.HttpServletControllerBase;
-//import de.fhb.autobday.controller.web.actions.user.ShowAllUserAction;
-
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import de.fhb.autobday.commons.web.HttpServletControllerBase;
+import de.fhb.autobday.controller.web.actions.contact.ActivateContactAction;
+import de.fhb.autobday.controller.web.actions.contact.DeactivateContactAction;
+import de.fhb.autobday.controller.web.actions.contact.ShowContactDatailsAction;
+import de.fhb.autobday.controller.web.actions.google.ReadOutGoogleContactsAction;
+import de.fhb.autobday.controller.web.actions.group.ActivateGroupAction;
+import de.fhb.autobday.controller.web.actions.group.DeactivateGroupAction;
+import de.fhb.autobday.controller.web.actions.group.SaveTemplateAction;
+import de.fhb.autobday.controller.web.actions.group.ShowAllGroups;
+import de.fhb.autobday.controller.web.actions.group.ShowContactsOfGroupAction;
+import de.fhb.autobday.controller.web.actions.group.ShowTemplateAction;
+import de.fhb.autobday.controller.web.actions.user.ChangeOptionsAction;
+import de.fhb.autobday.controller.web.actions.user.LoginAction;
+import de.fhb.autobday.controller.web.actions.user.LogoutAction;
+import de.fhb.autobday.controller.web.actions.user.ShowAllUserAction;
+import de.fhb.autobday.controller.web.actions.user.ShowOptionsAction;
 
 /**
  *
@@ -28,8 +37,25 @@ import javax.servlet.http.HttpServletResponse;
 			})
 @Named("ABDServlet")
 public class ABDServlet extends HttpServletControllerBase {
-	//@Inject
-	//private ShowAllUserAction showAllUserAction;
+
+
+	
+	@Inject private ActivateContactAction activateContactAction;
+	@Inject private DeactivateContactAction deactivateContactAction;
+	@Inject private ShowContactDatailsAction showContactDatailsAction;
+	@Inject private ReadOutGoogleContactsAction readOutGoogleContactsAction;
+	@Inject private ActivateGroupAction activateGroupAction;
+	@Inject private DeactivateGroupAction deactivateGroupAction;
+	@Inject private SaveTemplateAction saveTemplateAction;
+	@Inject private ShowAllGroups showAllGroups;
+	@Inject private ShowContactsOfGroupAction showContactsOfGroupAction;
+	@Inject private ShowTemplateAction showTemplateAction;
+	@Inject private ChangeOptionsAction changeOptionsAction;
+	@Inject private LoginAction loginAction;
+	@Inject private LogoutAction logoutAction;
+	@Inject private ShowAllUserAction showAllUserAction;
+	@Inject private ShowOptionsAction showOptionsAction;
+	
 	/** 
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
 	 * @param request servlet request
@@ -91,10 +117,20 @@ public class ABDServlet extends HttpServletControllerBase {
 	public void init(ServletConfig conf) throws ServletException {
 		super.init(conf);
 		
-		HttpRequestActionBase action = null;
-		//actions = new HashMap();
+
+		actions.put("ActivateContactAction",activateContactAction);
+		actions.put("DeactivateContactAction",deactivateContactAction);
+		actions.put("ShowContactDatailsAction",showContactDatailsAction);
+		actions.put("ReadOutGoogleContactsAction",readOutGoogleContactsAction);
+		actions.put("ActivateGroupAction",activateGroupAction);
+		actions.put("DeactivateGroupAction",deactivateGroupAction);
+		actions.put("SaveTemplateAction",saveTemplateAction);
+		actions.put("ShowAllGroups",showAllGroups);
+		actions.put("ShowContactsOfGroupAction",showContactsOfGroupAction);
+		actions.put("ShowTemplateAction",showTemplateAction);
+		actions.put("ChangeOptionsAction",changeOptionsAction);
+		actions.put("LoginAction",loginAction);
 		
-		//actions.put("ShowAllUser", showAllUserAction);
 	}
 	
 }

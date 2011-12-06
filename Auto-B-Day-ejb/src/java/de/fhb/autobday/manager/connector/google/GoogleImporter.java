@@ -223,7 +223,7 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 	
-	private AbdContact mapGContacttoContact(ContactEntry contactEntry){
+	protected AbdContact mapGContacttoContact(ContactEntry contactEntry){
 		
 		LOGGER.info("mapGContacttoContact");
 		LOGGER.log(Level.INFO, "contactEntry :{0}", contactEntry.getId());

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.manager.contact;
 
 import static org.junit.Assert.fail;
@@ -18,6 +14,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
@@ -30,6 +28,8 @@ import de.fhb.autobday.data.AbdGroupToContact;
 public class ContactManagerTest {
 	private EJBContainer container;
 	
+	private JavaEEGloss gloss;
+	
 	private AbdContactFacade contactDAOMock;
 	private AbdGroupToContactFacade groupToContactDAOMock;
 	
@@ -40,25 +40,37 @@ public class ContactManagerTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
+		
 	}
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
+		
 	}
 	
 	@Before
 	public void setUp() {
-		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		
+		gloss= new JavaEEGloss();
+
+		
+//		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		
 		contactDAOMock = EasyMock.createMock(AbdContactFacade.class);
 		groupToContactDAOMock = EasyMock.createMock(AbdGroupToContactFacade.class);
+		gloss.addEJB(contactDAOMock);
+		gloss.addEJB(groupToContactDAOMock);
+		managerUnderTest=gloss.make(ContactManager.class);
 		
-		managerUnderTest = new ContactManager();
+		
+//		managerUnderTest = new ContactManager();
+		
+		
 	}
 	
 	@After
 	public void tearDown() {
-		container.close();
+//		container.close();
 	}
 
 	/**
@@ -83,16 +95,17 @@ public class ContactManagerTest {
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
 		EasyMock.expect(groupToContactDAOMock.findContactByContact(contactId)).andReturn(allGroupToContact).times(1);
+		groupToContactDAOMock.edit(groupToContact);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
-		ContactManagerLocal instance = (ContactManagerLocal)container.getContext().lookup("java:global/classes/ContactManager");
+		// testing Methodcall
+		managerUnderTest.setActive(contactId, isActive);
 		
-		instance.setActive(contactId, isActive);
-		
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// verify
+		EasyMock.verify(contactDAOMock);
+		EasyMock.verify(groupToContactDAOMock);
 	}
 }

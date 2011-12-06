@@ -20,7 +20,7 @@
 	<!-- =================================
 		          target: Default
 		 ================================= -->
-	<target name="default" depends="init,compile-ejb,compile-war,jar,war">
+	<target name="default" depends="init,compile-ejb,jar,compile-war,war">
 		
 	</target>
 	
@@ -96,8 +96,9 @@
 		</javac>
 	</target>
 	
-	<target name="compile-war" depends="init,report">
+	<target name="compile-war" depends="init, jar, report">
 		<path id="war.classpath">
+			<!--Add EJB-JAR-REF here-->
 			<fileset dir="${war.lib.default.dir}">
 				<include name="*.jar" />
 			</fileset>

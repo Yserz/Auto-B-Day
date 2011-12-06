@@ -18,7 +18,7 @@ public abstract class HttpServletControllerBase extends HttpServlet {
 	/**
 	 * 
 	 */
-	protected HashMap actions;
+	protected HashMap<String,HttpRequestActionBase> actions;
 	  
 	/* (non-Javadoc)
 	 * @see javax.servlet.Servlet#init(javax.servlet.ServletConfig)
@@ -31,7 +31,7 @@ public abstract class HttpServletControllerBase extends HttpServlet {
 	@Override
 	public void init(ServletConfig conf) throws ServletException {
 		HttpRequestActionBase action = null;
-		actions = new HashMap();
+		actions = new HashMap<String,HttpRequestActionBase>();
 
 		// ... erzeuge deine Aktionen
 		// action = new MyAction();

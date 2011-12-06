@@ -1,15 +1,14 @@
 package de.fhb.autobday.controller.web.actions.contact;
 
-import java.io.Serializable;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import de.fhb.autobday.commons.web.HttpRequestActionBase;
-import de.fhb.autobday.manager.ABDManagerLocal;
 import de.fhb.autobday.manager.contact.ContactManager;
 
 /** 
@@ -19,6 +18,7 @@ import de.fhb.autobday.manager.contact.ContactManager;
  * @author Andy Klay <klay@fh-brandenburg.de>
  * 
  */
+@Named(value = "ShowContactDatailsAction")
 public class ShowContactDatailsAction extends HttpRequestActionBase {
 	
 	@Inject

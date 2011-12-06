@@ -11,33 +11,11 @@
 		<h:form>
 			
 			<h:panelGrid columns="2">
-				<h:outputText value="Name: #{ActDateBeanTest.printHallo}" />
-				<h:inputText value="" />
-
-				<h:outputText value="Telephone" />
-				<h:inputText value="" />
-
-				<h:outputText value="Calendar:" />
-				<h:inputText value="#{ActDateBeanTest.printDate}" />
-				<p:calendar pattern="dd/MM/yyyy" locale="pt" value="#{ActDateBeanTest.date}" />
-				
-				<h:commandButton value="ok" action="#{ActDateBeanTest.printDate}" />
-
+				<h:outputText value="Name: #{actDateBeanTest.hallo}" />
+				<h:inputText value="#{actDateBeanTest.hallo}" />
+				<h:commandButton action="#{actDateBeanTest.printHallo()}" value="hallo" />
 			</h:panelGrid>
 		</h:form>
 		
-		<!--
-		<h:form>  
-			<h:outputLabel for="email">E-Mail</h:outputLabel>
-			<h:inputText id="email" value="#{register.email}"/>
-			
-			<h:outputLabel for="password">Passwort</h:outputLabel>
-			<h:inputSecret id="password" value="#{register.password}"/>
-			
-			<h:commandButton value="Registrieren" action="#{registerBean.registerAccount}" />
-
-		</h:form>
-		<p:spinner /> 
-		-->
 	</h:body>
 </html>

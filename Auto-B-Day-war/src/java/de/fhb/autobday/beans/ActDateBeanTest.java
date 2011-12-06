@@ -11,8 +11,8 @@ import java.util.Date;
  * @author MacYser
  */
 public class ActDateBeanTest {
-	private Date date = new Date();
-	private String hallo = "hallo";
+	Date date = new Date();
+	String hallo = "hallo";
 
 
 	
@@ -20,7 +20,8 @@ public class ActDateBeanTest {
 		System.out.println(date);
 	}
 	public String printHallo(){
-		return hallo;
+		System.out.println(hallo);
+		return "index";
 	}
 	
 	public Date getDate() {
@@ -29,6 +30,14 @@ public class ActDateBeanTest {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public String getHallo() {
+		return hallo;
+	}
+
+	public void setHallo(String hallo) {
+		this.hallo = hallo;
 	}
 	
 	

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.fhb.autobday.commons.web.HttpRequestActionBase;
 import de.fhb.autobday.manager.user.UserManager;
+import de.fhb.autobday.manager.user.UserManagerLocal;
 
 /** 
  * 
@@ -22,7 +23,7 @@ import de.fhb.autobday.manager.user.UserManager;
 public class ReadOutGoogleContactsAction extends HttpRequestActionBase {
 	
 	@Inject
-	private UserManager userManager;
+	private UserManagerLocal userManager;
 	
 	private final static Logger LOGGER = Logger.getLogger(ReadOutGoogleContactsAction.class.getName());
 	

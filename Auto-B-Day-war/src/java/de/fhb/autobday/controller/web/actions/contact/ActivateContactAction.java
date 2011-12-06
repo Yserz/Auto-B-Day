@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.fhb.autobday.commons.web.HttpRequestActionBase;
 import de.fhb.autobday.manager.contact.ContactManager;
+import de.fhb.autobday.manager.contact.ContactManagerLocal;
 
 /** 
  * 
@@ -22,7 +23,7 @@ import de.fhb.autobday.manager.contact.ContactManager;
 public class ActivateContactAction extends HttpRequestActionBase {
 	
 	@Inject
-	private ContactManager contactManager;
+	private ContactManagerLocal contactManager;
 	
 	private final static Logger LOGGER = Logger.getLogger(ActivateContactAction.class.getName());
 	

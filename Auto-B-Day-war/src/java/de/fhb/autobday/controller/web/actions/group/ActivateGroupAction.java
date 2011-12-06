@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.fhb.autobday.commons.web.HttpRequestActionBase;
 import de.fhb.autobday.manager.group.GroupManager;
+import de.fhb.autobday.manager.group.GroupManagerLocal;
 
 /** 
  * 
@@ -22,7 +23,7 @@ import de.fhb.autobday.manager.group.GroupManager;
 public class ActivateGroupAction extends HttpRequestActionBase {
 	
 	@Inject
-	private GroupManager groupManager;
+	private GroupManagerLocal groupManager;
 	
 	private final static Logger LOGGER = Logger.getLogger(ActivateGroupAction.class.getName());
 	

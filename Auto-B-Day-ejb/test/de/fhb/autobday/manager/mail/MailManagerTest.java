@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.manager.mail;
 
 import javax.ejb.embeddable.EJBContainer;

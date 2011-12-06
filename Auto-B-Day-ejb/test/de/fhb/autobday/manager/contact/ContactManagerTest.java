@@ -26,7 +26,8 @@ import de.fhb.autobday.data.AbdGroupToContact;
  * @author Andy Klay <klay@fh-brandenburg.de>
  */
 public class ContactManagerTest {
-	private EJBContainer container;
+	
+//	private EJBContainer container;
 	
 	private JavaEEGloss gloss;
 	
@@ -56,15 +57,16 @@ public class ContactManagerTest {
 		
 //		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		
+		//create Mocks
 		contactDAOMock = EasyMock.createMock(AbdContactFacade.class);
 		groupToContactDAOMock = EasyMock.createMock(AbdGroupToContactFacade.class);
+		
+		//set Objekts to inject
 		gloss.addEJB(contactDAOMock);
 		gloss.addEJB(groupToContactDAOMock);
+		
+		//create Manager with Mocks
 		managerUnderTest=gloss.make(ContactManager.class);
-		
-		
-//		managerUnderTest = new ContactManager();
-		
 		
 	}
 	

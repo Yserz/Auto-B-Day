@@ -2,6 +2,8 @@ package de.fhb.autobday.manager.user;
 
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.user.IncompleteLoginDataException;
+import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 
@@ -41,8 +43,7 @@ public class UserManager implements UserManagerLocal {
 		
 		if(loginName==null||password==null||password.equals("")){
 			LOGGER.log(Level.SEVERE, "Invalid input!");
-			//TODO Spezifische Exception!!
-			throw new UserException("Invalid input!");
+			throw new IncompleteLoginDataException("Invalid input!");
 		}
 		
 		user=userDAO.find(loginName);
@@ -55,8 +56,7 @@ public class UserManager implements UserManagerLocal {
 		
 		if(!user.getPasswort().equals(password)){
 			LOGGER.log(Level.SEVERE, "Invalid password!");
-			//TODO Spezifische Exception!!
-			throw new UserException("Invalid password!");
+			throw new PasswordInvalidException("Invalid password!");
 		}
 		
 		return user;

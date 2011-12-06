@@ -12,6 +12,8 @@ import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
+import de.fhb.autobday.exception.contact.ContactNotFoundException;
+import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
 
 /**
  *
@@ -44,8 +46,7 @@ public class ContactManager implements ContactManagerLocal {
 		
 		if(contact==null){
 			LOGGER.log(Level.SEVERE, "Contact {0}not found!", contactId);
-			//TODO ContactNotFoundException!!
-			throw new ContactException("Contact " + contactId + "not found!");
+			throw new ContactNotFoundException("Contact " + contactId + "not found!");
 		}
 		
 		
@@ -60,8 +61,7 @@ public class ContactManager implements ContactManagerLocal {
 		
 		if(groupToContact==null){
 			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
-			//TODO neues Exceptionpackage anlegen und neue exception (z.B. NoContactInThisGroupException)
-			throw new ContactException("Relation groupToContact not found!");
+			throw new NoContactInThisGroupException("Relation groupToContact not found!");
 		}
 		
 		

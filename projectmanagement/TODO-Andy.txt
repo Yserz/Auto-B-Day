@@ -5,7 +5,6 @@ TODO - Andy
 --- Allgemein 	---
 
 - ein paar weitere Tests implementieren
-- TODOs in manager machen auﬂer email, da tino dran arbeitet
 - Doku weiter machen
 
 

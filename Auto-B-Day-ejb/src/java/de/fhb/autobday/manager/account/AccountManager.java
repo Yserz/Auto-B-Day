@@ -1,15 +1,15 @@
 package de.fhb.autobday.manager.account;
 
-import de.fhb.autobday.dao.AbdAccountFacade;
-import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.exception.account.AccountException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
-import com.google.gdata.data.Kind.Adaptable;
+import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.exception.account.AccountException;
+import de.fhb.autobday.exception.account.AccountNotFoundException;
 
 /**
  *
@@ -61,8 +61,7 @@ public class AccountManager implements AccountManagerLocal {
 		//if account not found
 		if(account==null){
 			LOGGER.log(Level.SEVERE, "Account {0}not found!", accountId);
-			//TODO AccountNotFoundException!!
-			throw new AccountException("Account " + accountId + "not found!");
+			throw new AccountNotFoundException("Account " + accountId + "not found!");
 		}
 		
 		

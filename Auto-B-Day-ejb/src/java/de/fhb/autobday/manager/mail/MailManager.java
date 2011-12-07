@@ -2,6 +2,7 @@ package de.fhb.autobday.manager.mail;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -12,6 +13,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -19,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import de.fhb.autobday.commons.AccountPropertiesFile;
 import de.fhb.autobday.commons.PasswortGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
@@ -133,24 +136,31 @@ public class MailManager implements MailManagerLocal {
 	}
 
 	private void connectToMailServer() {
+		/*
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "smtp");
 		props.setProperty("mail.host", "mymail.server.org");
-		props.setProperty("mail.user", "emailuser");
-		props.setProperty("mail.password", "");
+		props.setProperty("mail.user", "fhbtestacc@googlemail.com");
+		props.setProperty("mail.password", "TestGoogle123");
 
 		mailSession = Session.getDefaultInstance(props, null);
+		*/
+		Properties props = new Properties();
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.socketFactory.port", "465");
+		props.put("mail.smtp.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", "465");
+ 
+		mailSession = Session.getDefaultInstance(props,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					HashMap<String,String> properties = AccountPropertiesFile.getProperties("mailaccount.properties");
+					return new PasswordAuthentication(properties.get("loginname"),properties.get("password"));
+				}
+			});
 
 	}
 	
-	private void connectToOwnMailServer() {
-		try {
-			InitialContext ic = new InitialContext();
-			String snName = "java:comp/env/mail/MyMailSession";
-			mailSession = (Session) ic.lookup(snName);
-		} catch (NamingException ex) {
-			Logger.getLogger(MailManager.class.getName()).log(Level.SEVERE, null, ex);
-		}
-
-	}
 }

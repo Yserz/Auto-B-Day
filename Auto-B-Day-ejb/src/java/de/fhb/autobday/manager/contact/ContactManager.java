@@ -49,7 +49,7 @@ public class ContactManager implements ContactManagerLocal {
 		}
 		
 		
-		allGroupToContact = groupToContactDAO.findContactByContact(contactId);
+		allGroupToContact = groupToContactDAO.findGroupByContact(contactId);
 		
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
 			if(actualGroupToContact.getAbdContact().equals(contact)){

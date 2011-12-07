@@ -45,12 +45,12 @@ public class AbdContact implements Serializable {
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "mail")
-	private String mail;
+	private String mail = null;
 	@Basic(optional = false)
     @NotNull
     @Column(name = "bday")
     @Temporal(TemporalType.DATE)
-	private Date bday;
+	private Date bday = null;
 	@Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)

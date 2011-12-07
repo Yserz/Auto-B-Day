@@ -1,14 +1,12 @@
 package de.fhb.autobday.beans;
 
 import java.util.Date;
-
-import org.primefaces.event.DateSelectEvent;
-import javax.inject.Named;
 import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named(value = "calendarBean")
 @Dependent

@@ -28,7 +28,7 @@ import de.fhb.autobday.exception.mail.MailException;
 /**
  * TODO This will may change position to ABDManager!!!
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Singleton
 @Startup

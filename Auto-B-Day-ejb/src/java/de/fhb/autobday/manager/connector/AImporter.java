@@ -5,7 +5,7 @@ import de.fhb.autobday.data.AbdAccount;
 /**
  * Strategy-Muster zur Kapselung der Connectionart.
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public abstract class AImporter {
 	public abstract void getConnection(AbdAccount data);

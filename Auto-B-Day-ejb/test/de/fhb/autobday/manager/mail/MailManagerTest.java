@@ -1,16 +1,12 @@
 package de.fhb.autobday.manager.mail;
 
 import javax.ejb.embeddable.EJBContainer;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+import org.junit.*;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class MailManagerTest {
 	private EJBContainer container;

@@ -4,12 +4,12 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.group.GroupException;
-
 import javax.ejb.Local;
 
 /**
  *
- * @author Michael Koppen, Andy Klay <klay@fh-brandenburg.de>
+ * @author Andy Klay <klay@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
 public interface GroupManagerLocal {

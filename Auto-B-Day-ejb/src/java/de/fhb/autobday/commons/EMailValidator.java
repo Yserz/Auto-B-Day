@@ -2,7 +2,7 @@ package de.fhb.autobday.commons;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class EMailValidator {
 	

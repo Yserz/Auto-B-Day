@@ -1,12 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.manager.connector.google;
 
-import java.sql.Date;
-
-import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactGroupFeed;
@@ -15,22 +8,16 @@ import com.google.gdata.data.contacts.Gender.Value;
 import com.google.gdata.data.extensions.FamilyName;
 import com.google.gdata.data.extensions.GivenName;
 import com.google.gdata.data.extensions.Name;
-
-import de.fhb.autobday.commons.GoogleBirthdayConverter;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
-
-import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import java.sql.Date;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import org.junit.*;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class GoogleImporterTest {
 	

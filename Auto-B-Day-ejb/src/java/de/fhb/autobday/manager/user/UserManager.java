@@ -6,7 +6,6 @@ import de.fhb.autobday.exception.user.IncompleteLoginDataException;
 import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -15,6 +14,7 @@ import javax.ejb.Stateless;
 /**
  *
 * @author Andy Klay <klay@fh-brandenburg.de>
+* @author Michael Koppen <koppen@fh-brandenburg.de>
 * 
  */
 @Stateless

@@ -2,7 +2,7 @@ package de.fhb.autobday.exception;
 
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class ABDRuntimeException extends RuntimeException{
 	/**

@@ -1,15 +1,7 @@
 package de.fhb.autobday.manager;
 
-import de.fhb.autobday.dao.AbdAccountFacade;
-import de.fhb.autobday.dao.AbdContactFacade;
-import de.fhb.autobday.dao.AbdGroupFacade;
-import de.fhb.autobday.dao.AbdGroupToContactFacade;
-import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.data.AbdContact;
-import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdGroupToContact;
+import de.fhb.autobday.dao.*;
+import de.fhb.autobday.data.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -21,7 +13,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Stateless
 public class ABDManager implements ABDManagerLocal, Serializable {

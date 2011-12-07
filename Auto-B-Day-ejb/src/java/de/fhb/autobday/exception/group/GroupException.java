@@ -4,7 +4,7 @@ import de.fhb.autobday.exception.ABDException;
 
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class GroupException extends ABDException {
 	/**

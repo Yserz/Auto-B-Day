@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 /**
  *
  * @author Tino Reuschel
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class GoogleImporter extends AImporter {
 

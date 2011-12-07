@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.data;
 
 import java.io.Serializable;
@@ -13,7 +9,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Embeddable
 public class AbdGroupToContactPK implements Serializable {

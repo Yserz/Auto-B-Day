@@ -1,12 +1,12 @@
 package de.fhb.autobday.manager.contact;
 
-import javax.ejb.Local;
-
 import de.fhb.autobday.exception.contact.ContactException;
+import javax.ejb.Local;
 
 /**
  *
- * @author Michael Koppen, Andy Klay <klay@fh-brandenburg.de>
+ * @author Andy Klay <klay@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
 public interface ContactManagerLocal {

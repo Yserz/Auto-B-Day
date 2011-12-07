@@ -1,25 +1,24 @@
 package de.fhb.autobday.manager.group;
 
-import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.group.GroupException;
+import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 /**
 *
 *
 * @author Andy Klay <klay@fh-brandenburg.de>
+* @author Michael Koppen <koppen@fh-brandenburg.de>
 */
 @Stateless
 public class GroupManager implements GroupManagerLocal {

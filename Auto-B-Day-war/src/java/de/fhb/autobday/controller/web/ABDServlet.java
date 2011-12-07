@@ -1,7 +1,13 @@
 package de.fhb.autobday.controller.web;
 
+import de.fhb.autobday.commons.web.HttpServletControllerBase;
+import de.fhb.autobday.controller.web.actions.contact.ActivateContactAction;
+import de.fhb.autobday.controller.web.actions.contact.DeactivateContactAction;
+import de.fhb.autobday.controller.web.actions.contact.ShowContactDatailsAction;
+import de.fhb.autobday.controller.web.actions.google.ReadOutGoogleContactsAction;
+import de.fhb.autobday.controller.web.actions.group.*;
+import de.fhb.autobday.controller.web.actions.user.*;
 import java.io.IOException;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletConfig;
@@ -10,26 +16,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import de.fhb.autobday.commons.web.HttpServletControllerBase;
-import de.fhb.autobday.controller.web.actions.contact.ActivateContactAction;
-import de.fhb.autobday.controller.web.actions.contact.DeactivateContactAction;
-import de.fhb.autobday.controller.web.actions.contact.ShowContactDatailsAction;
-import de.fhb.autobday.controller.web.actions.google.ReadOutGoogleContactsAction;
-import de.fhb.autobday.controller.web.actions.group.ActivateGroupAction;
-import de.fhb.autobday.controller.web.actions.group.DeactivateGroupAction;
-import de.fhb.autobday.controller.web.actions.group.SaveTemplateAction;
-import de.fhb.autobday.controller.web.actions.group.ShowAllGroups;
-import de.fhb.autobday.controller.web.actions.group.ShowContactsOfGroupAction;
-import de.fhb.autobday.controller.web.actions.group.ShowTemplateAction;
-import de.fhb.autobday.controller.web.actions.user.ChangeOptionsAction;
-import de.fhb.autobday.controller.web.actions.user.LoginAction;
-import de.fhb.autobday.controller.web.actions.user.LogoutAction;
-import de.fhb.autobday.controller.web.actions.user.ShowAllUserAction;
-import de.fhb.autobday.controller.web.actions.user.ShowOptionsAction;
-
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @WebServlet(name = "ABDServlet",
 			urlPatterns = {

@@ -1,7 +1,11 @@
 package de.fhb.autobday.commons;
 
 import java.sql.Date;
-
+/**
+ * 
+ * @author Tino Reuschel
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
+ */
 public class GoogleBirthdayConverter {
 	
 	@SuppressWarnings("deprecation")

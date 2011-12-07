@@ -1,12 +1,11 @@
 package de.fhb.autobday.manager.mail;
 
-import javax.ejb.Local;
-
 import de.fhb.autobday.exception.mail.MailException;
+import javax.ejb.Local;
 
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
 public interface MailManagerLocal {

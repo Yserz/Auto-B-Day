@@ -1,31 +1,18 @@
 package de.fhb.autobday.manager.group;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
-import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
-
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
-import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdGroupToContact;
-import de.fhb.autobday.manager.contact.ContactManager;
+import org.easymock.EasyMock;
+import static org.junit.Assert.*;
+import org.junit.*;
 
 /**
  * 
  * @author Andy Klay <klay@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class GroupManagerTest {
 	

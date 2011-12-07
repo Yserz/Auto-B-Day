@@ -3,7 +3,7 @@ package de.fhb.autobday.exception.group;
 
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class GroupNotFoundException extends GroupException {
 	/**

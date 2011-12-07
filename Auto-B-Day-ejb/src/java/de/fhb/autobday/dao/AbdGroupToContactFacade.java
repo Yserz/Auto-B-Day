@@ -1,21 +1,14 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.dao;
 
-import java.util.Collection;
-import java.util.Date;
-
-import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroupToContact;
+import java.util.Collection;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Stateless
 public class AbdGroupToContactFacade extends AbstractFacade<AbdGroupToContact> {

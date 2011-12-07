@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.dao;
 
 import de.fhb.autobday.data.AbdAccount;
@@ -11,7 +7,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Stateless
 public class AbdAccountFacade extends AbstractFacade<AbdAccount> {

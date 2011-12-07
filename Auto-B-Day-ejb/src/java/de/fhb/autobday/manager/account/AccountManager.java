@@ -1,20 +1,19 @@
 package de.fhb.autobday.manager.account;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 /**
  *
  *
  * @author Andy Klay <klay@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  * 
  */
 @Stateless

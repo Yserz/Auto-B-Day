@@ -9,7 +9,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
 public interface ABDManagerLocal {

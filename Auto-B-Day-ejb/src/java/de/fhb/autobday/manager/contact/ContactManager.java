@@ -1,12 +1,5 @@
 package de.fhb.autobday.manager.contact;
 
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
@@ -14,10 +7,16 @@ import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Andy Klay <klay@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Stateless
 public class ContactManager implements ContactManagerLocal {

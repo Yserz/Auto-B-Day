@@ -1,5 +1,9 @@
 package de.fhb.autobday.commons;
-
+/**
+ * 
+ * @author Tino Reuschel
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
+ */
 public class PasswortGenerator {
 
 	public static String generatePassword()  

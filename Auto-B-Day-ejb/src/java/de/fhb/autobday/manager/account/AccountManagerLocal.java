@@ -1,12 +1,11 @@
 package de.fhb.autobday.manager.account;
 
-import javax.ejb.Local;
-
 import de.fhb.autobday.exception.account.AccountException;
+import javax.ejb.Local;
 
 /**
  *
- * @author Michael Koppen
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
 public interface AccountManagerLocal {

@@ -1,29 +1,19 @@
 package de.fhb.autobday.manager.contact;
 
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.ejb.embeddable.EJBContainer;
-
-import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
-
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroupToContact;
+import java.util.ArrayList;
+import java.util.Collection;
+import org.easymock.EasyMock;
+import org.junit.*;
 
 /**
  *
  * @author Andy Klay <klay@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class ContactManagerTest {
 	

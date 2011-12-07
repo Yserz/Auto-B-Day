@@ -367,6 +367,13 @@ public class GoogleImporter extends AImporter {
 		return false;
 	}
 	
+	/*
+	 * methode that return the firstname of a given contact
+	 * 
+	 * @param ContactEntry contactEntry
+	 * 
+	 * @return String
+	 */
 	private String getGContactFirstname(ContactEntry contactEntry){
 		String firstname;
 		firstname=contactEntry.getName().getGivenName().getValue();
@@ -374,6 +381,13 @@ public class GoogleImporter extends AImporter {
 		
 	}
 	
+	/*
+	 * methode that return the familyname of a given Contact
+	 * 
+	 * @param ContactEntry contactEntry
+	 * 
+	 * @return String
+	 */
 	private String getGContactFamilyname(ContactEntry contactEntry){
 		String firstname;
 		firstname=contactEntry.getName().getFamilyName().getValue();
@@ -381,11 +395,25 @@ public class GoogleImporter extends AImporter {
 		
 	}
 	
+	/*
+	 * methode that return the birthday of a given Contact
+	 * 
+	 * @param ContactEntry contactEntry
+	 * 
+	 * @ return Date
+	 */
 	private Date getGContactBirthday(ContactEntry contactEntry){
 		String gContactBirthday = contactEntry.getBirthday().getValue();
 		return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
 	}
 	
+	/*
+	 * Methode that return a mailadress of a given Contact
+	 * 
+	 * @param ContactEntry contactEntry
+	 * 
+	 * @return String
+	 */
 	private String getGContactFirstMailAdress(ContactEntry contactEntry){
 		List<Email> mailadresses;
 		String mailadress;

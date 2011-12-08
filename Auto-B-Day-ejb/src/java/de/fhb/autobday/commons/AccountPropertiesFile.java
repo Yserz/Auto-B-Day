@@ -15,9 +15,22 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+/*
+ * this class read a properties file with logindata
+ */
 public class AccountPropertiesFile {
 	
+	/*
+	 * this methode return a hashmap with the logindata
+	 * with key "loginname" you get the loginname
+	 * with key "password" you get the password
+	 * 
+	 * @param String filename
+	 * 
+	 * @return HashMap<String,String>
+	 */
 	public static HashMap<String,String> getProperties(String filename){
+		
 		HashMap<String,String> props = new HashMap<String,String>();
 		Properties properties = new Properties();
 		String loginname;

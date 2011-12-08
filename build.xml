@@ -7,7 +7,8 @@
 <!-- the Compile on Save feature is turned off for the project. -->
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
-<project name="Auto-B-Day" default="default" basedir="." xmlns:ear="http://www.netbeans.org/ns/j2ee-earproject/2" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="Auto-B-Day" default="default" basedir="." xmlns:ear="http://www.netbeans.org/ns/j2ee-earproject/2">
+	<!-- <project name="Auto-B-Day" default="default" basedir="." xmlns:ear="http://www.netbeans.org/ns/j2ee-earproject/2" xmlns:ivy="antlib:org.apache.ivy.ant"> -->
     <description>Builds and tests the project Auto-B-Day.</description>
 	
 	<!-- 
@@ -349,24 +350,27 @@
 	<!-- ================================= 
           target: clean-cache              
          ================================= -->
-	<target name="clean-cache" description="--> clean the ivy cache">
+<!--
+	<target name="clean-cache" description="-- clean the ivy cache">
 		<ivy:cleancache />
 	</target>
-	
+-->	
 	<!-- ================================= 
           target: resolve              
          ================================= -->
-    <target name="resolve" description="--> retreive dependencies with ivy">
+<!-- 
+	<target name="resolve" description="-- retreive dependencies with ivy">
 		<property name="ivy.settings.dir" value="settings" />
 		<ivy:settings file="${ivy.settings.dir}/ivysettings.xml" />
         <ivy:retrieve pattern="${ejb.lib.default.dir}"/>
     </target>    
-    
+-->   
     <!-- ================================= 
           target: report              
          ================================= -->
-    <target name="report" depends="resolve" description="--> generates a report of dependencies">
+<!--
+    <target name="report" depends="resolve" description="-- generates a report of dependencies">
         <ivy:report todir="${build.dir}"/>
     </target>
-	
+-->
 </project>

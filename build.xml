@@ -115,7 +115,7 @@
 	<!-- =================================
 		          target: Compile EJB
 		 ================================= -->
-	<target name="compile-ejb" depends="init,report">
+	<target name="compile-ejb" depends="init">
 		<copy todir="${ejb.classes.dir}/META-INF">
 		    <fileset dir="${ejb.src.dir}/META-INF"/>
 		</copy>
@@ -136,7 +136,7 @@
 	<!-- =================================
 		          target: Compile WAR
 		 ================================= -->
-	<target name="compile-war" depends="init, jar, report">
+	<target name="compile-war" depends="init, jar">
 		<copy todir="${war.web.dir}">
 		    <fileset dir="${war.websrc.dir}"/>
 		</copy>
@@ -351,7 +351,7 @@
           target: clean-cache              
          ================================= -->
 <!--
-	<target name="clean-cache" description="-- clean the ivy cache">
+	<target name="clean-cache" description="- clean the ivy cache">
 		<ivy:cleancache />
 	</target>
 -->	
@@ -359,7 +359,7 @@
           target: resolve              
          ================================= -->
 <!-- 
-	<target name="resolve" description="-- retreive dependencies with ivy">
+	<target name="resolve" description="- retreive dependencies with ivy">
 		<property name="ivy.settings.dir" value="settings" />
 		<ivy:settings file="${ivy.settings.dir}/ivysettings.xml" />
         <ivy:retrieve pattern="${ejb.lib.default.dir}"/>
@@ -369,7 +369,7 @@
           target: report              
          ================================= -->
 <!--
-    <target name="report" depends="resolve" description="-- generates a report of dependencies">
+    <target name="report" depends="resolve" description="- generates a report of dependencies">
         <ivy:report todir="${build.dir}"/>
     </target>
 -->

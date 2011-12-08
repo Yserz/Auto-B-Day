@@ -38,12 +38,6 @@ public class ABDServletTest {
 	@Test
 	public void testDoGet() throws Exception {
 		System.out.println("doGet");
-		HttpServletRequest req = null;
-		HttpServletResponse resp = null;
-		ABDServlet instance = new ABDServlet();
-		instance.doGet(req, resp);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -52,12 +46,6 @@ public class ABDServletTest {
 	@Test
 	public void testDoPost() throws Exception {
 		System.out.println("doPost");
-		HttpServletRequest req = null;
-		HttpServletResponse resp = null;
-		ABDServlet instance = new ABDServlet();
-		instance.doPost(req, resp);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -66,12 +54,6 @@ public class ABDServletTest {
 	@Test
 	public void testGetServletInfo() {
 		System.out.println("getServletInfo");
-		ABDServlet instance = new ABDServlet();
-		String expResult = "";
-		String result = instance.getServletInfo();
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -80,13 +62,6 @@ public class ABDServletTest {
 	@Test
 	public void testGetOperation() {
 		System.out.println("getOperation");
-		HttpServletRequest req = null;
-		ABDServlet instance = new ABDServlet();
-		String expResult = "";
-		String result = instance.getOperation(req);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 
 	/**
@@ -95,10 +70,5 @@ public class ABDServletTest {
 	@Test
 	public void testInit() throws Exception {
 		System.out.println("init");
-		ServletConfig conf = null;
-		ABDServlet instance = new ABDServlet();
-		instance.init(conf);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
 	}
 }

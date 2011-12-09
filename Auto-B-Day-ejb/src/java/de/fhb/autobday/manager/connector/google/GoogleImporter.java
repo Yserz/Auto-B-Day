@@ -8,7 +8,6 @@ import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.Gender.Value;
 import com.google.gdata.data.contacts.GroupMembershipInfo;
 import com.google.gdata.data.extensions.Email;
-import com.google.gdata.data.extensions.Name;
 import com.google.gdata.util.ServiceException;
 
 import de.fhb.autobday.commons.GoogleBirthdayConverter;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 29. Nov 2011 um 15:31
+-- Erstellungszeit: 09. Dez 2011 um 12:00
 -- Server Version: 5.5.16
 -- PHP-Version: 5.3.8
 
@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `abdcontact` (
   `mail` varchar(255) NOT NULL,
   `bday` date NOT NULL,
   `hashid` varchar(255) NOT NULL,
+  `updated` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -65,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `abdgroup` (
   `name` varchar(255) NOT NULL,
   `template` text NOT NULL,
   `active` tinyint(1) NOT NULL,
+  `updated` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `account` (`account`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

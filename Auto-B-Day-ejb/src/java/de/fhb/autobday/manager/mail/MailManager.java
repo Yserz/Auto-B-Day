@@ -153,7 +153,7 @@ public class MailManager implements MailManagerLocal {
 	}
 
 	private void connectToMailServer() {
-		/*
+		
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "smtp");
 		props.setProperty("mail.host", "mymail.server.org");
@@ -161,7 +161,7 @@ public class MailManager implements MailManagerLocal {
 		props.setProperty("mail.password", "TestGoogle123");
 
 		mailSession = Session.getDefaultInstance(props, null);
-		*/
+		/*
 		
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
@@ -178,7 +178,7 @@ public class MailManager implements MailManagerLocal {
 					return new PasswordAuthentication(properties.get("loginname"),properties.get("password"));
 				}
 			});
-
+		*/
 	}
 	
 }

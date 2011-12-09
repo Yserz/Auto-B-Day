@@ -58,7 +58,7 @@ public class GoogleImporterTest {
 		System.out.println("mapGContacttoContact");
 		AbdContact exptected = new AbdContact("1", "", new Date(0), "");
 
-		assertEquals(exptected, gImporter.mapGContacttoContact(contactEntry));
+		assertEquals(exptected, gImporter.mapGContactToContact(contactEntry));
 
 	}
 

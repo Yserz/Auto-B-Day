@@ -40,7 +40,6 @@ public class MailManager implements MailManagerLocal {
 	private final static Logger LOGGER = Logger.getLogger(MailManager.class.getName());
 	private Session mailSession;
 	
-
 	@EJB
 	private AbdUserFacade userDAO;
 
@@ -49,15 +48,16 @@ public class MailManager implements MailManagerLocal {
 	}
 
 	@Override
-	public void sendBdayMail(/*String subject, String message, String recipient||Abduser recipient, String from||Abduser from*/) {
+	public void sendBdayMail(String from, String to, String subject, String body) {
+		/*
 		InternetAddress from = new InternetAddress();
-		from.setAddress("ABSENDER@from.com"/*from*/);
+		from.setAddress("ABSENDER@from.com"from);
 		
 		//Override the JavaMail session properties if necessary.
 		Properties props = mailSession.getProperties();
 		props.put("mail.from", "user2@mailserver.com");
 		
-
+		
 		try {
 			MimeMessage message = new MimeMessage(mailSession);
 
@@ -78,9 +78,26 @@ public class MailManager implements MailManagerLocal {
 
 			
 			sendMail(message);
+			
 
 		} catch (MessagingException ex) {
 			Logger.getLogger(MailManager.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		*/
+		try {
+			 
+			Message message = new MimeMessage(mailSession);
+			message.setFrom(new InternetAddress(from));
+			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
+			message.setSubject(subject);
+			message.setText(body);
+ 
+			Transport.send(message);
+ 
+			System.out.println("Done");
+ 
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -145,6 +162,7 @@ public class MailManager implements MailManagerLocal {
 
 		mailSession = Session.getDefaultInstance(props, null);
 		*/
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");

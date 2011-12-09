@@ -10,7 +10,7 @@ import javax.ejb.Local;
 @Local
 public interface MailManagerLocal {
 
-	void sendBdayMail();
+	void sendBdayMail(String from, String to, String subject, String body);
 
 	void sendNotificationMail();
 

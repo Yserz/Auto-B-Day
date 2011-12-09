@@ -57,12 +57,8 @@ public class GoogleImporterTest {
 	public void testMapGContacttoContact() {
 		System.out.println("mapGContacttoContact");
 		AbdContact exptected = new AbdContact("1", "", new Date(0), "");
-
-<<<<<<< HEAD
 		assertEquals(exptected, gImporter.mapGContactToContact(contactEntry));
-=======
-		//TODO assertEquals(exptected, gImporter.mapGContacttoContact(contactEntry));
->>>>>>> branch 'master' of https://tinoreuschel@github.com/Yserz/Auto-B-Day.git
+
 
 	}
 

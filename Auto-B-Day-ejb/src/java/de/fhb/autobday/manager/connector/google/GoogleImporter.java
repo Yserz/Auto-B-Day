@@ -87,7 +87,7 @@ public class GoogleImporter extends AImporter {
 	 * if don´t get information from google return null else a list of Google ContactGroupEntrys
 	 * 
 	 */
-	private List<ContactGroupEntry> getAllGroups() {
+	public List<ContactGroupEntry> getAllGroups() {
 	
 		LOGGER.info("getAllGroups");
 		
@@ -113,7 +113,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @param String groupid
 	 */
-	private ContactGroupEntry getSingleGroup(String groupid) {
+	public ContactGroupEntry getSingleGroup(String groupid) {
 		
 		LOGGER.info("getSingleGroup");
 		LOGGER.log(Level.INFO, "groupid :{0}", groupid);
@@ -139,7 +139,7 @@ public class GoogleImporter extends AImporter {
 	 * if don´t get information from google return null else a list of Google ContactEntrys
 	 * 
 	 */
-	private List<ContactEntry> getAllContacts() {
+	public List<ContactEntry> getAllContacts() {
 
 		LOGGER.info("getAllContacts");
 
@@ -161,7 +161,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @param String contactid
 	 */
-	private ContactEntry getSingleContact(String contactid) {
+	public ContactEntry getSingleContact(String contactid) {
 		
 		LOGGER.info("getSingleContact");
 		LOGGER.log(Level.INFO, "contactid :{0}", contactid);
@@ -251,7 +251,7 @@ public class GoogleImporter extends AImporter {
 	 * @return AbdContact
 	 * 
 	 */
-	private AbdContact mapGContactToContact(ContactEntry contactEntry){
+	public AbdContact mapGContactToContact(ContactEntry contactEntry){
 		
 		LOGGER.info("mapGContacttoContact");
 		LOGGER.log(Level.INFO, "contactEntry :{0}", contactEntry.getId());
@@ -295,7 +295,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return AbdGroup
 	 */
-	private AbdGroup existGroup(List<AbdGroup> groups, String group){
+	public AbdGroup existGroup(List<AbdGroup> groups, String group){
 		
 		LOGGER.info("existGroup");
 		LOGGER.log(Level.INFO, "group :{0}", group);
@@ -314,7 +314,7 @@ public class GoogleImporter extends AImporter {
 	 * @param String contactid
 	 * @param List<GroupMembershipInfo> groupMembership 
 	 */
-	private void updateGroupMembership(String id, List<GroupMembershipInfo> groupMemberships){
+	public void updateGroupMembership(String id, List<GroupMembershipInfo> groupMemberships){
 		AbdGroupToContactFacade abdGroupToContactFacade = new AbdGroupToContactFacade();
 		AbdGroupToContact abdGroupToContactEntity;
 		AbdContactFacade abdContactFacade = new AbdContactFacade();
@@ -357,7 +357,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return boolean
 	 */
-	private boolean diffMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
+	public boolean diffMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
 		for (int i = 0; i < abdGroupMembership.size(); i++) {
 			if(abdGroupMembership.get(i).getAbdGroup().getId().equals(groupid)){
 				abdGroupMembership.remove(i);
@@ -374,7 +374,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return String
 	 */
-	private String getGContactFirstname(ContactEntry contactEntry){
+	public String getGContactFirstname(ContactEntry contactEntry){
 		String firstname;
 		firstname=contactEntry.getName().getGivenName().getValue();
 		return firstname;
@@ -388,7 +388,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return String
 	 */
-	private String getGContactFamilyname(ContactEntry contactEntry){
+	public String getGContactFamilyname(ContactEntry contactEntry){
 		String firstname;
 		firstname=contactEntry.getName().getFamilyName().getValue();
 		return firstname;
@@ -402,7 +402,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @ return Date
 	 */
-	private Date getGContactBirthday(ContactEntry contactEntry){
+	public Date getGContactBirthday(ContactEntry contactEntry){
 		String gContactBirthday = contactEntry.getBirthday().getValue();
 		return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
 	}
@@ -414,7 +414,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return String
 	 */
-	private String getGContactFirstMailAdress(ContactEntry contactEntry){
+	public String getGContactFirstMailAdress(ContactEntry contactEntry){
 		List<Email> mailadresses;
 		String mailadress;
 		mailadresses = contactEntry.getEmailAddresses();

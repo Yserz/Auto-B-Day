@@ -39,7 +39,8 @@ public class MailManagerTest {
 	public void testSendBdayMail() throws Exception {
 		System.out.println("sendBdayMail");
 		MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
-		instance.sendBdayMail();
+		//TODO parameterliste hat sich geändert
+		//instance.sendBdayMail();
 		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");

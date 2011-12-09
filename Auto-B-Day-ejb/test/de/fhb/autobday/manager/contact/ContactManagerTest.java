@@ -86,7 +86,7 @@ public class ContactManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
-		EasyMock.expect(groupToContactDAOMock.findContactByContact(contactId)).andReturn(allGroupToContact).times(1);
+		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactId)).andReturn(allGroupToContact).times(1);
 		groupToContactDAOMock.edit(groupToContact);
 		
 		// Setup is finished need to activate the mock

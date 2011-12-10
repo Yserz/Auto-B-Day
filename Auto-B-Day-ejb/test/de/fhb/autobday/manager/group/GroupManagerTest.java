@@ -75,11 +75,27 @@ public class GroupManagerTest {
 	 */
 	@Test
 	public void testGetGroup() throws Exception {
+		
 		System.out.println("getGroup");
 
+		//test variables
+		String groupId="friends";	
+		String template="template";
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
 		
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.getGroup(groupId);
+		
+		// verify		
+		EasyMock.verify(groupDAOMock);
 	}
 
 	/**
@@ -104,9 +120,9 @@ public class GroupManagerTest {
 		EasyMock.replay(groupDAOMock);
 		
 		// testing Methodcall
-		managerUnderTest.getGroup(groupId);
+		managerUnderTest.setTemplate(groupId, template);
 		
-		// verify		
+		// verify
 		EasyMock.verify(groupDAOMock);
 	}
 
@@ -153,7 +169,7 @@ public class GroupManagerTest {
 		String groupId="friends";	
 		String template="Hello ${name} ${e/er} ${sex}";
 		
-		//setting group Mock
+		//setting group
 		AbdGroup group=new AbdGroup();
 		group.setId(groupId);
 		group.setTemplate(template);
@@ -177,6 +193,7 @@ public class GroupManagerTest {
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
+		EasyMock.replay(contactDAOMock);
 		
 		// testing Methodcall
 		output=managerUnderTest.testTemplate(groupId, contactId);

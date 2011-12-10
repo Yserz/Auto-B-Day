@@ -39,9 +39,11 @@ public class GroupManager implements GroupManagerLocal {
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
 		
+		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
 		
 		if(actualGroup==null){
+			//if group not found
 			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
 			throw new GroupNotFoundException("Group " + groupId + "not found!");
 		}
@@ -61,6 +63,7 @@ public class GroupManager implements GroupManagerLocal {
 		AbdGroup actualGroup = groupDAO.find(groupId);
 		
 		if(actualGroup==null){
+			//if group not found
 			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
 			throw new GroupNotFoundException("Group " + groupId + "not found!");
 		}
@@ -80,6 +83,7 @@ public class GroupManager implements GroupManagerLocal {
 		AbdGroup actualGroup = groupDAO.find(groupId);
 		
 		if(actualGroup==null){
+			//if group not found
 			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
 			throw new GroupNotFoundException("Group " + groupId + "not found!");
 		}
@@ -102,6 +106,7 @@ public class GroupManager implements GroupManagerLocal {
 		AbdGroup actualGroup = groupDAO.find(groupId);
 		
 		if(actualGroup==null){
+			//if group not found
 			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
 			throw new GroupNotFoundException("Group " + groupId + "not found!");
 		}
@@ -112,6 +117,7 @@ public class GroupManager implements GroupManagerLocal {
 		AbdContact chosenContact=contactDAO.find(contactId);
 		
 		if(chosenContact==null){
+			//if contact not found
 			LOGGER.log(Level.SEVERE, "Contact {1} not found!", contactId);
 			throw new ContactNotFoundException("Contact " + contactId + "not found!");
 		}
@@ -122,13 +128,19 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public void setActive(String groupId, boolean active) {
+	public void setActive(String groupId, boolean active) throws GroupNotFoundException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
 		
-		
+		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
+		
+		if(actualGroup==null){
+			//if group not found
+			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
+			throw new GroupNotFoundException("Group " + groupId + "not found!");
+		}
 		
 		actualGroup.setActive(active);
 		
@@ -164,19 +176,19 @@ public class GroupManager implements GroupManagerLocal {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "template: {0}", template);
-		LOGGER.log(Level.INFO, "contact: {0}", contact);
+		LOGGER.log(Level.INFO, "contact: {1}", contact);
 
-		StringBuilder patternBuilder=new StringBuilder();		
+		String patternString="";		
 		StringBuilder output = new StringBuilder();
 		
-		//create compile-pattern string
-		for(Field field :AbdContact.class.getFields()){
-			patternBuilder.append(field.getName());
-			patternBuilder.append("|");
-		}
+//		//create compile-pattern string
+//		for(Field field :AbdContact.class.getFields()){
+//			patternBuilder.append(field.getName());
+//			patternBuilder.append("|");
+//		}
 		
 		//pattern for slash-expression
-		patternBuilder.append("[a-z]+/+[a-z]+");
+		patternString="[a-z]+/+[a-z]+|[a-z]+";
 		
 
 		//create pattern for identifing of clamp-expresions
@@ -194,47 +206,42 @@ public class GroupManager implements GroupManagerLocal {
 
 			//analyze content of clamp
 			String innerGroup = matcher.group();
-			Pattern innerPattern = Pattern.compile(patternBuilder.toString());
+			Pattern innerPattern = Pattern.compile(patternString);
 			Matcher innerMatcher = innerPattern.matcher(innerGroup);
 
 			if (innerMatcher.find()) {
 				// found valid expression
 				// fetch content
 				String tagExpression = innerGroup.substring(innerMatcher.start(),innerMatcher.end());
-
-				//evaluate of tag
-				//TODO dynamischer machen
-//				//search for identity
-//				for(Field field :Contact.class.getFields()){
-//					if(tagExpression.equals(field)){
-//						//found attribute expression
-//					}
-//				}
+				System.out.println(tagExpression);
+				//evaluation of the tag
+				
+//				AbdContact.class.getFields().toString();
 				
 				try{	
 
-					if (tagExpression.equals(AbdContact.class.getFields()[0])) {
-						System.out.println(AbdContact.class.getFields()[0]);
+//					if (tagExpression.equals(AbdContact.class.getFields()[0])) {
+					if (tagExpression.equals("id")) {
 						output.append(contact.getId());
 						
-					} else if (tagExpression.equals(AbdContact.class.getFields()[1])) {
-						System.out.println(AbdContact.class.getFields()[1]);
+//					} else if (tagExpression.equals(AbdContact.class.getFields()[1])) {
+					} else if (tagExpression.equals("name")) {
 						output.append(contact.getName());
 						
-					} else if (tagExpression.equals(AbdContact.class.getFields()[2])) {
-						System.out.println(AbdContact.class.getFields()[2]);
+//					} else if (tagExpression.equals(AbdContact.class.getFields()[2])) {
+					} else if (tagExpression.equals("firstname")) {
 						output.append(contact.getFirstname());
 						
-					} else if (tagExpression.equals(AbdContact.class.getFields()[3])) {
-						System.out.println(AbdContact.class.getFields()[3]);
+//					} else if (tagExpression.equals(AbdContact.class.getFields()[3])) {
+					} else if (tagExpression.equals("sex")) {
 						output.append(contact.getSex());
 						
-					} else if (tagExpression.equals(AbdContact.class.getFields()[4])) {
-						System.out.println(AbdContact.class.getFields()[4]);
+//					} else if (tagExpression.equals(AbdContact.class.getFields()[4])) {
+					} else if (tagExpression.equals("mail")) {
 						output.append(contact.getMail());
 						
-					} else if (tagExpression.equals(AbdContact.class.getFields()[5])) {
-						System.out.println(AbdContact.class.getFields()[5]);
+//					} else if (tagExpression.equals(AbdContact.class.getFields()[5])) {
+					} else if (tagExpression.equals("bday")) {
 						output.append(contact.getBday());
 						
 					} else if (tagExpression.contains("/")) {
@@ -268,7 +275,7 @@ public class GroupManager implements GroupManagerLocal {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "expression: {0}", expression);
-		LOGGER.log(Level.INFO, "sex: {0}", sex);
+		LOGGER.log(Level.INFO, "sex: {1}", sex);
 		
 		Pattern numberPattern = Pattern.compile("/");
 		Matcher numberMatcher = numberPattern.matcher(expression);

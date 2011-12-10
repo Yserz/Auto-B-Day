@@ -1,5 +1,12 @@
 package de.fhb.autobday.manager.contact;
 
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
@@ -7,11 +14,6 @@ import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 
 /**
  * The Contactmanager processes all contact specific things.
@@ -77,5 +79,24 @@ public class ContactManager implements ContactManagerLocal {
 		groupToContactDAO.edit(groupToContact);
 		
 	}
+	
+	
+	public AbdContact getContact(String contactId)throws ContactException{
+		
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO, "contactId: {0}", contactId);
+		
+		//find group
+		AbdContact contact = contactDAO.find(contactId);
+		
+		if(contact==null){
+			//if group not found
+			LOGGER.log(Level.SEVERE, "Contact {0} not found!", contactId);
+			throw new ContactNotFoundException("Contact " + contactId + "not found!");
+		}
+		
+		return contact;
+	}
+
 	
 }

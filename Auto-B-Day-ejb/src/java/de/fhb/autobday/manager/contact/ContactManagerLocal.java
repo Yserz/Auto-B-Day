@@ -1,7 +1,9 @@
 package de.fhb.autobday.manager.contact;
 
-import de.fhb.autobday.exception.contact.ContactException;
 import javax.ejb.Local;
+
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.exception.contact.ContactException;
 
 /**
  *
@@ -12,4 +14,6 @@ import javax.ejb.Local;
 public interface ContactManagerLocal {
 
 	void setActive(String contactId, boolean active)throws ContactException ;
+	
+	AbdContact getContact(String contactId)throws ContactException ;
 }

@@ -1,12 +1,12 @@
 package de.fhb.autobday.manager.group;
 
+import javax.ejb.Local;
+
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.group.GroupException;
-import de.fhb.autobday.exception.group.GroupNotFoundException;
-
-import javax.ejb.Local;
 
 /**
  *
@@ -48,7 +48,7 @@ public interface GroupManagerLocal {
 	 * @return String - message
 	 * @throws GroupException
 	 */
-	String testTemplate(String groupid, String contactid) throws GroupException, ContactNotFoundException;
+	String testTemplate(String groupid, String contactid) throws GroupException, ContactException;
 
 	/**
 	 * set group to Active stat for sending mails
@@ -58,7 +58,37 @@ public interface GroupManagerLocal {
 	 */
 	void setActive(String groupid, boolean active) throws GroupException;
 	
-	String parseTemplate(String template, AbdContact contact);
+	/**
+	 *  parses templates with the character format ${validExpression}
+	 *  possible Expresions are:
+	 *  attribute of Contacts for e.g.
+	 *  
+	 *  - id
+	 *  - name
+	 *  - firstname
+	 *  - sex
+	 *  - mail
+	 *  - bday
+	 *  
+	 *  
+	 *  or
+	 *  
+	 *  gender specific content expressions
+	 *  e.g. e/er
+	 *  
+	 * @param template
+	 * @param contact
+	 * @return
+	 */
+	String parseTemplate(String template, AbdContact contact) throws ContactException;
 	
+	/**
+	 * parses strings wtih gender specific the contents separated by a slash, depending on gender.
+	 * according to this model female/male e.g. e/er
+	 * 
+	 * @param String expression
+	 * @param Char sex
+	 * @return String decesionOfOne
+	 */
 	String parseSlashExpression(String expression, char sex);
 }

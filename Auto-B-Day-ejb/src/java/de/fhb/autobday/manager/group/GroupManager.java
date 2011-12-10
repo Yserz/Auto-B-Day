@@ -1,20 +1,22 @@
 package de.fhb.autobday.manager.group;
 
-import de.fhb.autobday.dao.AbdContactFacade;
-import de.fhb.autobday.dao.AbdGroupFacade;
-import de.fhb.autobday.data.AbdContact;
-import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.exception.contact.ContactNotFoundException;
-import de.fhb.autobday.exception.group.GroupException;
-import de.fhb.autobday.exception.group.GroupNotFoundException;
-
-import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.exception.contact.ContactException;
+import de.fhb.autobday.exception.contact.ContactNotFoundException;
+import de.fhb.autobday.exception.contact.NoContactGivenException;
+import de.fhb.autobday.exception.group.GroupException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
 *
@@ -94,7 +96,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	@Override
-	public String testTemplate(String groupId, String contactId) throws GroupException, ContactNotFoundException{
+	public String testTemplate(String groupId, String contactId) throws GroupException, ContactException{
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
@@ -170,9 +172,10 @@ public class GroupManager implements GroupManagerLocal {
 	 * @param template
 	 * @param contact
 	 * @return
+	 * @throws NoContactGivenException 
 	 */
 	@Override
-	public String parseTemplate(String template, AbdContact contact){
+	public String parseTemplate(String template, AbdContact contact) throws NoContactGivenException{
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "template: {0}", template);
@@ -181,15 +184,14 @@ public class GroupManager implements GroupManagerLocal {
 		String patternString="";		
 		StringBuilder output = new StringBuilder();
 		
-//		//create compile-pattern string
-//		for(Field field :AbdContact.class.getFields()){
-//			patternBuilder.append(field.getName());
-//			patternBuilder.append("|");
-//		}
-		
 		//pattern for slash-expression
 		patternString="[a-z]+/+[a-z]+|[a-z]+";
 		
+		if(contact==null){
+			//if contact not found
+			LOGGER.log(Level.SEVERE, "No Contact given");
+			throw new NoContactGivenException("No Contact given");
+		}
 
 		//create pattern for identifing of clamp-expresions
 		Pattern pattern = Pattern.compile("\\$\\{\\S+\\}");
@@ -210,47 +212,41 @@ public class GroupManager implements GroupManagerLocal {
 			Matcher innerMatcher = innerPattern.matcher(innerGroup);
 
 			if (innerMatcher.find()) {
+				
 				// found valid expression
 				// fetch content
 				String tagExpression = innerGroup.substring(innerMatcher.start(),innerMatcher.end());
-				System.out.println(tagExpression);
+				
 				//evaluation of the tag
+				if (tagExpression.equals("id")) {
+					
+					output.append(contact.getId());
+					
+				} else if (tagExpression.equals("name")) {
+					
+					output.append(contact.getName());
+					
+				} else if (tagExpression.equals("firstname")) {
+					
+					output.append(contact.getFirstname());
+					
+				} else if (tagExpression.equals("sex")) {
+					
+					output.append(contact.getSex());
+					
+				} else if (tagExpression.equals("mail")) {
+					
+					output.append(contact.getMail());
+					
+				} else if (tagExpression.equals("bday")) {
+					
+					output.append(contact.getBday());
+					
+				} else if (tagExpression.contains("/")) {
+					
+					output.append(this.parseSlashExpression(tagExpression,'m'));	
 				
-//				AbdContact.class.getFields().toString();
-				
-				try{	
-
-//					if (tagExpression.equals(AbdContact.class.getFields()[0])) {
-					if (tagExpression.equals("id")) {
-						output.append(contact.getId());
-						
-//					} else if (tagExpression.equals(AbdContact.class.getFields()[1])) {
-					} else if (tagExpression.equals("name")) {
-						output.append(contact.getName());
-						
-//					} else if (tagExpression.equals(AbdContact.class.getFields()[2])) {
-					} else if (tagExpression.equals("firstname")) {
-						output.append(contact.getFirstname());
-						
-//					} else if (tagExpression.equals(AbdContact.class.getFields()[3])) {
-					} else if (tagExpression.equals("sex")) {
-						output.append(contact.getSex());
-						
-//					} else if (tagExpression.equals(AbdContact.class.getFields()[4])) {
-					} else if (tagExpression.equals("mail")) {
-						output.append(contact.getMail());
-						
-//					} else if (tagExpression.equals(AbdContact.class.getFields()[5])) {
-					} else if (tagExpression.equals("bday")) {
-						output.append(contact.getBday());
-						
-					} else if (tagExpression.contains("/")) {
-						output.append(this.parseSlashExpression(tagExpression,'m'));	
-					}				
-				
-				}catch (NullPointerException e) {
-					LOGGER.log(Level.SEVERE, null, e);
-				}
+				}				
 			}
 		}		
 		

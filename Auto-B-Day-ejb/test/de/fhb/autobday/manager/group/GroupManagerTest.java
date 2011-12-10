@@ -240,10 +240,24 @@ public class GroupManagerTest {
 		
 		System.out.println("parseTemplate");
 		
-		String template = "";
-		AbdContact contact = null;
-		String expResult = "";
+		//test variables
+		String groupId="friends";	
+		String template="Hello ${name} ${e/er} ${sex}";
 		
+		//prepare a contact object
+		AbdContact contact=new AbdContact();
+		String contactId="Test";
+		contact.setId(contactId);
+		contact.setFirstname("Testman");
+		contact.setSex('m');
+		contact.setName("Musterman");
+		contact.setMail("m");
+		contact.setBday(new Date(27,04,1988));
+		
+		//prepare expected variables
+		String expResult="Hello " + contact.getName() + " er "+ contact.getSex();
+		
+		//method call
 		String result = managerUnderTest.parseTemplate(template, contact);
 		
 		assertEquals(expResult, result);

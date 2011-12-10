@@ -1,7 +1,7 @@
 package de.fhb.autobday.exception.contact;
 
 /**
- * Exception die geworfen wird, wenn ein Kontakt in einer Gruppe nicht gefunden wird
+ * Exception die geworfen wird, wenn einer Methode kein Kontakt mitgegebn wurde
  *
  * @author Andy Klay <klay@fh-brandenburg.de>
  * @author Michael Koppen <koppen@fh-brandenburg.de>

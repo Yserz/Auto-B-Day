@@ -1,13 +1,23 @@
 package de.fhb.autobday.manager.group;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.util.Date;
+
+import org.easymock.EasyMock;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
-import org.easymock.EasyMock;
-import static org.junit.Assert.*;
-import org.junit.*;
 
 /**
  * 
@@ -77,12 +87,27 @@ public class GroupManagerTest {
 	 */
 	@Test
 	public void testSetTemplate() throws Exception {
+		
 		System.out.println("setTemplate");
 
+		//test variables
+		String groupId="friends";	
+		String template="template";
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
 		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
 		
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.getGroup(groupId);
+		
+		// verify		
+		EasyMock.verify(groupDAOMock);
 	}
 
 	/**
@@ -90,8 +115,8 @@ public class GroupManagerTest {
 	 */
 	@Test
 	public void testGetTemplate() throws Exception {
-		System.out.println("getTemplate");
 		
+		System.out.println("getTemplate");
 		
 		//test variables
 		String groupId="friends";	
@@ -111,8 +136,8 @@ public class GroupManagerTest {
 		output=managerUnderTest.getTemplate(groupId);
 		
 		// verify
-		assertEquals("Template test", template, output);		
-//		EasyMock.verify(contactDAOMock);
+		assertEquals("Template test", template, output);	
+		EasyMock.verify(groupDAOMock);
 		
 	}
 
@@ -121,10 +146,45 @@ public class GroupManagerTest {
 	 */
 	@Test
 	public void testTestTemplate() throws Exception {
-		System.out.println("testTemplate");
 		
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		System.out.println("TestTemplate");
+		
+		//test variables
+		String groupId="friends";	
+		String template="Hello ${name} ${e/er} ${sex}";
+		
+		//setting group Mock
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
+		String output="";
+		
+		AbdContact contact=new AbdContact();
+		String contactId="Test";
+		contact.setId(contactId);
+		contact.setFirstname("Testman");
+		contact.setSex('m');
+		contact.setName("Musterman");
+		contact.setMail("m");
+		contact.setBday(new Date(27,04,1988));
+		
+		String expectedOutput="Hello " + contact.getName() + " er "+ contact.getSex();
+		
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		output=managerUnderTest.testTemplate(groupId, contactId);
+		
+		// verify
+		assertEquals("Template test", expectedOutput, output);	
+		EasyMock.verify(groupDAOMock);
+		
 	}
 
 	/**
@@ -171,7 +231,6 @@ public class GroupManagerTest {
 		
 		assertEquals(expResult, result);
 		
-
 	}
 
 	/**

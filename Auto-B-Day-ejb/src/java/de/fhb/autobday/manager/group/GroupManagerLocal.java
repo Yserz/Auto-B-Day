@@ -4,6 +4,8 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.group.GroupException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
+
 import javax.ejb.Local;
 
 /**
@@ -20,7 +22,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @return AbdGroup
 	 */
-	AbdGroup getGroup(String groupid);
+	AbdGroup getGroup(String groupid) throws GroupException;
 
 	/**
 	 * set the template of a group with specific id
@@ -28,7 +30,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param template
 	 */
-	void setTemplate(String groupid, String template);
+	void setTemplate(String groupId, String template) throws GroupException ;
 
 	/**
 	 * get the template  of a group with specific id
@@ -36,7 +38,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @return String
 	 */
-	String getTemplate(String groupid);
+	String getTemplate(String groupid) throws GroupException;
 
 	/**
 	 *test template of group with a contact 
@@ -54,7 +56,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param boolean - active
 	 */
-	void setActive(String groupid, boolean active);
+	void setActive(String groupid, boolean active) throws GroupException;
 	
 	String parseTemplate(String template, AbdContact contact);
 	

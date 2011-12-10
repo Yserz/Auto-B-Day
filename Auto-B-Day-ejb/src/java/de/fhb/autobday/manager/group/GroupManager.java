@@ -6,6 +6,8 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.group.GroupException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
+
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,32 +34,55 @@ public class GroupManager implements GroupManagerLocal {
 
 
 	@Override
-	public AbdGroup getGroup(String groupId) {
-		return groupDAO.find(groupId);
+	public AbdGroup getGroup(String groupId) throws GroupNotFoundException {
+		
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
+		
+		AbdGroup actualGroup = groupDAO.find(groupId);
+		
+		if(actualGroup==null){
+			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
+			throw new GroupNotFoundException("Group " + groupId + "not found!");
+		}
+		
+		return actualGroup;
 	}
 
 
 	@Override
-	public void setTemplate(String groupId, String template) {
+	public void setTemplate(String groupId, String template) throws GroupNotFoundException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
-		LOGGER.log(Level.INFO, "template: {0}", template);
+		LOGGER.log(Level.INFO, "template: {1}", template);
 		
-		
+		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
+		
+		if(actualGroup==null){
+			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
+			throw new GroupNotFoundException("Group " + groupId + "not found!");
+		}
 		
 		actualGroup.setTemplate(template);
 	}
 
 	@Override
-	public String getTemplate(String groupId) {
+	public String getTemplate(String groupId) throws GroupNotFoundException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
 		
-		AbdGroup actualGroup = groupDAO.find(groupId);
 		String output="dummy";
+		
+		//find group
+		AbdGroup actualGroup = groupDAO.find(groupId);
+		
+		if(actualGroup==null){
+			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
+			throw new GroupNotFoundException("Group " + groupId + "not found!");
+		}
 		
 		output=actualGroup.getTemplate();
 		
@@ -69,15 +94,25 @@ public class GroupManager implements GroupManagerLocal {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
-		LOGGER.log(Level.INFO, "contactid: {0}", contactId);
+		LOGGER.log(Level.INFO, "contactid: {1}", contactId);
 		
-		AbdGroup actualGroup = groupDAO.find(groupId);
-		String template = actualGroup.getTemplate();
 		String output="dummy";
+				
+		//find group
+		AbdGroup actualGroup = groupDAO.find(groupId);
+		
+		if(actualGroup==null){
+			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
+			throw new GroupNotFoundException("Group " + groupId + "not found!");
+		}
+		
+		String template = actualGroup.getTemplate();
+		
+		//find contact for test
 		AbdContact chosenContact=contactDAO.find(contactId);
 		
 		if(chosenContact==null){
-			LOGGER.log(Level.SEVERE, "Contact {0} not found!", contactId);
+			LOGGER.log(Level.SEVERE, "Contact {1} not found!", contactId);
 			throw new ContactNotFoundException("Contact " + contactId + "not found!");
 		}
 		

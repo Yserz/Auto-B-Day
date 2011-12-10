@@ -14,7 +14,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
- *
+ * The Contactmanager processes all contact specific things.
+ * 
  * @author Andy Klay <klay@fh-brandenburg.de>
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
@@ -35,7 +36,7 @@ public class ContactManager implements ContactManagerLocal {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "contactId: {0}", contactId);
-		LOGGER.log(Level.INFO, "active: {0}", active);
+		LOGGER.log(Level.INFO, "active: {1}", active);
 		
 		AbdGroupToContact groupToContact=null;
 		Collection<AbdGroupToContact> allGroupToContact=null;
@@ -44,21 +45,27 @@ public class ContactManager implements ContactManagerLocal {
 		
 		
 		if(contact==null){
+			//if contact not found
 			LOGGER.log(Level.SEVERE, "Contact {0}not found!", contactId);
 			throw new ContactNotFoundException("Contact " + contactId + "not found!");
 		}
 		
-		
 		allGroupToContact = groupToContactDAO.findGroupByContact(contactId);
 		
+		if(allGroupToContact==null){
+			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
+			throw new NoContactInThisGroupException("Relation groupToContact not found!");
+		}
+		
+		//search for relation
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
 			if(actualGroupToContact.getAbdContact().equals(contact)){
 				groupToContact=actualGroupToContact;
 			}
 		}
 		
-		
 		if(groupToContact==null){
+			//if no compatible realtion found
 			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
 			throw new NoContactInThisGroupException("Relation groupToContact not found!");
 		}
@@ -68,7 +75,6 @@ public class ContactManager implements ContactManagerLocal {
 		
 		//save into database
 		groupToContactDAO.edit(groupToContact);
-		
 		
 	}
 	

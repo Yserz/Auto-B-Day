@@ -11,20 +11,21 @@ import org.easymock.EasyMock;
 import org.junit.*;
 
 /**
+ * Test the ContactManager
  *
  * @author Andy Klay <klay@fh-brandenburg.de>
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class ContactManagerTest {
-	
-//	private EJBContainer container;
-	
+
 	private JavaEEGloss gloss;
 	
 	private AbdContactFacade contactDAOMock;
+	
 	private AbdGroupToContactFacade groupToContactDAOMock;
 	
 	private ContactManager managerUnderTest;
+	
 	
 	public ContactManagerTest() {
 	}
@@ -43,9 +44,6 @@ public class ContactManagerTest {
 	public void setUp() {
 		
 		gloss= new JavaEEGloss();
-
-		
-//		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 		
 		//create Mocks
 		contactDAOMock = EasyMock.createMock(AbdContactFacade.class);
@@ -62,7 +60,6 @@ public class ContactManagerTest {
 	
 	@After
 	public void tearDown() {
-//		container.close();
 	}
 
 	/**
@@ -71,17 +68,17 @@ public class ContactManagerTest {
 	@Test
 	public void testSetActive() throws Exception {
 		
-		
 		//test variables
 		String contactId="mustermann";
 		boolean isActive=true;		
 		AbdContact contact=new AbdContact();
 		contact.setId(contactId);
 		
-		AbdGroupToContact groupToContact=new AbdGroupToContact();
-		groupToContact.setAbdContact(contact);
-		
+		//prepare groupToContactRealation
+		AbdGroupToContact groupToContact=new AbdGroupToContact();		
 		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
+		groupToContact.setAbdContact(contact);
+
 		allGroupToContact.add(groupToContact);
 		
 		// Setting up the expected value of the method call of Mockobject

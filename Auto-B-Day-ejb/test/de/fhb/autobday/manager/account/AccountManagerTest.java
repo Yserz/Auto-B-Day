@@ -2,14 +2,29 @@ package de.fhb.autobday.manager.account;
 
 import javax.ejb.embeddable.EJBContainer;
 import static org.junit.Assert.fail;
+
+import org.easymock.EasyMock;
 import org.junit.*;
+
+import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+
+import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.manager.group.GroupManager;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class AccountManagerTest {
-	private EJBContainer container;
+	
+	private JavaEEGloss gloss;
+	
+	private AccountManager managerUnderTest;
+	
+	private AbdAccountFacade accountDAOMock;
 	
 	public AccountManagerTest() {
 	}
@@ -24,12 +39,21 @@ public class AccountManagerTest {
 	
 	@Before
 	public void setUp() {
-		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		gloss= new JavaEEGloss();
+		
+		//create Mocks
+		accountDAOMock = EasyMock.createMock(AbdAccountFacade.class);
+		
+		//set Objekts to inject
+		gloss.addEJB(accountDAOMock);
+		
+		//create Manager with Mocks
+		managerUnderTest=gloss.make(AccountManager.class);
 	}
 	
 	@After
 	public void tearDown() {
-		container.close();
+		
 	}
 
 	/**
@@ -38,8 +62,8 @@ public class AccountManagerTest {
 	@Test
 	public void testAddAccount() throws Exception {
 		System.out.println("addAccount");
-		AccountManagerLocal instance = (AccountManagerLocal)container.getContext().lookup("java:global/classes/AccountManager");
-		instance.addAccount();
+		
+		
 		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");
@@ -51,11 +75,16 @@ public class AccountManagerTest {
 	@Test
 	public void testRemoveAccount() throws Exception {
 		System.out.println("removeAccount");
-		AccountManagerLocal instance = (AccountManagerLocal)container.getContext().lookup("java:global/classes/AccountManager");
-//		instance.removeAccount(accountId);
+
+		int accountid = 1;
+		AbdAccount account = new AbdAccount(1);
 		
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(account);
+		accountDAOMock.remove(account);
+		EasyMock.replay(accountDAOMock);
+		managerUnderTest.removeAccount(1);
+		
+		EasyMock.verify(accountDAOMock);
 	}
 
 	/**
@@ -64,8 +93,6 @@ public class AccountManagerTest {
 	@Test
 	public void testImportGroupsAndContacts() throws Exception {
 		System.out.println("importGroupsAndContacts");
-		AccountManagerLocal instance = (AccountManagerLocal)container.getContext().lookup("java:global/classes/AccountManager");
-		instance.importGroupsAndContacts();
 		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");

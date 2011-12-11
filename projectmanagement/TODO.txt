@@ -3,4 +3,3 @@ Hier sollte alles das rein was wir noch brauchen aber noch keiner für zuständi
 Ich fang mal an :-)
 
 - ein propertie file mit einem standard template, oder eine alternative
-- equals methode von abdcontact verfeinern

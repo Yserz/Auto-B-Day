@@ -16,7 +16,7 @@ TODO - Tino
 
 *** Session 	***
 
-- GoogleImporter fertig machen und resultfeed in die Datenbank schieben
+- 
 
 *** GUI 		***
 

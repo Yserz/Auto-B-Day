@@ -33,26 +33,38 @@ public class GoogleBirthdayConverterTest {
 	 * Test of convertBirthday method, of class GoogleBirthdayConverter.
 	 */
 	@Test
-	public void testConvertBirthday() {
-		System.out.println("convertBirthday");
+	public void testConvertBirthdayNormalDateLengthTen() {
+		System.out.println("ConvertBirthdayNormalDateLengthTen");
 		String gbirthday = "1989-01-01";
 		Date expResult = new Date(89, 0, 1);
 		Date result = GoogleBirthdayConverter.convertBirthday(gbirthday);
 		assertEquals(expResult, result);
-		
-		gbirthday = "2011-02-29";
-		expResult = new Date(111, 1, 29);
-		result = GoogleBirthdayConverter.convertBirthday(gbirthday);
+	}
+	
+	@Test
+	public void testConvertBirthdaySpecialDateLengthTen() {
+		System.out.println("ConvertBirthdaySpecialDateLengthTen");
+		String gbirthday = "2011-02-29";
+		Date expResult = new Date(111, 1, 29);
+		Date result = GoogleBirthdayConverter.convertBirthday(gbirthday);
 		assertEquals(expResult, result);
-		
-		gbirthday = "--01-01";
-		expResult = new Date(-1900, 0, 1);
-		result = GoogleBirthdayConverter.convertBirthday(gbirthday);
+	}
+	
+	@Test
+	public void testConvertBirthdayNewYearLengthSeven() {
+		System.out.println("ConvertBirthdayNewYearLengthSeven");
+		String gbirthday = "--01-01";
+		Date expResult = new Date(-1900, 0, 1);
+		Date result = GoogleBirthdayConverter.convertBirthday(gbirthday);
 		assertEquals(expResult, result);
-		
-		gbirthday = "--12-31";
-		expResult = new Date(-1900, 11, 31);
-		result = GoogleBirthdayConverter.convertBirthday(gbirthday);
+	}
+	
+	@Test
+	public void testConvertBirthdayYearEndLengthSeven() {
+		System.out.println("ConvertBirthdayYearEndLengthSeven");
+		String gbirthday = "--12-31";
+		Date expResult = new Date(-1900, 11, 31);
+		Date result = GoogleBirthdayConverter.convertBirthday(gbirthday);
 		assertEquals(expResult, result);
 	}
 }

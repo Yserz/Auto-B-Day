@@ -1,17 +1,35 @@
 package de.fhb.autobday.manager.user;
 
-import de.fhb.autobday.data.AbdUser;
-import javax.ejb.embeddable.EJBContainer;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import org.junit.*;
+
+import org.easymock.EasyMock;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.user.IncompleteLoginDataException;
+import de.fhb.autobday.exception.user.PasswordInvalidException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class UserManagerTest {
-	private EJBContainer container;
+
+	private JavaEEGloss gloss;
+	
+	private UserManager managerUnderTest;
+	
+	private AbdUserFacade userDAOMock;
+	
 	public UserManagerTest() {
 	}
 
@@ -25,12 +43,22 @@ public class UserManagerTest {
 	
 	@Before
 	public void setUp() {
-		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		gloss= new JavaEEGloss();
+		
+		//create Mocks
+		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
+
+		
+		//set Objekts to inject
+		gloss.addEJB(userDAOMock);
+		
+		//create Manager with Mocks
+		managerUnderTest=gloss.make(UserManager.class);
 	}
 	
 	@After
 	public void tearDown() {
-		container.close();
+
 	}
 
 	/**
@@ -39,38 +67,91 @@ public class UserManagerTest {
 	@Test
 	public void testGetUser() throws Exception {
 		System.out.println("getUser");
-		int userid = 0;
+		int userid = 1;
 		
-		UserManagerLocal instance = (UserManagerLocal)container.getContext().lookup("java:global/classes/UserManager");
-		AbdUser expResult = null;
-		AbdUser result = instance.getUser(userid);
-		assertEquals(expResult, result);
-		
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		AbdUser expResult = new AbdUser(1);
+		EasyMock.expect(userDAOMock.find(userid)).andReturn(new AbdUser(1));
+		EasyMock.replay(userDAOMock);
+		assertEquals(expResult, managerUnderTest.getUser(1));
+		EasyMock.verify(userDAOMock);
 	}
 
 	/**
 	 * Test of login method, of class UserManager.
 	 */
 	@Test
-	public void testLogin() throws Exception {
-		System.out.println("login");
-		UserManagerLocal instance = (UserManagerLocal)container.getContext().lookup("java:global/classes/UserManager");
-//		instance.login(loginName, password);
+	public void testLoginShouldBeEquals() throws Exception {
+		System.out.println("loginShouldBeEquals");
 		
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+		String loginName = "ott";
+		String password = "1234";
+		
+		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
+		
+		EasyMock.expect(userDAOMock.find(loginName)).andReturn(user);
+		EasyMock.replay(userDAOMock);
+		
+		assertEquals(user, managerUnderTest.login(loginName, password));
+		EasyMock.verify(userDAOMock);
 	}
-
+	/**
+	 * Test of login method, of class UserManager.
+	 */
+	@Test(expected = IncompleteLoginDataException.class)
+	public void testLoginShouldThrowIncompleteLoginDataException() throws Exception {
+		System.out.println("loginShouldThrowIncompleteLoginDataException");
+		
+		String loginName = "ott";
+		String password = "";
+		
+		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
+		
+		assertEquals(user, managerUnderTest.login(loginName, password));
+	}
+	/**
+	 * Test of login method, of class UserManager.
+	 */
+	@Test(expected = UserNotFoundException.class)
+	public void testLoginShouldThrowUserNotFoundException() throws Exception {
+		System.out.println("loginShouldThrowUserNotFoundException");
+		
+		String loginName = "ott";
+		String password = "1234";
+		
+		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
+		
+		EasyMock.expect(userDAOMock.find(loginName)).andReturn(null);
+		EasyMock.replay(userDAOMock);
+		
+		assertEquals(user, managerUnderTest.login(loginName, password));
+		EasyMock.verify(userDAOMock);
+	}
+	
+	/**
+	 * Test of login method, of class UserManager.
+	 */
+	@Test(expected = PasswordInvalidException.class)
+	public void testLoginShouldThrowPasswordInvalidException() throws Exception {
+		System.out.println("loginShouldThrowPasswordInvalidException");
+		
+		String loginName = "ott";
+		String password = "1234";
+		
+		AbdUser user = new AbdUser(1, "ott", "123", null, "Ott", "Chris");
+		
+		EasyMock.expect(userDAOMock.find(loginName)).andReturn(user);
+		EasyMock.replay(userDAOMock);
+		
+		assertEquals(user, managerUnderTest.login(loginName, password));
+		EasyMock.verify(userDAOMock);
+	}
 	/**
 	 * Test of logout method, of class UserManager.
 	 */
 	@Test
 	public void testLogout() throws Exception {
 		System.out.println("logout");
-		UserManagerLocal instance = (UserManagerLocal)container.getContext().lookup("java:global/classes/UserManager");
-		instance.logout();
+		
 		
 		// TODO review the generated test code and remove the default call to fail.
 		fail("The test case is a prototype.");

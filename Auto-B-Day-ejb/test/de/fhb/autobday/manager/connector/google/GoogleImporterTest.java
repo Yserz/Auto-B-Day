@@ -1,5 +1,6 @@
 package de.fhb.autobday.manager.connector.google;
 
+import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactGroupFeed;
@@ -8,11 +9,19 @@ import com.google.gdata.data.contacts.Gender.Value;
 import com.google.gdata.data.extensions.FamilyName;
 import com.google.gdata.data.extensions.GivenName;
 import com.google.gdata.data.extensions.Name;
+import com.google.gdata.util.AuthenticationException;
+import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+
+import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.manager.account.AccountManager;
+
 import java.sql.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+
+import org.easymock.EasyMock;
 import org.junit.*;
 
 /**
@@ -21,10 +30,16 @@ import org.junit.*;
  */
 public class GoogleImporterTest {
 	
+private JavaEEGloss gloss;
+	
+	private ContactsService contactsServiceMock;
+	
+	private ContactEntry contactEntry;
+	private GoogleImporter gImporterUnderTest;
+	
 	public GoogleImporterTest() {
 	}
-	private ContactEntry contactEntry;
-	private GoogleImporter gImporter;
+	
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -37,8 +52,18 @@ public class GoogleImporterTest {
 	
 	@Before
 	public void setUp() {
+		
+		gloss= new JavaEEGloss();
+		
+		//create Mocks
+		contactsServiceMock = EasyMock.createMock(ContactsService.class);
+		//set Objekts to inject
+		gloss.addEJB(contactsServiceMock);
+		
+		gImporterUnderTest=gloss.make(GoogleImporter.class);
+		
 		Name name = new Name();
-		gImporter = new GoogleImporter();
+		gImporterUnderTest = new GoogleImporter();
 		contactEntry = new ContactEntry();
 		
 		name.setGivenName(new GivenName("Hans", ""));
@@ -57,22 +82,24 @@ public class GoogleImporterTest {
 	public void testMapGContacttoContact() {
 		System.out.println("mapGContacttoContact");
 		AbdContact exptected = new AbdContact("1", "", new Date(0), "");
-		assertEquals(exptected, gImporter.mapGContactToContact(contactEntry));
-
-
+		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 
 	/**
 	 * Test of getConnection method, of class GoogleImporter.
+	 * @throws AuthenticationException 
 	 */
 	@Test
-	public void testGetConnection() {
+	public void testGetConnection() throws AuthenticationException{
 		System.out.println("getConnection");
-		AbdAccount data = null;
-		GoogleImporter instance = new GoogleImporter();
-		instance.getConnection(data);
-		// TODO review the generated test code and remove the default call to fail.
-		fail("The test case is a prototype.");
+
+		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
+		
+		contactsServiceMock.setUserCredentials(data.getUsername(), data.getPasswort());
+		EasyMock.replay(contactsServiceMock);
+		
+		gImporterUnderTest.getConnection(data);
+		EasyMock.verify(contactsServiceMock);
 	}
 
 	/**

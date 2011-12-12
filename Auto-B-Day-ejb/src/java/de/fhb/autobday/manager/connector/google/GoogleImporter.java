@@ -1,15 +1,10 @@
 package de.fhb.autobday.manager.connector.google;
 
 import com.google.gdata.client.contacts.ContactsService;
-import com.google.gdata.data.contacts.ContactEntry;
-import com.google.gdata.data.contacts.ContactFeed;
-import com.google.gdata.data.contacts.ContactGroupEntry;
-import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.Gender.Value;
-import com.google.gdata.data.contacts.GroupMembershipInfo;
+import com.google.gdata.data.contacts.*;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.util.ServiceException;
-
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
@@ -31,7 +26,7 @@ import java.util.logging.Logger;
  * class to import the contact information and map the contacts to us contacts
  * write the contact information in the database
  *
- *variablename if the variable start with abd this is an own model
+ * variablename if the variable start with abd this is an Auto-B-Day model
  *
  * @author Tino Reuschel
  * @author Michael Koppen <koppen@fh-brandenburg.de>
@@ -50,6 +45,7 @@ public class GoogleImporter extends AImporter {
 	}
 
 	//TODO check ob bday und mail ungleich null
+	//TODO update und delete groups
 	@Override
 	/*
 	 * (non-Javadoc)
@@ -67,7 +63,7 @@ public class GoogleImporter extends AImporter {
 		// testausgabe
 		System.out.println("Username: " + accdata.getUsername());
 		System.out.println("Passwort: " + accdata.getPasswort());
-		System.out.println("WARNING: User credentials not be used by connector!");
+		System.err.println("WARNING: User credentials not be used by connector!");
 
 		//connect to google
 		try {
@@ -79,114 +75,13 @@ public class GoogleImporter extends AImporter {
 		}
 		connectionEtablished = true;
 	}
-	
-	/*
-	 * get all groups from google from the connected account
-	 * 
-	 * if don´t get information from google return null else a list of Google ContactGroupEntrys
-	 * 
-	 */
-	public List<ContactGroupEntry> getAllGroups() {
-	
-		LOGGER.info("getAllGroups");
-		
-		URL feedUrl;
-		try {
-			//url to get all groups
-			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
-			ContactGroupFeed resultFeed = myService.getFeed(feedUrl, ContactGroupFeed.class);		
-			return resultFeed.getEntries();
-		
-		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		}
-		return null;
-	}
-	
-	/*
-	 * methode to get one group witch is select by the groupid
-	 * 
-	 * if don´t get information from google return null else a Google ContactGroupEntrys
-	 * 
-	 * @param String groupid
-	 */
-	public ContactGroupEntry getSingleGroup(String groupid) {
-		
-		LOGGER.info("getSingleGroup");
-		LOGGER.log(Level.INFO, "groupid :{0}", groupid);
-		
-		URL entryUrl;
-		try {
-			entryUrl = new URL("https://www.google.com/m8/feeds/groups/default/"+groupid);
-			ContactGroupEntry resultEntry = myService.getEntry(entryUrl, ContactGroupEntry.class);
-			
-			return resultEntry;
-			
-		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		}
-		return null;
-	}
-
-	/*
-	 * get all contacts from the connected acoount
-	 * 
-	 * if don´t get information from google return null else a list of Google ContactEntrys
-	 * 
-	 */
-	public List<ContactEntry> getAllContacts() {
-
-		LOGGER.info("getAllContacts");
-
-		URL feedUrl;
-		try {
-			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
-			ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
-			return resultFeed.getEntries();
-		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		}
-		return null;
-	}
-	
-	/*
-	 * methode to get a single contact from google selected by the contact id
-	 * 
-	 * @param String contactid
-	 */
-	public ContactEntry getSingleContact(String contactid) {
-		
-		LOGGER.info("getSingleContact");
-		LOGGER.log(Level.INFO, "contactid :{0}", contactid);
-		
-		URL entryUrl;
-		try {
-			entryUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full/"+contactid);
-			ContactEntry resultEntry = myService.getEntry(entryUrl, ContactEntry.class);
-			
-			return resultEntry;
-			
-		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-		}
-		
-		return null;
-	}
-
 	@Override
 	public void importContacts() {
 		
 		LOGGER.info("importContacts");
 		
 		String groupid,groupname;
+		//TODO Template einbinden
 		String grouptemplate="Hier soll das Template rein";
 		Boolean active=true;
 		AbdGroup abdgroupEntry;
@@ -209,10 +104,12 @@ public class GoogleImporter extends AImporter {
 				abdgroups = new ArrayList<AbdGroup>(accdata.getAbdGroupCollection());
 				contacts = getAllContacts();
 				
+				
+				
 				for (ContactGroupEntry groupentry : groups) {
 					groupid = groupentry.getId();
 					// if the group dont exist, create the group in the database
-					if (existGroup(abdgroups,groupid)==null){
+					if (!existGroup(abdgroups,groupid)){
 						abdgroupEntry = new AbdGroup(groupid);
 						groupname=groupentry.getTitle().getPlainText();
 						abdgroupEntry.setName(groupname);
@@ -238,9 +135,60 @@ public class GoogleImporter extends AImporter {
 					updateGroupMembership(contactEntry.getId(),groupMembershipInfo);
 				}
 		} else {
+			//TODO Exception ersetzen
 			throw new UnsupportedOperationException("Please Connect the service first.");
 		}
 	}
+	
+	/*
+	 * get all groups from google from the connected account
+	 * 
+	 * if don´t get information from google return null else a list of Google ContactGroupEntrys
+	 * 
+	 */
+	protected List<ContactGroupEntry> getAllGroups() {
+	
+		LOGGER.info("getAllGroups");
+		
+		URL feedUrl;
+		try {
+			//url to get all groups
+			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+			ContactGroupFeed resultFeed = myService.getFeed(feedUrl, ContactGroupFeed.class);		
+			return resultFeed.getEntries();
+		
+		} catch (IOException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		} catch (ServiceException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		}
+		return null;
+	}
+
+	/*
+	 * get all contacts from the connected acoount
+	 * 
+	 * if don´t get information from google return null else a list of Google ContactEntrys
+	 * 
+	 */
+	protected List<ContactEntry> getAllContacts() {
+
+		LOGGER.info("getAllContacts");
+
+		URL feedUrl;
+		try {
+			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+			ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
+			return resultFeed.getEntries();
+		} catch (IOException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		} catch (ServiceException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		}
+		return null;
+	}
+
+	
 	
 	/*
 	 * methode to map a google contact to a auto-b-day contact
@@ -250,7 +198,7 @@ public class GoogleImporter extends AImporter {
 	 * @return AbdContact
 	 * 
 	 */
-	public AbdContact mapGContactToContact(ContactEntry contactEntry){
+	protected AbdContact mapGContactToContact(ContactEntry contactEntry){
 		
 		LOGGER.info("mapGContacttoContact");
 		LOGGER.log(Level.INFO, "contactEntry :{0}", contactEntry.getId());
@@ -294,17 +242,17 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return AbdGroup
 	 */
-	public AbdGroup existGroup(List<AbdGroup> groups, String group){
+	protected Boolean existGroup(List<AbdGroup> groups, String group){
 		
 		LOGGER.info("existGroup");
 		LOGGER.log(Level.INFO, "group :{0}", group);
 		
 		for (AbdGroup abdgroup : groups) {
 			if (abdgroup.getId().equals(group)){
-				return abdgroup;
+				return true;
 			}
 		}
-		return null;
+		return false;
 	}
 
 	/*
@@ -313,7 +261,7 @@ public class GoogleImporter extends AImporter {
 	 * @param String contactid
 	 * @param List<GroupMembershipInfo> groupMembership 
 	 */
-	public void updateGroupMembership(String id, List<GroupMembershipInfo> groupMemberships){
+	protected void updateGroupMembership(String id, List<GroupMembershipInfo> groupMemberships){
 		AbdGroupToContactFacade abdGroupToContactFacade = new AbdGroupToContactFacade();
 		AbdGroupToContact abdGroupToContactEntity;
 		AbdContactFacade abdContactFacade = new AbdContactFacade();
@@ -356,7 +304,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return boolean
 	 */
-	public boolean diffMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
+	protected boolean diffMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
 		for (int i = 0; i < abdGroupMembership.size(); i++) {
 			if(abdGroupMembership.get(i).getAbdGroup().getId().equals(groupid)){
 				abdGroupMembership.remove(i);
@@ -373,7 +321,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return String
 	 */
-	public String getGContactFirstname(ContactEntry contactEntry){
+	protected String getGContactFirstname(ContactEntry contactEntry){
 		String firstname;
 		firstname=contactEntry.getName().getGivenName().getValue();
 		return firstname;
@@ -387,7 +335,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return String
 	 */
-	public String getGContactFamilyname(ContactEntry contactEntry){
+	protected String getGContactFamilyname(ContactEntry contactEntry){
 		String firstname;
 		firstname=contactEntry.getName().getFamilyName().getValue();
 		return firstname;
@@ -401,7 +349,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @ return Date
 	 */
-	public Date getGContactBirthday(ContactEntry contactEntry){
+	protected Date getGContactBirthday(ContactEntry contactEntry){
 		String gContactBirthday = contactEntry.getBirthday().getValue();
 		return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
 	}
@@ -413,7 +361,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @return String
 	 */
-	public String getGContactFirstMailAdress(ContactEntry contactEntry){
+	protected String getGContactFirstMailAdress(ContactEntry contactEntry){
 		List<Email> mailadresses;
 		String mailadress;
 		mailadresses = contactEntry.getEmailAddresses();

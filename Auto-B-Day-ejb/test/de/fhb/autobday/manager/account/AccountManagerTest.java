@@ -12,6 +12,8 @@ import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.manager.group.GroupManager;
 
 /**
@@ -80,6 +82,24 @@ public class AccountManagerTest {
 		AbdAccount account = new AbdAccount(1);
 		
 		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(account);
+		accountDAOMock.remove(account);
+		EasyMock.replay(accountDAOMock);
+		managerUnderTest.removeAccount(1);
+		
+		EasyMock.verify(accountDAOMock);
+	}
+	
+	/**
+	 * Test of removeAccount method, of class AccountManager.
+	 */
+	@Test(expected = AccountNotFoundException.class)
+	public void testRemoveAccountShouldThrowAccountNotFoundException() throws Exception {
+		System.out.println("testRemoveAccountShouldThrowAccountNotFoundException");
+
+		int accountid = 1;
+		AbdAccount account = new AbdAccount(1);
+		
+		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(null);
 		accountDAOMock.remove(account);
 		EasyMock.replay(accountDAOMock);
 		managerUnderTest.removeAccount(1);

@@ -18,6 +18,9 @@ import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.exception.contact.ContactNotFoundException;
+import de.fhb.autobday.exception.contact.NoContactGivenException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
  * 
@@ -97,6 +100,34 @@ public class GroupManagerTest {
 		// verify		
 		EasyMock.verify(groupDAOMock);
 	}
+	
+	/**
+	 * Test of getGroup method, of class GroupManager.
+	 */
+	@Test(expected = GroupNotFoundException.class)
+	public void testGetGroupShouldThrowGroupNotFoundException() throws Exception {
+		
+		System.out.println("testGetGroupShouldThrowGroupNotFoundException");
+
+		//test variables
+		String groupId="friends";	
+		String template="template";
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(null).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.getGroup(groupId);
+		
+		// verify		
+		EasyMock.verify(groupDAOMock);
+	}
 
 	/**
 	 * Test of setTemplate method, of class GroupManager.
@@ -125,6 +156,35 @@ public class GroupManagerTest {
 		// verify
 		EasyMock.verify(groupDAOMock);
 	}
+	
+	/**
+	 * Test of setTemplate method, of class GroupManager.
+	 */
+	@Test(expected = GroupNotFoundException.class)
+	public void testSetTemplateShouldThrowGroupNotFoundException() throws Exception {
+		
+		System.out.println("testSetTemplateShouldThrowGroupNotFoundException");
+
+		//test variables
+		String groupId="friends";	
+		String template="template";
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(null).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.setTemplate(groupId, template);
+		
+		// verify
+		EasyMock.verify(groupDAOMock);
+	}
+
 
 	/**
 	 * Test of getTemplate method, of class GroupManager.
@@ -154,7 +214,36 @@ public class GroupManagerTest {
 		// verify
 		assertEquals("Template test", template, output);	
 		EasyMock.verify(groupDAOMock);
+	}
+	
+	/**
+	 * Test of getTemplate method, of class GroupManager.
+	 */
+	@Test(expected = GroupNotFoundException.class)
+	public void testGetTemplateShouldThrowGroupNotFoundException() throws Exception {
 		
+		System.out.println("testGetTemplateShouldThrowGroupNotFoundException");
+		
+		//test variables
+		String groupId="friends";	
+		String template="template";
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
+		String output="";
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(null).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		output=managerUnderTest.getTemplate(groupId);
+		
+		// verify
+		assertEquals("Template test", template, output);	
+		EasyMock.verify(groupDAOMock);
 	}
 
 	/**
@@ -203,6 +292,100 @@ public class GroupManagerTest {
 		EasyMock.verify(groupDAOMock);
 		
 	}
+	
+	/**
+	 * Test of testTemplate method, of class GroupManager.
+	 */
+	@Test(expected = GroupNotFoundException.class)
+	public void testTestTemplateShouldThrowGroupNotFoundException() throws Exception {
+		
+		System.out.println("TestTemplateShouldThrowGroupNotFoundException");
+		
+		//test variables
+		String groupId="friends";	
+		String template="Hello ${name} ${e/er} ${sex}";
+		
+		//setting group
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
+		String output="";
+		
+		AbdContact contact=new AbdContact();
+		String contactId="Test";
+		contact.setId(contactId);
+		contact.setFirstname("Testman");
+		contact.setSex('m');
+		contact.setName("Musterman");
+		contact.setMail("m");
+		contact.setBday(new Date(27,04,1988));
+		
+		String expectedOutput="Hello " + contact.getName() + " er "+ contact.getSex();
+		
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(null).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		EasyMock.replay(contactDAOMock);
+		
+		// testing Methodcall
+		output=managerUnderTest.testTemplate(groupId, contactId);
+		
+		// verify
+		assertEquals("Template test", expectedOutput, output);	
+		EasyMock.verify(groupDAOMock);
+		
+	}
+	
+	/**
+	 * Test of testTemplate method, of class GroupManager.
+	 */
+	@Test(expected = ContactNotFoundException.class)
+	public void testTestTemplateShouldThrowContactNotFoundException() throws Exception {
+		
+		System.out.println("testTestTemplateShouldThrowContactNotFoundException");
+		
+		//test variables
+		String groupId="friends";	
+		String template="Hello ${name} ${e/er} ${sex}";
+		
+		//setting group
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
+		String output="";
+		
+		AbdContact contact=new AbdContact();
+		String contactId="Test";
+		contact.setId(contactId);
+		contact.setFirstname("Testman");
+		contact.setSex('m');
+		contact.setName("Musterman");
+		contact.setMail("m");
+		contact.setBday(new Date(27,04,1988));
+		
+		String expectedOutput="Hello " + contact.getName() + " er "+ contact.getSex();
+		
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(null).times(1);
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		EasyMock.replay(contactDAOMock);
+		
+		// testing Methodcall
+		output=managerUnderTest.testTemplate(groupId, contactId);
+		
+		// verify
+		assertEquals("Template test", expectedOutput, output);	
+		EasyMock.verify(groupDAOMock);
+		
+	}
 
 	/**
 	 * Test of setActive method, of class GroupManager.
@@ -220,6 +403,34 @@ public class GroupManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
+		groupDAOMock.edit(group);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.setActive(groupId, isActive);
+		
+		// verify
+		EasyMock.verify(groupDAOMock);
+	}
+
+	/**
+	 * Test of setActive method, of class GroupManager.
+	 */
+	@Test(expected = GroupNotFoundException.class)
+	public void testSetActiveShouldThrowContactNotFoundException() throws Exception {
+		
+		System.out.println("setActive");
+		
+		//test variables
+		String groupId="family";
+		boolean isActive=true;		
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(null).times(1);
 		groupDAOMock.edit(group);
 		
 		// Setup is finished need to activate the mock
@@ -261,7 +472,22 @@ public class GroupManagerTest {
 		String result = managerUnderTest.parseTemplate(template, contact);
 		
 		assertEquals(expResult, result);
+	}
+	
+	/**
+	 * Test of parseTemplate method, of class GroupManager.
+	 */
+	@Test(expected = NoContactGivenException.class)
+	public void testParseTemplateShouldThrowNoContactGivenException() throws Exception {
 		
+		System.out.println("testParseTemplateShouldThrowNoContactGivenException");
+		
+		String template="Hello ${name} ${e/er} ${sex}";
+		
+		//prepare a contact object
+		AbdContact contact=null;
+		String result = managerUnderTest.parseTemplate(template, contact);
+
 	}
 
 	/**

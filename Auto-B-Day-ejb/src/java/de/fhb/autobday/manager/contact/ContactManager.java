@@ -13,6 +13,7 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
+import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
 
 /**
@@ -56,7 +57,7 @@ public class ContactManager implements ContactManagerLocal {
 		
 		if(allGroupToContact==null){
 			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
-			throw new NoContactInThisGroupException("Relation groupToContact not found!");
+			throw new ContactToGroupNotFoundException("Relation groupToContact not found!");
 		}
 		
 		//search for relation

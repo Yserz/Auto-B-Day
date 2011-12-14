@@ -102,7 +102,8 @@ public class GroupManagerTest {
 	}
 	
 	/**
-	 * Test of getGroup method, of class GroupManager.
+	 * Test fail of getGroup method, of class GroupManager.
+	 * This test provokes a GroupNotFoundException!
 	 */
 	@Test(expected = GroupNotFoundException.class)
 	public void testGetGroupShouldThrowGroupNotFoundException() throws Exception {
@@ -158,7 +159,8 @@ public class GroupManagerTest {
 	}
 	
 	/**
-	 * Test of setTemplate method, of class GroupManager.
+	 * Test fail of setTemplate method, of class GroupManager.
+	 * This test provokes a GroupNotFoundException!
 	 */
 	@Test(expected = GroupNotFoundException.class)
 	public void testSetTemplateShouldThrowGroupNotFoundException() throws Exception {
@@ -217,7 +219,8 @@ public class GroupManagerTest {
 	}
 	
 	/**
-	 * Test of getTemplate method, of class GroupManager.
+	 * Test fail of getTemplate method, of class GroupManager.
+	 * This test provokes a GroupNotFoundException!
 	 */
 	@Test(expected = GroupNotFoundException.class)
 	public void testGetTemplateShouldThrowGroupNotFoundException() throws Exception {
@@ -294,7 +297,8 @@ public class GroupManagerTest {
 	}
 	
 	/**
-	 * Test of testTemplate method, of class GroupManager.
+	 * Test fail of testTemplate method, of class GroupManager.
+	 * This test provokes a GroupNotFoundException!
 	 */
 	@Test(expected = GroupNotFoundException.class)
 	public void testTestTemplateShouldThrowGroupNotFoundException() throws Exception {
@@ -341,7 +345,8 @@ public class GroupManagerTest {
 	}
 	
 	/**
-	 * Test of testTemplate method, of class GroupManager.
+	 * Test fail of testTemplate method, of class GroupManager.
+	 * This test provokes a ContactNotFoundException!
 	 */
 	@Test(expected = ContactNotFoundException.class)
 	public void testTestTemplateShouldThrowContactNotFoundException() throws Exception {
@@ -416,7 +421,8 @@ public class GroupManagerTest {
 	}
 
 	/**
-	 * Test of setActive method, of class GroupManager.
+	 * Test fail of setActive method, of class GroupManager.
+	 * This test provokes a GroupNotFoundException!
 	 */
 	@Test(expected = GroupNotFoundException.class)
 	public void testSetActiveShouldThrowContactNotFoundException() throws Exception {
@@ -475,7 +481,8 @@ public class GroupManagerTest {
 	}
 	
 	/**
-	 * Test of parseTemplate method, of class GroupManager.
+	 * Test fail of parseTemplate method, of class GroupManager.
+	 * This test provokes a NoContactGivenException!
 	 */
 	@Test(expected = NoContactGivenException.class)
 	public void testParseTemplateShouldThrowNoContactGivenException() throws Exception {

@@ -110,6 +110,7 @@ public class ContactManagerTest {
 	
 	/**
 	 * Test fail of setActive method, of class ContactManager.
+	 * This test provokes a NoContactInThisGroupException!
 	 */
 	@Test(expected = NoContactInThisGroupException.class)
 	public void testSetActiveShouldThrowNoContactInThisGroupException() throws Exception {
@@ -125,7 +126,7 @@ public class ContactManagerTest {
 		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
 		groupToContact.setAbdContact(contact);
 		
-		// willful leave off  the adding of groupToContact to Arraylist
+		// willful leave off the adding of groupToContact to Arraylist!
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
@@ -146,6 +147,7 @@ public class ContactManagerTest {
 	
 	/**
 	 * Test fail of setActive method, of class ContactManager.
+	 * This test provokes a ContactNotFoundException!
 	 */
 	@Test(expected = ContactNotFoundException.class)
 	public void testSetActiveShouldThrowContactNotFoundException() throws Exception {
@@ -153,20 +155,9 @@ public class ContactManagerTest {
 		//test variables
 		String contactId="mustermann";
 		boolean isActive=true;		
-		AbdContact contact=new AbdContact();
-		contact.setId(contactId);
-		
-		//prepare groupToContactRealation
-		AbdGroupToContact groupToContact=new AbdGroupToContact();		
-		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
-		groupToContact.setAbdContact(contact);
-
-		allGroupToContact.add(groupToContact);
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(null).times(1);
-		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactId)).andReturn(allGroupToContact).times(1);
-		groupToContactDAOMock.edit(groupToContact);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
@@ -182,6 +173,7 @@ public class ContactManagerTest {
 	
 	/**
 	 * Test fail of setActive method, of class ContactManager.
+	 * This test provokes a ContactToGroupNotFoundException!
 	 */
 	@Test(expected = ContactToGroupNotFoundException.class)
 	public void testSetActiveShouldThrowContactToGroupNotFoundException() throws Exception {
@@ -192,17 +184,9 @@ public class ContactManagerTest {
 		AbdContact contact=new AbdContact();
 		contact.setId(contactId);
 		
-		//prepare groupToContactRealation
-		AbdGroupToContact groupToContact=new AbdGroupToContact();		
-		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
-		groupToContact.setAbdContact(contact);
-
-		allGroupToContact.add(groupToContact);
-		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
 		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactId)).andReturn(null).times(1);
-		groupToContactDAOMock.edit(groupToContact);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);

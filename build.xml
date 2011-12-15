@@ -38,7 +38,7 @@
 	<target name="default" depends="init,compile-ejb,jar,compile-war,war,ear">
 		
 	</target>
-	<target name="test" depends="default,test-war">
+	<target name="test" depends="default,test-ejb">
 		
 	</target>
 	
@@ -323,6 +323,7 @@
 	<!-- =================================
 		          target: Cobertura
 		 ================================= -->
+	<taskdef classpath="${ejb.lib.default.dir}/cobertura.jar" resource="tasks.properties"/>
 	<target name="cob-instr" depends="compile-ejb,compile-war">
 		<cobertura-instrument todir="${cob.inst.dir}" datafile="${cob.data}">
 		    <fileset dir="${ejb.classes.dir}">

@@ -251,7 +251,7 @@
 		
 		<junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
 
-			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cob.data}" />
+			<!--<sysproperty key="net.sourceforge.cobertura.datafile" file="${cob.data}" />-->
 		 	<classpath location="${cob.inst.dir}" />
 			<classpath location="${ejb.classes.dir}" />
 			<classpath refid="ejb-test.classpath" />
@@ -323,8 +323,10 @@
 	<!-- =================================
 		          target: Cobertura
 		 ================================= -->
-	<taskdef classpath="${ejb.lib.default.dir}/cobertura.jar" resource="tasks.properties"/>
+	
 	<target name="cob-instr" depends="compile-ejb,compile-war">
+		<taskdef classpathref="ejb-test.classpath" resource="tasks.properties" />
+		
 		<cobertura-instrument todir="${cob.inst.dir}" datafile="${cob.data}">
 		    <fileset dir="${ejb.classes.dir}">
 		        <include name="**/*.class" />

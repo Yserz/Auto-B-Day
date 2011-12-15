@@ -22,53 +22,11 @@
 		<h:body>
 			<h:form>
 
-				<h3>Inline</h3>
-				<p:calendar value="#{calendarBean.date1}" mode="inline"/>
-
-				<h3>Popup</h3>
-				<p:calendar value="#{calendarBean.date2}" />
-
-				<h3>Popup Button</h3>
-				<p:calendar value="#{calendarBean.date3}" showOn="button" />
-
-				<h:panelGrid columns="2" style="margin-top:10px">
-					<p:commandButton value="Submit" update="display" oncomplete="dialog.show()"/>
-
-					<p:ajaxStatus style="width:16px;height:16px;">
-						<f:facet name="start">
-							<h:graphicImage value="../design/ajaxloading.gif" />
-						</f:facet>
-
-						<f:facet name="complete">
-							<h:outputText value="" />
-						</f:facet>
-					</p:ajaxStatus>
-				</h:panelGrid>
-
-				<p:dialog header="Selected Dates" widgetVar="dialog"
-						showEffect="fold" hideEffect="fold"
-						height="150">
-
-					<h:panelGrid id="display" columns="2" cellpadding="5">
-
-						<h:outputText value="Inline Date:" />
-						<h:outputText value="#{calendarBean.date1}">
-							<f:convertDateTime pattern="MM/dd/yyyy"/>
-						</h:outputText>
-
-						<h:outputText value="Popup Date:" />
-						<h:outputText value="#{calendarBean.date2}">
-							<f:convertDateTime pattern="MM/dd/yyyy"/>
-						</h:outputText>
-
-						<h:outputText value="Popup Button Date: " />
-						<h:outputText value="#{calendarBean.date3}">
-							<f:convertDateTime pattern="MM/dd/yyyy"/>
-						</h:outputText>
-
-					</h:panelGrid>
-
-				</p:dialog>
+				<p:growl id="growl" showDetail="true"/>  
+                  
+				<p:calendar value="#{calendarBean.date1}" mode="inline"   
+						onSelectUpdate="growl"   
+						selectListener="#{calendarBean.handleDateSelect}"/>   
 
 			</h:form>
 

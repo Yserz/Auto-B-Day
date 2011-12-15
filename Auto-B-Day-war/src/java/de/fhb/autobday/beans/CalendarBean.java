@@ -1,20 +1,24 @@
 package de.fhb.autobday.beans;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import org.primefaces.event.DateSelectEvent;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-@Named(value = "calendarBean")
-@Dependent
-public class CalendarBean {
+@Named
+@SessionScoped
+public class CalendarBean implements Serializable {
 
 	private Date date1;
-	private Date date2;
-	private Date date3;
 
 	public Date getDate1() {
 		return date1;
@@ -24,19 +28,14 @@ public class CalendarBean {
 		this.date1 = date1;
 	}
 
-	public Date getDate2() {
-		return date2;
-	}
-
-	public void setDate2(Date date2) {
-		this.date2 = date2;
-	}
-
-	public Date getDate3() {
-		return date3;
-	}
-
-	public void setDate3(Date date3) {
-		this.date3 = date3;
+	public void handleDateSelect(DateSelectEvent event) {
+		SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+		
+		//Speichern des Dates
+		setDate1(event.getDate());
+		
+		
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getDate())));
 	}
 }

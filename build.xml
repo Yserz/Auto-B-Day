@@ -253,7 +253,7 @@
 		
 		<junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
 
-			<!--<sysproperty key="net.sourceforge.cobertura.datafile" file="${cob.data}" />-->
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cob.data}" />
 		 	<classpath location="${cob.inst.dir}" />
 			<classpath location="${ejb.classes.dir}" />
 			<classpath refid="ejb-test.classpath" />
@@ -347,7 +347,7 @@
 		-->
 	</target>
 
-	<target name="cob-rep" depends="cob-instr, test-war" description="erzeugt Cobertura Reports">
+	<target name="cob-rep" depends="cob-instr, test-ejb" description="erzeugt Cobertura Reports">
 		<cobertura-report format="html" datafile="${cob.data}" destdir="${cob.rep.html}" srcdir="${src.dir}" />
 		<cobertura-report format="xml" datafile="${cob.data}" destdir="${cob.rep.xml}" srcdir="${src.dir}" />
 	</target>

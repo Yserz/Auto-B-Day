@@ -9,7 +9,7 @@ import org.junit.*;
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class MailManagerTest {
-	private EJBContainer container;
+	//private EJBContainer container;
 	
 	public MailManagerTest() {
 	}
@@ -24,12 +24,12 @@ public class MailManagerTest {
 	
 	@Before
 	public void setUp() {
-		container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		//container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
 	}
 	
 	@After
 	public void tearDown() {
-		container.close();
+		//container.close();
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class MailManagerTest {
 	@Test
 	public void testSendBdayMail() throws Exception {
 		System.out.println("sendBdayMail");
-		MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
+		//MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
 		//TODO parameterliste hat sich geändert
 		//instance.sendBdayMail();
 		
@@ -52,8 +52,8 @@ public class MailManagerTest {
 	@Test
 	public void testSendNotificationMail() throws Exception {
 		System.out.println("sendNotificationMail");
-		MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
-		instance.sendNotificationMail();
+		//MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
+		//instance.sendNotificationMail();
 		
 		// TODO review the generated test code and remove the default call to fail.
 		//fail("The test case is a prototype.");
@@ -65,7 +65,7 @@ public class MailManagerTest {
 	@Test
 	public void testSendForgotPasswordMail() throws Exception {
 		System.out.println("sendForgotPasswordMail");
-		MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
+		//MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
 //		instance.sendForgotPasswordMail();
 		
 		// TODO review the generated test code and remove the default call to fail.

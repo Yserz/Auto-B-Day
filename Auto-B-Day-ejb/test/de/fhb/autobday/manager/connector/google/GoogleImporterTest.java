@@ -90,6 +90,8 @@ private JavaEEGloss gloss;
 	 * @throws AuthenticationException 
 	 */
 	@Test
+	@Ignore
+	//TODO ACHTUNG TEST WIRD IGNORIERT
 	public void testGetConnection() throws AuthenticationException{
 		System.out.println("getConnection");
 
@@ -158,6 +160,8 @@ private JavaEEGloss gloss;
 	 * Test of importContacts method, of class GoogleImporter.
 	 */
 	@Test
+	@Ignore
+	//TODO ACHTUNG TEST WIRD IGNORIERT
 	public void testImportContacts() {
 		System.out.println("importContacts");
 		GoogleImporter instance = new GoogleImporter();

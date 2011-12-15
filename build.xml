@@ -231,6 +231,7 @@
 		</javac>
 		
 		<!--Compile WAR Tests-->
+		<!--
 		<path id="war-test.classpath">
 			<fileset dir="${war.lib.test.dir}">
 				<include name="*.jar" />
@@ -242,6 +243,7 @@
 		<javac srcdir="${war.test.dir}" destdir="${war.classes.dir}" debug="yes">
 			<classpath refid="war-test.classpath" />
 		</javac>
+		-->
 	</target>
 
 	<!-- =================================

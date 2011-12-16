@@ -14,6 +14,7 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
  *
@@ -86,27 +87,51 @@ public class AccountManagerTest {
 		user.setPasswort("password");
 		user.setSalt("salt");
 		user.setUsername("username");
-		
-		
-		
+				
+			
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(userDAOMock.find(userId)).andReturn(user).times(1);
-//		EasyMock.expect(accountDAOMock.create(userId)).andReturn(user).times(1);
-		//TODO dringend!! weiß nicht wie man das create mocken soll,
-		//da die objekt referenz hier nciht verfügbar ist sondern nur loakl in der methode !!!
-//		accountDAOMock.create(null);
-//		accountDAOMock.edit(null);
+		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
+		
+		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
+		accountDAOMock.edit((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
-//		EasyMock.replay(accountDAOMock);
+		EasyMock.replay(accountDAOMock);
 		
 		// testing Methodcall
 		managerUnderTest.addAccount(userId, password, userName, type);
 		
 		// verify		
 		EasyMock.verify(userDAOMock);
-//		EasyMock.verify(accountDAOMock);
+		EasyMock.verify(accountDAOMock);
+		
+		
+	}
+	
+	/**
+	 * Test of addAccount method, of class AccountManager.
+	 */
+	@Test(expected = UserNotFoundException.class)
+	public void testAddAccountShouldThrowUserNotFoundException() throws Exception {
+		
+		System.out.println("testAddAccountShouldThrowUserNotFoundException");
+		
+		int abduserid = EasyMock.anyInt();
+		String password="password";
+		String userName="mustermann";
+		String type="type";
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(userDAOMock.find(abduserid)).andReturn(null);
+		
+		EasyMock.replay(userDAOMock);
+		
+		managerUnderTest.addAccount(abduserid, password, userName, type);
+		
+		// verify		
+		EasyMock.verify(userDAOMock);
+
 		
 		
 	}

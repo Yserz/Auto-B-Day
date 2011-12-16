@@ -51,14 +51,14 @@ public class AccountManager implements AccountManagerLocal {
 		}
 		
 		//add new Account
-		AbdAccount createdAccount=new AbdAccount();
-
-		//create
-		accountDAO.create(createdAccount);
+		AbdAccount createdAccount=new AbdAccount();		
 		createdAccount.setAbduser(actualUser);
 		createdAccount.setPasswort(password);
 		createdAccount.setUsername(userName);
 		createdAccount.setType(type);
+
+		//create
+		accountDAO.create(createdAccount);
 		
 		//save in to db
 		accountDAO.edit(createdAccount);
@@ -90,7 +90,4 @@ public class AccountManager implements AccountManagerLocal {
 		
 		
 	}
-
-	
-	
 }

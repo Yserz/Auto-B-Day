@@ -1,6 +1,7 @@
 package de.fhb.autobday.manager.user;
 
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.UserException;
 import javax.ejb.Local;
 
@@ -16,4 +17,6 @@ public interface UserManagerLocal {
 	AbdUser login(String loginName, String password) throws UserException ;
 
 	void logout();
+	
+	void register(String firstName, String name, String salt, String userName, String mail) throws IncompleteUserRegisterException;
 }

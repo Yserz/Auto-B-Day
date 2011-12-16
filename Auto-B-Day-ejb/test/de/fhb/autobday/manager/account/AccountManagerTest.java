@@ -17,7 +17,9 @@ import de.fhb.autobday.exception.account.AccountNotFoundException;
 
 /**
  *
+ * @author Andy Klay <klay@fh-brandenburg.de>
  * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Christoph Ott <>
  */
 public class AccountManagerTest {
 	
@@ -116,14 +118,21 @@ public class AccountManagerTest {
 	public void testRemoveAccount() throws Exception {
 		System.out.println("removeAccount");
 
+		//prepare test variables
 		int accountid = 1;
 		AbdAccount account = new AbdAccount(1);
 		
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(account);
 		accountDAOMock.remove(account);
+		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
+		
+		// testing Methodcall
 		managerUnderTest.removeAccount(1);
 		
+		// verify		
 		EasyMock.verify(accountDAOMock);
 	}
 	
@@ -134,14 +143,21 @@ public class AccountManagerTest {
 	public void testRemoveAccountShouldThrowAccountNotFoundException() throws Exception {
 		System.out.println("testRemoveAccountShouldThrowAccountNotFoundException");
 
+		//prepare test variables
 		int accountid = 1;
 		AbdAccount account = new AbdAccount(1);
 		
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(null);
 		accountDAOMock.remove(account);
+		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
+		
+		// testing Methodcall
 		managerUnderTest.removeAccount(1);
 		
+		// verify		
 		EasyMock.verify(accountDAOMock);
 	}
 

@@ -38,7 +38,7 @@
 	<target name="default" depends="init,compile-ejb,jar,compile-war,war,ear">
 		
 	</target>
-	<target name="test" depends="default, compile-tests, test-ejb, cob-rep">
+	<target name="test" depends="default, compile-tests, cob-rep, test-ejb">
 		
 	</target>
 	
@@ -55,7 +55,8 @@
 		<mkdir dir="${war.dist.dir}" />
 		
 		<delete verbose="true" includeEmptyDirs="true">
-			<!--clean General-->			
+			<!--clean General-->
+			<fileset file="${cob.data}" />
 			<fileset dir="${build.dir}"/>
 			<fileset dir="${dist.dir}"/>
 			
@@ -348,8 +349,8 @@
 	</target>
 
 	<target name="cob-rep" depends="cob-instr, test-ejb" description="erzeugt Cobertura Reports">
-		<cobertura-report format="html" datafile="${cob.data}" destdir="${cob.rep.html}" srcdir="${src.dir}" />
-		<cobertura-report format="xml" datafile="${cob.data}" destdir="${cob.rep.xml}" srcdir="${src.dir}" />
+		<cobertura-report format="html" datafile="${cob.data}" destdir="${cob.rep.html}" srcdir="${ejb.src.dir}" />
+		<cobertura-report format="xml" datafile="${cob.data}" destdir="${cob.rep.xml}" srcdir="${ejb.src.dir}" />
 	</target>
 	
 	<!-- ================================= 

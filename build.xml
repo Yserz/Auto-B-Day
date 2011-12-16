@@ -38,7 +38,7 @@
 	<target name="default" depends="init,compile-ejb,jar,compile-war,war,ear">
 		
 	</target>
-	<target name="test" depends="default,test-ejb">
+	<target name="test" depends="default, compile-tests, test-ejb, cob-rep">
 		
 	</target>
 	
@@ -213,7 +213,7 @@
 	<!-- =================================
 		          target: Compile-Tests
 		 ================================= -->
-	<target name="compile-tests" depends="init, compile-ejb,compile-war">
+	<target name="compile-tests" depends="init">
 		 <!--Compile EJB Tests-->
 		<path id="ejb-test.classpath">
 			<fileset dir="${ejb.lib.test.dir}">

@@ -16,7 +16,9 @@ TODO - Chris
 
 *** Session 	***
 
-- Tests schreiben, wenn möglich manager weiter implementieren
+- Tests schreiben
+- manager weiter implementieren, überprüfen, drüberlesen
+ außer Importer..nicht drin arbeiten
 
 *** GUI 		***
 

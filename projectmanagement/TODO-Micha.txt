@@ -4,7 +4,7 @@ TODO - Micha
 
 --- Allgemein 	---
 
-- 
+ant, gui, struktur
 
 *** DB 			***
 
@@ -22,3 +22,5 @@ TODO - Micha
 
 - CDI zum laufen bringen
 - PrimeFaces 3.x einbinden
+
+

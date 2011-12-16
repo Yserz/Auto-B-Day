@@ -4,9 +4,16 @@ TODO - Andy
 
 --- Allgemein 	---
 
-- Tests implementieren, wenn möglich  Manager weiter implementieren.
+- Tests implementieren, wenn möglich Manager weiter implementieren.
+- helper angucken, testen, verbessern
+- generateSalt usw.
+
+etwas später
+*******************
+- (tino noch das propertyfile abnehmen)
 - Doku weiter machen
 - UseCase verbessern
+
 
 *** DB 			***
 

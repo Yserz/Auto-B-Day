@@ -16,8 +16,7 @@ TODO - Chris
 
 *** Session 	***
 
-- informieren Ã¼ber easyMock zum ersetzen der DAO-Schicht
-- Testen anfangen
+- Tests schreiben, wenn möglich manager weiter implementieren
 
 *** GUI 		***
 

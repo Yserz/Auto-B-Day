@@ -4,7 +4,7 @@ TODO - Andy
 
 --- Allgemein 	---
 
-- ein paar weitere Tests implementieren
+- Tests implementieren, wenn möglich  Manager weiter implementieren.
 - Doku weiter machen
 
 
@@ -22,4 +22,6 @@ TODO - Andy
 
 *** GUI 		***
 
+	@Micher
+	würde später gerne evtl. GUI machen statt Manager und Tests?
 - 

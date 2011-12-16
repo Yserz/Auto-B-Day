@@ -1,6 +1,8 @@
 package de.fhb.autobday.manager.mail;
 
 import de.fhb.autobday.exception.mail.MailException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
+
 import javax.ejb.Local;
 
 /**
@@ -14,6 +16,6 @@ public interface MailManagerLocal {
 
 	void sendNotificationMail();
 
-	void sendForgotPasswordMail(int userId) throws MailException;
+	void sendForgotPasswordMail(int userId) throws MailException, UserNotFoundException ;
 	
 }

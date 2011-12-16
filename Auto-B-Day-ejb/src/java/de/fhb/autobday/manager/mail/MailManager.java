@@ -1,8 +1,6 @@
 package de.fhb.autobday.manager.mail;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -13,20 +11,17 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
-import de.fhb.autobday.commons.AccountPropertiesFile;
 import de.fhb.autobday.commons.PasswortGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.mail.MailException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
  * TODO This will may change position to ABDManager!!!
@@ -106,22 +101,23 @@ public class MailManager implements MailManagerLocal {
 	}
 
 	@Override
-	public void sendForgotPasswordMail(int userId) throws MailException {
+	public void sendForgotPasswordMail(int userId) throws MailException, UserNotFoundException {
 		// enge zusammenarbeit mit usermanager
 		
 		//getUser
 		AbdUser user = null;
+//		String userMail=null;
 		List<AbdAccount> accounts;
 		
 		user=userDAO.find(userId);
 		
 		if(user==null){
 			LOGGER.log(Level.SEVERE, "User {0}not found!", userId);
-			//TODO Spezifische Exception!!
-			throw new MailException("User " + userId + "not found!");
+			throw new UserNotFoundException("User " + userId + "not found!");
 		}
 		
 		//TODO getUsersmail
+		
 		accounts = new ArrayList<AbdAccount>(user.getAbdAccountCollection());
 		String userMailAdress=accounts.get(0).getUsername();
 		

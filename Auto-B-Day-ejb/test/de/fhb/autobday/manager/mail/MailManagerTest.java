@@ -1,8 +1,10 @@
 package de.fhb.autobday.manager.mail;
 
-import javax.ejb.embeddable.EJBContainer;
-import static org.junit.Assert.fail;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  *

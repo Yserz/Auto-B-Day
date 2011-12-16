@@ -18,4 +18,34 @@ public class PasswortGenerator {
 		}
 		return newPW.toString();
 	}
+	
+	public static String generateSalt() {
+		
+		//TODO implementieren
+//		kleine buchstaben
+//		große buchstaben
+//		zahlen von 0-9
+//		alles an willkürlichen stellen
+
+		return "";
+	}
+	
+//	public static String generatePassword2(){
+//		return generateSigns();
+//		}
+//		public static String generateSalt(){
+//		return generateSigns();
+//		}
+//		private static String generateSigns(){
+//		//TODO generate signs
+//		return "";
+//		}
+	
+	
+//	entweder legst du da als attribute konstanten fest, die die länge des pws usw festsetzt
+//	oder du übergibst das an die methoden
+//	usw usw
+	
+	
+	
 }

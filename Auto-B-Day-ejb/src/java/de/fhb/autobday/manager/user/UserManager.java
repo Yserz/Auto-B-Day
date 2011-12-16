@@ -68,12 +68,12 @@ public class UserManager implements UserManagerLocal {
 		LOGGER.log(Level.INFO,"logout");
 	}
 	@Override
-	public void register(String firstName, String name, String salt, String userName, String mail) throws IncompleteUserRegisterException {
+	public void register(String firstName, String name, String userName, String mail) throws IncompleteUserRegisterException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
 		LOGGER.log(Level.INFO, "name: {1}", name);
-		LOGGER.log(Level.INFO, "salt: {2}", salt);
+//		LOGGER.log(Level.INFO, "salt: {2}", salt);
 		LOGGER.log(Level.INFO, "userName: {3}", userName);
 		LOGGER.log(Level.INFO, "mail: {4}", mail);
 		
@@ -105,7 +105,8 @@ public class UserManager implements UserManagerLocal {
 		user.setFirstname(firstName);
 		user.setName(name);
 		user.setUsername(userName);
-		user.setSalt(salt);
+		//TODO Salt generien über pw generator
+//		user.setSalt(salt);
 		
 		//save in to db
 		userDAO.create(user);

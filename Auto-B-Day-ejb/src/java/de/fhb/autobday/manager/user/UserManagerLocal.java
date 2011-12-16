@@ -18,5 +18,5 @@ public interface UserManagerLocal {
 
 	void logout();
 	
-	void register(String firstName, String name, String salt, String userName, String mail) throws IncompleteUserRegisterException;
+	void register(String firstName, String name, String userName, String mail) throws IncompleteUserRegisterException;
 }

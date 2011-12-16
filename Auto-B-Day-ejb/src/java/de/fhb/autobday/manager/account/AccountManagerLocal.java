@@ -1,6 +1,8 @@
 package de.fhb.autobday.manager.account;
 
 import de.fhb.autobday.exception.account.AccountException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
+
 import javax.ejb.Local;
 
 /**
@@ -10,7 +12,7 @@ import javax.ejb.Local;
 @Local
 public interface AccountManagerLocal {
 
-	void addAccount();
+	void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException;
 
 	void removeAccount(int accountId) throws AccountException;
 

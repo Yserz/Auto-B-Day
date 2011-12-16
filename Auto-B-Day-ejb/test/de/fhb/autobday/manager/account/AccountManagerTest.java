@@ -1,20 +1,19 @@
 package de.fhb.autobday.manager.account;
 
-import javax.ejb.embeddable.EJBContainer;
-import static org.junit.Assert.fail;
-
 import org.easymock.EasyMock;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.dao.AbdAccountFacade;
-import de.fhb.autobday.dao.AbdContactFacade;
-import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
-import de.fhb.autobday.exception.user.PasswordInvalidException;
-import de.fhb.autobday.manager.group.GroupManager;
 
 /**
  *
@@ -27,6 +26,8 @@ public class AccountManagerTest {
 	private AccountManager managerUnderTest;
 	
 	private AbdAccountFacade accountDAOMock;
+	
+	private AbdUserFacade userDAOMock;
 	
 	public AccountManagerTest() {
 	}
@@ -45,9 +46,11 @@ public class AccountManagerTest {
 		
 		//create Mocks
 		accountDAOMock = EasyMock.createMock(AbdAccountFacade.class);
+		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(accountDAOMock);
+		gloss.addEJB(userDAOMock);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(AccountManager.class);
@@ -63,12 +66,47 @@ public class AccountManagerTest {
 	 */
 	@Test
 	public void testAddAccount() throws Exception {
+		
 		System.out.println("addAccount");
 		
+		//prepare test variables
+		String password="password";
+		String userName="mustermann";
+		String type="type";
+		
+
+		//prepare a user object
+		int userId=1;	
+		AbdUser user = new AbdUser();
+		user.setFirstname("");
+		user.setName("");
+		user.setId(userId);
+		user.setPasswort("password");
+		user.setSalt("salt");
+		user.setUsername("username");
 		
 		
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(userDAOMock.find(userId)).andReturn(user).times(1);
+//		EasyMock.expect(accountDAOMock.create(userId)).andReturn(user).times(1);
+		//TODO dringend!! weiß nicht wie man das create mocken soll,
+		//da die objekt referenz hier nciht verfügbar ist sondern nur loakl in der methode !!!
+//		accountDAOMock.create(null);
+//		accountDAOMock.edit(null);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(userDAOMock);
+//		EasyMock.replay(accountDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.addAccount(userId, password, userName, type);
+		
+		// verify		
+		EasyMock.verify(userDAOMock);
+//		EasyMock.verify(accountDAOMock);
+		
+		
 	}
 
 	/**

@@ -6,7 +6,7 @@ TODO - Andy
 
 - Tests implementieren, wenn möglich  Manager weiter implementieren.
 - Doku weiter machen
-
+- UseCase verbessern
 
 *** DB 			***
 

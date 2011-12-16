@@ -101,11 +101,14 @@ public class UserManager implements UserManagerLocal {
 		}
 		
 		
-		userDAO.create(user);
+		user= new AbdUser();
 		user.setFirstname(firstName);
 		user.setName(name);
 		user.setUsername(userName);
 		user.setSalt(salt);
+		
+		//save in to db
+		userDAO.create(user);
 		
 		//TODO mail senden mit generierten passwort
 		

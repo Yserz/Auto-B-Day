@@ -106,7 +106,8 @@ public class MailManager implements MailManagerLocal {
 		
 		//getUser
 		AbdUser user = null;
-//		String userMail=null;
+		String userMailAdress;
+		String newPassword;
 		List<AbdAccount> accounts;
 		
 		user=userDAO.find(userId);
@@ -116,20 +117,19 @@ public class MailManager implements MailManagerLocal {
 			throw new UserNotFoundException("User " + userId + "not found!");
 		}
 		
-		//TODO getUsersmail
-		
 		accounts = new ArrayList<AbdAccount>(user.getAbdAccountCollection());
-		String userMailAdress=accounts.get(0).getUsername();
+		userMailAdress=accounts.get(0).getUsername();
+		//TODO getUsersmail ???
 		
 		//generate new Password
-		String newPassword=PasswortGenerator.generatePassword();
+		newPassword=PasswortGenerator.generatePassword();
 		
 		// save new password into database
 		user.setPasswort(newPassword);
 		userDAO.edit(user);
 		
-		//TODO Send mail with new Password
-		
+		// Send mail with new Password
+		this.sendBdayMail("", userMailAdress, "Autobday Notification", "You recieved a new password for your autobdayaccount: " + newPassword + "\n\n" + "greetz your Autobdayteam");
 	}
 
 	private void sendMail(MimeMessage message) {

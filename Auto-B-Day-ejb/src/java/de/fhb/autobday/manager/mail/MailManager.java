@@ -16,7 +16,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import de.fhb.autobday.commons.PasswortGenerator;
+import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
@@ -122,7 +122,7 @@ public class MailManager implements MailManagerLocal {
 		//TODO getUsersmail ???
 		
 		//generate new Password
-		newPassword=PasswortGenerator.generatePassword();
+		newPassword=PasswordGenerator.generatePassword();
 		
 		// save new password into database
 		user.setPasswort(newPassword);

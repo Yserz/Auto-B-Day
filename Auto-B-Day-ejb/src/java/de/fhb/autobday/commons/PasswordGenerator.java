@@ -11,33 +11,33 @@ package de.fhb.autobday.commons;
  * Andy Klay <klay@fh-brandenburg.de>
  * 
  */
-public class PasswortGenerator {
+public class PasswordGenerator {
 	
 	/**
 	 * Mode for generating a random sequence
 	 * of numbers and letters
 	 */
-	private final static int MODE_BOTH = 0;
+	public final static int MODE_BOTH = 0;
 	
 	/**
 	 * Mode for generating a random sequence of numbers
 	 */
-	private final static int MODE_ONLY_NUMERIC = 1;
+	public final static int MODE_ONLY_NUMERIC = 1;
 	
 	/**
 	 * Mode for generating a random sequence of letters
 	 */
-	private final static int MODE_ONLY_LETTERS = 2;
+	public final static int MODE_ONLY_LETTERS = 2;
 	
 	/**
 	 * password length
 	 */
-	private final static int PASSWORD_LENGTH = 5;
+	public final static int PASSWORD_LENGTH = 8;
 	
 	/**
 	 * salt length
 	 */
-	private final static int SALT_LENGTH = 5;
+	public final static int SALT_LENGTH = 5;
 
 	/**
 	 * generate a random password consists of lowercase letters
@@ -49,6 +49,17 @@ public class PasswortGenerator {
 
 		return generateSigns(PASSWORD_LENGTH,MODE_ONLY_LETTERS);
 	}
+	
+	/**
+	 * generate a random sequence of char numbers
+	 * 
+	 * @return String - numbers
+	 */
+	public static String generateNumbers() {
+
+		return generateSigns(SALT_LENGTH,MODE_ONLY_NUMERIC);
+	}
+	
 	
 	/**
 	 * generate a random salt consists of lowercase letters
@@ -84,7 +95,7 @@ public class PasswortGenerator {
 			case MODE_BOTH:
 				
 				// generate letters and numbers
-				for (int x = 0; x < PASSWORD_LENGTH; x++) {
+				for (int x = 0; x < length; x++) {
 					//letter or number?
 					if(Math.round(Math.random())==0){
 						//letter
@@ -107,7 +118,7 @@ public class PasswortGenerator {
 			case MODE_ONLY_NUMERIC:;
 			
 				//generate only numbers
-				for (int x = 0; x < PASSWORD_LENGTH; x++) {
+				for (int x = 0; x < length; x++) {
 					generateContent.append((char) ((int) (Math.random() * NUMERIC_LENGTH) + ASCII_NUMBER_OFFSET));
 				}
 			
@@ -115,7 +126,7 @@ public class PasswortGenerator {
 			case MODE_ONLY_LETTERS:
 				
 				//generate only letters
-				for (int x = 0; x < PASSWORD_LENGTH; x++) {
+				for (int x = 0; x < length; x++) {
 					if(Math.round(Math.random())==0){
 						generateContent.append((char) ((int) (Math.random() * ALPHABET_LENGTH) + ASCII_LOWERLETTER_OFFSET));
 					}else{

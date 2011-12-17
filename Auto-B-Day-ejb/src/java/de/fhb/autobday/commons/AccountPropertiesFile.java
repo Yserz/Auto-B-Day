@@ -15,12 +15,18 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-/*
- * this class read a properties file with logindata
+/**
+ * 
+ * This class read a properties file with logindata.
+ * 
+ * @author 
+ * Tino ???
+ * Michael  ???? TODO wer hat das urprünglich geschrieben?
+ * 
  */
 public class AccountPropertiesFile {
 	
-	/*
+	/**
 	 * this methode return a hashmap with the logindata
 	 * with key "loginname" you get the loginname
 	 * with key "password" you get the password
@@ -30,6 +36,8 @@ public class AccountPropertiesFile {
 	 * @return HashMap<String,String>
 	 */
 	public static HashMap<String,String> getProperties(String filename){
+		
+		//TODO wer auch es geschrieben hat, bitte bissel kommentieren wasd hier passiert!
 		
 		HashMap<String,String> props = new HashMap<String,String>();
 		Properties properties = new Properties();
@@ -61,6 +69,7 @@ public class AccountPropertiesFile {
 			return props;
 			
 			} catch (NoSuchAlgorithmException e) {
+				//TODO LOGGER??
 				e.printStackTrace();
 			} catch (NoSuchPaddingException e) {
 				e.printStackTrace();

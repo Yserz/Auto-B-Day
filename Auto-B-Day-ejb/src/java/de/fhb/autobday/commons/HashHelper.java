@@ -6,7 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 /**
- * Diese Klasse generiert einen SHA1- oder MD5-Haswert von einem String.
+ * This class generates a SHA1- or MD5-hashvalue of a string.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */

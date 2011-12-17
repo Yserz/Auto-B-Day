@@ -1,13 +1,16 @@
 package de.fhb.autobday.manager.account;
 
 import de.fhb.autobday.exception.account.AccountException;
+import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 
 import javax.ejb.Local;
 
 /**
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * 
  */
 @Local
 public interface AccountManagerLocal {
@@ -16,6 +19,6 @@ public interface AccountManagerLocal {
 
 	void removeAccount(int accountId) throws AccountException;
 
-	void importGroupsAndContacts();
+	void importGroupsAndContacts(int accountId) throws AccountNotFoundException ;
 	
 }

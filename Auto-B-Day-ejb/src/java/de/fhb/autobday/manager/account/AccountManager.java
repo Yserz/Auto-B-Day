@@ -7,6 +7,7 @@ import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,17 +15,17 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 /**
+ * The AccountManager processes all accountData specific things.
  *
- *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  * 
  */
 @Stateless
 public class AccountManager implements AccountManagerLocal {
 	
 	private final static Logger LOGGER = Logger.getLogger(AccountManager.class.getName());
-	
 	
 	@EJB
 	private AbdAccountFacade accountDAO;
@@ -41,8 +42,10 @@ public class AccountManager implements AccountManagerLocal {
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO,"abdUserId: " + abdUserId);
 		
+		AbdUser actualUser=null;
+		
 		//search User
-		AbdUser actualUser = userDAO.find(abdUserId);
+		actualUser=userDAO.find(abdUserId);
 		
 		//if account not found
 		if(actualUser==null){
@@ -70,8 +73,10 @@ public class AccountManager implements AccountManagerLocal {
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
+		AbdAccount account=null;
+		
 		//search
-		AbdAccount account=accountDAO.find(accountId);
+		account=accountDAO.find(accountId);
 		
 		//if account not found
 		if(account==null){
@@ -84,10 +89,27 @@ public class AccountManager implements AccountManagerLocal {
 	}
 
 	@Override
-	public void importGroupsAndContacts() {
+	public void importGroupsAndContacts(int accountId) throws AccountNotFoundException {
 		
-		//TODO ncoh implementieren ???
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
+		AbdAccount account=null;
+		GoogleImporter importer=null;
 		
+		//search
+		account=accountDAO.find(accountId);
+		
+		//if account not found
+		if(account==null){
+			LOGGER.log(Level.SEVERE, "Account {0}not found!", accountId);
+			throw new AccountNotFoundException("Account " + accountId + "not found!");
+		}
+		
+		importer= new GoogleImporter();
+		
+		//connect and import
+		importer.getConnection(account);
+		importer.importContacts();
 	}
 }

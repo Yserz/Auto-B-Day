@@ -105,8 +105,6 @@ public class AccountManagerTest {
 		// verify		
 		EasyMock.verify(userDAOMock);
 		EasyMock.verify(accountDAOMock);
-		
-		
 	}
 	
 	/**
@@ -117,6 +115,7 @@ public class AccountManagerTest {
 		
 		System.out.println("testAddAccountShouldThrowUserNotFoundException");
 		
+		//prepare test variables
 		int abduserid = EasyMock.anyInt();
 		String password="password";
 		String userName="mustermann";
@@ -127,13 +126,11 @@ public class AccountManagerTest {
 		
 		EasyMock.replay(userDAOMock);
 		
+		//call method to test
 		managerUnderTest.addAccount(abduserid, password, userName, type);
 		
 		// verify		
 		EasyMock.verify(userDAOMock);
-
-		
-		
 	}
 
 	/**
@@ -144,7 +141,7 @@ public class AccountManagerTest {
 		System.out.println("removeAccount");
 
 		//prepare test variables
-		int accountid = 1;
+		int accountid = EasyMock.anyInt();
 		AbdAccount account = new AbdAccount(1);
 		
 		// Setting up the expected value of the method call of Mockobject
@@ -154,7 +151,7 @@ public class AccountManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.removeAccount(1);
 		
 		// verify		
@@ -169,7 +166,7 @@ public class AccountManagerTest {
 		System.out.println("testRemoveAccountShouldThrowAccountNotFoundException");
 
 		//prepare test variables
-		int accountid = 1;
+		int accountid = EasyMock.anyInt();
 		AbdAccount account = new AbdAccount(1);
 		
 		// Setting up the expected value of the method call of Mockobject
@@ -179,7 +176,7 @@ public class AccountManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.removeAccount(1);
 		
 		// verify		
@@ -193,7 +190,22 @@ public class AccountManagerTest {
 	public void testImportGroupsAndContacts() throws Exception {
 		System.out.println("importGroupsAndContacts");
 		
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
+//		//prepare test variables
+//		int accountid = EasyMock.anyInt();
+//		AbdAccount account = new AbdAccount(1);
+//		
+//		// Setting up the expected value of the method call of Mockobject
+//		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(null);
+//		accountDAOMock.remove(account);
+//		
+//		// Setup is finished need to activate the mock
+//		EasyMock.replay(accountDAOMock);
+//		
+//		//call method to test
+//		managerUnderTest.removeAccount(1);
+//		
+//		// verify		
+//		EasyMock.verify(accountDAOMock);
 	}
+	
 }

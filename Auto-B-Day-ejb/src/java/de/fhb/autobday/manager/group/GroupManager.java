@@ -21,8 +21,9 @@ import de.fhb.autobday.exception.group.GroupNotFoundException;
 /**
 *
 *
-* @author Andy Klay <klay@fh-brandenburg.de>
-* @author Michael Koppen <koppen@fh-brandenburg.de>
+* @author 
+* Andy Klay <klay@fh-brandenburg.de>
+* Michael Koppen <koppen@fh-brandenburg.de>
 */
 @Stateless
 public class GroupManager implements GroupManagerLocal {

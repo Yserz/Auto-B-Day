@@ -15,10 +15,12 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
  * Test the ContactManager
@@ -198,5 +200,60 @@ public class ContactManagerTest {
 		// verify
 		EasyMock.verify(contactDAOMock);
 		EasyMock.verify(groupToContactDAOMock);
+	}
+	
+	/**
+	 * Test of getContact method, of class ContactManager.
+	 */
+	@Test
+	public void testGetContact() throws Exception {
+		
+		System.out.println("testGetContact");
+
+		//test variables
+		String contactId="friends";	
+		String template="template";
+		AbdContact contact=new AbdContact();
+		contact.setId(contactId);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(contactDAOMock);
+		
+		//call method to test
+		managerUnderTest.getContact(contactId);
+		
+		// verify		
+		EasyMock.verify(contactDAOMock);
+	}
+	
+	/**
+	 * Test fail of getContact method, of class ContactManager.
+	 * This test provokes a ContactNotFoundException!
+	 */
+	@Test(expected = ContactNotFoundException.class)
+	public void testGetContactShouldThrowContactNotFoundException() throws Exception {
+		
+		System.out.println("testGetContactShouldThrowContactNotFoundException");
+
+		//test variables
+		String contactId="friends";	
+		String template="template";
+		AbdContact contact=new AbdContact();
+		contact.setId(contactId);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(null).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(contactDAOMock);
+		
+		//call method to test
+		managerUnderTest.getContact(contactId);
+		
+		// verify		
+		EasyMock.verify(contactDAOMock);
 	}
 }

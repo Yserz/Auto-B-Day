@@ -259,7 +259,7 @@ public class GroupManagerTest {
 		
 		//test variables
 		String groupId="friends";	
-		String template="Hello ${name} ${e/er} ${sex}";
+		String template="Hello ${name} ${firstname} ${id} ${mail} ${bday} ${e/er} ${sex}";
 		
 		//setting group
 		AbdGroup group=new AbdGroup();
@@ -276,7 +276,7 @@ public class GroupManagerTest {
 		contact.setMail("m");
 		contact.setBday(new Date(27,04,1988));
 		
-		String expectedOutput="Hello " + contact.getName() + " er "+ contact.getSex();
+		String expectedOutput="Hello " + contact.getName() + " " + contact.getFirstname() +  " " + contact.getId() + " " + contact.getMail() + " " + contact.getBday() + " er "+ contact.getSex();
 		
 		
 		// Setting up the expected value of the method call of Mockobject

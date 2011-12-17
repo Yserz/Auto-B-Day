@@ -169,7 +169,7 @@ public class AccountManagerTest {
 		System.out.println("testRemoveAccountShouldThrowAccountNotFoundException");
 
 		//prepare test variables
-		int accountId = EasyMock.anyInt();
+		int accountId = 1;
 		AbdAccount account = new AbdAccount(1);
 		
 		// Setting up the expected value of the method call of Mockobject
@@ -224,7 +224,7 @@ public class AccountManagerTest {
 		
 		
 		//prepare test variables
-		int accountId = EasyMock.anyInt();
+		int accountId = 1;
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(null);

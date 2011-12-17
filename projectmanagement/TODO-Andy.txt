@@ -5,12 +5,11 @@ TODO - Andy
 --- Allgemein 	---
 
 - Tests implementieren, wenn möglich Manager weiter implementieren.
-- helper angucken, testen, verbessern
-- generateSalt usw.
+- helper angucken, testen, weiter verbessern
 
-etwas später
+nicht vorangig
 *******************
-- (tino noch das propertyfile abnehmen)
+- tino evtl. noch das propertyfile abnehmen??? @micher bin mir jetz nich mehr sicher was du meintest
 - Doku weiter machen
 - UseCase verbessern
 

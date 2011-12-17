@@ -70,8 +70,14 @@ public class UserManagerTest {
 		int userid = 1;
 		
 		AbdUser expResult = new AbdUser(1);
+		
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(userid)).andReturn(new AbdUser(1));
+		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
+		
+		// verify	
 		assertEquals(expResult, managerUnderTest.getUser(1));
 		EasyMock.verify(userDAOMock);
 	}
@@ -88,9 +94,13 @@ public class UserManagerTest {
 		
 		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
 		
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(loginName)).andReturn(user);
+		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
 		
+		// verify	
 		assertEquals(user, managerUnderTest.login(loginName, password));
 		EasyMock.verify(userDAOMock);
 	}
@@ -106,6 +116,7 @@ public class UserManagerTest {
 		
 		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
 		
+		// verify	
 		assertEquals(user, managerUnderTest.login(loginName, password));
 	}
 	/**
@@ -120,9 +131,13 @@ public class UserManagerTest {
 		
 		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
 		
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(loginName)).andReturn(null);
+		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
 		
+		// verify	
 		assertEquals(user, managerUnderTest.login(loginName, password));
 		EasyMock.verify(userDAOMock);
 	}
@@ -139,9 +154,13 @@ public class UserManagerTest {
 		
 		AbdUser user = new AbdUser(1, "ott", "123", null, "Ott", "Chris");
 		
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(loginName)).andReturn(user);
+		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
 		
+		// verify	
 		assertEquals(user, managerUnderTest.login(loginName, password));
 		EasyMock.verify(userDAOMock);
 	}

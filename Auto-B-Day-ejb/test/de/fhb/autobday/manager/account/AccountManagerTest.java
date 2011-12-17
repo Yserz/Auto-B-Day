@@ -18,9 +18,10 @@ import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
- * @author Christoph Ott <>
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * Christoph Ott <>
  */
 public class AccountManagerTest {
 	
@@ -109,6 +110,7 @@ public class AccountManagerTest {
 	
 	/**
 	 * Test of addAccount method, of class AccountManager.
+	 * This test provokes a UserNotFoundException!
 	 */
 	@Test(expected = UserNotFoundException.class)
 	public void testAddAccountShouldThrowUserNotFoundException() throws Exception {
@@ -116,18 +118,19 @@ public class AccountManagerTest {
 		System.out.println("testAddAccountShouldThrowUserNotFoundException");
 		
 		//prepare test variables
-		int abduserid = EasyMock.anyInt();
+		int abduserId = EasyMock.anyInt();
 		String password="password";
 		String userName="mustermann";
 		String type="type";
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(userDAOMock.find(abduserid)).andReturn(null);
+		EasyMock.expect(userDAOMock.find(abduserId)).andReturn(null);
 		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
 		
 		//call method to test
-		managerUnderTest.addAccount(abduserid, password, userName, type);
+		managerUnderTest.addAccount(abduserId, password, userName, type);
 		
 		// verify		
 		EasyMock.verify(userDAOMock);
@@ -141,18 +144,18 @@ public class AccountManagerTest {
 		System.out.println("removeAccount");
 
 		//prepare test variables
-		int accountid = EasyMock.anyInt();
+		int accountId = EasyMock.anyInt();
 		AbdAccount account = new AbdAccount(1);
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(account);
+		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
 		accountDAOMock.remove(account);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
 		
 		//call method to test
-		managerUnderTest.removeAccount(1);
+		managerUnderTest.removeAccount(accountId);
 		
 		// verify		
 		EasyMock.verify(accountDAOMock);
@@ -166,18 +169,18 @@ public class AccountManagerTest {
 		System.out.println("testRemoveAccountShouldThrowAccountNotFoundException");
 
 		//prepare test variables
-		int accountid = EasyMock.anyInt();
+		int accountId = EasyMock.anyInt();
 		AbdAccount account = new AbdAccount(1);
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(null);
+		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(null);
 		accountDAOMock.remove(account);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
 		
 		//call method to test
-		managerUnderTest.removeAccount(1);
+		managerUnderTest.removeAccount(accountId);
 		
 		// verify		
 		EasyMock.verify(accountDAOMock);
@@ -190,22 +193,50 @@ public class AccountManagerTest {
 	public void testImportGroupsAndContacts() throws Exception {
 		System.out.println("importGroupsAndContacts");
 		
-//		//prepare test variables
-//		int accountid = EasyMock.anyInt();
-//		AbdAccount account = new AbdAccount(1);
-//		
-//		// Setting up the expected value of the method call of Mockobject
-//		EasyMock.expect(accountDAOMock.find(accountid)).andReturn(null);
-//		accountDAOMock.remove(account);
-//		
+		//TODO weiter implementieren
+		
+		//prepare test variables
+		int accountId = EasyMock.anyInt();
+		AbdAccount account = new AbdAccount(accountId);
+		
+		// Setting up the expected value of the method call of Mockobject
+//		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
+		
+		//???? importer mocken wie???
+		
 //		// Setup is finished need to activate the mock
 //		EasyMock.replay(accountDAOMock);
 //		
 //		//call method to test
-//		managerUnderTest.removeAccount(1);
+//		managerUnderTest.removeAccount(accountId);
 //		
 //		// verify		
 //		EasyMock.verify(accountDAOMock);
+	}
+	
+	
+	/**
+	 * Test of importGroupsAndContacts method, of class AccountManager.
+	 * This test provokes a AccountNotFoundException!
+	 */
+	@Test(expected = AccountNotFoundException.class)
+	public void testImportGroupsAndContactsThrowAccountNotFoundException() throws Exception {
+		
+		
+		//prepare test variables
+		int accountId = EasyMock.anyInt();
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(null);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(accountDAOMock);
+		
+		//call method to test
+		managerUnderTest.importGroupsAndContacts(accountId);
+		
+		// verify		
+		EasyMock.verify(accountDAOMock);
 	}
 	
 }

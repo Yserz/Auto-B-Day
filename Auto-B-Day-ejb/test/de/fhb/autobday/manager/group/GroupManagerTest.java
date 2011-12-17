@@ -94,7 +94,7 @@ public class GroupManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.getGroup(groupId);
 		
 		// verify		
@@ -123,7 +123,7 @@ public class GroupManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.getGroup(groupId);
 		
 		// verify		
@@ -151,7 +151,7 @@ public class GroupManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.setTemplate(groupId, template);
 		
 		// verify
@@ -180,7 +180,7 @@ public class GroupManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.setTemplate(groupId, template);
 		
 		// verify
@@ -210,7 +210,7 @@ public class GroupManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		output=managerUnderTest.getTemplate(groupId);
 		
 		// verify
@@ -241,7 +241,7 @@ public class GroupManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		output=managerUnderTest.getTemplate(groupId);
 		
 		// verify
@@ -287,7 +287,7 @@ public class GroupManagerTest {
 		EasyMock.replay(groupDAOMock);
 		EasyMock.replay(contactDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		output=managerUnderTest.testTemplate(groupId, contactId);
 		
 		// verify
@@ -335,7 +335,7 @@ public class GroupManagerTest {
 		EasyMock.replay(groupDAOMock);
 		EasyMock.replay(contactDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		output=managerUnderTest.testTemplate(groupId, contactId);
 		
 		// verify
@@ -383,7 +383,7 @@ public class GroupManagerTest {
 		EasyMock.replay(groupDAOMock);
 		EasyMock.replay(contactDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		output=managerUnderTest.testTemplate(groupId, contactId);
 		
 		// verify
@@ -413,7 +413,7 @@ public class GroupManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.setActive(groupId, isActive);
 		
 		// verify
@@ -442,7 +442,7 @@ public class GroupManagerTest {
 		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.setActive(groupId, isActive);
 		
 		// verify
@@ -474,9 +474,10 @@ public class GroupManagerTest {
 		//prepare expected variables
 		String expResult="Hello " + contact.getName() + " er "+ contact.getSex();
 		
-		//method call
+		//call method to test
 		String result = managerUnderTest.parseTemplate(template, contact);
 		
+		// verify
 		assertEquals(expResult, result);
 	}
 	
@@ -489,12 +490,12 @@ public class GroupManagerTest {
 		
 		System.out.println("testParseTemplateShouldThrowNoContactGivenException");
 		
+		//prepare
 		String template="Hello ${name} ${e/er} ${sex}";
-		
-		//prepare a contact object
 		AbdContact contact=null;
-		String result = managerUnderTest.parseTemplate(template, contact);
-
+		
+		//call method to test
+		managerUnderTest.parseTemplate(template, contact);
 	}
 
 	/**
@@ -502,14 +503,18 @@ public class GroupManagerTest {
 	 */
 	@Test
 	public void testParseSlashExpressionW() throws Exception {
-		
 		System.out.println("parseSlashExpression");
 		
+		//prepare test variables
 		String expression = "she/he";
 		char sex = 'w';
 		String expResult = "she";
-		String result = managerUnderTest.parseSlashExpression(expression, sex);
+		String result = null;
 		
+		//call method to test
+		result = managerUnderTest.parseSlashExpression(expression, sex);
+		
+		// verify
 		assertEquals(expResult, result);
 	}
 	
@@ -519,11 +524,17 @@ public class GroupManagerTest {
 	@Test
 	public void testParseSlashExpressionM() throws Exception {
 		System.out.println("parseSlashExpression");
+		
+		//prepare test variables
 		String expression = "she/he";
 		char sex = 'm';
 		String expResult = "he";
+		String result=null;
 		
-		String result = managerUnderTest.parseSlashExpression(expression, sex);
+		//call method to test
+		result = managerUnderTest.parseSlashExpression(expression, sex);
+		
+		// verify
 		assertEquals(expResult, result);
 	}
 }

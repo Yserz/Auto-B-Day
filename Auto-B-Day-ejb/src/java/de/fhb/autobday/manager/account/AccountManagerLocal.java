@@ -10,7 +10,7 @@ import javax.ejb.Local;
  *
  * @author 
  * Michael Koppen <koppen@fh-brandenburg.de>
- * 
+ * Andy Klay <klay@fh-brandenburg.de>
  */
 @Local
 public interface AccountManagerLocal {

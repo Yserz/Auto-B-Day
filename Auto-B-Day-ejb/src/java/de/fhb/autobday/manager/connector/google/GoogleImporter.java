@@ -47,7 +47,7 @@ public class GoogleImporter extends AImporter {
 	//TODO check ob bday und mail ungleich null
 	//TODO update und delete groups
 	@Override
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.connector.AImporter#getConnection(de.fhb.autobday.data.AbdAccount)
 	 * create connection to google contact api
@@ -140,7 +140,7 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 	
-	/*
+	/**
 	 * get all groups from google from the connected account
 	 * 
 	 * if don´t get information from google return null else a list of Google ContactGroupEntrys
@@ -165,7 +165,7 @@ public class GoogleImporter extends AImporter {
 		return null;
 	}
 
-	/*
+	/**
 	 * get all contacts from the connected acoount
 	 * 
 	 * if don´t get information from google return null else a list of Google ContactEntrys
@@ -190,7 +190,7 @@ public class GoogleImporter extends AImporter {
 
 	
 	
-	/*
+	/**
 	 * methode to map a google contact to a auto-b-day contact
 	 * 
 	 * @param ContactEntry contactEntry
@@ -233,7 +233,7 @@ public class GoogleImporter extends AImporter {
 		return contact;
 	}
 
-	/*
+	/**
 	 * check if the Group exist in the database
 	 * and return the group
 	 * 
@@ -255,7 +255,7 @@ public class GoogleImporter extends AImporter {
 		return false;
 	}
 
-	/*
+	/**
 	 * update the membership of a contact
 	 * 
 	 * @param String contactid
@@ -294,7 +294,7 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 	
-	/*
+	/**
 	 * if the membership exist remove the membership out of the list of the exist memberships
 	 * 
 	 * return a boolean if the membership exist
@@ -314,7 +314,7 @@ public class GoogleImporter extends AImporter {
 		return false;
 	}
 	
-	/*
+	/**
 	 * methode that return the firstname of a given contact
 	 * 
 	 * @param ContactEntry contactEntry
@@ -328,7 +328,7 @@ public class GoogleImporter extends AImporter {
 		
 	}
 	
-	/*
+	/**
 	 * methode that return the familyname of a given Contact
 	 * 
 	 * @param ContactEntry contactEntry
@@ -342,7 +342,7 @@ public class GoogleImporter extends AImporter {
 		
 	}
 	
-	/*
+	/**
 	 * methode that return the birthday of a given Contact
 	 * 
 	 * @param ContactEntry contactEntry
@@ -354,7 +354,7 @@ public class GoogleImporter extends AImporter {
 		return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
 	}
 	
-	/*
+	/**
 	 * Methode that return a mailadress of a given Contact
 	 * 
 	 * @param ContactEntry contactEntry

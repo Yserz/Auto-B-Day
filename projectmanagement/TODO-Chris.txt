@@ -4,7 +4,13 @@ TODO - Chris
 
 --- Allgemein 	---
 
-- 
+ 	- TODOs in den Manager, die du findest, versuchen zu lösen
+ 	
+	- Manager mit weiter implementieren, überprüfen, mal drüberlesen auch die Helper in commons-Package!
+	
+	- Tests weiter schreiben, so weit wie möglich,
+	  am besten dazu aber immer gucken "Ist der Manager richtig implementiert?" drüber lesen, falls nötig korrigieren!
+	  (außer "GoogleImporter" nicht dran arbeiten)
 
 *** DB 			***
 
@@ -16,9 +22,8 @@ TODO - Chris
 
 *** Session 	***
 
-- Tests schreiben
-- manager weiter implementieren, überprüfen, drüberlesen
- außer Importer..nicht drin arbeiten
+
+
 
 *** GUI 		***
 

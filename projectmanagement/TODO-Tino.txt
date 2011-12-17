@@ -4,7 +4,12 @@ TODO - Tino
 
 --- Allgemein 	---
 
-- 
+	- Weiter an GoogleImporter und Mailmanager arbeiten und
+	  analog dazu die Tests zum GoogleImporter und Mailmanager
+	- importer tests…properties einlesen
+
+ 	- ansonsten TODOs überall in den Managern, die du findest, versuchen zu lösen
+ 	
 
 *** DB 			***
 
@@ -22,6 +27,4 @@ TODO - Tino
 
 - 
 
-- test zum importer,mailmanager
-- pw generierung
-- importer tests…properties einlesen
+

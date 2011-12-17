@@ -88,7 +88,7 @@ public class PasswordGenerator {
 		final int ASCII_UPPERLETTER_OFFSET = 65;
 		final int ASCII_NUMBER_OFFSET = 48;
 		
-		StringBuffer generateContent = new StringBuffer();
+		StringBuilder generateContent = new StringBuilder();
 		
 		//generating
 		switch(generationMode){

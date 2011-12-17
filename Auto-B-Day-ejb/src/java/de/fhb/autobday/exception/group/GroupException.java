@@ -1,12 +1,12 @@
 package de.fhb.autobday.exception.group;
 
-import de.fhb.autobday.exception.ABDException;
+import de.fhb.autobday.exception.AbdException;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-public class GroupException extends ABDException {
+public class GroupException extends AbdException {
 	/**
 	 * Konstruktor
 	 */

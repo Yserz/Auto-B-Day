@@ -1,12 +1,12 @@
 package de.fhb.autobday.exception.contact;
 
-import de.fhb.autobday.exception.ABDException;
+import de.fhb.autobday.exception.AbdException;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-public class ContactException extends ABDException {
+public class ContactException extends AbdException {
 	/**
 	 * Konstruktor
 	 */

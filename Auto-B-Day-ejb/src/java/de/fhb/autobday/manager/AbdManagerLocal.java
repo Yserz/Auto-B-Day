@@ -12,7 +12,7 @@ import javax.ejb.Local;
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
-public interface ABDManagerLocal {
+public interface AbdManagerLocal {
 
 	List<AbdUser> getAllUser();
 

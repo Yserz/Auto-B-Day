@@ -1,12 +1,12 @@
 package de.fhb.autobday.exception.account;
 
-import de.fhb.autobday.exception.ABDException;
+import de.fhb.autobday.exception.AbdException;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-public class AccountException extends ABDException{
+public class AccountException extends AbdException{
 	/**
 	 * Konstruktor
 	 */

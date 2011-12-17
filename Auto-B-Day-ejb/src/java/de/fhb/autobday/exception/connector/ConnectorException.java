@@ -1,12 +1,12 @@
 package de.fhb.autobday.exception.connector;
 
-import de.fhb.autobday.exception.ABDException;
+import de.fhb.autobday.exception.AbdException;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-public class ConnectorException extends ABDException{
+public class ConnectorException extends AbdException{
 	/**
 	 * Konstruktor
 	 */

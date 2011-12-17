@@ -13,6 +13,7 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
+import de.fhb.autobday.exception.CanNotConvetGoogleBirthdayException;
 import de.fhb.autobday.manager.connector.AImporter;
 import java.io.IOException;
 import java.net.URL;
@@ -351,7 +352,15 @@ public class GoogleImporter extends AImporter {
 	 */
 	protected Date getGContactBirthday(ContactEntry contactEntry){
 		String gContactBirthday = contactEntry.getBirthday().getValue();
-		return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
+		try {
+			//TODO weiter hochpropagieren???
+			return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
+		} catch (CanNotConvetGoogleBirthdayException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	/**

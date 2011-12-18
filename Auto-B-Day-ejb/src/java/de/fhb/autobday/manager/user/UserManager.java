@@ -1,21 +1,28 @@
 package de.fhb.autobday.manager.user;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import de.fhb.autobday.commons.EMailValidator;
+import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import de.fhb.autobday.manager.mail.MailManagerLocal;
 
 /**
  *
-* @author Andy Klay <klay@fh-brandenburg.de>
-* @author Michael Koppen <koppen@fh-brandenburg.de>
+* @author 
+* Andy Klay <klay@fh-brandenburg.de>
+* Michael Koppen <koppen@fh-brandenburg.de>
 * 
  */
 @Stateless
@@ -25,6 +32,9 @@ public class UserManager implements UserManagerLocal {
 	
 	@EJB
 	private AbdUserFacade userDAO;
+	
+	@EJB
+	private MailManagerLocal mailManager;
 	
 	public UserManager() {
 		
@@ -68,17 +78,18 @@ public class UserManager implements UserManagerLocal {
 		LOGGER.log(Level.INFO,"logout");
 	}
 	@Override
-	public void register(String firstName, String name, String userName, String mail) throws IncompleteUserRegisterException {
+	public void register(String firstName, String name, String userName, String mail) 
+			throws IncompleteUserRegisterException, NoValidUserNameException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
 		LOGGER.log(Level.INFO, "name: {1}", name);
-//		LOGGER.log(Level.INFO, "salt: {2}", salt);
-		LOGGER.log(Level.INFO, "userName: {3}", userName);
-		LOGGER.log(Level.INFO, "mail: {4}", mail);
-		
+		LOGGER.log(Level.INFO, "userName: {2}", userName);
+		LOGGER.log(Level.INFO, "mail: {3}", mail);
 		
 		AbdUser user = null;
+		String salt="";
+		
 		
 		if(firstName==null){
 			LOGGER.log(Level.SEVERE, "No firstname given!");
@@ -86,7 +97,7 @@ public class UserManager implements UserManagerLocal {
 		}
 		
 		if(name==null){
-			LOGGER.log(Level.SEVERE, "No firstname given!");
+			LOGGER.log(Level.SEVERE, "No name given!");
 			throw new IncompleteUserRegisterException("No firstname given!");
 		}
 		
@@ -95,24 +106,40 @@ public class UserManager implements UserManagerLocal {
 			throw new IncompleteUserRegisterException("No username given");
 		}
 		
+		if(userName.length()<5){
+			LOGGER.log(Level.SEVERE, "No valid Username!");
+			throw new NoValidUserNameException("No valid Username!");
+		}
+		
 		if(mail==null){
 			LOGGER.log(Level.SEVERE, "No mail given!");
 			throw new IncompleteUserRegisterException("No mail given!");
 		}
 		
+		if(!EMailValidator.isEmail(mail)){
+			LOGGER.log(Level.SEVERE, "Mail not valid!");
+			throw new IncompleteUserRegisterException("Mail not valid!");
+		}
 		
 		user= new AbdUser();
 		user.setFirstname(firstName);
 		user.setName(name);
 		user.setUsername(userName);
-		//TODO Salt generien über pw generator
-//		user.setSalt(salt);
+		//TODO wo soll man die mailadresse speichern??
+		
+		// generate Salt
+		salt=PasswordGenerator.generateSalt();
+		
+		user.setSalt(salt);
 		
 		//save in to db
 		userDAO.create(user);
+//		userDAO.edit(user);
 		
-		//TODO mail senden mit generierten passwort
-		
+		//TODO absender ändern??
+		//send mail
+		mailManager.sendBdayMail("autobday@smile.de", mail, "Welcome to Autobday", "");
 	}
+	
 	
 }

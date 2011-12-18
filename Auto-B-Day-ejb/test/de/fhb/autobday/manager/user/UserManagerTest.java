@@ -1,7 +1,6 @@
 package de.fhb.autobday.manager.user;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -15,8 +14,11 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
+import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.manager.mail.MailManagerLocal;
 
 /**
  *
@@ -29,6 +31,8 @@ public class UserManagerTest {
 	private UserManager managerUnderTest;
 	
 	private AbdUserFacade userDAOMock;
+	
+	private MailManagerLocal mailManagerMock;
 	
 	public UserManagerTest() {
 	}
@@ -47,10 +51,11 @@ public class UserManagerTest {
 		
 		//create Mocks
 		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
-
+		mailManagerMock = EasyMock.createMock(MailManagerLocal.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(userDAOMock);
+		gloss.addEJB(mailManagerMock);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(UserManager.class);
@@ -67,8 +72,9 @@ public class UserManagerTest {
 	@Test
 	public void testGetUser() throws Exception {
 		System.out.println("getUser");
-		int userid = 1;
 		
+		//prepare test variables
+		int userid = 1;
 		AbdUser expResult = new AbdUser(1);
 		
 		// Setting up the expected value of the method call of Mockobject
@@ -89,6 +95,7 @@ public class UserManagerTest {
 	public void testLoginShouldBeEquals() throws Exception {
 		System.out.println("loginShouldBeEquals");
 		
+		//prepare test variables
 		String loginName = "ott";
 		String password = "1234";
 		
@@ -104,6 +111,7 @@ public class UserManagerTest {
 		assertEquals(user, managerUnderTest.login(loginName, password));
 		EasyMock.verify(userDAOMock);
 	}
+	
 	/**
 	 * Test of login method, of class UserManager.
 	 */
@@ -111,6 +119,7 @@ public class UserManagerTest {
 	public void testLoginShouldThrowIncompleteLoginDataException() throws Exception {
 		System.out.println("loginShouldThrowIncompleteLoginDataException");
 		
+		//prepare test variables
 		String loginName = "ott";
 		String password = "";
 		
@@ -119,6 +128,7 @@ public class UserManagerTest {
 		// verify	
 		assertEquals(user, managerUnderTest.login(loginName, password));
 	}
+	
 	/**
 	 * Test of login method, of class UserManager.
 	 */
@@ -126,6 +136,7 @@ public class UserManagerTest {
 	public void testLoginShouldThrowUserNotFoundException() throws Exception {
 		System.out.println("loginShouldThrowUserNotFoundException");
 		
+		//prepare test variables
 		String loginName = "ott";
 		String password = "1234";
 		
@@ -149,6 +160,7 @@ public class UserManagerTest {
 	public void testLoginShouldThrowPasswordInvalidException() throws Exception {
 		System.out.println("loginShouldThrowPasswordInvalidException");
 		
+		//prepare test variables
 		String loginName = "ott";
 		String password = "1234";
 		
@@ -164,15 +176,144 @@ public class UserManagerTest {
 		assertEquals(user, managerUnderTest.login(loginName, password));
 		EasyMock.verify(userDAOMock);
 	}
+	
 	/**
 	 * Test of logout method, of class UserManager.
 	 */
 	@Test
 	public void testLogout() throws Exception {
-		System.out.println("logout");
+		System.out.println("testLogout");
 		
 		
 		// TODO review the generated test code and remove the default call to fail.
 		//fail("The test case is a prototype.");
 	}
+	
+	
+	/**
+	 * Test of register method, of class UserManager.
+	 */
+	@Test
+	public void testRegister() throws Exception {
+		System.out.println("testRegister");
+		
+		//prepare test variables
+		String firstName = "biene";
+		String name = "maja";
+		String userName = "summsesum";
+		String mail = "biene@maja.com";
+		
+		// Setting up the expected value of the method call of Mockobject
+		userDAOMock.create((AbdUser) EasyMock.anyObject());
+		//TODO funktioniert noch nicht
+//		mailManagerMock.sendBdayMail((String) EasyMock.anyObject(), mail,(String) EasyMock.anyObject(), (String) EasyMock.anyObject());
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(userDAOMock);
+//		EasyMock.replay(mailManagerMock);
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, mail);
+		
+		// verify	
+		EasyMock.verify(userDAOMock);
+//		EasyMock.verify(mailManagerMock);		
+	}
+	
+	
+	/**
+	 * Test of register method, of class UserManager.
+	 * This test provokes a IncompleteUserRegisterException!
+	 */
+	@Test(expected = IncompleteUserRegisterException.class)
+	public void testRegisterThrowIncompleteUserRegisterExceptionFirst() throws Exception {
+		System.out.println("testRegister");
+		
+		//prepare test variables
+		String firstName = null;
+		String name = "maja";
+		String userName = "summsesum";
+		String mail = "biene@maja.com";
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, mail);
+		
+	}
+	
+	/**
+	 * Test of register method, of class UserManager.
+	 * This test provokes a IncompleteUserRegisterException!
+	 */
+	@Test(expected = IncompleteUserRegisterException.class)
+	public void testRegisterThrowIncompleteUserRegisterExceptionSecound() throws Exception {
+		System.out.println("testRegister");
+		
+		//prepare test variables
+		String firstName = "biene";
+		String name = null;
+		String userName = "summsesum";
+		String mail = "biene@maja.com";
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, mail);
+		
+	}
+	
+	/**
+	 * Test of register method, of class UserManager.
+	 * This test provokes a IncompleteUserRegisterException!
+	 */
+	@Test(expected = IncompleteUserRegisterException.class)
+	public void testRegisterThrowIncompleteUserRegisterExceptionThird() throws Exception {
+		System.out.println("testRegister");
+		
+		//prepare test variables
+		String firstName = "biene";
+		String name = "maja";
+		String userName = null;
+		String mail = "biene@maja.com";
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, mail);
+		
+	}
+	
+	/**
+	 * Test of register method, of class UserManager.
+	 * This test provokes a IncompleteUserRegisterException!
+	 */
+	@Test(expected = IncompleteUserRegisterException.class)
+	public void testRegisterThrowIncompleteUserRegisterExceptionFourth() throws Exception {
+		System.out.println("testRegister");
+		
+		//prepare test variables
+		String firstName = "biene";
+		String name = "maja";
+		String userName = "summsesum";
+		String mail = null;
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, mail);
+		
+	}
+	
+	/**
+	 * Test of register method, of class UserManager.
+	 * This test provokes a NoValidUserNameException!
+	 */
+	@Test(expected = NoValidUserNameException.class)
+	public void testRegisterThrowNoValidUserNameException() throws Exception {
+		System.out.println("testRegister");
+		
+		//prepare test variables
+		String firstName = "biene";
+		String name = "maja";
+		String userName = "su";
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, null);
+		
+	}
+
+	
 }

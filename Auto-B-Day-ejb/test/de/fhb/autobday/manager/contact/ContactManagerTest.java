@@ -102,7 +102,7 @@ public class ContactManagerTest {
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.setActive(contactId, isActive);
 		
 		// verify
@@ -139,7 +139,7 @@ public class ContactManagerTest {
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.setActive(contactId, isActive);
 		
 		// verify
@@ -165,7 +165,7 @@ public class ContactManagerTest {
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.setActive(contactId, isActive);
 		
 		// verify
@@ -194,7 +194,7 @@ public class ContactManagerTest {
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
-		// testing Methodcall
+		//call method to test
 		managerUnderTest.setActive(contactId, isActive);
 		
 		// verify

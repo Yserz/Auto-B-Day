@@ -25,6 +25,7 @@ import de.fhb.autobday.exception.AbdException;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.manager.group.GroupManager;
 import de.fhb.autobday.manager.mail.MailManager;
+import de.fhb.autobday.manager.mail.MailManagerLocal;
 
 /**
  * This manager speaks to the scheduler and ???
@@ -55,7 +56,7 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 	private AbdContactFacade contactDAO;
 	
 	@EJB
-	private MailManager mailManager;
+	private MailManagerLocal mailManager;
 	
 	@EJB
 	private GroupManager groupManager;

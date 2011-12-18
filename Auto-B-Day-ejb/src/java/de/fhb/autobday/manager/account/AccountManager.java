@@ -63,8 +63,8 @@ public class AccountManager implements AccountManagerLocal {
 		//create
 		accountDAO.create(createdAccount);
 		
-		//save in to db
-		accountDAO.edit(createdAccount);
+//		//save in to db
+//		accountDAO.edit(createdAccount);
 	}
 
 	@Override

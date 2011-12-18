@@ -1,9 +1,11 @@
 package de.fhb.autobday.manager.user;
 
+import javax.ejb.Local;
+
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserException;
-import javax.ejb.Local;
 
 /**
  *
@@ -18,5 +20,5 @@ public interface UserManagerLocal {
 
 	void logout();
 	
-	void register(String firstName, String name, String userName, String mail) throws IncompleteUserRegisterException;
+	void register(String firstName, String name, String userName, String mail) throws IncompleteUserRegisterException, NoValidUserNameException;
 }

@@ -7,8 +7,10 @@ import de.fhb.autobday.exception.CanNotConvetGoogleBirthdayException;
 /**
  * Helper to convert a string with a birthdaydate to a date-object.
  * 
- * @author Tino Reuschel
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Tino Reuschel <>
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * Andy Klay <klay@fh-brandenburg.de>
  */
 public class GoogleBirthdayConverter {
 	

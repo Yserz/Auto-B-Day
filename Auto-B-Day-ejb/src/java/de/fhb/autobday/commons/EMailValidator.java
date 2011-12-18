@@ -24,7 +24,7 @@ public class EMailValidator {
 	 * @return boolean valid
 	 */
 	public static boolean isGoogleMail(String mailAddress) {
-		return mailAddress.matches("[0-9a-z]{2,}@[gmail|googlemail]\\.[a-z]{2,4}");
+		return mailAddress.matches("[0-9a-z]{2,}@(gmail|googlemail)\\.[a-z]{2,4}");
 	}
 	
 }

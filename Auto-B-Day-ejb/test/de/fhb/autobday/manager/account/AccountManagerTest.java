@@ -94,7 +94,7 @@ public class AccountManagerTest {
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
-		accountDAOMock.edit((AbdAccount) EasyMock.anyObject());
+//		accountDAOMock.edit((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);

@@ -21,8 +21,11 @@ import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
 
 /**
+ * Tests the userManager class and their methods.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * 
+ * 
  */
 public class UserManagerTest {
 

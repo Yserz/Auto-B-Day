@@ -25,8 +25,9 @@ import de.fhb.autobday.exception.group.GroupNotFoundException;
 /**
  * Test the ContactManager
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class ContactManagerTest {
 

@@ -14,6 +14,7 @@ import org.junit.Test;
 /**
  * Test the Password Generator
  * 
+ * @author
  * Andy Klay <klay@fh-brandenburg.de>
  *
  */
@@ -46,9 +47,10 @@ public class PasswortGeneratorTest {
 		//prepare objects to test
 		Pattern pattern = Pattern.compile("([A-Z]|[a-z]){" + PasswordGenerator.PASSWORD_LENGTH +"}");
 		Matcher matcher;
+		String generatedContent;
 		
 		//call method to test
-		String generatedContent = PasswordGenerator.generatePassword();
+		generatedContent = PasswordGenerator.generatePassword();
 		
 		//verify		
 		matcher = pattern.matcher(generatedContent);
@@ -63,9 +65,10 @@ public class PasswortGeneratorTest {
 		//prepare objects to test
 		Pattern pattern = Pattern.compile("[0-9]{" + PasswordGenerator.SALT_LENGTH +"}");
 		Matcher matcher;
+		String generatedContent;
 		
 		//call method to test
-		String generatedContent = PasswordGenerator.generateNumbers();
+		generatedContent = PasswordGenerator.generateNumbers();
 		
 		//verify		
 		matcher = pattern.matcher(generatedContent);
@@ -80,9 +83,10 @@ public class PasswortGeneratorTest {
 		//prepare objects to test
 		Pattern pattern = Pattern.compile("([A-Z]|[a-z]|[0-9]){" + PasswordGenerator.SALT_LENGTH +"}");
 		Matcher matcher;
+		String generatedContent;
 		
 		//call method to test
-		String generatedContent = PasswordGenerator.generateSalt();
+		generatedContent = PasswordGenerator.generateSalt();
 		
 		//verify		
 		matcher = pattern.matcher(generatedContent);

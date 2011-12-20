@@ -14,6 +14,7 @@ public class AbdAccountFacade extends AbstractFacade<AbdAccount> {
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 
+	@Override
 	protected EntityManager getEntityManager() {
 		return em;
 	}

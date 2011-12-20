@@ -136,7 +136,7 @@ public class UserManager implements UserManagerLocal {
 		userDAO.create(user);
 //		userDAO.edit(user);
 		
-		//TODO absender ändern??
+		//TODO absender aendern??
 		//send mail
 		mailManager.sendBdayMail("autobday@smile.de", mail, "Welcome to Autobday", "");
 	}

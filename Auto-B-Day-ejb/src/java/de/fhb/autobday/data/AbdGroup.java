@@ -2,6 +2,7 @@ package de.fhb.autobday.data;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -21,6 +22,11 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdGroup.findByName", query = "SELECT a FROM AbdGroup a WHERE a.name = :name"),
 	@NamedQuery(name = "AbdGroup.findByActive", query = "SELECT a FROM AbdGroup a WHERE a.active = :active")})
 public class AbdGroup implements Serializable {
+	@Basic(optional = false)
+    @NotNull
+    @Column(name = "updated")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date updated;
 	private static final long serialVersionUID = 1L;
 	@Id
     @Basic(optional = false)
@@ -134,6 +140,14 @@ public class AbdGroup implements Serializable {
 	@Override
 	public String toString() {
 		return "de.fhb.autobday.data.AbdGroup[ id=" + id + " ]";
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
 	}
 	
 }

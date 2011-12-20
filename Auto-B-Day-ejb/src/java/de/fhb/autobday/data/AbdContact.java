@@ -26,6 +26,16 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdContact.findByBday", query = "SELECT a FROM AbdContact a WHERE a.bday = :bday"),
 	@NamedQuery(name = "AbdContact.findByHashid", query = "SELECT a FROM AbdContact a WHERE a.hashid = :hashid")})
 public class AbdContact implements Serializable {
+	@Basic(optional = false)
+    @NotNull
+    @Column(name = "bday")
+    @Temporal(TemporalType.DATE)
+	private Date bday;
+	@Basic(optional = false)
+    @NotNull
+    @Column(name = "updated")
+    @Temporal(TemporalType.TIMESTAMP)
+	private Date updated;
 	private static final long serialVersionUID = 1L;
 	@Id
     @Basic(optional = false)
@@ -46,11 +56,6 @@ public class AbdContact implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "mail")
 	private String mail = null;
-	@Basic(optional = false)
-    @NotNull
-    @Column(name = "bday")
-    @Temporal(TemporalType.DATE)
-	private Date bday = null;
 	@Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -113,14 +118,6 @@ public class AbdContact implements Serializable {
 		this.mail = mail;
 	}
 
-	public Date getBday() {
-		return bday;
-	}
-
-	public void setBday(Date bday) {
-		this.bday = bday;
-	}
-
 	public String getHashid() {
 		return hashid;
 	}
@@ -160,6 +157,22 @@ public class AbdContact implements Serializable {
 	@Override
 	public String toString() {
 		return "de.fhb.autobday.data.AbdContact[ id=" + id + " ]";
+	}
+
+	public Date getBday() {
+		return bday;
+	}
+
+	public void setBday(Date bday) {
+		this.bday = bday;
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
 	}
 	
 }

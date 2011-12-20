@@ -19,9 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
  * 
  * This class read a properties file with logindata.
  * 
- * @author 
- * Tino ???
- * Michael  ???? TODO wer hat das urprünglich geschrieben?
+ * @author Tino Reuschel<reuschel@fh-brandenburg.de
  * 
  */
 public class AccountPropertiesFile {

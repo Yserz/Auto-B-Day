@@ -15,18 +15,16 @@ public class AbdGroupToContactFacade extends AbstractFacade<AbdGroupToContact> {
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 
+	@Override
 	protected EntityManager getEntityManager() {
 		return em;
 	}
-
-	public AbdGroupToContactFacade() {
-		super(AbdGroupToContact.class);
-	}
-	
 	public Collection<AbdGroupToContact> findGroupByContact(String id) {
         return (Collection<AbdGroupToContact>) em.createNamedQuery("Contact.findByContact")
 				.setParameter("contact", id).getResultList();
     }
-
+	public AbdGroupToContactFacade() {
+		super(AbdGroupToContact.class);
+	}
 	
 }

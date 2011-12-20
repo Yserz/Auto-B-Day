@@ -25,7 +25,7 @@ public class ShowAllUserAction extends HttpRequestActionBase {
 	@Override
 	public void perform(HttpServletRequest req, HttpServletResponse resp) 
 			throws ServletException {
-		System.out.println(abdManager.hallo());
+		//System.out.println(abdManager.hallo());
 		
 		System.out.println("Hello, iam the ShowAllUserAction ;D");
 	}

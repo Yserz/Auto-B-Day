@@ -519,22 +519,57 @@ public class GroupManagerTest {
 	}
 	
 	/**
-	 * Test of parseSlashExpression method, of class GroupManager.
+	 * Test of getAllGroupsFromAccount method, of class GroupManager.
 	 */
 	@Test
-	public void testParseSlashExpressionM() throws Exception {
-		System.out.println("parseSlashExpression");
+	public void testGetAllGroupsFromAccount() throws Exception {
+		System.out.println("testGetAllGroupsFromAccount");
 		
+		//TODO implement
+		//TODO implement test with thrown exception additional
 		//prepare test variables
-		String expression = "she/he";
-		char sex = 'm';
-		String expResult = "he";
-		String result=null;
 		
 		//call method to test
-		result = managerUnderTest.parseSlashExpression(expression, sex);
+//		result = managerUnderTest.parseSlashExpression(expression, sex);
 		
 		// verify
-		assertEquals(expResult, result);
+//		assertEquals(expResult, result);
+	}
+	
+	
+	/**
+	 * Test of getAllAccountsmethod, of class GroupManager.
+	 */
+	@Test
+	public void testGetAllAccounts() throws Exception {
+		System.out.println("testGetAllAccounts");
+		
+		//TODO implement
+		//prepare test variables
+
+		
+		//call method to test
+//		result = managerUnderTest.parseSlashExpression(expression, sex);
+		
+		// verify
+//		assertEquals(expResult, result);
+	}
+	
+	
+	/**
+	 * Test of getAllContactsFromGroup method, of class GroupManager.
+	 */
+	@Test
+	public void testGetAllContactsFromGroup() throws Exception {
+		System.out.println("testGetAllContactsFromGroup");
+		
+		//TODO implement
+		//prepare test variables
+
+		//call method to test
+//		result = managerUnderTest.parseSlashExpression(expression, sex);
+		
+		// verify
+//		assertEquals(expResult, result);
 	}
 }

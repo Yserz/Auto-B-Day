@@ -7,13 +7,13 @@ import javax.inject.Named;
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-@Named(value = "contactBean")
+@Named(value = "groupBean")
 @RequestScoped
-public class contactBean {
+public class GroupBean {
 
 	/**
-	 * Creates a new instance of contactBean
+	 * Creates a new instance of GroupBean
 	 */
-	public contactBean() {
+	public GroupBean() {
 	}
 }

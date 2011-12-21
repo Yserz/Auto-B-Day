@@ -1,8 +1,6 @@
 package de.fhb.autobday.beans;
 
-import de.fhb.autobday.manager.user.UserManagerLocal;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -11,17 +9,11 @@ import javax.inject.Named;
  */
 @Named(value = "userBean")
 @RequestScoped
-public class userBean {
+public class UserBean {
 
-	@Inject
-	private UserManagerLocal userManager;
-	
-	
 	/**
-	 * Creates a new instance of userBean
+	 * Creates a new instance of UserBean
 	 */
-	public userBean() {
-		
+	public UserBean() {
 	}
-	
 }

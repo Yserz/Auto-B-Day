@@ -1,4 +1,4 @@
-package de.fhb.autobday.beans;
+package de.fhb.autobday.beans.utils;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

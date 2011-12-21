@@ -112,4 +112,6 @@ public class AccountManager implements AccountManagerLocal {
 		importer.getConnection(account);
 		importer.importContacts();
 	}
+	
+	//TODO add method public List<AbdAccount> getAllAccounts(AbdUser user)
 }

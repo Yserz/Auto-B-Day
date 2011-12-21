@@ -291,5 +291,7 @@ public class GroupManager implements GroupManagerLocal {
 			return contentRight;
 		}
 	}
+	
+	//TODO add method public List<AbdContact> getAllContacts(AbdGroup group)
 }
 

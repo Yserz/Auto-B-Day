@@ -302,7 +302,7 @@ public class GroupManager implements GroupManagerLocal {
 	 * @throws Exception 
 	 */
 	@Override
-	public List<AbdContact> getAllContactsFromGroup(AbdGroup groupInputObject) throws Exception{
+	public List<AbdContact> getAllContactsFromGroup(AbdGroup groupInputObject) throws GroupNotFoundException{
 		
 		AbdGroup group=null;
 		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();
@@ -311,9 +311,8 @@ public class GroupManager implements GroupManagerLocal {
 		group=groupDAO.find(groupInputObject);
 		
 		if(group==null){
-			//TODO exception verbessern(eigene anlegen?)
-			LOGGER.log(Level.SEVERE, "inputobject does not exist!");
-			throw new Exception("inputobject does not exist!");
+			LOGGER.log(Level.SEVERE, "Group does not exist!");
+			throw new GroupNotFoundException("Group does not exist!");
 		}
 		
 		for(AbdGroupToContact actualGroupToContact :group.getAbdGroupToContactCollection()){

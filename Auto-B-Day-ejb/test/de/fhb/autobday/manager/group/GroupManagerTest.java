@@ -3,9 +3,12 @@ package de.fhb.autobday.manager.group;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import org.easymock.EasyMock;
+import org.easymock.IAnswer;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,6 +21,7 @@ import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
@@ -35,6 +39,7 @@ public class GroupManagerTest {
 	
 	private AbdGroupFacade groupDAOMock;
 	private AbdContactFacade contactDAOMock;
+	private AbdGroup groupmock;
 	
 	public GroupManagerTest() {
 		
@@ -58,6 +63,7 @@ public class GroupManagerTest {
 		//create Mocks
 		contactDAOMock = EasyMock.createMock(AbdContactFacade.class);
 		groupDAOMock = EasyMock.createMock(AbdGroupFacade.class);
+		groupmock = EasyMock.createMock(AbdGroup.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(contactDAOMock);
@@ -563,13 +569,46 @@ public class GroupManagerTest {
 	public void testGetAllContactsFromGroup() throws Exception {
 		System.out.println("testGetAllContactsFromGroup");
 		
-		//TODO implement
-		//prepare test variables
-
-		//call method to test
-//		result = managerUnderTest.parseSlashExpression(expression, sex);
+		AbdContact contactIch = new AbdContact("1");
+		AbdContact contactDu = new AbdContact("2");
+		AbdGroupToContact gContactIch = new AbdGroupToContact("meineGruppe", "ich");
+		AbdGroupToContact gContactDu = new AbdGroupToContact("meineGruppe", "du");
+		gContactIch.setAbdContact(contactIch);
+		gContactDu.setAbdContact(contactDu);
 		
-		// verify
-//		assertEquals(expResult, result);
+		ArrayList<AbdContact> outputCollection = new ArrayList<AbdContact>();
+		outputCollection.add(contactIch);
+		outputCollection.add(contactDu);
+		
+		ArrayList<AbdGroupToContact> abdGroupToContactCollection = new ArrayList<AbdGroupToContact>();
+		abdGroupToContactCollection.add(gContactIch);
+		abdGroupToContactCollection.add(gContactDu);
+		
+		AbdGroup group = new AbdGroup("2");
+		group.setAbdGroupToContactCollection(abdGroupToContactCollection);
+		
+
+		EasyMock.expect(groupDAOMock.find(group)).andStubReturn(group);
+
+		EasyMock.replay(groupDAOMock);
+		
+		assertEquals(outputCollection, managerUnderTest.getAllContactsFromGroup(group));
+		EasyMock.verify(groupDAOMock);
+	}
+	
+	/**
+	 * Test of getAllContactsFromGroup method, of class GroupManager.
+	 */
+	@Test(expected = GroupNotFoundException.class)
+	public void testGetAllContactsFromGroupShouldThrowGroupNotFoundException() throws Exception {
+		System.out.println("testGetAllContactsFromGroupShouldThrowGroupNotFoundException");
+
+		AbdGroup group = new AbdGroup("2");
+
+		EasyMock.expect(groupDAOMock.find(group)).andStubReturn(null);
+
+		EasyMock.replay(groupDAOMock);
+		managerUnderTest.getAllContactsFromGroup(group);
+		EasyMock.verify(groupDAOMock);
 	}
 }

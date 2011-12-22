@@ -15,6 +15,7 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
 /**
  *
@@ -199,19 +200,24 @@ public class AccountManagerTest {
 		int accountId = EasyMock.anyInt();
 		AbdAccount account = new AbdAccount(accountId);
 		
+		
 		// Setting up the expected value of the method call of Mockobject
-//		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
+		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
+		EasyMock.replay(accountDAOMock);
+		
+		GoogleImporter gimporter = (GoogleImporter) EasyMock.anyObject();
+		gimporter.getConnection(account);
+		gimporter.importContacts();
 		
 		//???? importer mocken wie???
-		
+
 //		// Setup is finished need to activate the mock
-//		EasyMock.replay(accountDAOMock);
-//		
-//		//call method to test
-//		managerUnderTest.removeAccount(accountId);
-//		
+		
+
+		managerUnderTest.importGroupsAndContacts(accountId);
+
 //		// verify		
-//		EasyMock.verify(accountDAOMock);
+		EasyMock.verify(accountDAOMock);
 	}
 	
 	

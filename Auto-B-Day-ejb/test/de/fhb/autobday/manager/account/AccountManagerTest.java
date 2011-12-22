@@ -197,22 +197,20 @@ public class AccountManagerTest {
 		//TODO weiter implementieren
 		
 		//prepare test variables
-		int accountId = EasyMock.anyInt();
+		int accountId = 2;
 		AbdAccount account = new AbdAccount(accountId);
-		
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
 		EasyMock.replay(accountDAOMock);
 		
-		GoogleImporter gimporter = (GoogleImporter) EasyMock.anyObject();
+		GoogleImporter gimporter = EasyMock.createMock(GoogleImporter.class);
+		
 		gimporter.getConnection(account);
 		gimporter.importContacts();
+		EasyMock.replay(gimporter);
 		
-		//???? importer mocken wie???
-
-//		// Setup is finished need to activate the mock
-		
+		//???? importer wird nicht richtig gemockt???
 
 		managerUnderTest.importGroupsAndContacts(accountId);
 

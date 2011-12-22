@@ -1,24 +1,13 @@
 package de.fhb.autobday.manager.user;
 
-import static org.junit.Assert.assertEquals;
-
-import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
-
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.user.IncompleteLoginDataException;
-import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
-import de.fhb.autobday.exception.user.NoValidUserNameException;
-import de.fhb.autobday.exception.user.PasswordInvalidException;
-import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.exception.user.*;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
+import org.easymock.EasyMock;
+import static org.junit.Assert.assertEquals;
+import org.junit.*;
 
 /**
  * Tests the userManager class and their methods.
@@ -105,7 +94,7 @@ public class UserManagerTest {
 		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(userDAOMock.find(loginName)).andReturn(user);
+		EasyMock.expect(userDAOMock.findUserByUsername(loginName)).andReturn(user);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
@@ -146,7 +135,7 @@ public class UserManagerTest {
 		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(userDAOMock.find(loginName)).andReturn(null);
+		EasyMock.expect(userDAOMock.findUserByUsername(loginName)).andReturn(null);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
@@ -170,7 +159,7 @@ public class UserManagerTest {
 		AbdUser user = new AbdUser(1, "ott", "123", null, "Ott", "Chris");
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(userDAOMock.find(loginName)).andReturn(user);
+		EasyMock.expect(userDAOMock.findUserByUsername(loginName)).andReturn(user);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);

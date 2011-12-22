@@ -3,6 +3,7 @@ package de.fhb.autobday.dao;
 import de.fhb.autobday.data.AbdUser;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -18,7 +19,19 @@ public class AbdUserFacade extends AbstractFacade<AbdUser> {
 	protected EntityManager getEntityManager() {
 		return em;
 	}
-
+	
+	public AbdUser findUserByUsername(String username){
+		AbdUser user = null;
+		
+		try {
+			user = (AbdUser) em.createNamedQuery("AbdUser.findByUsername")
+				.setParameter("username", username).getSingleResult();
+		} catch (NoResultException e) {
+			System.out.println("Exception: "+e.getMessage());
+		}
+        return user;
+    }
+	
 	public AbdUserFacade() {
 		super(AbdUser.class);
 	}

@@ -1,6 +1,8 @@
 package de.fhb.autobday.beans;
 
 import de.fhb.autobday.beans.utils.ErrorBean;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.manager.user.UserManagerLocal;
@@ -20,7 +22,9 @@ import javax.inject.Named;
 public class SessionBean implements Serializable {
 	@Inject
 	private UserManagerLocal userManager;
-	private AbdUser user;
+	private AbdUser aktUser;
+	private AbdAccount aktAccount;
+	private AbdGroup aktGroup;
 	private String contextPath;
 	
 	private String loginName;
@@ -32,7 +36,9 @@ public class SessionBean implements Serializable {
 	 * Creates a new instance of SessionBean
 	 */
 	public SessionBean() {
-		user = null;
+		aktUser = null;
+		loginName = "";
+		password = "";
 
 	}
 
@@ -40,8 +46,10 @@ public class SessionBean implements Serializable {
 		System.out.println("loginName: "+loginName);
 		System.out.println("Password: "+password);
 		try {
-			userManager.login(loginName, password);
-			//TODO set loginName+password to null
+			aktUser = userManager.login(loginName, password);
+			
+			loginName = null;
+			password = null;
 		} catch (UserException ex) {
 			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
 			errorBean.handleException(ex);
@@ -50,12 +58,12 @@ public class SessionBean implements Serializable {
 	}
 
 	public String logout() {
-		user = null;
-		return "/logout.xhtml";
+		aktUser = null;
+		return "/index.xhtml";
 	}
 
 	public boolean isLoggedIn() {
-		return user != null;
+		return aktUser != null;
 	}
 
 	public String getContextPath() {
@@ -67,11 +75,11 @@ public class SessionBean implements Serializable {
 	}
 
 	public AbdUser getUser() {
-		return user;
+		return aktUser;
 	}
 
 	public void setUser(AbdUser user) {
-		this.user = user;
+		this.aktUser = user;
 	}
 	//TODO Delete
 	public String getLoginName() {
@@ -89,5 +97,4 @@ public class SessionBean implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-//	
 }

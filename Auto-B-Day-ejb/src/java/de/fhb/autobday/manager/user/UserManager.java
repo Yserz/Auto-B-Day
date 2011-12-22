@@ -1,22 +1,19 @@
 package de.fhb.autobday.manager.user;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.user.IncompleteLoginDataException;
-import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
-import de.fhb.autobday.exception.user.NoValidUserNameException;
-import de.fhb.autobday.exception.user.PasswordInvalidException;
-import de.fhb.autobday.exception.user.UserException;
-import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.exception.user.*;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 
 /**
  *
@@ -57,7 +54,13 @@ public class UserManager implements UserManagerLocal {
 			throw new IncompleteLoginDataException("Invalid input!");
 		}
 		
-		user=userDAO.find(loginName);
+		//TODO maybe Nullpointer?! -> Falscher LoginName
+		try {
+			user = userDAO.findUserByUsername(loginName);
+		} catch (Exception e) {
+			System.out.println("Exception: "+e.getMessage());
+		}
+		
 		
 		if(user==null){
 			LOGGER.log(Level.SEVERE, "User not found!");
@@ -141,5 +144,33 @@ public class UserManager implements UserManagerLocal {
 		mailManager.sendBdayMail("autobday@smile.de", mail, "Welcome to Autobday", "");
 	}
 	
+	/**
+	 * 
+	 * @param userInputObject
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public List<AbdAccount> getAllAccountsFromUser(AbdUser userInputObject) throws Exception{
+		
+		AbdUser user=null;
+		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
+		
+		//find object, verify input
+		user=userDAO.find(userInputObject.getId());
+		
+		if(user==null){
+			//TODO exception verbessern
+			LOGGER.log(Level.SEVERE, "inputobject does not exist!");
+			throw new Exception("inputobject does not exist!");
+		}
+		
+		for(AbdAccount actualAccount :user.getAbdAccountCollection()){
+			outputCollection.add(actualAccount);
+		}
+		
+		
+		return outputCollection;
+	}
 	
 }

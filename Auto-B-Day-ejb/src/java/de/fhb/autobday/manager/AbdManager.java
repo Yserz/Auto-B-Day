@@ -78,11 +78,11 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 		return "hallo";
 	}
 	
-	@Schedule(minute="*/1", hour="*")
-	private void checkEveryMinute(){
+	//@Schedule(minute="*/1", hour="*")
+	/*private void checkEveryMinute(){
 		LOGGER.log(Level.INFO, "every minute idle message...{0}", new Date());
 	}
-	
+	*//*
 	@Schedule(minute="0", hour="8")
 	private void checkEveryDay() throws AbdException{
 		
@@ -141,5 +141,5 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 		}
 			
 	}
-	
+	*/
 }

@@ -12,11 +12,14 @@ import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.exception.group.GroupException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
 *
@@ -292,6 +295,33 @@ public class GroupManager implements GroupManagerLocal {
 		}
 	}
 	
-	//TODO add method public List<AbdContact> getAllContacts(AbdGroup group)
+	/**
+	 * 
+	 * @param groupInputObject
+	 * @return
+	 * @throws Exception 
+	 */
+	@Override
+	public List<AbdContact> getAllContactsFromGroup(AbdGroup groupInputObject) throws Exception{
+		
+		AbdGroup group=null;
+		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();
+		
+		//find object, verify input
+		group=groupDAO.find(groupInputObject);
+		
+		if(group==null){
+			//TODO exception verbessern(eigene anlegen?)
+			LOGGER.log(Level.SEVERE, "inputobject does not exist!");
+			throw new Exception("inputobject does not exist!");
+		}
+		
+		for(AbdGroupToContact actualGroupToContact :group.getAbdGroupToContactCollection()){
+			outputCollection.add(actualGroupToContact.getAbdContact());
+		}
+		
+		
+		return outputCollection;
+	}
 }
 

@@ -29,8 +29,7 @@ public interface AccountManagerLocal {
 	
 	List<AbdGroup> getAllGroupsFromAccount(AbdAccount accountInputObject) throws Exception;
 	
-	List<AbdAccount> getAllAccounts(AbdUser userInputObject) throws Exception;
 	
-	List<AbdContact> getAllContactsFromGroup(AbdGroup groupInputObject) throws Exception;
+	
 	
 }

@@ -1,25 +1,20 @@
 package de.fhb.autobday.manager.account;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import de.fhb.autobday.dao.AbdAccountFacade;
-import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 /**
  * The AccountManager processes all accountData specific things.
@@ -40,8 +35,6 @@ public class AccountManager implements AccountManagerLocal {
 	@EJB
 	private AbdUserFacade userDAO;
 	
-	@EJB
-	private AbdGroupFacade groupDAO;
 	
 	public AccountManager() {
 	}
@@ -50,7 +43,7 @@ public class AccountManager implements AccountManagerLocal {
 	public void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO,"abdUserId: " + abdUserId);
+		LOGGER.log(Level.INFO, "abdUserId: {0}", abdUserId);
 		
 		AbdUser actualUser=null;
 		
@@ -155,62 +148,4 @@ public class AccountManager implements AccountManagerLocal {
 	}
 	
 	
-	/**
-	 * 
-	 * @param userInputObject
-	 * @return
-	 * @throws Exception
-	 */
-	@Override
-	public List<AbdAccount> getAllAccounts(AbdUser userInputObject) throws Exception{
-		
-		AbdUser user=null;
-		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
-		
-		//find object, verify input
-		user=userDAO.find(userInputObject);
-		
-		if(user==null){
-			//TODO exception verbessern
-			LOGGER.log(Level.SEVERE, "inputobject does not exist!");
-			throw new Exception("inputobject does not exist!");
-		}
-		
-		for(AbdAccount actualAccount :user.getAbdAccountCollection()){
-			outputCollection.add(actualAccount);
-		}
-		
-		
-		return outputCollection;
-	}
-	
-	/**
-	 * 
-	 * @param groupInputObject
-	 * @return
-	 * @throws Exception 
-	 */
-	@Override
-	public List<AbdContact> getAllContactsFromGroup(AbdGroup groupInputObject) throws Exception{
-		
-		AbdGroup group=null;
-		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();
-		
-		//find object, verify input
-		group=groupDAO.find(groupInputObject);
-		
-		if(group==null){
-			//TODO exception verbessern
-			LOGGER.log(Level.SEVERE, "inputobject does not exist!");
-			throw new Exception("inputobject does not exist!");
-		}
-		
-		for(AbdGroupToContact actualGroupToContact :group.getAbdGroupToContactCollection()){
-			outputCollection.add(actualGroupToContact.getAbdContact());
-		}
-		
-		
-		return outputCollection;
-	}
-
 }

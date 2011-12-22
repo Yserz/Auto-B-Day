@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
@@ -191,6 +192,7 @@ public class AccountManagerTest {
 	 * Test of importGroupsAndContacts method, of class AccountManager.
 	 */
 	@Test
+	@Ignore
 	public void testImportGroupsAndContacts() throws Exception {
 		System.out.println("importGroupsAndContacts");
 		

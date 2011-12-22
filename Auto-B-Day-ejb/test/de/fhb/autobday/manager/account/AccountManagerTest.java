@@ -1,5 +1,9 @@
 package de.fhb.autobday.manager.account;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,6 +17,9 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
@@ -242,6 +249,49 @@ public class AccountManagerTest {
 		managerUnderTest.importGroupsAndContacts(accountId);
 		
 		// verify		
+		EasyMock.verify(accountDAOMock);
+	}
+	
+	/**
+	 * Test of getAllContactsFromGroup method, of class GroupManager.
+	 */
+	@Test
+	public void testGetAllContactsFromGroup() throws Exception {
+		System.out.println("testGetAllContactsFromGroup");
+		
+		AbdGroup groupOne = new AbdGroup("1");
+		AbdGroup groupTwo = new AbdGroup("2");
+		
+		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");
+		
+		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
+		outputCollection.add(groupOne);
+		outputCollection.add(groupTwo);
+		
+		account.setAbdGroupCollection(outputCollection);
+		
+
+		EasyMock.expect(accountDAOMock.find(account)).andStubReturn(account);
+
+		EasyMock.replay(accountDAOMock);
+		
+		assertEquals(outputCollection, managerUnderTest.getAllGroupsFromAccount(account));
+		EasyMock.verify(accountDAOMock);
+	}
+	
+	/**
+	 * Test of getAllContactsFromGroup method, of class GroupManager.
+	 */
+	@Test(expected = AccountNotFoundException.class)
+	public void testGetAllContactsFromGroupShouldThrowAccountNotFoundException() throws Exception {
+		System.out.println("testGetAllContactsFromGroup");
+		
+		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");		
+
+		EasyMock.expect(accountDAOMock.find(account)).andStubReturn(null);
+		EasyMock.replay(accountDAOMock);
+		
+		managerUnderTest.getAllGroupsFromAccount(account);
 		EasyMock.verify(accountDAOMock);
 	}
 	

@@ -123,10 +123,10 @@ public class AccountManager implements AccountManagerLocal {
 	 * 
 	 * @param accountInputObject
 	 * @return
-	 * @throws Exception
+	 * @throws AccountNotFoundException
 	 */
 	@Override
-	public List<AbdGroup> getAllGroupsFromAccount(AbdAccount accountInputObject) throws Exception{
+	public List<AbdGroup> getAllGroupsFromAccount(AbdAccount accountInputObject) throws AccountNotFoundException{
 		
 		AbdAccount account=null;
 		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
@@ -135,9 +135,8 @@ public class AccountManager implements AccountManagerLocal {
 		account=accountDAO.find(accountInputObject);
 		
 		if(account==null){
-			//TODO exception verbessern
-			LOGGER.log(Level.SEVERE, "inputobject does not exist!");
-			throw new Exception("inputobject does not exist!");
+			LOGGER.log(Level.SEVERE, "Account does not exist!");
+			throw new AccountNotFoundException("Account does not exist!");
 		}
 		
 		for(AbdGroup actualGroup :account.getAbdGroupCollection()){

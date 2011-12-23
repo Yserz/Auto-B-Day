@@ -42,7 +42,7 @@ public class ABDManagerTest {
 	private AbdAccountFacade accountDAOMock;
 	private AbdContactFacade contactDAOMock;
 	private GroupManager groupManagerMock;
-	private MailManagerLocal mailManager;
+	private MailManager mailManager;
 	
 	public ABDManagerTest() {
 	}

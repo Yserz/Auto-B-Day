@@ -23,7 +23,9 @@ import de.fhb.autobday.exception.user.UserNotFoundException;
 /**
  * This is the mailmanager, which is responsible for sending mails
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Singleton
 @Startup

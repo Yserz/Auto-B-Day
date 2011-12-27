@@ -7,7 +7,9 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
 public interface MailManagerLocal {

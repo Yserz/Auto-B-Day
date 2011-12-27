@@ -1,20 +1,23 @@
 package de.fhb.autobday.manager;
 
-import de.fhb.autobday.dao.*;
-import de.fhb.autobday.data.*;
-import de.fhb.autobday.exception.AbdException;
-import de.fhb.autobday.exception.contact.NoContactGivenException;
+import java.io.Serializable;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
+import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.dao.AbdGroupToContactFacade;
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.manager.group.GroupManager;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.Schedule;
-import javax.ejb.Stateless;
 
 /**
  * This manager speaks to the scheduler and ???

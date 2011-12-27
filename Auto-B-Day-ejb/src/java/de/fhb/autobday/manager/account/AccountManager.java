@@ -68,6 +68,12 @@ public class AccountManager implements AccountManagerLocal {
 		
 	}
 
+	
+	@Override
+	public void removeAccount(AbdAccount account) throws AccountException{
+		removeAccount(account.getId());
+	}
+	
 	@Override
 	public void removeAccount(int accountId) throws AccountException {
 		
@@ -115,7 +121,11 @@ public class AccountManager implements AccountManagerLocal {
 	}
 	
 	
-
+	@Override
+	public List<AbdGroup> getAllGroupsFromAccount(AbdAccount account) throws AccountNotFoundException{
+		return getAllGroupsFromAccount(account.getId());
+	}
+	
 	
 	/**
 	 * 

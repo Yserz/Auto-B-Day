@@ -19,8 +19,9 @@ import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
 /**
  * The Contactmanager processes all contact specific things.
  * 
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Stateless
 public class ContactManager implements ContactManagerLocal {
@@ -32,6 +33,12 @@ public class ContactManager implements ContactManagerLocal {
 
 	@EJB
 	private AbdGroupToContactFacade groupToContactDAO;
+	
+	@Override
+	public void setActive(AbdContact contact, boolean active) throws ContactException{
+		setActive(contact.getId(), active);
+	}
+	
 	
 	@Override
 	public void setActive(String contactId, boolean active) throws ContactException {

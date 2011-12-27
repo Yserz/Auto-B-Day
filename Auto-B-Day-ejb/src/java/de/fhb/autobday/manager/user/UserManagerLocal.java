@@ -12,8 +12,9 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
 public interface UserManagerLocal {
@@ -24,6 +25,7 @@ public interface UserManagerLocal {
 	void logout();
 	
 	void register(String firstName, String name, String userName, String mail) throws IncompleteUserRegisterException, NoValidUserNameException;
-
+	
+	List<AbdAccount> getAllAccountsFromUser(AbdUser user) throws UserNotFoundException;
 	List<AbdAccount> getAllAccountsFromUser(int userId) throws UserNotFoundException;
 }

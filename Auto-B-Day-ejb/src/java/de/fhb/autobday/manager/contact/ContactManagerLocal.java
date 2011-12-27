@@ -7,13 +7,16 @@ import de.fhb.autobday.exception.contact.ContactException;
 
 /**
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Local
 public interface ContactManagerLocal {
 
+	void setActive(AbdContact contact, boolean active) throws ContactException;
 	void setActive(String contactId, boolean active)throws ContactException ;
+
 	
 	AbdContact getContact(String contactId)throws ContactException ;
 }

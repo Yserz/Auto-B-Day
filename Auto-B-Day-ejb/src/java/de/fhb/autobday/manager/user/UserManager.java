@@ -143,6 +143,12 @@ public class UserManager implements UserManagerLocal {
 		mailManager.sendBdayMail("autobday@smile.de", mail, "Welcome to Autobday", "");
 	}
 	
+	
+	@Override
+	public List<AbdAccount> getAllAccountsFromUser(AbdUser user) throws UserNotFoundException{
+		return getAllAccountsFromUser(user.getId());
+	}
+	
 	/**
 	 * 
 	 * @param userInputObject

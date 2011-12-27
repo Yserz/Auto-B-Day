@@ -11,6 +11,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
@@ -33,6 +37,8 @@ import de.fhb.autobday.manager.connector.google.GoogleImporter;
  * Michael Koppen <koppen@fh-brandenburg.de>
  * Christoph Ott <>
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest( AccountManager.class )
 public class AccountManagerTest {
 	
 	private JavaEEGloss gloss;
@@ -199,9 +205,8 @@ public class AccountManagerTest {
 	 * Test of importGroupsAndContacts method, of class AccountManager.
 	 */
 	@Test
-	@Ignore
 	public void testImportGroupsAndContacts() throws Exception {
-		System.out.println("importGroupsAndContacts");
+		System.out.println("testImportGroupsAndContacts");
 		
 		//TODO weiter implementieren
 		
@@ -213,18 +218,21 @@ public class AccountManagerTest {
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
 		EasyMock.replay(accountDAOMock);
 		
-		GoogleImporter gimporter = EasyMock.createMock(GoogleImporter.class);
+		GoogleImporter gimporter = PowerMock.createMock(GoogleImporter.class);
+		
+		PowerMock.expectNew(GoogleImporter.class).andReturn(gimporter);
 		
 		gimporter.getConnection(account);
 		gimporter.importContacts();
-		EasyMock.replay(gimporter);
+		PowerMock.replay(gimporter, GoogleImporter.class);
+		
 		
 		//???? importer wird nicht richtig gemockt???
 
 		managerUnderTest.importGroupsAndContacts(accountId);
 
-//		// verify		
-		EasyMock.verify(accountDAOMock);
+		PowerMock.verify(gimporter, GoogleImporter.class);
+		PowerMock.verify(accountDAOMock);
 	}
 	
 	

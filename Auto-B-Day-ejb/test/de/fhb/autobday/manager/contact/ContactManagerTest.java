@@ -123,17 +123,18 @@ public class ContactManagerTest {
 		contactOne.setId(contactId);
 		
 		AbdContact contactTwo=new AbdContact();
-		contactTwo.setId(contactId);
+		contactTwo.setId("otto");
 		
 		//prepare groupToContactRealation
-		AbdGroupToContact groupToContact=new AbdGroupToContact();		
+		AbdGroupToContact groupToContact=new AbdGroupToContact();
+		AbdGroupToContact groupToContactTwo=new AbdGroupToContact();
 		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
-		groupToContact.setAbdContact(contactTwo);
 		
-		allGroupToContact.add(groupToContact);
 		groupToContact.setAbdContact(contactOne);
-
 		allGroupToContact.add(groupToContact);
+		
+		groupToContactTwo.setAbdContact(contactTwo);
+		allGroupToContact.add(groupToContactTwo);
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contactTwo).times(1);

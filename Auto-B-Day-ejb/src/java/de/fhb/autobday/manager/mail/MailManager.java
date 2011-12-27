@@ -1,7 +1,5 @@
 package de.fhb.autobday.manager.mail;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +16,6 @@ import javax.mail.internet.MimeMessage;
 
 import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
@@ -44,41 +41,6 @@ public class MailManager implements MailManagerLocal {
 
 	@Override
 	public void sendBdayMail(String from, String to, String subject, String body) {
-		/*
-		InternetAddress from = new InternetAddress();
-		from.setAddress("ABSENDER@from.com"from);
-		
-		//Override the JavaMail session properties if necessary.
-		Properties props = mailSession.getProperties();
-		props.put("mail.from", "user2@mailserver.com");
-		
-		
-		try {
-			MimeMessage message = new MimeMessage(mailSession);
-
-			//adding META-Data
-			message.addRecipient(Message.RecipientType.TO, new InternetAddress("elvis@presley.org"));
-			
-			//Override the JavaMail session properties if necessary.
-			//TODO choose setSender||setFrom||properties (whats the best solution?)
-			message.setSender(from);
-			message.setFrom(from);
-			
-			message.setSentDate(new Date());
-			
-			message.setSubject("Testing bday javamail html");
-
-			message.setContent("This is a bday test <b>HOWTO<b>",
-							   "text/html; charset=ISO-8859-1");
-
-			
-			sendMail(message);
-			
-
-		} catch (MessagingException ex) {
-			Logger.getLogger(MailManager.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		*/
 		try {
 			 
 			Message message = new MimeMessage(mailSession);
@@ -108,7 +70,7 @@ public class MailManager implements MailManagerLocal {
 		AbdUser user = null;
 		String userMailAdress;
 		String newPassword;
-		List<AbdAccount> accounts;
+		String mailBody;
 		
 		user=userDAO.find(userId);
 		
@@ -117,9 +79,7 @@ public class MailManager implements MailManagerLocal {
 			throw new UserNotFoundException("User " + userId + "not found!");
 		}
 		
-		accounts = new ArrayList<AbdAccount>(user.getAbdAccountCollection());
-		userMailAdress=accounts.get(0).getUsername();
-		//TODO getUsersmail ???
+		userMailAdress=user.getUsername();
 		
 		//generate new Password
 		newPassword=PasswordGenerator.generatePassword();
@@ -128,24 +88,10 @@ public class MailManager implements MailManagerLocal {
 		user.setPasswort(newPassword);
 		userDAO.edit(user);
 		
+		mailBody =  "You recieved a new password for your autobdayaccount: " + newPassword + "\n\n" + "greetz your Autobdayteam";
+		
 		// Send mail with new Password
-		this.sendBdayMail("", userMailAdress, "Autobday Notification", "You recieved a new password for your autobdayaccount: " + newPassword + "\n\n" + "greetz your Autobdayteam");
-	}
-
-	private void sendMail(MimeMessage message) {
-		Transport transport;
-		try {
-
-			transport = mailSession.getTransport();
-
-
-			transport.connect();
-			transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
-			transport.close();
-
-		} catch (MessagingException ex) {
-			Logger.getLogger(MailManager.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		this.sendBdayMail("", userMailAdress, "Autobday Notification", mailBody);
 	}
 
 	private void connectToMailServer() {

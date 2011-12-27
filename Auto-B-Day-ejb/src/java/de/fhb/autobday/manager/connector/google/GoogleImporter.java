@@ -45,8 +45,6 @@ public class GoogleImporter extends AImporter {
 		myService = null;
 	}
 
-	//TODO check ob bday und mail ungleich null
-	//TODO update und delete groups
 	@Override
 	/**
 	 * (non-Javadoc)
@@ -125,7 +123,9 @@ public class GoogleImporter extends AImporter {
 					//look in the database if the contact exist
 					abdcontacthelp=abdContactFacade.find(abdcontact.getId());
 					if (abdcontacthelp ==  null){
-						abdContactFacade.create(abdcontact);
+						if ((abdcontact.getBday()!= null)&&(abdcontact.getMail()!= null)) {
+							abdContactFacade.create(abdcontact);
+						}
 					} else {
 						// check if data has been modify
 						if (!abdcontact.equals(abdcontacthelp)){
@@ -268,15 +268,16 @@ public class GoogleImporter extends AImporter {
 		AbdContactFacade abdContactFacade = new AbdContactFacade();
 		AbdGroupFacade abdGroupFacade = new AbdGroupFacade();
 		List<AbdGroupToContact> abdGroupMemberships = new ArrayList<AbdGroupToContact> (abdGroupToContactFacade.findGroupByContact(id));
+		int i=0;
 		
 		// check if the membership exist and remove the membership out of the list
-		//TODO schleife ändern logischer fehler?
-		for (int i = 0; i < groupMemberships.size(); i++) {
+		while (i < groupMemberships.size() ) {
 			if(diffMembership(groupMemberships.get(i).getHref(), abdGroupMemberships)){
 				groupMemberships.remove(i);
+			} else {
+				i=i+1;
 			}
-		}
-		
+		}		
 		// delete all unused memberships
 		if (!abdGroupMemberships.isEmpty()){
 			for (AbdGroupToContact abdGroupToContact : abdGroupMemberships) {

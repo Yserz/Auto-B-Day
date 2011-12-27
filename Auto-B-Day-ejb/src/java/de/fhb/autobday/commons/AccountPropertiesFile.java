@@ -35,8 +35,6 @@ public class AccountPropertiesFile {
 	 */
 	public static HashMap<String,String> getProperties(String filename){
 		
-		//TODO wer auch es geschrieben hat, bitte bissel kommentieren wasd hier passiert!
-		
 		HashMap<String,String> props = new HashMap<String,String>();
 		Properties properties = new Properties();
 		String loginname;
@@ -49,12 +47,14 @@ public class AccountPropertiesFile {
 			properties.load(stream);
 			stream.close();
 			
+			//get data from the propertyfile
 			loginname= properties.getProperty("loginname");
 			encodedPassword = properties.getProperty("password");			
 
 			key = loginname.getBytes(); 
 			encryptedData = encodedPassword.getBytes();
 			
+			//encrypt the password
 			try {
 				Cipher c = Cipher.getInstance("AES");
 

@@ -1,14 +1,11 @@
 package de.fhb.autobday.manager.group;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
 import org.easymock.EasyMock;
-import org.easymock.IAnswer;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,9 +24,12 @@ import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
+ * Test the GroupManager
  * 
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * Christoph Ott <>
  */
 public class GroupManagerTest {
 	
@@ -39,7 +39,6 @@ public class GroupManagerTest {
 	
 	private AbdGroupFacade groupDAOMock;
 	private AbdContactFacade contactDAOMock;
-	private AbdGroup groupmock;
 	
 	public GroupManagerTest() {
 		
@@ -63,7 +62,6 @@ public class GroupManagerTest {
 		//create Mocks
 		contactDAOMock = EasyMock.createMock(AbdContactFacade.class);
 		groupDAOMock = EasyMock.createMock(AbdGroupFacade.class);
-		groupmock = EasyMock.createMock(AbdGroup.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(contactDAOMock);
@@ -464,7 +462,6 @@ public class GroupManagerTest {
 		System.out.println("parseTemplate");
 		
 		//test variables
-		String groupId="friends";	
 		String template="Hello ${name} ${e/er} ${sex}";
 		
 		//prepare a contact object
@@ -592,7 +589,7 @@ public class GroupManagerTest {
 
 		EasyMock.replay(groupDAOMock);
 		
-		assertEquals(outputCollection, managerUnderTest.getAllContactsFromGroup(group));
+		assertEquals(outputCollection, managerUnderTest.getAllContactsFromGroup(group.getId()));
 		EasyMock.verify(groupDAOMock);
 	}
 	
@@ -608,7 +605,7 @@ public class GroupManagerTest {
 		EasyMock.expect(groupDAOMock.find(group)).andStubReturn(null);
 
 		EasyMock.replay(groupDAOMock);
-		managerUnderTest.getAllContactsFromGroup(group);
+		managerUnderTest.getAllContactsFromGroup(group.getId());
 		EasyMock.verify(groupDAOMock);
 	}
 }

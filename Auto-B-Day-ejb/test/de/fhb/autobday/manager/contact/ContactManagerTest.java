@@ -15,12 +15,10 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
-import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
-import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
  * Test the ContactManager
@@ -28,6 +26,7 @@ import de.fhb.autobday.exception.group.GroupNotFoundException;
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
  * Michael Koppen <koppen@fh-brandenburg.de>
+ * Christoph Ott <>
  */
 public class ContactManagerTest {
 
@@ -213,7 +212,6 @@ public class ContactManagerTest {
 
 		//test variables
 		String contactId="friends";	
-		String template="template";
 		AbdContact contact=new AbdContact();
 		contact.setId(contactId);
 		
@@ -241,7 +239,6 @@ public class ContactManagerTest {
 
 		//test variables
 		String contactId="friends";	
-		String template="template";
 		AbdContact contact=new AbdContact();
 		contact.setId(contactId);
 		

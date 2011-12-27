@@ -26,6 +26,7 @@ import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
 /**
+ * Test the AccountManager
  *
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
@@ -103,7 +104,6 @@ public class AccountManagerTest {
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
-//		accountDAOMock.edit((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(userDAOMock);
@@ -275,7 +275,7 @@ public class AccountManagerTest {
 
 		EasyMock.replay(accountDAOMock);
 		
-		assertEquals(outputCollection, managerUnderTest.getAllGroupsFromAccount(account));
+		assertEquals(outputCollection, managerUnderTest.getAllGroupsFromAccount(account.getId()));
 		EasyMock.verify(accountDAOMock);
 	}
 	
@@ -291,7 +291,7 @@ public class AccountManagerTest {
 		EasyMock.expect(accountDAOMock.find(account)).andStubReturn(null);
 		EasyMock.replay(accountDAOMock);
 		
-		managerUnderTest.getAllGroupsFromAccount(account);
+		managerUnderTest.getAllGroupsFromAccount(account.getId());
 		EasyMock.verify(accountDAOMock);
 	}
 	

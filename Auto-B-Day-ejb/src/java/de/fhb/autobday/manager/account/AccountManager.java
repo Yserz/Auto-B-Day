@@ -63,11 +63,9 @@ public class AccountManager implements AccountManagerLocal {
 		createdAccount.setUsername(userName);
 		createdAccount.setType(type);
 
-		//create
+		//create and save into db
 		accountDAO.create(createdAccount);
 		
-//		//save in to db
-//		accountDAO.edit(createdAccount);
 	}
 
 	@Override

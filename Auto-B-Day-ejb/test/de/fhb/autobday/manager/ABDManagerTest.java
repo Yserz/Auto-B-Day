@@ -42,7 +42,7 @@ public class ABDManagerTest {
 	private AbdAccountFacade accountDAOMock;
 	private AbdContactFacade contactDAOMock;
 	private GroupManager groupManagerMock;
-	private MailManager mailManager;
+	private MailManagerLocal mailManagerMock;
 	
 	public ABDManagerTest() {
 	}
@@ -66,9 +66,8 @@ public class ABDManagerTest {
 		accountDAOMock = EasyMock.createMock(AbdAccountFacade.class);
 		contactDAOMock = EasyMock.createMock(AbdContactFacade.class);
 		groupManagerMock = EasyMock.createMock(GroupManager.class);
-		//mailManager = EasyMock.createMock(MailManager.class);
+		mailManagerMock = EasyMock.createMock(MailManagerLocal.class);
 		
-		//TODO Mailmanager wirft auf Jenkins Probleme
 		
 		//set Objekts to inject
 		gloss.addEJB(userDAOMock);
@@ -77,7 +76,7 @@ public class ABDManagerTest {
 		gloss.addEJB(accountDAOMock);
 		gloss.addEJB(contactDAOMock);
 		gloss.addEJB(groupManagerMock);
-		//gloss.addEJB(mailManager);
+		gloss.addEJB(mailManagerMock);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(AbdManager.class);
@@ -160,12 +159,5 @@ public class ABDManagerTest {
 		EasyMock.verify(contactDAOMock);
 	}
 
-	/**
-	 * Test of hallo method, of class ABDManager.
-	 */
-	@Test
-	@Ignore
-	public void testHallo() throws Exception {
-		System.out.println("hallo");
-	}
+	
 }

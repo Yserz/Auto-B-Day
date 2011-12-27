@@ -21,6 +21,5 @@ public interface AbdManagerLocal {
 	List<AbdAccount> getAllAccountdata();
 
 	List<AbdContact> getAllContacts();
-	
-	String hallo();
+
 }

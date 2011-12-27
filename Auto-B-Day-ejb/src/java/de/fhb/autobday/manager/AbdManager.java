@@ -73,10 +73,6 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 	public List<AbdContact> getAllContacts() {
 		return contactDAO.findAll();
 	}
-	@Override
-	public String hallo() {
-		return "hallo";
-	}
 	
 	//@Schedule(minute="*/1", hour="*")
 	/*private void checkEveryMinute(){

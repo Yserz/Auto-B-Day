@@ -23,14 +23,14 @@ import de.fhb.autobday.dao.AbdUserFacade;
  */
 @Ignore
 public class MailManagerTest {
-	
+	/*
 	private JavaEEGloss gloss;
 	
 	private MailManager managerUnderTest;
 	
 	private AbdUserFacade userDAOMock;
 	private Session sessionMock;
-	
+	*/
 	public MailManagerTest() {
 	}
 
@@ -44,7 +44,7 @@ public class MailManagerTest {
 	
 	@Before
 	public void setUp() {
-		
+		/*
 		gloss= new JavaEEGloss();
 		
 		//create Mocks
@@ -55,7 +55,7 @@ public class MailManagerTest {
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(MailManager.class);
-		
+		*/
 	}
 	
 	@After
@@ -70,7 +70,7 @@ public class MailManagerTest {
 	@Ignore
 	public void testSendBdayMail() throws Exception {
 		System.out.println("testSendBdayMail");
-		
+		/*
 		InternetAddress address = new InternetAddress("ich@wir.de");
 		String to = "du@wir.de";
 		String subject = "Ein Test";
@@ -82,7 +82,7 @@ public class MailManagerTest {
 		message.setSubject(subject);
 		message.setText(body);
 		
-		/*
+		
 		Transport.send(message);
 		PowerMock.mockStatic(Transport.class);
 		Transport.send(message);

@@ -2,10 +2,8 @@ package de.fhb.autobday.manager.mail;
 
 import javax.mail.Message;
 import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -14,28 +12,21 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.easymock.PowerMock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.legacy.PowerMockRunner;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
-import de.fhb.autobday.dao.AbdContactFacade;
-import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.manager.group.GroupManager;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-
+@Ignore
 public class MailManagerTest {
 	
 	private JavaEEGloss gloss;
 	
-	private MailManagerLocal managerUnderTest;
+	private MailManager managerUnderTest;
 	
 	private AbdUserFacade userDAOMock;
 	private Session sessionMock;
@@ -58,12 +49,13 @@ public class MailManagerTest {
 		
 		//create Mocks
 		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
-		sessionMock = EasyMock.createMock(Session.class);
+		//sessionMock = EasyMock.createMock(Session.class);
 		//set Objekts to inject
 		gloss.addEJB(userDAOMock);
 		
 		//create Manager with Mocks
-		managerUnderTest=gloss.make(MailManagerLocal.class);	
+		managerUnderTest=gloss.make(MailManager.class);
+		
 	}
 	
 	@After

@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.NoResultException;
 
 /**
  *
@@ -54,11 +53,11 @@ public class UserManager implements UserManagerLocal {
 			throw new IncompleteLoginDataException("Invalid input!");
 		}
 		
-		//TODO maybe Nullpointer?! -> Falscher LoginName
 		try {
 			user = userDAO.findUserByUsername(loginName);
 		} catch (Exception e) {
-			System.out.println("Exception: "+e.getMessage());
+			LOGGER.log(Level.SEVERE, "Invalid loginame!");
+			throw new IncompleteLoginDataException("Invalid loginame!");
 		}
 		
 		
@@ -80,6 +79,7 @@ public class UserManager implements UserManagerLocal {
 	public void logout() {
 		LOGGER.log(Level.INFO,"logout");
 	}
+	
 	@Override
 	public void register(String firstName, String name, String userName, String mail) 
 			throws IncompleteUserRegisterException, NoValidUserNameException {
@@ -137,10 +137,9 @@ public class UserManager implements UserManagerLocal {
 		
 		//save in to db
 		userDAO.create(user);
-//		userDAO.edit(user);
 		
-		//TODO absender aendern??
 		//send mail
+		//TODO absender aendern??
 		mailManager.sendBdayMail("autobday@smile.de", mail, "Welcome to Autobday", "");
 	}
 	
@@ -151,18 +150,17 @@ public class UserManager implements UserManagerLocal {
 	 * @throws Exception
 	 */
 	@Override
-	public List<AbdAccount> getAllAccountsFromUser(AbdUser userInputObject) throws Exception{
+	public List<AbdAccount> getAllAccountsFromUser(int userId) throws UserNotFoundException{
 		
 		AbdUser user=null;
 		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
 		
 		//find object, verify input
-		user=userDAO.find(userInputObject.getId());
+		user=userDAO.find(userId);
 		
 		if(user==null){
-			//TODO exception verbessern
-			LOGGER.log(Level.SEVERE, "inputobject does not exist!");
-			throw new Exception("inputobject does not exist!");
+			LOGGER.log(Level.SEVERE, "User does not exist!");
+			throw new UserNotFoundException("User does not exist!");
 		}
 		
 		for(AbdAccount actualAccount :user.getAbdAccountCollection()){

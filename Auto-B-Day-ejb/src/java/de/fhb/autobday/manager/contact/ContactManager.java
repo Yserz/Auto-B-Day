@@ -36,7 +36,6 @@ public class ContactManager implements ContactManagerLocal {
 	@Override
 	public void setActive(String contactId, boolean active) throws ContactException {
 		
-		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "contactId: {0}", contactId);
 		LOGGER.log(Level.INFO, "active: {1}", active);

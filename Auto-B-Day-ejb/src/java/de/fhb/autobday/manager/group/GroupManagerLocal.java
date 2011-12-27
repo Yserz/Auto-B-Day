@@ -4,6 +4,8 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.group.GroupException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
+
 import java.util.List;
 import javax.ejb.Local;
 
@@ -97,5 +99,5 @@ public interface GroupManagerLocal {
 	 * @return
 	 * @throws Exception 
 	 */
-	List<AbdContact> getAllContactsFromGroup(AbdGroup groupInputObject) throws Exception;
+	List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException;
 }

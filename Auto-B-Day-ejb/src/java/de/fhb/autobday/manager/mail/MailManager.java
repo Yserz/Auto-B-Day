@@ -21,7 +21,7 @@ import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
- * TODO This will may change position to ABDManager!!!
+ * This is the mailmanager, which is responsible for sending mails
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */

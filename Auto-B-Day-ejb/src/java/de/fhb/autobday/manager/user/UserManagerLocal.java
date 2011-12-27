@@ -5,6 +5,8 @@ import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
+
 import java.util.List;
 import javax.ejb.Local;
 
@@ -23,5 +25,5 @@ public interface UserManagerLocal {
 	
 	void register(String firstName, String name, String userName, String mail) throws IncompleteUserRegisterException, NoValidUserNameException;
 
-	List<AbdAccount> getAllAccountsFromUser(AbdUser userInputObject) throws Exception;
+	List<AbdAccount> getAllAccountsFromUser(int userId) throws UserNotFoundException;
 }

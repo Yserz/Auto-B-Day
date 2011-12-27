@@ -126,13 +126,13 @@ public class AccountManager implements AccountManagerLocal {
 	 * @throws AccountNotFoundException
 	 */
 	@Override
-	public List<AbdGroup> getAllGroupsFromAccount(AbdAccount accountInputObject) throws AccountNotFoundException{
+	public List<AbdGroup> getAllGroupsFromAccount(int accountId) throws AccountNotFoundException{
 		
 		AbdAccount account=null;
 		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
 		
 		//find object, verify input
-		account=accountDAO.find(accountInputObject);
+		account=accountDAO.find(accountId);
 		
 		if(account==null){
 			LOGGER.log(Level.SEVERE, "Account does not exist!");

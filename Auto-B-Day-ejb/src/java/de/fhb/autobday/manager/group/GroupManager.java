@@ -22,12 +22,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-*
-*
-* @author 
-* Andy Klay <klay@fh-brandenburg.de>
-* Michael Koppen <koppen@fh-brandenburg.de>
-*/
+ * 
+ * The GroupManager processes all group specific things.
+ *
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * 
+ */
 @Stateless
 public class GroupManager implements GroupManagerLocal {
 	private final static Logger LOGGER = Logger.getLogger(GroupManager.class.getName());
@@ -302,13 +304,13 @@ public class GroupManager implements GroupManagerLocal {
 	 * @throws Exception 
 	 */
 	@Override
-	public List<AbdContact> getAllContactsFromGroup(AbdGroup groupInputObject) throws GroupNotFoundException{
+	public List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException{
 		
 		AbdGroup group=null;
 		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();
 		
 		//find object, verify input
-		group=groupDAO.find(groupInputObject);
+		group=groupDAO.find(groupId);
 		
 		if(group==null){
 			LOGGER.log(Level.SEVERE, "Group does not exist!");

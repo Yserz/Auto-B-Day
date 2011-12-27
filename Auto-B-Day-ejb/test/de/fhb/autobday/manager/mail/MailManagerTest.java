@@ -35,7 +35,7 @@ public class MailManagerTest {
 	
 	private JavaEEGloss gloss;
 	
-	private MailManager managerUnderTest;
+	private MailManagerLocal managerUnderTest;
 	
 	private AbdUserFacade userDAOMock;
 	private Session sessionMock;
@@ -63,9 +63,7 @@ public class MailManagerTest {
 		gloss.addEJB(userDAOMock);
 		
 		//create Manager with Mocks
-		managerUnderTest=gloss.make(MailManager.class);
-		managerUnderTest.setMailSession(sessionMock);
-		
+		managerUnderTest=gloss.make(MailManagerLocal.class);	
 	}
 	
 	@After

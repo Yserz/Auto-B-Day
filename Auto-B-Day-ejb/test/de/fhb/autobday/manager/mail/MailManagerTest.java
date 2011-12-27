@@ -1,17 +1,44 @@
 package de.fhb.autobday.manager.mail;
 
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+
+import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.legacy.PowerMockRunner;
+
+import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.manager.group.GroupManager;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
+
 public class MailManagerTest {
-	//private EJBContainer container;
+	
+	private JavaEEGloss gloss;
+	
+	private MailManager managerUnderTest;
+	
+	private AbdUserFacade userDAOMock;
+	private Session sessionMock;
 	
 	public MailManagerTest() {
 	}
@@ -26,51 +53,69 @@ public class MailManagerTest {
 	
 	@Before
 	public void setUp() {
-		//container = javax.ejb.embeddable.EJBContainer.createEJBContainer();
+		
+		gloss= new JavaEEGloss();
+		
+		//create Mocks
+		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
+		sessionMock = EasyMock.createMock(Session.class);
+		//set Objekts to inject
+		gloss.addEJB(userDAOMock);
+		
+		//create Manager with Mocks
+		managerUnderTest=gloss.make(MailManager.class);
+		managerUnderTest.setMailSession(sessionMock);
+		
 	}
 	
 	@After
 	public void tearDown() {
-		//container.close();
+		
 	}
 
 	/**
 	 * Test of sendBdayMail method, of class MailManager.
 	 */
 	@Test
+	@Ignore
 	public void testSendBdayMail() throws Exception {
-		System.out.println("sendBdayMail");
-		//MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
-		//TODO parameterliste hat sich geändert
-		//instance.sendBdayMail();
+		System.out.println("testSendBdayMail");
 		
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
+		InternetAddress address = new InternetAddress("ich@wir.de");
+		String to = "du@wir.de";
+		String subject = "Ein Test";
+		String body = "Der Test sollte funktionieren";
+
+		Message message = new MimeMessage(sessionMock);
+		message.setFrom(address);
+		message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
+		message.setSubject(subject);
+		message.setText(body);
+		
+		/*
+		Transport.send(message);
+		PowerMock.mockStatic(Transport.class);
+		Transport.send(message);
+		PowerMock.replay(Transport.class);
+		PowerMock.verifyAll();
+		*/
 	}
 
 	/**
 	 * Test of sendNotificationMail method, of class MailManager.
 	 */
 	@Test
+	@Ignore
 	public void testSendNotificationMail() throws Exception {
 		System.out.println("sendNotificationMail");
-		//MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
-		//instance.sendNotificationMail();
-		
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
 	}
 
 	/**
 	 * Test of sendForgotPasswordMail method, of class MailManager.
 	 */
 	@Test
+	@Ignore
 	public void testSendForgotPasswordMail() throws Exception {
 		System.out.println("sendForgotPasswordMail");
-		//MailManagerLocal instance = (MailManagerLocal)container.getContext().lookup("java:global/classes/MailManager");
-//		instance.sendForgotPasswordMail();
-		
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
 	}
 }

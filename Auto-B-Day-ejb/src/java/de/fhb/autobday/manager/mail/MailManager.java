@@ -50,7 +50,7 @@ public class MailManager implements MailManagerLocal {
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
 			message.setSubject(subject);
 			message.setText(body);
- 
+
 			Transport.send(message);
  
 			System.out.println("Done");
@@ -123,6 +123,10 @@ public class MailManager implements MailManagerLocal {
 				}
 			});
 		*/
+	}
+
+	public void setMailSession(Session mailSession) {
+		this.mailSession = mailSession;
 	}
 	
 }

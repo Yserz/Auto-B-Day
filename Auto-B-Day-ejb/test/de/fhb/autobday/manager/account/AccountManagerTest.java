@@ -150,12 +150,37 @@ public class AccountManagerTest {
 		// verify		
 		EasyMock.verify(userDAOMock);
 	}
+	
+	/**
+	 * Test of removeAccount method, of class AccountManager.
+	 */
+	@Test
+	public void testRemoveAccountWithClass() throws Exception {
+		System.out.println("removeAccount");
+
+		//prepare test variables
+		int accountId = EasyMock.anyInt();
+		AbdAccount account = new AbdAccount(1);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
+		accountDAOMock.remove(account);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(accountDAOMock);
+		
+		//call method to test
+		managerUnderTest.removeAccount(account);
+		
+		// verify		
+		EasyMock.verify(accountDAOMock);
+	}
 
 	/**
 	 * Test of removeAccount method, of class AccountManager.
 	 */
 	@Test
-	public void testRemoveAccount() throws Exception {
+	public void testRemoveAccountWithInt() throws Exception {
 		System.out.println("removeAccount");
 
 		//prepare test variables
@@ -264,7 +289,34 @@ public class AccountManagerTest {
 	 * Test of getAllContactsFromGroup method, of class GroupManager.
 	 */
 	@Test
-	public void testGetAllContactsFromGroup() throws Exception {
+	public void testGetAllContactsFromGroupWithClass() throws Exception {
+		System.out.println("testGetAllContactsFromGroup");
+		
+		AbdGroup groupOne = new AbdGroup("1");
+		AbdGroup groupTwo = new AbdGroup("2");
+		
+		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");
+		
+		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
+		outputCollection.add(groupOne);
+		outputCollection.add(groupTwo);
+		
+		account.setAbdGroupCollection(outputCollection);
+		
+
+		EasyMock.expect(accountDAOMock.find(account.getId())).andStubReturn(account);
+
+		EasyMock.replay(accountDAOMock);
+		
+		assertEquals(outputCollection, managerUnderTest.getAllGroupsFromAccount(account));
+		EasyMock.verify(accountDAOMock);
+	}
+	
+	/**
+	 * Test of getAllContactsFromGroup method, of class GroupManager.
+	 */
+	@Test
+	public void testGetAllContactsFromGroupWithInt() throws Exception {
 		System.out.println("testGetAllContactsFromGroup");
 		
 		AbdGroup groupOne = new AbdGroup("1");

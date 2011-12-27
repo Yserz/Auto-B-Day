@@ -271,7 +271,7 @@ public class AccountManagerTest {
 		account.setAbdGroupCollection(outputCollection);
 		
 
-		EasyMock.expect(accountDAOMock.find(account)).andStubReturn(account);
+		EasyMock.expect(accountDAOMock.find(account.getId())).andStubReturn(account);
 
 		EasyMock.replay(accountDAOMock);
 		
@@ -288,7 +288,7 @@ public class AccountManagerTest {
 		
 		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");		
 
-		EasyMock.expect(accountDAOMock.find(account)).andStubReturn(null);
+		EasyMock.expect(accountDAOMock.find(account.getId())).andStubReturn(null);
 		EasyMock.replay(accountDAOMock);
 		
 		managerUnderTest.getAllGroupsFromAccount(account.getId());

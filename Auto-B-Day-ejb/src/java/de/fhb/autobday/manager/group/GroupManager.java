@@ -32,6 +32,7 @@ import java.util.List;
  */
 @Stateless
 public class GroupManager implements GroupManagerLocal {
+	
 	private final static Logger LOGGER = Logger.getLogger(GroupManager.class.getName());
 
 	@EJB
@@ -59,7 +60,12 @@ public class GroupManager implements GroupManagerLocal {
 		return actualGroup;
 	}
 
-
+	@Override
+	public void setTemplate(AbdGroup group, String template) throws GroupNotFoundException {
+		setTemplate(group.getId(), template);
+	}
+	
+	
 	@Override
 	public void setTemplate(String groupId, String template) throws GroupNotFoundException {
 		
@@ -135,6 +141,12 @@ public class GroupManager implements GroupManagerLocal {
 		return output;
 	}
 
+	@Override
+	public void setActive(AbdGroup group, boolean active) throws GroupNotFoundException{
+		setActive(group.getId(), active);
+	}
+	
+	
 	@Override
 	public void setActive(String groupId, boolean active) throws GroupNotFoundException {
 		
@@ -298,10 +310,23 @@ public class GroupManager implements GroupManagerLocal {
 	}
 	
 	/**
+	 * Get all Contacts of a group
+	 * 
+	 * @param group
+	 * @return
+	 * @throws GroupNotFoundException
+	 */
+	@Override
+	public List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws GroupNotFoundException{
+		return getAllContactsFromGroup(group.getId());
+	}
+	
+	/**
+	 * Get all Contacts of a group
 	 * 
 	 * @param groupInputObject
 	 * @return
-	 * @throws Exception 
+	 * @throws GroupNotFoundException 
 	 */
 	@Override
 	public List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException{
@@ -310,7 +335,7 @@ public class GroupManager implements GroupManagerLocal {
 		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();
 		
 		//find object, verify input
-		group=groupDAO.find(groupId);
+		group=groupDAO.find(groupId);			
 		
 		if(group==null){
 			LOGGER.log(Level.SEVERE, "Group does not exist!");

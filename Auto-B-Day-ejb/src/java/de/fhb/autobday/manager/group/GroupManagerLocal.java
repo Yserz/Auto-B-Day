@@ -28,6 +28,14 @@ public interface GroupManagerLocal {
 	/**
 	 * set the template of a group with specific id
 	 * 
+	 * @param AbdGroup - group
+	 * @param template
+	 */
+	void setTemplate(AbdGroup group, String template) throws GroupException;
+	
+	/**
+	 * set the template of a group with specific id
+	 * 
 	 * @param int - groupid
 	 * @param template
 	 */
@@ -51,6 +59,14 @@ public interface GroupManagerLocal {
 	 */
 	String testTemplate(String groupid, String contactid) throws GroupException, ContactException;
 
+	/**
+	 * set group to Active stat for sending mails
+	 * 
+	 * @param int - groupid
+	 * @param boolean - active
+	 */
+	void setActive(AbdGroup group, boolean active) throws GroupNotFoundException;
+	
 	/**
 	 * set group to Active stat for sending mails
 	 * 
@@ -94,10 +110,20 @@ public interface GroupManagerLocal {
 	String parseSlashExpression(String expression, char sex);
 	
 	/**
-	 * todo comment
-	 * @param groupInputObject
+	 * Get all Contacts of a group
+	 * 
+	 * @param group
 	 * @return
-	 * @throws Exception 
+	 * @throws GroupNotFoundException
 	 */
 	List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException;
+	
+	/**
+	 * Get all Contacts of a group
+	 * 
+	 * @param groupId
+	 * @return
+	 * @throws GroupNotFoundException 
+	 */
+	List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws GroupNotFoundException;
 }

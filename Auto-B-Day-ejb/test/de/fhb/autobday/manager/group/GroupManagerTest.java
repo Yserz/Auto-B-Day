@@ -566,6 +566,7 @@ public class GroupManagerTest {
 	public void testGetAllContactsFromGroup() throws Exception {
 		System.out.println("testGetAllContactsFromGroup");
 		
+		//prepare test variables
 		AbdContact contactIch = new AbdContact("1");
 		AbdContact contactDu = new AbdContact("2");
 		AbdGroupToContact gContactIch = new AbdGroupToContact("meineGruppe", "ich");
@@ -585,11 +586,15 @@ public class GroupManagerTest {
 		group.setAbdGroupToContactCollection(abdGroupToContactCollection);
 		
 
-		EasyMock.expect(groupDAOMock.find(group)).andStubReturn(group);
+		EasyMock.expect(groupDAOMock.find(group.getId())).andStubReturn(group);
 
 		EasyMock.replay(groupDAOMock);
 		
+		//call method to test
+		
 		assertEquals(outputCollection, managerUnderTest.getAllContactsFromGroup(group.getId()));
+		
+		// verify
 		EasyMock.verify(groupDAOMock);
 	}
 	
@@ -600,12 +605,17 @@ public class GroupManagerTest {
 	public void testGetAllContactsFromGroupShouldThrowGroupNotFoundException() throws Exception {
 		System.out.println("testGetAllContactsFromGroupShouldThrowGroupNotFoundException");
 
+		//prepare test variables
 		AbdGroup group = new AbdGroup("2");
 
-		EasyMock.expect(groupDAOMock.find(group)).andStubReturn(null);
+		EasyMock.expect(groupDAOMock.find(group.getId())).andStubReturn(null);
 
 		EasyMock.replay(groupDAOMock);
+		
+		//call method to test
 		managerUnderTest.getAllContactsFromGroup(group.getId());
+		
+		// verify
 		EasyMock.verify(groupDAOMock);
 	}
 }

@@ -20,7 +20,7 @@ public class ErrorBean {
 	
 	public String handleException(Exception ex){
 		errorText = ex.getMessage();
-		return "/error.xhtml";
+		return "error";
 	}
 
 	public String getErrorText() {

@@ -86,9 +86,9 @@ public class UserManager implements UserManagerLocal {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
-		LOGGER.log(Level.INFO, "name: {1}", name);
-		LOGGER.log(Level.INFO, "userName: {2}", userName);
-		LOGGER.log(Level.INFO, "mail: {3}", mail);
+		LOGGER.log(Level.INFO, "name: {0}", name);
+		LOGGER.log(Level.INFO, "userName: {0}", userName);
+		LOGGER.log(Level.INFO, "mail: {0}", mail);
 		
 		AbdUser user = null;
 		String salt="";
@@ -129,6 +129,10 @@ public class UserManager implements UserManagerLocal {
 		user.setName(name);
 		user.setUsername(userName);
 		//TODO wo soll man die mailadresse speichern??
+		/* TODO antwort: da fragen wir keine mail ab aber wir fragen nach nem pw! 
+		 * es wird also auch keine mail erfragt...und kein passwort generiert
+		 * lediglich das salt wird hinzugefügt und alles gehashed
+		 */
 		
 		// generate Salt
 		salt=PasswordGenerator.generateSalt();

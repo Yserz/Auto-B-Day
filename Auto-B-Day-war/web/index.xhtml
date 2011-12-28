@@ -13,7 +13,7 @@
 		<h:form>
 			<h:panelGrid columns="2" rendered="#{!sessionBean.loggedIn}">
 				<h:outputLabel for="loginName">Username:</h:outputLabel>
-				<h:inputText id="username" value="#{sessionBean.loginName}"/>
+				<h:inputText id="loginName" value="#{sessionBean.loginName}"/>
 				<h:outputLabel for="password">Password:</h:outputLabel>
 				<h:inputText id="password" value="#{sessionBean.password}"/>
 			</h:panelGrid>
@@ -22,6 +22,8 @@
 			<h:commandButton value="Logout" action="#{sessionBean.logout}" rendered="#{sessionBean.loggedIn}"/>
 
 		</h:form>
+ 
+		
 	</ui:define>
 	
 	<ui:define name="content">

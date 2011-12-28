@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+                template="./templates/layout.xhtml">
+
+    <ui:define name="title">
+		Register to Auto-B-Day
+	</ui:define>
+	
+	
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="userName">Username:</h:outputLabel>
+				<h:inputText id="userName" value="#{registerBean.userName}"/>
+				
+				<h:outputLabel for="firstName">Vorname:</h:outputLabel>
+				<h:inputText id="firstName" value="#{registerBean.firstName}"/>
+				
+				<h:outputLabel for="name">Name:</h:outputLabel>
+				<h:inputText id="name" value="#{registerBean.name}"/>
+				
+				<h:outputLabel for="password">Password:</h:outputLabel>
+				<h:inputText id="password" value="#{registerBean.password}"/>
+			</h:panelGrid>
+
+			<h:commandButton value="Registrieren" action="#{registerBean.register}"/>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

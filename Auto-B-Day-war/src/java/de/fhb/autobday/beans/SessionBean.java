@@ -36,6 +36,7 @@ public class SessionBean implements Serializable {
 	 * Creates a new instance of SessionBean
 	 */
 	public SessionBean() {
+		errorBean = new ErrorBean();
 		aktUser = null;
 		loginName = "";
 		password = "";

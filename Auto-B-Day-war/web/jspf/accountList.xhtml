@@ -6,8 +6,11 @@
     
     <h:body>
 		<ui:composition>
- 
-			<h1>AccountList</h1>
+			<h:panelGrid rendered="#{sessionBean.loggedIn}">
+				<h1>AccountList</h1>
+				
+			</h:panelGrid>
+			
  
 	    </ui:composition>
     </h:body>

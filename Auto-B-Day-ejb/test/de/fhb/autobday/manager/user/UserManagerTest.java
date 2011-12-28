@@ -1,25 +1,32 @@
 package de.fhb.autobday.manager.user;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.persistence.NoResultException;
+
+import org.easymock.EasyMock;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.commons.PasswordGenerator;
-import de.fhb.autobday.commons.PasswortGeneratorTest;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.user.*;
+import de.fhb.autobday.exception.user.IncompleteLoginDataException;
+import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
+import de.fhb.autobday.exception.user.PasswordInvalidException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
-import org.easymock.EasyMock;
-import static org.junit.Assert.assertEquals;
-
-import org.hibernate.validator.constraints.impl.EmailValidator;
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.powermock.api.easymock.PowerMock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests the userManager class and their methods.
@@ -323,7 +330,7 @@ public class UserManagerTest {
 		String mail = "biene@maja.com";
 		
 		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
-		PowerMock.replay(EmailValidator.class);
+		PowerMock.replay(EMailValidator.class);
 		//call method to test
 		managerUnderTest.register(firstName, name, userName, mail);
 		PowerMock.verify(EMailValidator.class);

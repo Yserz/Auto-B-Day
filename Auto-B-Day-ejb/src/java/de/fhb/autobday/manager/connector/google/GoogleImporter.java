@@ -352,7 +352,11 @@ public class GoogleImporter extends AImporter {
 	 */
 	protected Date getGContactBirthday(ContactEntry contactEntry){
 		String gContactBirthday = contactEntry.getBirthday().getValue();
+		try {
 		return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
+		} catch (CanNotConvetGoogleBirthdayException e){
+			return null;
+		}
 	}
 	
 	/**

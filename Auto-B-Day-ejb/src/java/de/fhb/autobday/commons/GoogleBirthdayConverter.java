@@ -21,9 +21,8 @@ public class GoogleBirthdayConverter {
 	 * @return Date
 	 * @throws CanNotConvetGoogleBirthdayException 
 	 */
-	@SuppressWarnings({ "deprecation", "finally" })
-	public static Date convertBirthday(String birthdayString){
-		Date date;
+	@SuppressWarnings("deprecation")
+	public static Date convertBirthday(String birthdayString) throws CanNotConvetGoogleBirthdayException{
 		int day=1,month=1,year=1970;
 		
 		if (birthdayString.trim().length()==0){
@@ -40,13 +39,10 @@ public class GoogleBirthdayConverter {
 				day=Integer.parseInt(birthdayString.substring(8, 10));			
 			}
 		} catch (NumberFormatException e){
-			e.printStackTrace();
-		} finally {
-			date = new Date(year-1900,month-1,day);
-			return date;
+			throw new CanNotConvetGoogleBirthdayException("it is not possible to convert the birthday");
 		}
 		
-		
+		return new Date(year-1900,month-1,day);
 	}
 
 }

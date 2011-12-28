@@ -73,12 +73,12 @@ public class ContactManagerTest {
 	@After
 	public void tearDown() {
 	}
-
+	
 	/**
 	 * Test of setActive method, of class ContactManager.
 	 */
 	@Test
-	public void testSetActive() throws Exception {
+	public void testSetActiveWithClass() throws Exception {
 		
 		//test variables
 		String contactId="mustermann";
@@ -103,12 +103,57 @@ public class ContactManagerTest {
 		EasyMock.replay(groupToContactDAOMock);
 		
 		//call method to test
+		managerUnderTest.setActive(contact, isActive);
+		
+		// verify
+		EasyMock.verify(contactDAOMock);
+		EasyMock.verify(groupToContactDAOMock);
+	}
+
+	/**
+	 * Test of setActive method, of class ContactManager.
+	 */
+	@Test
+	public void testSetActive() throws Exception {
+		
+		//test variables
+		String contactId="mustermann";
+		boolean isActive=true;		
+		AbdContact contactOne=new AbdContact();
+		contactOne.setId(contactId);
+		
+		AbdContact contactTwo=new AbdContact();
+		contactTwo.setId("otto");
+		
+		//prepare groupToContactRealation
+		AbdGroupToContact groupToContact=new AbdGroupToContact();
+		AbdGroupToContact groupToContactTwo=new AbdGroupToContact();
+		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
+		
+		groupToContact.setAbdContact(contactOne);
+		allGroupToContact.add(groupToContact);
+		
+		groupToContactTwo.setAbdContact(contactTwo);
+		allGroupToContact.add(groupToContactTwo);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contactTwo).times(1);
+		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactId)).andReturn(allGroupToContact).times(1);
+		groupToContactDAOMock.edit(groupToContact);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(contactDAOMock);
+		EasyMock.replay(groupToContactDAOMock);
+		
+		//call method to test
 		managerUnderTest.setActive(contactId, isActive);
 		
 		// verify
 		EasyMock.verify(contactDAOMock);
 		EasyMock.verify(groupToContactDAOMock);
 	}
+	
+
 	
 	/**
 	 * Test fail of setActive method, of class ContactManager.

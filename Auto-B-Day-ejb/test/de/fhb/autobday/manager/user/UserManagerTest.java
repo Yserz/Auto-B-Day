@@ -2,6 +2,8 @@ package de.fhb.autobday.manager.user;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import javax.persistence.NoResultException;
 
 import org.easymock.EasyMock;
@@ -20,6 +22,8 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
@@ -129,6 +133,7 @@ public class UserManagerTest {
 	
 	/**
 	 * Test of login method, of class UserManager.
+	 * This test provokes a IncompleteLoginDataException!
 	 */
 	@Test(expected = IncompleteLoginDataException.class)
 	public void testLoginShouldThrowIncompleteLoginDataExceptionPasswordNull() throws Exception {
@@ -146,6 +151,7 @@ public class UserManagerTest {
 	
 	/**
 	 * Test of login method, of class UserManager.
+	 * This test provokes a IncompleteLoginDataException!
 	 */
 	@Test(expected = IncompleteLoginDataException.class)
 	public void testLoginShouldThrowIncompleteLoginDataExceptionPasswordEmpty() throws Exception {
@@ -163,13 +169,32 @@ public class UserManagerTest {
 	
 	/**
 	 * Test of login method, of class UserManager.
+	 * This test provokes a IncompleteLoginDataException!
 	 */
 	@Test(expected = IncompleteLoginDataException.class)
-	public void testLoginShouldThrowIncompleteLoginDataExceptionLoginnameNull() throws Exception {
+	public void testLoginShouldThrowIncompleteLoginDataExceptionLoginNameNull() throws Exception {
+		System.out.println("testLoginShouldThrowIncompleteLoginDataExceptionPasswordNull");
+		
+		//prepare test variables
+		String loginName = null;
+		String password = "1234";
+		
+		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
+		
+		// verify	
+		assertEquals(user, managerUnderTest.login(loginName, password));
+	}
+	
+	/**
+	 * Test of login method, of class UserManager.
+	 * This test provokes a IncompleteLoginDataException!
+	 */
+	@Test(expected = IncompleteLoginDataException.class)
+	public void testLoginShouldThrowIncompleteLoginDataExceptionLoginNameNotFound() throws Exception {
 		System.out.println("testLoginShouldThrowIncompleteLoginDataExceptionLoginnameNull");
 		
 		//prepare test variables
-		String loginName = "";
+		String loginName = "notfound";
 		String password = "1234";
 		
 		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
@@ -188,6 +213,7 @@ public class UserManagerTest {
 	
 	/**
 	 * Test of login method, of class UserManager.
+	 * This test provokes a IncompleteLoginDataException!
 	 */
 	@Test(expected = IncompleteLoginDataException.class)
 	public void testLoginShouldThrowIncompleteLoginDataExceptionInvalidLoginname() throws Exception {
@@ -212,6 +238,7 @@ public class UserManagerTest {
 	
 	/**
 	 * Test of login method, of class UserManager.
+	 * This test provokes a UserNotFoundException!
 	 */
 	@Test(expected = UserNotFoundException.class)
 	public void testLoginShouldThrowUserNotFoundException() throws Exception {
@@ -236,6 +263,7 @@ public class UserManagerTest {
 	
 	/**
 	 * Test of login method, of class UserManager.
+	 * This test provokes a PasswordInvalidException!
 	 */
 	@Test(expected = PasswordInvalidException.class)
 	public void testLoginShouldThrowPasswordInvalidException() throws Exception {
@@ -413,7 +441,7 @@ public class UserManagerTest {
 	
 	/**
 	 * Test of register method, of class UserManager.
-	 * This test provokes a NoValidUserNameException!
+	 * This test provokes a IncompleteUserRegisterException!
 	 */
 	@Test(expected = IncompleteUserRegisterException.class)
 	public void testRegisterThrowIncompleteUserRegisterException() throws Exception {
@@ -431,6 +459,85 @@ public class UserManagerTest {
 		//call method to test
 		managerUnderTest.register(firstName, name, userName, mail);
 		PowerMock.verify(EMailValidator.class);
+	}
+	
+	/**
+	 * Test of getAllAccountsFromUser method, of class UserManager.
+	 */
+	@Test
+	public void testgetAllAccountsFromUserWithClass() throws Exception{
+		System.out.println("testgetAllAccountsFromUserWithClass");
+		
+		AbdAccount accountOne = new AbdAccount(1);
+		AbdAccount accountTwo = new AbdAccount(2);
+		
+		AbdUser user = new AbdUser(22);
+		
+		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
+		outputCollection.add(accountOne);
+		outputCollection.add(accountTwo);
+		
+		user.setAbdAccountCollection(outputCollection);
+		
+
+		EasyMock.expect(userDAOMock.find(user.getId())).andStubReturn(user);
+		EasyMock.replay(userDAOMock);
+		
+		assertEquals(outputCollection, managerUnderTest.getAllAccountsFromUser(user));
+		EasyMock.verify(userDAOMock);
+	}
+	
+	/**
+	 * Test of getAllAccountsFromUser method, of class UserManager.
+	 */
+	@Test
+	public void testgetAllAccountsFromUserWithInt() throws Exception{
+		System.out.println("testgetAllAccountsFromUserWithInt");
+		
+		AbdAccount accountOne = new AbdAccount(1);
+		AbdAccount accountTwo = new AbdAccount(2);
+		
+		AbdUser user = new AbdUser(22);
+		
+		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
+		outputCollection.add(accountOne);
+		outputCollection.add(accountTwo);
+		
+		user.setAbdAccountCollection(outputCollection);
+		
+
+		EasyMock.expect(userDAOMock.find(user.getId())).andStubReturn(user);
+		EasyMock.replay(userDAOMock);
+		
+		assertEquals(outputCollection, managerUnderTest.getAllAccountsFromUser(user.getId()));
+		EasyMock.verify(userDAOMock);
+	}
+	
+	/**
+	 * Test of getAllAccountsFromUser method, of class UserManager.
+	 * This test provokes a UserNotFoundException!
+	 */
+	@Test(expected = UserNotFoundException.class)
+	public void testgetAllAccountsFromUserShouldThrowUserNotFoundException() throws Exception{
+		System.out.println("testgetAllAccountsFromUserWithInt");
+		
+		AbdAccount accountOne = new AbdAccount(1);
+		AbdAccount accountTwo = new AbdAccount(2);
+		
+		AbdUser user = new AbdUser(22);
+		
+		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
+		outputCollection.add(accountOne);
+		outputCollection.add(accountTwo);
+		
+		user.setAbdAccountCollection(outputCollection);
+		
+
+		EasyMock.expect(userDAOMock.find(user.getId())).andStubReturn(null);
+		EasyMock.replay(userDAOMock);
+		
+		assertEquals(outputCollection, managerUnderTest.getAllAccountsFromUser(user.getId()));
+		EasyMock.verify(userDAOMock);
 	}
 
 	

@@ -419,7 +419,7 @@ public class UserManagerTest {
 		String mail = "bienemaja.com";
 		
 		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(false);
-		PowerMock.replay(EmailValidator.class);
+		PowerMock.replay(EMailValidator.class);
 		
 		//call method to test
 		managerUnderTest.register(firstName, name, userName, mail);

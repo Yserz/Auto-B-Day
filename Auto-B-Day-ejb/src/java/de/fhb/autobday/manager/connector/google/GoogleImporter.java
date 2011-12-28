@@ -370,7 +370,10 @@ public class GoogleImporter extends AImporter {
 		List<Email> mailadresses;
 		String mailadress;
 		mailadresses = contactEntry.getEmailAddresses();
-		mailadress = mailadresses.get(0).getAddress();
-		return mailadress;
+		if (mailadresses.size()>0){
+			mailadress = mailadresses.get(0).getAddress();
+			return mailadress;
+		}
+		return "";
 	}
 }

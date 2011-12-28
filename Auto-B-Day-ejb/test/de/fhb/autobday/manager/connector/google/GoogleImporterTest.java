@@ -192,7 +192,7 @@ private JavaEEGloss gloss;
 		contactEntry.addEmailAddress(mail);
 		mail.setAddress("test@cks.de");
 		contactEntry.addEmailAddress(mail);
-		assertEquals("test@aol.de", instance.getGContactFirstMailAdress(contactEntry));
+		assertEquals(contactEntry.getEmailAddresses().get(0), instance.getGContactFirstMailAdress(contactEntry));
 	}
 	
 	@Test
@@ -207,7 +207,7 @@ private JavaEEGloss gloss;
 	public void testgetGContactBirthdayWithABirthday(){
 		System.out.println("getGContactBirthday");
 		GoogleImporter instance = new GoogleImporter();
-		assertEquals(new Date(55, 4, 22), instance.getGContactBirthday(contactEntry));
+		assertEquals(new Date(90, 4, 22), instance.getGContactBirthday(contactEntry));
 	}
 
 	@Test

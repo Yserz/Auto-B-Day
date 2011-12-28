@@ -6,6 +6,7 @@ import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.Gender;
 import com.google.gdata.data.contacts.Gender.Value;
+import com.google.gdata.data.extensions.Email;
 import com.google.gdata.data.extensions.FamilyName;
 import com.google.gdata.data.extensions.GivenName;
 import com.google.gdata.data.extensions.Name;
@@ -169,4 +170,56 @@ private JavaEEGloss gloss;
 		// TODO review the generated test code and remove the default call to fail.
 		//fail("The test case is a prototype.");
 	}
+	
+	@Test
+	public void testgetGContactFirstMailAdressWithOneAdress(){
+		System.out.println("getGContactFirstMailAdress");
+		GoogleImporter instance = new GoogleImporter();
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		contactEntry.addEmailAddress(mail);
+		assertEquals("test@aol.de", instance.getGContactFirstMailAdress(contactEntry));
+	}
+	
+	@Test
+	public void testgetGContactFirstMailAdressWithManyAdress(){
+		System.out.println("getGContactFirstMailAdress");
+		GoogleImporter instance = new GoogleImporter();
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		contactEntry.addEmailAddress(mail);
+		mail.setAddress("test@fhb.de");
+		contactEntry.addEmailAddress(mail);
+		mail.setAddress("test@cks.de");
+		contactEntry.addEmailAddress(mail);
+		assertEquals("test@aol.de", instance.getGContactFirstMailAdress(contactEntry));
+	}
+	
+	@Test
+	public void testgetGContactFirstMailAdressWithNoAdress(){
+		System.out.println("getGContactFirstMailAdress");
+		GoogleImporter instance = new GoogleImporter();
+		assertEquals("", instance.getGContactFirstMailAdress(contactEntry));
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testgetGContactBirthdayWithABirthday(){
+		System.out.println("getGContactBirthday");
+		GoogleImporter instance = new GoogleImporter();
+		assertEquals(new Date(55, 4, 22), instance.getGContactBirthday(contactEntry));
+	}
+
+	@Test
+	public void testgetGContactFamilyname(){
+		GoogleImporter instance = new GoogleImporter();
+		assertEquals("Peter",instance.getGContactFamilyname(contactEntry));
+	}
+	
+	@Test
+	public void testgetGContactFirstname(){
+		GoogleImporter instance = new GoogleImporter();
+		assertEquals("Hans",instance.getGContactFirstname(contactEntry));
+	}
+	
 }

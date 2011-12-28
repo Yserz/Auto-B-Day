@@ -74,6 +74,7 @@ public class GoogleImporter extends AImporter {
 		}
 		connectionEtablished = true;
 	}
+	
 	@Override
 	public void importContacts() {
 		
@@ -123,7 +124,7 @@ public class GoogleImporter extends AImporter {
 					//look in the database if the contact exist
 					abdcontacthelp=abdContactFacade.find(abdcontact.getId());
 					if (abdcontacthelp ==  null){
-						if ((abdcontact.getBday()!= null)&&(abdcontact.getMail()!= null)) {
+						if ((abdcontact.getBday()!= null)&&(!abdcontact.getMail().equals(""))) {
 							abdContactFacade.create(abdcontact);
 						}
 					} else {
@@ -189,8 +190,6 @@ public class GoogleImporter extends AImporter {
 		return null;
 	}
 
-	
-	
 	/**
 	 * methode to map a google contact to a auto-b-day contact
 	 * 
@@ -338,9 +337,9 @@ public class GoogleImporter extends AImporter {
 	 * @return String
 	 */
 	protected String getGContactFamilyname(ContactEntry contactEntry){
-		String firstname;
-		firstname=contactEntry.getName().getFamilyName().getValue();
-		return firstname;
+		String familyname;
+		familyname=contactEntry.getName().getFamilyName().getValue();
+		return familyname;
 		
 	}
 	
@@ -353,15 +352,7 @@ public class GoogleImporter extends AImporter {
 	 */
 	protected Date getGContactBirthday(ContactEntry contactEntry){
 		String gContactBirthday = contactEntry.getBirthday().getValue();
-		try {
-			//TODO weiter hochpropagieren???
-			return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
-		} catch (CanNotConvetGoogleBirthdayException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
+		return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
 	}
 	
 	/**

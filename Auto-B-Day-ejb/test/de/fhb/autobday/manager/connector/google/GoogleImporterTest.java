@@ -192,7 +192,7 @@ private JavaEEGloss gloss;
 		contactEntry.addEmailAddress(mail);
 		mail.setAddress("test@cks.de");
 		contactEntry.addEmailAddress(mail);
-		assertEquals(contactEntry.getEmailAddresses().get(0), instance.getGContactFirstMailAdress(contactEntry));
+		assertEquals(contactEntry.getEmailAddresses().get(0).getAddress(), instance.getGContactFirstMailAdress(contactEntry));
 	}
 	
 	@Test

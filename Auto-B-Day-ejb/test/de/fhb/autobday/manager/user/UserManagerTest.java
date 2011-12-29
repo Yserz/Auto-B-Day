@@ -14,6 +14,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
@@ -39,7 +40,7 @@ import de.fhb.autobday.manager.mail.MailManagerLocal;
  * 
  */
 @RunWith(PowerMockRunner.class)
-//@PrepareForTest({PasswordGenerator.class, EMailValidator.class})
+@PrepareForTest({PasswordGenerator.class, EMailValidator.class, HashHelper.class})
 public class UserManagerTest {
 
 	private JavaEEGloss gloss;

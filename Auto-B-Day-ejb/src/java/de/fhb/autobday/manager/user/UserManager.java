@@ -131,6 +131,9 @@ public class UserManager implements UserManagerLocal {
 				LOGGER.log(Level.SEVERE, "Mail is not a valid mail!");
 				throw new IncompleteUserRegisterException("Mail is not a valid mail!");
 			}
+		}else{
+			LOGGER.log(Level.SEVERE, "No mail given!");
+			throw new IncompleteUserRegisterException("No mail given!");
 		}
 		
 		if(userName==null){

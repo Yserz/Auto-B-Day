@@ -40,6 +40,8 @@ public class GroupManagerTest {
 	private AbdGroupFacade groupDAOMock;
 	private AbdContactFacade contactDAOMock;
 	
+	AbdContact testContact;
+	
 	public GroupManagerTest() {
 		
 	}
@@ -69,6 +71,15 @@ public class GroupManagerTest {
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(GroupManager.class);
+		
+		//Setting up a Contact
+		testContact=new AbdContact();
+		testContact.setId("Test");
+		testContact.setFirstname("Testman");
+		testContact.setSex('m');
+		testContact.setName("Musterman");
+		testContact.setMail("m");
+		testContact.setBday(new Date(27,04,1988));
 		
 	}
 	
@@ -271,20 +282,11 @@ public class GroupManagerTest {
 		group.setTemplate(template);
 		String output="";
 		
-		AbdContact contact=new AbdContact();
-		String contactId="Test";
-		contact.setId(contactId);
-		contact.setFirstname("Testman");
-		contact.setSex('m');
-		contact.setName("Musterman");
-		contact.setMail("m");
-		contact.setBday(new Date(27,04,1988));
-		
-		String expectedOutput="Hello " + contact.getName() + " " + contact.getFirstname() +  " " + contact.getId() + " " + contact.getMail() + " " + contact.getBday() + " er "+ contact.getSex();
+		String expectedOutput="Hello " + testContact.getName() + " " + testContact.getFirstname() +  " " + testContact.getId() + " " + testContact.getMail() + " " + testContact.getBday() + " er "+ testContact.getSex();
 		
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
+		EasyMock.expect(contactDAOMock.find(testContact.getId())).andReturn(testContact).times(1);
 		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
 		
 		// Setup is finished need to activate the mock
@@ -292,7 +294,7 @@ public class GroupManagerTest {
 		EasyMock.replay(contactDAOMock);
 		
 		//call method to test
-		output=managerUnderTest.testTemplate(groupId, contactId);
+		output=managerUnderTest.testTemplate(groupId, testContact.getId());
 		
 		// verify
 		assertEquals("Template test", expectedOutput, output);	
@@ -319,20 +321,11 @@ public class GroupManagerTest {
 		group.setTemplate(template);
 		String output="";
 		
-		AbdContact contact=new AbdContact();
-		String contactId="Test";
-		contact.setId(contactId);
-		contact.setFirstname("Testman");
-		contact.setSex('m');
-		contact.setName("Musterman");
-		contact.setMail("m");
-		contact.setBday(new Date(27,04,1988));
-		
-		String expectedOutput="Hello " + contact.getName() + " er "+ contact.getSex();
+		String expectedOutput="Hello " + testContact.getName() + " er "+ testContact.getSex();
 		
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
+		EasyMock.expect(contactDAOMock.find(testContact.getId())).andReturn(testContact).times(1);
 		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(null).times(1);
 		
 		// Setup is finished need to activate the mock
@@ -340,7 +333,7 @@ public class GroupManagerTest {
 		EasyMock.replay(contactDAOMock);
 		
 		//call method to test
-		output=managerUnderTest.testTemplate(groupId, contactId);
+		output=managerUnderTest.testTemplate(groupId, testContact.getId());
 		
 		// verify
 		assertEquals("Template test", expectedOutput, output);	
@@ -367,20 +360,10 @@ public class GroupManagerTest {
 		group.setTemplate(template);
 		String output="";
 		
-		AbdContact contact=new AbdContact();
-		String contactId="Test";
-		contact.setId(contactId);
-		contact.setFirstname("Testman");
-		contact.setSex('m');
-		contact.setName("Musterman");
-		contact.setMail("m");
-		contact.setBday(new Date(27,04,1988));
-		
-		String expectedOutput="Hello " + contact.getName() + " er "+ contact.getSex();
-		
+		String expectedOutput="Hello " + testContact.getName() + " er "+ testContact.getSex();
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(null).times(1);
+		EasyMock.expect(contactDAOMock.find(testContact.getId())).andReturn(null).times(1);
 		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
 		
 		// Setup is finished need to activate the mock
@@ -388,7 +371,7 @@ public class GroupManagerTest {
 		EasyMock.replay(contactDAOMock);
 		
 		//call method to test
-		output=managerUnderTest.testTemplate(groupId, contactId);
+		output=managerUnderTest.testTemplate(groupId, testContact.getId());
 		
 		// verify
 		assertEquals("Template test", expectedOutput, output);	
@@ -464,21 +447,11 @@ public class GroupManagerTest {
 		//test variables
 		String template="Hello ${name} ${e/er} ${sex}";
 		
-		//prepare a contact object
-		AbdContact contact=new AbdContact();
-		String contactId="Test";
-		contact.setId(contactId);
-		contact.setFirstname("Testman");
-		contact.setSex('m');
-		contact.setName("Musterman");
-		contact.setMail("m");
-		contact.setBday(new Date(27,04,1988));
-		
 		//prepare expected variables
-		String expResult="Hello " + contact.getName() + " er "+ contact.getSex();
+		String expResult="Hello " + testContact.getName() + " er "+ testContact.getSex();
 		
 		//call method to test
-		String result = managerUnderTest.parseTemplate(template, contact);
+		String result = managerUnderTest.parseTemplate(template, testContact);
 		
 		// verify
 		assertEquals(expResult, result);
@@ -520,44 +493,6 @@ public class GroupManagerTest {
 		// verify
 		assertEquals(expResult, result);
 	}
-	
-	/**
-	 * Test of getAllGroupsFromAccount method, of class GroupManager.
-	 */
-	@Test
-	public void testGetAllGroupsFromAccount() throws Exception {
-		System.out.println("testGetAllGroupsFromAccount");
-		
-		//TODO implement
-		//TODO implement test with thrown exception additional
-		//prepare test variables
-		
-		//call method to test
-//		result = managerUnderTest.parseSlashExpression(expression, sex);
-		
-		// verify
-//		assertEquals(expResult, result);
-	}
-	
-	
-	/**
-	 * Test of getAllAccountsmethod, of class GroupManager.
-	 */
-	@Test
-	public void testGetAllAccounts() throws Exception {
-		System.out.println("testGetAllAccounts");
-		
-		//TODO implement
-		//prepare test variables
-
-		
-		//call method to test
-//		result = managerUnderTest.parseSlashExpression(expression, sex);
-		
-		// verify
-//		assertEquals(expResult, result);
-	}
-	
 	
 	/**
 	 * Test of getAllContactsFromGroup method, of class GroupManager.

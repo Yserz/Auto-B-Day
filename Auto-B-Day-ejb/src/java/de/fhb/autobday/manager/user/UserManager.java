@@ -1,26 +1,34 @@
 package de.fhb.autobday.manager.user;
 
-import de.fhb.autobday.commons.EMailValidator;
-import de.fhb.autobday.commons.PasswordGenerator;
-import de.fhb.autobday.dao.AbdAccountFacade;
-import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.user.*;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import de.fhb.autobday.commons.EMailValidator;
+import de.fhb.autobday.commons.HashHelper;
+import de.fhb.autobday.commons.PasswordGenerator;
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.user.IncompleteLoginDataException;
+import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
+import de.fhb.autobday.exception.user.PasswordInvalidException;
+import de.fhb.autobday.exception.user.UserException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
+
 /**
  *
-* @author 
-* Andy Klay <klay@fh-brandenburg.de>
-* Michael Koppen <koppen@fh-brandenburg.de>
-* 
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * 
  */
 @Stateless
 public class UserManager implements UserManagerLocal {
@@ -45,6 +53,7 @@ public class UserManager implements UserManagerLocal {
 		LOGGER.log(Level.INFO, "loginName: {0}", loginName);
 		
 		AbdUser user = null;
+		String hash="";
 		
 		if(loginName==null||password==null||password.equals("")){
 			LOGGER.log(Level.SEVERE, "Invalid input!");
@@ -65,11 +74,29 @@ public class UserManager implements UserManagerLocal {
 		}
 		
 		
-		if(!user.getPasswort().equals(password)){
+//		if(!user.getPasswort().equals(password)){
+//			LOGGER.log(Level.SEVERE, "Invalid password!");
+//			throw new PasswordInvalidException("Invalid password!");
+//		}
+		
+		//check password
+		
+		try {
+			hash=HashHelper.calcSHA1(password+user.getSalt());
+			
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(!user.getPasswort().equals(hash)){
 			LOGGER.log(Level.SEVERE, "Invalid password!");
 			throw new PasswordInvalidException("Invalid password!");
 		}
-		
+
 		return user;
 	}
 
@@ -91,7 +118,9 @@ public class UserManager implements UserManagerLocal {
 		LOGGER.log(Level.INFO, "passwordRepeat: {0}", passwordRepeat);
 		
 		AbdUser user = null;
+		AbdUser checkUser = null;
 		String salt="";
+		String hash="";
 		
 		
 		if(firstName==null){
@@ -103,10 +132,13 @@ public class UserManager implements UserManagerLocal {
 			LOGGER.log(Level.SEVERE, "No name given!");
 			throw new IncompleteUserRegisterException("No firstname given!");
 		}
+		
+		
 		if(EMailValidator.isEmail(mail)){
 			LOGGER.log(Level.SEVERE, "Mail is not a valid mail!");
 			throw new IncompleteUserRegisterException("Mail is not a valid mail!");
 		}
+		
 		if(userName==null){
 			LOGGER.log(Level.SEVERE, "No username given!");
 			throw new IncompleteUserRegisterException("No username given");
@@ -132,6 +164,16 @@ public class UserManager implements UserManagerLocal {
 			throw new IncompleteUserRegisterException("Password not similar to the repetition!");
 		}
 		
+		
+		//check if userName is unique
+		checkUser=userDAO.findUserByUsername(userName);
+		
+		if(checkUser!=null){
+			LOGGER.log(Level.SEVERE, "UserName does already exists!");
+			throw new NoValidUserNameException("UserName does already exists!");
+		}
+		
+		
 		// generate Salt
 		salt=PasswordGenerator.generateSalt();
 		
@@ -145,12 +187,20 @@ public class UserManager implements UserManagerLocal {
 		user.setMail(mail);
 		user.setSalt(salt);
 		
-		//TODO Passwort mit salt hashen!
-		user.setPasswort(password);
-				
+		try {
+			hash= HashHelper.calcSHA1(password+salt);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		user.setPasswort(hash);
+		
 		//save in to db
 		userDAO.create(user);
-		
 	}
 	
 	

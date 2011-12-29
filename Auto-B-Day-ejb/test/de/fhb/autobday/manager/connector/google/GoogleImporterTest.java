@@ -16,9 +16,14 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.manager.account.AccountManager;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -77,13 +82,6 @@ private JavaEEGloss gloss;
 	
 	@After
 	public void tearDown() {
-	}
-
-	@Test
-	public void testMapGContacttoContact() {
-		System.out.println("mapGContacttoContact");
-		AbdContact exptected = new AbdContact("1", "", new Date(0), "");
-		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 
 	/**
@@ -221,5 +219,84 @@ private JavaEEGloss gloss;
 		GoogleImporter instance = new GoogleImporter();
 		assertEquals("Hans",instance.getGContactFirstname(contactEntry));
 	}
+	
+	@Test
+	public void testdiffMembershipWithAnExistingGroup(){
+		GoogleImporter instance = new GoogleImporter();
+		List<AbdGroupToContact> abdGroupToContactList = new ArrayList<AbdGroupToContact>();
+		AbdGroupToContact abdGroupToContact = new AbdGroupToContact();
+		AbdGroup abdGroup = new AbdGroup();
+		abdGroup.setId("4");
+		abdGroupToContact.setAbdGroup(abdGroup);
+		abdGroupToContactList.add(abdGroupToContact);
+		abdGroupToContact = new AbdGroupToContact();
+		abdGroup = new AbdGroup();
+		abdGroup.setId("2");
+		abdGroupToContactList.add(abdGroupToContact);
+		assertEquals(true,instance.diffMembership("2", abdGroupToContactList));
+	}
+	
+	@Test
+	public void testdiffMembershipWitouthAnExistingGroup(){
+		GoogleImporter instance = new GoogleImporter();
+		List<AbdGroupToContact> abdGroupToContactList = new ArrayList<AbdGroupToContact>();
+		AbdGroupToContact abdGroupToContact = new AbdGroupToContact();
+		AbdGroup abdGroup = new AbdGroup();
+		abdGroup.setId("4");
+		abdGroupToContact.setAbdGroup(abdGroup);
+		abdGroupToContactList.add(abdGroupToContact);
+		abdGroupToContact = new AbdGroupToContact();
+		abdGroup = new AbdGroup();
+		abdGroup.setId("2");
+		abdGroupToContactList.add(abdGroupToContact);
+		assertEquals(false,instance.diffMembership("3", abdGroupToContactList));
+	}
+
+	@Test
+	public void testexistGroupWithGroup(){
+		GoogleImporter instance = new GoogleImporter();
+		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
+		AbdGroup abdGroup = new AbdGroup();
+		abdGroup.setId("3");
+		abdGroups.add(abdGroup);
+		abdGroup = new AbdGroup();
+		abdGroup.setId("4");
+		abdGroups.add(abdGroup);
+		assertEquals(true, instance.existGroup(abdGroups, "4"));
+	}
+	
+	@Test
+	public void testexistGroupWithoutGroup(){
+		GoogleImporter instance = new GoogleImporter();
+		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
+		AbdGroup abdGroup = new AbdGroup();
+		abdGroup.setId("3");
+		abdGroups.add(abdGroup);
+		abdGroup = new AbdGroup();
+		abdGroup.setId("4");
+		abdGroups.add(abdGroup);
+		assertEquals(true, instance.existGroup(abdGroups, "2"));
+	}
+	
+	@Test
+	public void testexistGroup(){
+		GoogleImporter instance = new GoogleImporter();
+		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
+		assertEquals(true, instance.existGroup(abdGroups, "4"));
+	}
+	
+	@Test
+	public void testMapGContacttoContact() {
+		System.out.println("mapGContacttoContact");
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		contactEntry.addEmailAddress(mail);
+		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
+		exptected.setFirstname("Hans");
+		exptected.setName("Peter");
+		exptected.setSex('w');
+		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
+	}
+
 	
 }

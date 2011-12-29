@@ -39,20 +39,20 @@ public class RegisterBean {
 		errorBean = new ErrorBean();
 	}
 	
-	public String register(){
+	public void register(){
 		String returnStat = "index";
 		
 		try {
-			userManager.register(firstName, name, userName, password, passwordWdhl);
+			userManager.register(firstName, name, userName, null, password, passwordWdhl);
 		} catch (IncompleteUserRegisterException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
-			returnStat = errorBean.handleException(ex);
+			returnStat = "index"/*errorBean.handleException(ex)*/;
 			
 		} catch (NoValidUserNameException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
-			returnStat =  errorBean.handleException(ex);
+			returnStat =  "index"/*errorBean.handleException(ex)*/;
 		}
-		return returnStat;
+		//return returnStat;
 	}
 
 	public String getPasswordWdhl() {

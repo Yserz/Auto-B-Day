@@ -55,7 +55,7 @@ public class SessionBean implements Serializable {
 			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
 			errorBean.handleException(ex);
 		}
-		return "/success.xhtml";
+		return "index";
 	}
 
 	public String logout() {

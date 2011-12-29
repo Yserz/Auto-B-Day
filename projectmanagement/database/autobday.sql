@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS `abduser` (
   `salt` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `firstname` varchar(255) NOT NULL,
+  `mail` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 

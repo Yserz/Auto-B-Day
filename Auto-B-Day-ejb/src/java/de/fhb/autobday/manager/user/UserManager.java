@@ -1,5 +1,6 @@
 package de.fhb.autobday.manager.user;
 
+import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
@@ -7,6 +8,7 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,13 +79,14 @@ public class UserManager implements UserManagerLocal {
 	}
 	
 	@Override
-	public void register(String firstName, String name, String userName,String password,String passwordRepeat) 
+	public void register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) 
 			throws IncompleteUserRegisterException, NoValidUserNameException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
 		LOGGER.log(Level.INFO, "name: {0}", name);
 		LOGGER.log(Level.INFO, "userName: {0}", userName);
+		LOGGER.log(Level.INFO, "mail: {0}", mail);
 		LOGGER.log(Level.INFO, "password: {0}", password);
 		LOGGER.log(Level.INFO, "passwordRepeat: {0}", passwordRepeat);
 		
@@ -100,7 +103,10 @@ public class UserManager implements UserManagerLocal {
 			LOGGER.log(Level.SEVERE, "No name given!");
 			throw new IncompleteUserRegisterException("No firstname given!");
 		}
-		
+		if(EMailValidator.isEmail(mail)){
+			LOGGER.log(Level.SEVERE, "Mail is not a valid mail!");
+			throw new IncompleteUserRegisterException("Mail is not a valid mail!");
+		}
 		if(userName==null){
 			LOGGER.log(Level.SEVERE, "No username given!");
 			throw new IncompleteUserRegisterException("No username given");
@@ -129,12 +135,17 @@ public class UserManager implements UserManagerLocal {
 		// generate Salt
 		salt=PasswordGenerator.generateSalt();
 		
+		
 		//user init
 		user= new AbdUser();
+		user.setId(Integer.SIZE);
 		user.setFirstname(firstName);
 		user.setName(name);
 		user.setUsername(userName);
+		user.setMail(mail);
 		user.setSalt(salt);
+		
+		//TODO Passwort mit salt hashen!
 		user.setPasswort(password);
 				
 		//save in to db

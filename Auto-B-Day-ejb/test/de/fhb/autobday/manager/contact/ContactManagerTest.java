@@ -1,7 +1,6 @@
 package de.fhb.autobday.manager.contact;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -31,12 +30,16 @@ import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
 public class ContactManagerTest {
 
 	private JavaEEGloss gloss;
-	
+
 	private AbdContactFacade contactDAOMock;
-	
 	private AbdGroupToContactFacade groupToContactDAOMock;
-	
 	private ContactManager managerUnderTest;
+	
+	private AbdContact contactOne;
+	private AbdContact contactTwo;
+	private AbdGroupToContact groupToContactOne;
+	private AbdGroupToContact groupToContactTwo;
+	private ArrayList<AbdGroupToContact> allGroupToContact;
 	
 	
 	public ContactManagerTest() {
@@ -68,6 +71,20 @@ public class ContactManagerTest {
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(ContactManager.class);
 		
+		//create Objects needed for tests
+		contactOne=new AbdContact("mustermann");
+		contactTwo=new AbdContact("otto");
+		
+		groupToContactOne = new AbdGroupToContact();
+		groupToContactTwo = new AbdGroupToContact();
+		
+		allGroupToContact = new ArrayList<AbdGroupToContact>();
+		
+		groupToContactOne.setAbdContact(contactOne);
+		allGroupToContact.add(groupToContactOne);
+		
+		groupToContactTwo.setAbdContact(contactTwo);
+		allGroupToContact.add(groupToContactTwo);
 	}
 	
 	@After
@@ -80,30 +97,22 @@ public class ContactManagerTest {
 	@Test
 	public void testSetActiveWithClass() throws Exception {
 		
-		//test variables
-		String contactId="mustermann";
-		boolean isActive=true;		
-		AbdContact contact=new AbdContact();
-		contact.setId(contactId);
+		System.out.println("testSetActiveWithClass");
 		
-		//prepare groupToContactRealation
-		AbdGroupToContact groupToContact=new AbdGroupToContact();		
-		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
-		groupToContact.setAbdContact(contact);
-
-		allGroupToContact.add(groupToContact);
+		boolean isActive = true;
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
-		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactId)).andReturn(allGroupToContact).times(1);
-		groupToContactDAOMock.edit(groupToContact);
+		EasyMock.expect(contactDAOMock.find(contactOne.getId())).andReturn(contactOne);
+		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactOne.getId())).andReturn(allGroupToContact);
+		
+		groupToContactDAOMock.edit(groupToContactOne);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
 		//call method to test
-		managerUnderTest.setActive(contact, isActive);
+		managerUnderTest.setActive(contactOne, isActive);
 		
 		// verify
 		EasyMock.verify(contactDAOMock);
@@ -116,37 +125,20 @@ public class ContactManagerTest {
 	@Test
 	public void testSetActive() throws Exception {
 		
-		//test variables
-		String contactId="mustermann";
-		boolean isActive=true;		
-		AbdContact contactOne=new AbdContact();
-		contactOne.setId(contactId);
+		System.out.println("testSetActive");
 		
-		AbdContact contactTwo=new AbdContact();
-		contactTwo.setId("otto");
-		
-		//prepare groupToContactRealation
-		AbdGroupToContact groupToContact=new AbdGroupToContact();
-		AbdGroupToContact groupToContactTwo=new AbdGroupToContact();
-		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
-		
-		groupToContact.setAbdContact(contactOne);
-		allGroupToContact.add(groupToContact);
-		
-		groupToContactTwo.setAbdContact(contactTwo);
-		allGroupToContact.add(groupToContactTwo);
-		
+		boolean isActive = true;
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contactTwo).times(1);
-		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactId)).andReturn(allGroupToContact).times(1);
-		groupToContactDAOMock.edit(groupToContact);
+		EasyMock.expect(contactDAOMock.find(contactOne.getId())).andReturn(contactTwo);
+		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactOne.getId())).andReturn(allGroupToContact);
+		groupToContactDAOMock.edit(groupToContactOne);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
 		//call method to test
-		managerUnderTest.setActive(contactId, isActive);
+		managerUnderTest.setActive(contactOne.getId(), isActive);
 		
 		// verify
 		EasyMock.verify(contactDAOMock);
@@ -162,30 +154,25 @@ public class ContactManagerTest {
 	@Test(expected = NoContactInThisGroupException.class)
 	public void testSetActiveShouldThrowNoContactInThisGroupException() throws Exception {
 		
-		//test variables
-		String contactId="mustermann";
-		boolean isActive=true;		
-		AbdContact contact=new AbdContact();
-		contact.setId(contactId);
+		System.out.println("testSetActiveShouldThrowNoContactInThisGroupException");
 		
-		//prepare groupToContactRealation
-		AbdGroupToContact groupToContact=new AbdGroupToContact();		
-		Collection<AbdGroupToContact> allGroupToContact=new ArrayList<AbdGroupToContact>();
-		groupToContact.setAbdContact(contact);
+		boolean isActive = true;
+		
+		allGroupToContact.get(0).setAbdContact(new AbdContact("maja"));
 		
 		// willful leave off the adding of groupToContact to Arraylist!
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
-		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactId)).andReturn(allGroupToContact).times(1);
-		groupToContactDAOMock.edit(groupToContact);
+		EasyMock.expect(contactDAOMock.find(contactOne.getId())).andReturn(contactOne);
+		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactOne.getId())).andReturn(allGroupToContact);
+		groupToContactDAOMock.edit(groupToContactOne);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
 		//call method to test
-		managerUnderTest.setActive(contactId, isActive);
+		managerUnderTest.setActive(contactOne, isActive);
 		
 		// verify
 		EasyMock.verify(contactDAOMock);
@@ -199,19 +186,19 @@ public class ContactManagerTest {
 	@Test(expected = ContactNotFoundException.class)
 	public void testSetActiveShouldThrowContactNotFoundException() throws Exception {
 		
-		//test variables
-		String contactId="mustermann";
+		System.out.println("testSetActiveShouldThrowContactNotFoundException");
+		
 		boolean isActive=true;		
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(null).times(1);
+		EasyMock.expect(contactDAOMock.find(contactOne.getId())).andReturn(null);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
 		//call method to test
-		managerUnderTest.setActive(contactId, isActive);
+		managerUnderTest.setActive(contactOne.getId(), isActive);
 		
 		// verify
 		EasyMock.verify(contactDAOMock);
@@ -225,22 +212,20 @@ public class ContactManagerTest {
 	@Test(expected = ContactToGroupNotFoundException.class)
 	public void testSetActiveShouldThrowContactToGroupNotFoundException() throws Exception {
 		
-		//test variables
-		String contactId="mustermann";
+		System.out.println("testSetActiveShouldThrowContactToGroupNotFoundException");
+
 		boolean isActive=true;		
-		AbdContact contact=new AbdContact();
-		contact.setId(contactId);
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
-		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactId)).andReturn(null).times(1);
+		EasyMock.expect(contactDAOMock.find(contactOne.getId())).andReturn(contactOne).times(1);
+		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactOne.getId())).andReturn(null);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
 		EasyMock.replay(groupToContactDAOMock);
 		
 		//call method to test
-		managerUnderTest.setActive(contactId, isActive);
+		managerUnderTest.setActive(contactOne.getId(), isActive);
 		
 		// verify
 		EasyMock.verify(contactDAOMock);
@@ -255,21 +240,16 @@ public class ContactManagerTest {
 		
 		System.out.println("testGetContact");
 
-		//test variables
-		String contactId="friends";	
-		AbdContact contact=new AbdContact();
-		contact.setId(contactId);
-		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(contact).times(1);
+		EasyMock.expect(contactDAOMock.find(contactOne.getId())).andReturn(contactOne);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
 		
 		//call method to test
-		managerUnderTest.getContact(contactId);
+		managerUnderTest.getContact(contactOne.getId());
 		
-		// verify		
+		// verify
 		EasyMock.verify(contactDAOMock);
 	}
 	
@@ -281,20 +261,15 @@ public class ContactManagerTest {
 	public void testGetContactShouldThrowContactNotFoundException() throws Exception {
 		
 		System.out.println("testGetContactShouldThrowContactNotFoundException");
-
-		//test variables
-		String contactId="friends";	
-		AbdContact contact=new AbdContact();
-		contact.setId(contactId);
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(contactDAOMock.find(contactId)).andReturn(null).times(1);
+		EasyMock.expect(contactDAOMock.find(contactOne.getId())).andReturn(null);
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
 		
 		//call method to test
-		managerUnderTest.getContact(contactId);
+		managerUnderTest.getContact(contactOne.getId());
 		
 		// verify		
 		EasyMock.verify(contactDAOMock);

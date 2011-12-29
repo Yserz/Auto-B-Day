@@ -275,14 +275,14 @@ private JavaEEGloss gloss;
 		abdGroup = new AbdGroup();
 		abdGroup.setId("4");
 		abdGroups.add(abdGroup);
-		assertEquals(true, instance.existGroup(abdGroups, "2"));
+		assertEquals(false, instance.existGroup(abdGroups, "2"));
 	}
 	
 	@Test
 	public void testexistGroup(){
 		GoogleImporter instance = new GoogleImporter();
 		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
-		assertEquals(true, instance.existGroup(abdGroups, "4"));
+		assertEquals(false, instance.existGroup(abdGroups, "4"));
 	}
 	
 	@Test

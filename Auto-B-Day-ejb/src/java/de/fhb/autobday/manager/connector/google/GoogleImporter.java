@@ -307,6 +307,7 @@ public class GoogleImporter extends AImporter {
 	 */
 	protected boolean diffMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
 		for (int i = 0; i < abdGroupMembership.size(); i++) {
+			System.out.println(i);
 			if(abdGroupMembership.get(i).getAbdGroup().getId().equals(groupid)){
 				abdGroupMembership.remove(i);
 				return true;

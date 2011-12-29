@@ -1,6 +1,7 @@
 package de.fhb.autobday.manager.user;
 
 import de.fhb.autobday.commons.PasswordGenerator;
+import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
@@ -81,8 +82,10 @@ public class UserManager implements UserManagerLocal {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
-		LOGGER.log(Level.INFO, "name: {1}", name);
-		LOGGER.log(Level.INFO, "userName: {2}", userName);
+		LOGGER.log(Level.INFO, "name: {0}", name);
+		LOGGER.log(Level.INFO, "userName: {0}", userName);
+		LOGGER.log(Level.INFO, "password: {0}", password);
+		LOGGER.log(Level.INFO, "passwordRepeat: {0}", passwordRepeat);
 		
 		AbdUser user = null;
 		String salt="";
@@ -118,7 +121,7 @@ public class UserManager implements UserManagerLocal {
 			throw new IncompleteUserRegisterException("No  password repetition given");
 		}
 		
-		if(password.equals(passwordRepeat)){
+		if(!password.equals(passwordRepeat)){
 			LOGGER.log(Level.SEVERE, "Password not similar to the repetition!");
 			throw new IncompleteUserRegisterException("Password not similar to the repetition!");
 		}
@@ -133,9 +136,10 @@ public class UserManager implements UserManagerLocal {
 		user.setUsername(userName);
 		user.setSalt(salt);
 		user.setPasswort(password);
-		
+				
 		//save in to db
 		userDAO.create(user);
+		
 	}
 	
 	

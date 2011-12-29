@@ -26,15 +26,15 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdContact.findByBday", query = "SELECT a FROM AbdContact a WHERE a.bday = :bday"),
 	@NamedQuery(name = "AbdContact.findByHashid", query = "SELECT a FROM AbdContact a WHERE a.hashid = :hashid")})
 public class AbdContact implements Serializable {
-	@Basic(optional = false)
-    @NotNull
-    @Column(name = "bday")
-    @Temporal(TemporalType.DATE)
+	@Basic(optional = 	false)
+	@NotNull
+	@Column(name = "bday")
+	@Temporal(TemporalType.DATE)
 	private Date bday;
-	@Basic(optional = false)
-    @NotNull
-    @Column(name = "updated")
-    @Temporal(TemporalType.TIMESTAMP)
+	@Basic(optional = 	false)
+	@NotNull
+	@Column(name = "updated")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 	private static final long serialVersionUID = 1L;
 	@Id

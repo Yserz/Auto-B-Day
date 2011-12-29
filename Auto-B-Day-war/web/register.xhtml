@@ -37,6 +37,12 @@
 							 value="#{registerBean.password}" 
 							 required="true"/>
 				<h:message for="password" styleClass="errorMessage"/>
+				
+				<h:outputLabel for="passwordWdhl">Password Wiederholung:</h:outputLabel>
+				<h:inputText id="passwordWdhl" 
+							 value="#{registerBean.passwordWdhl}" 
+							 required="true"/>
+				<h:message for="passwordWdhl" styleClass="errorMessage"/>
 			</h:panelGrid>
 
 			<h:commandButton value="Registrieren" action="#{registerBean.register}"/>

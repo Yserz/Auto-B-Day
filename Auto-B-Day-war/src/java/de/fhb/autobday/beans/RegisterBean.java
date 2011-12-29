@@ -7,6 +7,7 @@ import de.fhb.autobday.manager.user.UserManagerLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,11 +21,14 @@ import javax.inject.Named;
 public class RegisterBean {
 	@Inject
 	private UserManagerLocal userManager;
+	@ManagedProperty("#{sessionBean}")
+	private SessionBean sessionBean;
 	
 	private String firstName;
 	private String name;
 	private String userName;
 	private String password;
+	private String passwordWdhl;
 	
 	private ErrorBean errorBean;
 
@@ -39,8 +43,7 @@ public class RegisterBean {
 		String returnStat = "index";
 		
 		try {
-			//TODO passwort mit  passwortwiederholung als letzten paramter ersetzen
-			userManager.register(firstName, name, userName, password, password);
+			userManager.register(firstName, name, userName, password, passwordWdhl);
 		} catch (IncompleteUserRegisterException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
 			returnStat = errorBean.handleException(ex);
@@ -50,6 +53,14 @@ public class RegisterBean {
 			returnStat =  errorBean.handleException(ex);
 		}
 		return returnStat;
+	}
+
+	public String getPasswordWdhl() {
+		return passwordWdhl;
+	}
+
+	public void setPasswordWdhl(String passwordWdhl) {
+		this.passwordWdhl = passwordWdhl;
 	}
 
 	public String getPassword() {

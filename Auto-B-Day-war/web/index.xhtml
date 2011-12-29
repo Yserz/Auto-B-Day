@@ -11,7 +11,7 @@
 	
 	<ui:define name="top">
 		<h:form>
-			<h:panelGrid columns="2" rendered="#{!sessionBean.loggedIn}">
+			<h:panelGrid columns="1" rendered="#{!sessionBean.loggedIn}">
 				<h:outputLabel for="loginName">Username:</h:outputLabel>
 				<h:inputText id="loginName" value="#{sessionBean.loginName}"/>
 				<h:outputLabel for="password">Password:</h:outputLabel>

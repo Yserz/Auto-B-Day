@@ -1,12 +1,10 @@
 package de.fhb.autobday.manager.user;
 
-import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.*;
-import de.fhb.autobday.manager.mail.MailManagerLocal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,9 +26,6 @@ public class UserManager implements UserManagerLocal {
 	
 	@EJB
 	private AbdUserFacade userDAO;
-	
-	@EJB
-	private MailManagerLocal mailManager;
 	
 	public UserManager() {
 		
@@ -81,14 +76,13 @@ public class UserManager implements UserManagerLocal {
 	}
 	
 	@Override
-	public void register(String firstName, String name, String userName, String mail) 
+	public void register(String firstName, String name, String userName,String password,String passwordRepeat) 
 			throws IncompleteUserRegisterException, NoValidUserNameException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
-		LOGGER.log(Level.INFO, "name: {0}", name);
-		LOGGER.log(Level.INFO, "userName: {0}", userName);
-		LOGGER.log(Level.INFO, "mail: {0}", mail);
+		LOGGER.log(Level.INFO, "name: {1}", name);
+		LOGGER.log(Level.INFO, "userName: {2}", userName);
 		
 		AbdUser user = null;
 		String salt="";
@@ -114,37 +108,34 @@ public class UserManager implements UserManagerLocal {
 			throw new NoValidUserNameException("No valid Username!");
 		}
 		
-		if(mail==null){
-			LOGGER.log(Level.SEVERE, "No mail given!");
-			throw new IncompleteUserRegisterException("No mail given!");
+		if(password==null){
+			LOGGER.log(Level.SEVERE, "No password given!");
+			throw new IncompleteUserRegisterException("No password given");
 		}
 		
-		if(!EMailValidator.isEmail(mail)){
-			LOGGER.log(Level.SEVERE, "Mail not valid!");
-			throw new IncompleteUserRegisterException("Mail not valid!");
+		if(passwordRepeat==null){
+			LOGGER.log(Level.SEVERE, "No password repetition given!");
+			throw new IncompleteUserRegisterException("No  password repetition given");
 		}
 		
-		user= new AbdUser();
-		user.setFirstname(firstName);
-		user.setName(name);
-		user.setUsername(userName);
-		//TODO wo soll man die mailadresse speichern??
-		/* TODO antwort: da fragen wir keine mail ab aber wir fragen nach nem pw! 
-		 * es wird also auch keine mail erfragt...und kein passwort generiert
-		 * lediglich das salt wird hinzugefügt und alles gehashed
-		 */
+		if(password.equals(passwordRepeat)){
+			LOGGER.log(Level.SEVERE, "Password not similar to the repetition!");
+			throw new IncompleteUserRegisterException("Password not similar to the repetition!");
+		}
 		
 		// generate Salt
 		salt=PasswordGenerator.generateSalt();
 		
+		//user init
+		user= new AbdUser();
+		user.setFirstname(firstName);
+		user.setName(name);
+		user.setUsername(userName);
 		user.setSalt(salt);
+		user.setPasswort(password);
 		
 		//save in to db
 		userDAO.create(user);
-		
-		//send mail
-		//TODO absender aendern??
-		mailManager.sendBdayMail("autobday@smile.de", mail, "Welcome to Autobday", "");
 	}
 	
 	

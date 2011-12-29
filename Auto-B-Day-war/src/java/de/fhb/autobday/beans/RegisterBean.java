@@ -7,6 +7,7 @@ import de.fhb.autobday.manager.user.UserManagerLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,6 +20,7 @@ import javax.inject.Named;
 public class RegisterBean {
 	@Inject
 	private UserManagerLocal userManager;
+	
 	private String firstName;
 	private String name;
 	private String userName;
@@ -35,8 +37,10 @@ public class RegisterBean {
 	
 	public String register(){
 		String returnStat = "index";
+		
 		try {
-			userManager.register(firstName, name, userName, password);
+			//TODO passwort mit  passwortwiederholung als letzten paramter ersetzen
+			userManager.register(firstName, name, userName, password, password);
 		} catch (IncompleteUserRegisterException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
 			returnStat = errorBean.handleException(ex);

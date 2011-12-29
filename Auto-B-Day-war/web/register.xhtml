@@ -12,18 +12,31 @@
 	
 	<ui:define name="content">
 		<h:form>
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="3">
 				<h:outputLabel for="userName">Username:</h:outputLabel>
-				<h:inputText id="userName" value="#{registerBean.userName}"/>
+				<h:inputText id="userName" 
+							 value="#{registerBean.userName}" 
+							 required="true" 
+							 requiredMessage="Username required!" />
+				<h:message for="userName" styleClass="errorMessage"/>
 				
 				<h:outputLabel for="firstName">Vorname:</h:outputLabel>
-				<h:inputText id="firstName" value="#{registerBean.firstName}"/>
+				<h:inputText id="firstName" 
+							 value="#{registerBean.firstName}" 
+							 required="true"/>
+				<h:message for="firstName" styleClass="errorMessage"/>
 				
 				<h:outputLabel for="name">Name:</h:outputLabel>
-				<h:inputText id="name" value="#{registerBean.name}"/>
+				<h:inputText id="name" 
+							 value="#{registerBean.name}" 
+							 required="true"/>
+				<h:message for="name" styleClass="errorMessage"/>
 				
 				<h:outputLabel for="password">Password:</h:outputLabel>
-				<h:inputText id="password" value="#{registerBean.password}"/>
+				<h:inputText id="password" 
+							 value="#{registerBean.password}" 
+							 required="true"/>
+				<h:message for="password" styleClass="errorMessage"/>
 			</h:panelGrid>
 
 			<h:commandButton value="Registrieren" action="#{registerBean.register}"/>

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 29. Dez 2011 um 16:10
+-- Erstellungszeit: 09. Dez 2011 um 12:00
 -- Server Version: 5.5.16
 -- PHP-Version: 5.3.8
 
@@ -28,10 +28,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `abdaccount` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `abduser` int(11) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `passwort` varchar(255) DEFAULT NULL,
-  `type` varchar(255) DEFAULT NULL,
+  `abduser` int(11) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `passwort` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `abduser` (`abduser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `abdcontact` (
   `sex` char(1) DEFAULT NULL,
   `mail` varchar(255) NOT NULL,
   `bday` date NOT NULL,
-  `hashid` varchar(255) DEFAULT NULL,
+  `hashid` varchar(255) NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `abdcontact` (
 
 CREATE TABLE IF NOT EXISTS `abdgroup` (
   `id` varchar(255) NOT NULL,
-  `account` int(11) DEFAULT NULL,
+  `account` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `template` text NOT NULL,
   `active` tinyint(1) NOT NULL,
@@ -95,9 +95,9 @@ CREATE TABLE IF NOT EXISTS `abduser` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `passwort` varchar(255) NOT NULL,
-  `salt` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `firstname` varchar(255) DEFAULT NULL,
+  `salt` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
   `mail` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -122,8 +122,8 @@ ALTER TABLE `abdgroup`
 -- Constraints der Tabelle `abdgrouptocontact`
 --
 ALTER TABLE `abdgrouptocontact`
-  ADD CONSTRAINT `abdgrouptocontact_ibfk_1` FOREIGN KEY (`group`) REFERENCES `abdgroup` (`id`),
-  ADD CONSTRAINT `abdgrouptocontact_ibfk_2` FOREIGN KEY (`contact`) REFERENCES `abdcontact` (`id`);
+  ADD CONSTRAINT `abdgrouptocontact_ibfk_2` FOREIGN KEY (`contact`) REFERENCES `abdcontact` (`id`),
+  ADD CONSTRAINT `abdgrouptocontact_ibfk_1` FOREIGN KEY (`group`) REFERENCES `abdgroup` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

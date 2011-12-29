@@ -24,7 +24,7 @@ public interface UserManagerLocal {
 
 	void logout();
 	
-	void register(String firstName, String name, String userName,String password,String passwordRepeat) throws IncompleteUserRegisterException, NoValidUserNameException;
+	void register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) throws IncompleteUserRegisterException, NoValidUserNameException;
 	
 	List<AbdAccount> getAllAccountsFromUser(AbdUser user) throws UserNotFoundException;
 	List<AbdAccount> getAllAccountsFromUser(int userId) throws UserNotFoundException;

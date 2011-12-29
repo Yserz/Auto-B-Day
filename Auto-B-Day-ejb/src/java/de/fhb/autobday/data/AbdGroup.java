@@ -22,10 +22,10 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdGroup.findByName", query = "SELECT a FROM AbdGroup a WHERE a.name = :name"),
 	@NamedQuery(name = "AbdGroup.findByActive", query = "SELECT a FROM AbdGroup a WHERE a.active = :active")})
 public class AbdGroup implements Serializable {
-	@Basic(optional = false)
-    @NotNull
-    @Column(name = "updated")
-    @Temporal(TemporalType.TIMESTAMP)
+	@Basic(optional = 	false)
+	@NotNull
+	@Column(name = "updated")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 	private static final long serialVersionUID = 1L;
 	@Id

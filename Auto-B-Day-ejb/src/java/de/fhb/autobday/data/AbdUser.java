@@ -24,6 +24,9 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdUser.findByName", query = "SELECT a FROM AbdUser a WHERE a.name = :name"),
 	@NamedQuery(name = "AbdUser.findByFirstname", query = "SELECT a FROM AbdUser a WHERE a.firstname = :firstname")})
 public class AbdUser implements Serializable {
+	@Size(max = 255)
+    @Column(name = "mail")
+	private String mail;
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -154,6 +157,14 @@ public class AbdUser implements Serializable {
 	@Override
 	public String toString() {
 		return "de.fhb.autobday.data.AbdUser[ id=" + id + " ]";
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	
 }

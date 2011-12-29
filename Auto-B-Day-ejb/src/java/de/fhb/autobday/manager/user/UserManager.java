@@ -67,20 +67,13 @@ public class UserManager implements UserManagerLocal {
 			throw new IncompleteLoginDataException("Invalid loginame!");
 		}
 		
-		
 		if(user==null){
 			LOGGER.log(Level.SEVERE, "User not found!");
 			throw new UserNotFoundException("User not found!");
 		}
 		
 		
-//		if(!user.getPasswort().equals(password)){
-//			LOGGER.log(Level.SEVERE, "Invalid password!");
-//			throw new PasswordInvalidException("Invalid password!");
-//		}
-		
 		//check password
-		
 		try {
 			hash=HashHelper.calcSHA1(password+user.getSalt());
 			
@@ -134,7 +127,7 @@ public class UserManager implements UserManagerLocal {
 		}
 		
 		if (mail!=null) {
-			if(EMailValidator.isEmail(mail)){
+			if(!EMailValidator.isEmail(mail)){
 				LOGGER.log(Level.SEVERE, "Mail is not a valid mail!");
 				throw new IncompleteUserRegisterException("Mail is not a valid mail!");
 			}

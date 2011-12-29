@@ -39,7 +39,8 @@ public class RegisterBean {
 		String returnStat = "index";
 		
 		try {
-			userManager.register(firstName, name, userName, password);
+			//TODO passwort mit  passwortwiederholung als letzten paramter ersetzen
+			userManager.register(firstName, name, userName, password, password);
 		} catch (IncompleteUserRegisterException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
 			returnStat = errorBean.handleException(ex);

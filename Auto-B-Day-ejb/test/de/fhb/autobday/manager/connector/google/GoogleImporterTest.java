@@ -232,6 +232,7 @@ private JavaEEGloss gloss;
 		abdGroupToContact = new AbdGroupToContact();
 		abdGroup = new AbdGroup();
 		abdGroup.setId("2");
+		abdGroupToContact.setAbdGroup(abdGroup);
 		abdGroupToContactList.add(abdGroupToContact);
 		assertEquals(true,instance.diffMembership("2", abdGroupToContactList));
 	}
@@ -248,6 +249,7 @@ private JavaEEGloss gloss;
 		abdGroupToContact = new AbdGroupToContact();
 		abdGroup = new AbdGroup();
 		abdGroup.setId("2");
+		abdGroupToContact.setAbdGroup(abdGroup);
 		abdGroupToContactList.add(abdGroupToContact);
 		assertEquals(false,instance.diffMembership("3", abdGroupToContactList));
 	}

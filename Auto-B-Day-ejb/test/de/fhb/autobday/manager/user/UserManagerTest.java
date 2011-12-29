@@ -43,7 +43,7 @@ import de.fhb.autobday.manager.mail.MailManagerLocal;
  * 
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({PasswordGenerator.class, EMailValidator.class})
+//@PrepareForTest({PasswordGenerator.class, EMailValidator.class})
 public class UserManagerTest {
 
 	private JavaEEGloss gloss;
@@ -304,189 +304,189 @@ public class UserManagerTest {
 	}
 	
 	
-	/**
-	 * Test of register method, of class UserManager.
-	 */
-//	@Test
-	@Ignore
-	public void testRegister() throws Exception {
-		System.out.println("testRegister");
-		
-		//prepare test variables
-		String firstName = "biene";
-		String name = "maja";
-		String userName = "summsesum";
-		String mail = "biene@maja.com";
-		String password = "123test";
-		String passwordRepetition = "123test";
-		
-		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
-		PowerMock.replay(EMailValidator.class);
-		
-		EasyMock.expect(PasswordGenerator.generateSalt()).andReturn("4aSe5");
-		PowerMock.replay(PasswordGenerator.class);
-
-		userDAOMock.create((AbdUser)EasyMock.anyObject());
-		
-		
-		
-		//TODO funktioniert noch nicht
-//		mailManagerMock.sendBdayMail((String) EasyMock.anyObject(), mail,(String) EasyMock.anyObject(), (String) EasyMock.anyObject());
-		
-		// Setup is finished need to activate the mock
-		EasyMock.replay(userDAOMock);
-//		EasyMock.replay(mailManagerMock);
-		
-		//call method to test
-		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-		
-		// verify	
-		EasyMock.verify(userDAOMock);
-		PowerMock.verify(EMailValidator.class);
-//		EasyMock.verify(mailManagerMock);		
-	}
-	
-	
-	/**
-	 * Test of register method, of class UserManager.
-	 * This test provokes a IncompleteUserRegisterException!
-	 */
-	@Ignore
-//	@Test(expected = IncompleteUserRegisterException.class)
-	public void testRegisterThrowIncompleteUserRegisterExceptionFirst() throws Exception {
-		System.out.println("testRegister");
-		
-		//prepare test variables
-		String firstName = null;
-		String name = "maja";
-		String userName = "summsesum";
-		String mail = "biene@maja.com";
-		String password = "123test";
-		String passwordRepetition = "123test";
-		
-		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
-		PowerMock.replay(EMailValidator.class);
-		
-		//call method to test
-		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-		PowerMock.verify(EMailValidator.class);
-	}
-	
-	/**
-	 * Test of register method, of class UserManager.
-	 * This test provokes a IncompleteUserRegisterException!
-	 */
-//	@Test(expected = IncompleteUserRegisterException.class)
-	@Ignore
-	public void testRegisterThrowIncompleteUserRegisterExceptionSecound() throws Exception {
-		System.out.println("testRegister");
-		
-		//prepare test variables
-		String firstName = "biene";
-		String name = null;
-		String userName = "summsesum";
-		String mail = "biene@maja.com";
-		String password = "123test";
-		String passwordRepetition = "123test";
-		
-		//call method to test
-		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-		
-	}
-	
-	/**
-	 * Test of register method, of class UserManager.
-	 * This test provokes a IncompleteUserRegisterException!
-	 */
-//	@Test(expected = IncompleteUserRegisterException.class)
-	@Ignore
-	public void testRegisterThrowIncompleteUserRegisterExceptionThird() throws Exception {
-		System.out.println("testRegister");
-		
-		//prepare test variables
-		String firstName = "biene";
-		String name = "maja";
-		String userName = null;
-		String mail = "biene@maja.com";
-		String password = "123test";
-		String passwordRepetition = "123test";
-		
-		//call method to test
-		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-		
-	}
-	
-	/**
-	 * Test of register method, of class UserManager.
-	 * This test provokes a IncompleteUserRegisterException!
-	 */
-//	@Test(expected = IncompleteUserRegisterException.class)
-	@Ignore
-	public void testRegisterThrowIncompleteUserRegisterExceptionFourth() throws Exception {
-		System.out.println("testRegister");
-		
-		//prepare test variables
-		String firstName = "biene";
-		String name = "maja";
-		String userName = "summsesum";
-		String mail = null;
-		String password = "123test";
-		String passwordRepetition = "123test";
-		
-		//call method to test
-		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-		
-	}
-	
-	/**
-	 * Test of register method, of class UserManager.
-	 * This test provokes a NoValidUserNameException!
-	 */
-//	@Test(expected = NoValidUserNameException.class)
-	@Ignore
-	public void testRegisterThrowNoValidUserNameExceptionTooShort() throws Exception {
-		System.out.println("testRegisterThrowNoValidUserNameExceptionTooShort");
-		
-		//prepare test variables
-		String firstName = "biene";
-		String name = "maja";
-		String userName = "su";
-		String password = "123test";
-		String passwordRepetition = "123test";
-		
-		//call method to test
-//		managerUnderTest.register(firstName, name, userName, null);
-		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-		
-	}
-	
-	/**
-	 * Test of register method, of class UserManager.
-	 * This test provokes a IncompleteUserRegisterException!
-	 */
-//	@Test(expected = IncompleteUserRegisterException.class)
-	@Ignore
-	public void testRegisterThrowIncompleteUserRegisterException() throws Exception {
-		System.out.println("testRegisterThrowIncompleteUserRegisterException");
-		
-		//prepare test variables
-		String firstName = "biene";
-		String name = "maja";
-		String userName = "sumsebiene";
-		String mail = "bienemaja.com";
-		String password = "123test";
-		String passwordRepetition = "123test";
-		
-		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(false);
-		PowerMock.replay(EMailValidator.class);
-		
-		//call method to test
-//		managerUnderTest.register(firstName, name, userName, mail);
-		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-		
-		PowerMock.verify(EMailValidator.class);
-	}
+//	/**
+//	 * Test of register method, of class UserManager.
+//	 */
+////	@Test
+//	@Ignore
+//	public void testRegister() throws Exception {
+//		System.out.println("testRegister");
+//		
+//		//prepare test variables
+//		String firstName = "biene";
+//		String name = "maja";
+//		String userName = "summsesum";
+//		String mail = "biene@maja.com";
+//		String password = "123test";
+//		String passwordRepetition = "123test";
+//		
+//		// Setting up the expected value of the method call of Mockobject
+//		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
+//		PowerMock.replay(EMailValidator.class);
+//		
+//		EasyMock.expect(PasswordGenerator.generateSalt()).andReturn("4aSe5");
+//		PowerMock.replay(PasswordGenerator.class);
+//
+//		userDAOMock.create((AbdUser)EasyMock.anyObject());
+//		
+//		
+//		
+//		//TODO funktioniert noch nicht
+////		mailManagerMock.sendBdayMail((String) EasyMock.anyObject(), mail,(String) EasyMock.anyObject(), (String) EasyMock.anyObject());
+//		
+//		// Setup is finished need to activate the mock
+//		EasyMock.replay(userDAOMock);
+////		EasyMock.replay(mailManagerMock);
+//		
+//		//call method to test
+//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
+//		
+//		// verify	
+//		EasyMock.verify(userDAOMock);
+//		PowerMock.verify(EMailValidator.class);
+////		EasyMock.verify(mailManagerMock);		
+//	}
+//	
+//	
+//	/**
+//	 * Test of register method, of class UserManager.
+//	 * This test provokes a IncompleteUserRegisterException!
+//	 */
+//	@Ignore
+////	@Test(expected = IncompleteUserRegisterException.class)
+//	public void testRegisterThrowIncompleteUserRegisterExceptionFirst() throws Exception {
+//		System.out.println("testRegister");
+//		
+//		//prepare test variables
+//		String firstName = null;
+//		String name = "maja";
+//		String userName = "summsesum";
+//		String mail = "biene@maja.com";
+//		String password = "123test";
+//		String passwordRepetition = "123test";
+//		
+//		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
+//		PowerMock.replay(EMailValidator.class);
+//		
+//		//call method to test
+//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
+//		PowerMock.verify(EMailValidator.class);
+//	}
+//	
+//	/**
+//	 * Test of register method, of class UserManager.
+//	 * This test provokes a IncompleteUserRegisterException!
+//	 */
+////	@Test(expected = IncompleteUserRegisterException.class)
+//	@Ignore
+//	public void testRegisterThrowIncompleteUserRegisterExceptionSecound() throws Exception {
+//		System.out.println("testRegister");
+//		
+//		//prepare test variables
+//		String firstName = "biene";
+//		String name = null;
+//		String userName = "summsesum";
+//		String mail = "biene@maja.com";
+//		String password = "123test";
+//		String passwordRepetition = "123test";
+//		
+//		//call method to test
+//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
+//		
+//	}
+//	
+//	/**
+//	 * Test of register method, of class UserManager.
+//	 * This test provokes a IncompleteUserRegisterException!
+//	 */
+////	@Test(expected = IncompleteUserRegisterException.class)
+//	@Ignore
+//	public void testRegisterThrowIncompleteUserRegisterExceptionThird() throws Exception {
+//		System.out.println("testRegister");
+//		
+//		//prepare test variables
+//		String firstName = "biene";
+//		String name = "maja";
+//		String userName = null;
+//		String mail = "biene@maja.com";
+//		String password = "123test";
+//		String passwordRepetition = "123test";
+//		
+//		//call method to test
+//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
+//		
+//	}
+//	
+//	/**
+//	 * Test of register method, of class UserManager.
+//	 * This test provokes a IncompleteUserRegisterException!
+//	 */
+////	@Test(expected = IncompleteUserRegisterException.class)
+//	@Ignore
+//	public void testRegisterThrowIncompleteUserRegisterExceptionFourth() throws Exception {
+//		System.out.println("testRegister");
+//		
+//		//prepare test variables
+//		String firstName = "biene";
+//		String name = "maja";
+//		String userName = "summsesum";
+//		String mail = null;
+//		String password = "123test";
+//		String passwordRepetition = "123test";
+//		
+//		//call method to test
+//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
+//		
+//	}
+//	
+//	/**
+//	 * Test of register method, of class UserManager.
+//	 * This test provokes a NoValidUserNameException!
+//	 */
+////	@Test(expected = NoValidUserNameException.class)
+//	@Ignore
+//	public void testRegisterThrowNoValidUserNameExceptionTooShort() throws Exception {
+//		System.out.println("testRegisterThrowNoValidUserNameExceptionTooShort");
+//		
+//		//prepare test variables
+//		String firstName = "biene";
+//		String name = "maja";
+//		String userName = "su";
+//		String password = "123test";
+//		String passwordRepetition = "123test";
+//		
+//		//call method to test
+////		managerUnderTest.register(firstName, name, userName, null);
+//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
+//		
+//	}
+//	
+//	/**
+//	 * Test of register method, of class UserManager.
+//	 * This test provokes a IncompleteUserRegisterException!
+//	 */
+////	@Test(expected = IncompleteUserRegisterException.class)
+//	@Ignore
+//	public void testRegisterThrowIncompleteUserRegisterException() throws Exception {
+//		System.out.println("testRegisterThrowIncompleteUserRegisterException");
+//		
+//		//prepare test variables
+//		String firstName = "biene";
+//		String name = "maja";
+//		String userName = "sumsebiene";
+//		String mail = "bienemaja.com";
+//		String password = "123test";
+//		String passwordRepetition = "123test";
+//		
+//		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(false);
+//		PowerMock.replay(EMailValidator.class);
+//		
+//		//call method to test
+////		managerUnderTest.register(firstName, name, userName, mail);
+//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
+//		
+//		PowerMock.verify(EMailValidator.class);
+//	}
 	
 	/**
 	 * Test of getAllAccountsFromUser method, of class UserManager.

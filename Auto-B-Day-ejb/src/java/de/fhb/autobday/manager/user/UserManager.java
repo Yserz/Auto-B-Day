@@ -133,10 +133,11 @@ public class UserManager implements UserManagerLocal {
 			throw new IncompleteUserRegisterException("No firstname given!");
 		}
 		
-		
-		if(EMailValidator.isEmail(mail)){
-			LOGGER.log(Level.SEVERE, "Mail is not a valid mail!");
-			throw new IncompleteUserRegisterException("Mail is not a valid mail!");
+		if (mail!=null) {
+			if(EMailValidator.isEmail(mail)){
+				LOGGER.log(Level.SEVERE, "Mail is not a valid mail!");
+				throw new IncompleteUserRegisterException("Mail is not a valid mail!");
+			}
 		}
 		
 		if(userName==null){

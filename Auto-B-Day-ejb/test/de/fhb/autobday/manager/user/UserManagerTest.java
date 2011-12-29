@@ -11,24 +11,20 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.commons.EMailValidator;
+import de.fhb.autobday.commons.HashHelper;
 import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
-import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
-import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
@@ -79,7 +75,7 @@ public class UserManagerTest {
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(UserManager.class);
-//		PowerMock.mockStatic(EMailValidator.class);
+		PowerMock.mockStatic(HashHelper.class);
 //		PowerMock.mockStatic(PasswordGenerator.class);
 	}
 	
@@ -304,50 +300,41 @@ public class UserManagerTest {
 	}
 	
 	
-//	/**
-//	 * Test of register method, of class UserManager.
-//	 */
-////	@Test
-//	@Ignore
-//	public void testRegister() throws Exception {
-//		System.out.println("testRegister");
-//		
-//		//prepare test variables
-//		String firstName = "biene";
-//		String name = "maja";
-//		String userName = "summsesum";
-//		String mail = "biene@maja.com";
-//		String password = "123test";
-//		String passwordRepetition = "123test";
-//		
-//		// Setting up the expected value of the method call of Mockobject
-//		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
-//		PowerMock.replay(EMailValidator.class);
-//		
-//		EasyMock.expect(PasswordGenerator.generateSalt()).andReturn("4aSe5");
-//		PowerMock.replay(PasswordGenerator.class);
-//
-//		userDAOMock.create((AbdUser)EasyMock.anyObject());
-//		
-//		
-//		
-//		//TODO funktioniert noch nicht
-////		mailManagerMock.sendBdayMail((String) EasyMock.anyObject(), mail,(String) EasyMock.anyObject(), (String) EasyMock.anyObject());
-//		
-//		// Setup is finished need to activate the mock
-//		EasyMock.replay(userDAOMock);
-////		EasyMock.replay(mailManagerMock);
-//		
-//		//call method to test
-//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-//		
-//		// verify	
-//		EasyMock.verify(userDAOMock);
-//		PowerMock.verify(EMailValidator.class);
-////		EasyMock.verify(mailManagerMock);		
-//	}
-//	
-//	
+	/**
+	 * Test of register method, of class UserManager.
+	 */
+	@Test
+	public void testRegister() throws Exception {
+		System.out.println("testRegister");
+		
+		//prepare test variables
+		String firstName = "biene";
+		String name = "maja";
+		String userName = "summsesum";
+		String mail = "biene@maja.com";
+		String password = "123test";
+		String passwordRepeat = "123test";
+		
+		// Setting up the expected value of the method call of Mockobject	
+		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andReturn("4aSe5");
+		
+		
+		userDAOMock.create((AbdUser)EasyMock.anyObject());
+		
+		// Setup is finished need to activate the mock
+		PowerMock.replay(HashHelper.class);
+		EasyMock.replay(userDAOMock);
+		EasyMock.replay(mailManagerMock);
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, mail, password, passwordRepeat);
+		
+		// verify	
+		EasyMock.verify(userDAOMock);
+		PowerMock.verify(HashHelper.class);	
+	}
+	
+	
 //	/**
 //	 * Test of register method, of class UserManager.
 //	 * This test provokes a IncompleteUserRegisterException!

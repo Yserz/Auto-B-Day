@@ -26,9 +26,9 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
+import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
-import de.fhb.autobday.manager.mail.MailManagerLocal;
 
 /**
  * Tests the userManager class and their methods.
@@ -49,8 +49,6 @@ public class UserManagerTest {
 	
 	private AbdUserFacade userDAOMock;
 	
-	private MailManagerLocal mailManagerMock;
-	
 	public UserManagerTest() {
 	}
 
@@ -68,16 +66,13 @@ public class UserManagerTest {
 		
 		//create Mocks
 		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
-		mailManagerMock = EasyMock.createMock(MailManagerLocal.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(userDAOMock);
-		gloss.addEJB(mailManagerMock);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(UserManager.class);
 		PowerMock.mockStatic(HashHelper.class);
-//		PowerMock.mockStatic(PasswordGenerator.class);
 	}
 	
 	@After
@@ -115,20 +110,28 @@ public class UserManagerTest {
 		System.out.println("loginShouldBeEquals");
 		
 		//prepare test variables
-		String loginName = "ott";
+		String userName = "ott";
 		String password = "1234";
+		String salt = "testSalt";
+		String hash = "blubb";
+		AbdUser user;
 		
-		AbdUser user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
+		user = new AbdUser(1, userName, hash, salt, "Ott", "Chris");
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(userDAOMock.findUserByUsername(loginName)).andReturn(user);
+		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(user);
+		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andReturn(hash);
 		
-		// Setup is finished need to activate the mock
+		// Setup is finished need to activate the mock		
+		PowerMock.replay(HashHelper.class);
 		EasyMock.replay(userDAOMock);
 		
+		//call method to test
+		managerUnderTest.login(userName, password);
+		
 		// verify	
-		assertEquals(user, managerUnderTest.login(loginName, password));
 		EasyMock.verify(userDAOMock);
+		PowerMock.verify(HashHelper.class);	
 	}
 	
 	/**
@@ -318,14 +321,13 @@ public class UserManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject	
 		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andReturn("4aSe5");
-		
+		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(null);
 		
 		userDAOMock.create((AbdUser)EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
 		PowerMock.replay(HashHelper.class);
 		EasyMock.replay(userDAOMock);
-		EasyMock.replay(mailManagerMock);
 		
 		//call method to test
 		managerUnderTest.register(firstName, name, userName, mail, password, passwordRepeat);
@@ -336,30 +338,39 @@ public class UserManagerTest {
 	}
 	
 	
-//	/**
-//	 * Test of register method, of class UserManager.
-//	 * This test provokes a IncompleteUserRegisterException!
-//	 */
-//	@Ignore
-////	@Test(expected = IncompleteUserRegisterException.class)
-//	public void testRegisterThrowIncompleteUserRegisterExceptionFirst() throws Exception {
-//		System.out.println("testRegister");
-//		
-//		//prepare test variables
-//		String firstName = null;
-//		String name = "maja";
-//		String userName = "summsesum";
-//		String mail = "biene@maja.com";
-//		String password = "123test";
-//		String passwordRepetition = "123test";
-//		
-//		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
-//		PowerMock.replay(EMailValidator.class);
-//		
-//		//call method to test
-//		managerUnderTest.register(firstName, name, userName, password, passwordRepetition);
-//		PowerMock.verify(EMailValidator.class);
-//	}
+	/**
+	 * Test of register method, of class UserManager.
+	 * This test provokes a IncompleteUserRegisterException!
+	 */
+	@Test(expected = IncompleteUserRegisterException.class)
+	public void testRegisterThrowIncompleteUserRegisterExceptionFirst() throws Exception {
+		System.out.println("testRegister");
+		
+		//prepare test variables
+		String firstName = null;
+		String name = "maja";
+		String userName = "summsesum";
+		String mail = "biene@maja.com";
+		String password = "123test";
+		String passwordRepeat = "123test";
+		
+		// Setting up the expected value of the method call of Mockobject	
+		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andReturn("4aSe5");
+		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(null);
+		
+		userDAOMock.create((AbdUser)EasyMock.anyObject());
+		
+		// Setup is finished need to activate the mock
+		PowerMock.replay(HashHelper.class);
+		EasyMock.replay(userDAOMock);
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, mail, password, passwordRepeat);
+		
+		// verify	
+		EasyMock.verify(userDAOMock);
+		PowerMock.verify(HashHelper.class);	
+	}
 //	
 //	/**
 //	 * Test of register method, of class UserManager.

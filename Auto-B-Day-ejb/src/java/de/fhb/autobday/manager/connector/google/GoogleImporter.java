@@ -184,6 +184,9 @@ public class GoogleImporter extends AImporter {
 		try {
 			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 			ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
+			if (resultFeed == null){
+				return null;
+			}
 			return resultFeed.getEntries();
 		} catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
@@ -191,6 +194,48 @@ public class GoogleImporter extends AImporter {
 			LOGGER.log(Level.SEVERE, null, ex);
 		}
 		return null;
+	}
+
+	/**
+	 * @return the connectionEtablished
+	 */
+	public boolean isConnectionEtablished() {
+		return connectionEtablished;
+	}
+
+	/**
+	 * @param connectionEtablished the connectionEtablished to set
+	 */
+	public void setConnectionEtablished(boolean connectionEtablished) {
+		this.connectionEtablished = connectionEtablished;
+	}
+
+	/**
+	 * @return the accdata
+	 */
+	public AbdAccount getAccdata() {
+		return accdata;
+	}
+
+	/**
+	 * @param accdata the accdata to set
+	 */
+	public void setAccdata(AbdAccount accdata) {
+		this.accdata = accdata;
+	}
+
+	/**
+	 * @return the myService
+	 */
+	public ContactsService getMyService() {
+		return myService;
+	}
+
+	/**
+	 * @param myService the myService to set
+	 */
+	public void setMyService(ContactsService myService) {
+		this.myService = myService;
 	}
 
 	/**
@@ -311,7 +356,6 @@ public class GoogleImporter extends AImporter {
 	protected boolean diffMembership(String groupid, List<AbdGroupToContact> abdGroupMembership){
 		AbdGroup abdGroup;
 		for (int i = 0; i < abdGroupMembership.size(); i++) {
-			System.out.println(i);
 			abdGroup = abdGroupMembership.get(i).getAbdGroup();
 			if(abdGroup.getId().equals(groupid)){
 				abdGroupMembership.remove(i);

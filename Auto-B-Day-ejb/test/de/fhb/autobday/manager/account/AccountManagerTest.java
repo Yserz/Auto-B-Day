@@ -233,8 +233,6 @@ public class AccountManagerTest {
 	public void testImportGroupsAndContacts() throws Exception {
 		System.out.println("testImportGroupsAndContacts");
 		
-		//TODO weiter implementieren
-		
 		//prepare test variables
 		int accountId = 2;
 		AbdAccount account = new AbdAccount(accountId);
@@ -250,9 +248,6 @@ public class AccountManagerTest {
 		gimporter.getConnection(account);
 		gimporter.importContacts();
 		PowerMock.replay(gimporter, GoogleImporter.class);
-		
-		
-		//???? importer wird nicht richtig gemockt???
 
 		managerUnderTest.importGroupsAndContacts(accountId);
 

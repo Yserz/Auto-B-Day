@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
 	xmlns:f="http://java.sun.com/jsf/core">
 
 	<f:view contentType="text/html">
@@ -21,27 +22,34 @@
 		<h:body>
 			
 			<div id="top">
+				<h1>AUTO-B-DAY</h1>
 				<ui:insert name="top">
-					Top
+					<ui:include src="login.xhtml" />
 				</ui:insert>
 			</div>
-			<div id="">
-				<a href="faces/register.xhtml">Registrieren</a> | 
+			<div id="navi" class="ui-widget ui-widget-header ui-corner-all">
+				<h:form>
+					<h:commandLink action="index">Home</h:commandLink> | 
+					<h:commandLink action="register">Registrieren</h:commandLink> | 
+				</h:form>
+				
 			</div>
 			<div>
 				<div id="left">
 					<ui:insert name="left">
-						<ui:include src="./../jspf/accountList.xhtml" />
+						<ui:include src="./jspf/accountList.xhtml" />
 					</ui:insert>
 				</div>
 				<div id="content" class="left_content">
-					<ui:insert name="content">
-						Content
-					</ui:insert>
+					<p:panel>
+						<ui:insert name="content">
+							Content
+						</ui:insert>
+					</p:panel>
 				</div>
 			</div>
-			<div id="bottom">
-				<ui:include src="./../footer.xhtml" />
+			<div id="bottom" class="ui-widget ui-widget-header ui-corner-all">
+				<ui:include src="./footer.xhtml" />
 			</div>
 
 		</h:body>

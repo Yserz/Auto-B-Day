@@ -3,50 +3,77 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:p="http://primefaces.prime.com.tr/ui"
-                template="./templates/layout.xhtml">
+				xmlns:f="http://java.sun.com/jsf/core"
+                template="./layout.xhtml">
 
     <ui:define name="title">
 		Register to Auto-B-Day
 	</ui:define>
-	
-	
+
+
 	<ui:define name="content">
 		<h:form>
-			<h:panelGrid columns="3">
-				<h:outputLabel for="userName">Username:</h:outputLabel>
-				<h:inputText id="userName" 
-							 value="#{registerBean.userName}" 
-							 required="true" 
-							 requiredMessage="Username required!" />
-				<h:message for="userName" styleClass="errorMessage"/>
-				
-				<h:outputLabel for="firstName">Vorname:</h:outputLabel>
-				<h:inputText id="firstName" 
-							 value="#{registerBean.firstName}" 
-							 required="true"/>
-				<h:message for="firstName" styleClass="errorMessage"/>
-				
-				<h:outputLabel for="name">Name:</h:outputLabel>
-				<h:inputText id="name" 
-							 value="#{registerBean.name}" 
-							 required="true"/>
-				<h:message for="name" styleClass="errorMessage"/>
-				
-				<h:outputLabel for="password">Password:</h:outputLabel>
-				<h:inputText id="password" 
-							 value="#{registerBean.password}" 
-							 required="true"/>
-				<h:message for="password" styleClass="errorMessage"/>
-				
-				<h:outputLabel for="passwordWdhl">Password Wiederholung:</h:outputLabel>
-				<h:inputText id="passwordWdhl" 
-							 value="#{registerBean.passwordWdhl}" 
-							 required="true"/>
-				<h:message for="passwordWdhl" styleClass="errorMessage"/>
-			</h:panelGrid>
+			<p:panel id="panel" header="Registrieren">
+				<!--<p:messages />-->
+				<h:panelGrid columns="3"> 
+					<h:outputLabel for="userName" value="Username:* " />
+					<p:inputText id="userName" 
+								 value="#{registerBean.userName}"
+								 label="Username"
+								 required="true"
+								 maxlength="20"/>
+					<p:message for="userName" />
 
-			<h:commandButton value="Registrieren" action="#{registerBean.register}"/>
+					<h:outputLabel for="firstName" value="Vorname:* " />
+					<p:inputText id="firstName" 
+								 value="#{registerBean.firstName}"
+								 label="Vorname"
+								 required="true"
+								 maxlength="20"/>
+					<p:message for="firstName" />
 
+					<h:outputLabel for="name" value="Name:* " />
+					<p:inputText id="name" 
+								 value="#{registerBean.name}"
+								 label="Name"
+								 required="true"
+								 maxlength="20"/>
+					<p:message for="name" />
+
+					<h:outputLabel for="mail" value="Mail: " />
+					<p:inputText id="mail" 
+								 value="#{registerBean.mail}" 
+								 label="Mail"
+								 maxlength="20"/>
+					<p:message for="mail" />
+
+					<h:outputLabel for="password" value="Password:* " />
+					<p:password id="password" 
+								value="#{registerBean.password}" 
+								label="Password"
+								feedback="true"
+								required="true"
+								minLength="5"
+								maxlength="20"/>
+					<p:message for="password" />
+
+					<h:outputLabel for="passwordWdhl" value="Password Wiederholung:* " />
+					<p:password id="passwordWdhl" 
+								value="#{registerBean.passwordWdhl}" 
+								label="PasswordWdhl"
+								feedback="true"
+								required="true"
+								minLength="5"
+								maxlength="20"/>
+					<p:message for="passwordWdhl" />
+				</h:panelGrid>
+
+
+				<p:commandButton value="Registrieren" 
+								 update="panel" 
+								 image="ui-icon ui-icon-disk"
+								 actionListener="#{registerBean.register}" />
+			</p:panel>
 		</h:form>
 	</ui:define>
 

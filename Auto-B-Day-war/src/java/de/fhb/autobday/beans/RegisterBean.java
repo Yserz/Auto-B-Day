@@ -23,36 +23,46 @@ public class RegisterBean {
 	private UserManagerLocal userManager;
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
+	@ManagedProperty("#{errorBean}")
+	private ErrorBean errorBean;
 	
 	private String firstName;
 	private String name;
 	private String userName;
+	private String mail;
 	private String password;
 	private String passwordWdhl;
 	
-	private ErrorBean errorBean;
+	
 
 	/**
 	 * Creates a new instance of RegisterBean
 	 */
 	public RegisterBean() {
-		errorBean = new ErrorBean();
 	}
 	
-	public void register(){
+	public String register(){
 		String returnStat = "index";
 		
 		try {
-			userManager.register(firstName, name, userName, null, password, passwordWdhl);
+			userManager.register(firstName, name, userName, mail, password, passwordWdhl);
 		} catch (IncompleteUserRegisterException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
-			returnStat = "index"/*errorBean.handleException(ex)*/;
+			returnStat = errorBean.handleException(ex);
 			
 		} catch (NoValidUserNameException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
-			returnStat =  "index"/*errorBean.handleException(ex)*/;
+			returnStat =  errorBean.handleException(ex);
 		}
-		//return returnStat;
+		return returnStat;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	public String getPasswordWdhl() {

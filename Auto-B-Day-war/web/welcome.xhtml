@@ -3,26 +3,22 @@
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:p="http://primefaces.prime.com.tr/ui"
-                template="./layout.xhtml">
+                template="./templates/layout.xhtml">
 
     <ui:define name="title">
 		Welcome to Auto-B-Day
 	</ui:define>
-	<!--
-	<ui:define name="top">
-		
-	</ui:define>
-	-->
 	<ui:define name="content">
+		Welcome #{sessionBean.user.firstname} #{sessionBean.user.name}.
 		<h:form>
-			<!--<p:growl id="growl" showDetail="true" />-->
+
+			<p:growl id="growl" showDetail="true"/>  
 
 			<p:calendar value="#{calendarBean.date1}" mode="inline"   
 					onSelectUpdate="growl"   
 					selectListener="#{calendarBean.handleDateSelect}"/>   
 
 		</h:form>
-		
 	</ui:define>
 
 </ui:composition>

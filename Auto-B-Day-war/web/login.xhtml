@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.prime.com.tr/ui"
+	  xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body>
+		<ui:composition>
+			<div align="right">
+				<h:form>
+					<p:panel id="panel" rendered="#{!sessionBean.loggedIn}" style="width:460px;">
+						<p:messages />
+						<h:panelGrid columns="5">
+
+							<p:inputText id="loginName" 
+										 value="#{sessionBean.loginName}"
+										 label="Username"
+										 required="true"
+										 maxlength="20"
+										 onfocus="if(this.value=='Username') this.value=''"/>
+
+							<p:password id="password" 
+										value="#{sessionBean.password}" 
+										label="Password"
+										feedback="false"
+										required="true"
+										minLength="5"
+										maxlength="20"
+										onfocus="this.value=''"/>
+
+							<p:commandButton value="Login" 
+											 ajax="false"
+											 actionListener="#{sessionBean.login}" 
+											 update="panel" 
+											 rendered="#{!sessionBean.loggedIn}"/>
+						</h:panelGrid>
+					</p:panel>
+					<p:commandLink value="Registrieren" 
+								   immediate="true"
+								   ajax="false"
+								   actionListener="register" 
+								   action="register"
+								   rendered="#{!sessionBean.loggedIn}"/>
+
+					<p:commandButton value="Logout" 
+									 ajax="false"
+									 actionListener="#{sessionBean.logout}" 
+									 rendered="#{sessionBean.loggedIn}"/>
+
+				</h:form>
+			</div>
+		</ui:composition>
+    </h:body>
+</html>
+

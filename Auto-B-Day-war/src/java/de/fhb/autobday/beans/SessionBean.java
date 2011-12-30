@@ -38,8 +38,8 @@ public class SessionBean implements Serializable {
 	public SessionBean() {
 		errorBean = new ErrorBean();
 		aktUser = null;
-		loginName = "";
-		password = "";
+		loginName = "username";
+		password = "password";
 
 	}
 
@@ -55,12 +55,12 @@ public class SessionBean implements Serializable {
 			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
 			errorBean.handleException(ex);
 		}
-		return "index";
+		return "welcome.jsf";
 	}
 
 	public String logout() {
 		aktUser = null;
-		return "/index.xhtml";
+		return "index.jsf";
 	}
 
 	public boolean isLoggedIn() {

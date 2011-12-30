@@ -57,7 +57,8 @@ public class AccountManager implements AccountManagerLocal {
 		}
 		
 		//add new Account
-		AbdAccount createdAccount=new AbdAccount();		
+		AbdAccount createdAccount=new AbdAccount();	
+		createdAccount.setId(Integer.SIZE);
 		createdAccount.setAbduser(actualUser);
 		createdAccount.setPasswort(password);
 		createdAccount.setUsername(userName);

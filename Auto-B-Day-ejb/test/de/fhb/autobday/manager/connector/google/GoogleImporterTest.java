@@ -17,12 +17,10 @@ import com.google.gdata.util.AuthenticationException;
 import com.google.gdata.util.ServiceException;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
-import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
-import de.fhb.autobday.manager.account.AccountManager;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -32,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.*;
 
@@ -116,18 +113,28 @@ private JavaEEGloss gloss;
 	public void testGetAllGroups() {
 		System.out.println("getAllGroups");
 		GoogleImporter instance = new GoogleImporter();
-		ContactGroupFeed expResult = null;
-		//ContactGroupFeed result = instance.getAllGroups();
-		//assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		try {
+			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+			expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
+			replay(myServiceMock);
+			instance.setMyService(myServiceMock);
+			assertEquals(null, instance.getAllContacts());
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * Test of getAllContacts method, of class GoogleImporter.
 	 */
 	@Test
-	public void testGetAllContacts() {
+	public void testGetAllContactsReturnNull() {
 		System.out.println("getAllContacts");
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
@@ -139,13 +146,38 @@ private JavaEEGloss gloss;
 			instance.setMyService(myServiceMock);
 			assertEquals(null, instance.getAllContacts());
 		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Test of getAllContacts method, of class GoogleImporter.
+	 */
+	@Test
+	public void testGetAllContactsReturnList() {
+		System.out.println("getAllContacts");
+		GoogleImporter instance = new GoogleImporter();
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		try {
+			List<ContactEntry> contactEntryList = new ArrayList<ContactEntry>();
+			contactEntryList.add(contactEntry);
+			ContactFeed resultFeed = new ContactFeed();
+			resultFeed.setEntries(contactEntryList);
+			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+			expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
+			replay(myServiceMock);
+			instance.setMyService(myServiceMock);
+			assertEquals(contactEntryList, instance.getAllContacts());
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}

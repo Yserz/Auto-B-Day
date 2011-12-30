@@ -5,6 +5,7 @@ import static org.easymock.EasyMock.*;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
+import com.google.gdata.data.contacts.ContactFeed;
 import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.Gender;
 import com.google.gdata.data.contacts.Gender.Value;
@@ -133,7 +134,7 @@ private JavaEEGloss gloss;
 		URL feedUrl;
 		try {
 			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
-			expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(null);
+			expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
 			replay(myServiceMock);
 			instance.setMyService(myServiceMock);
 			assertEquals(null, instance.getAllContacts());

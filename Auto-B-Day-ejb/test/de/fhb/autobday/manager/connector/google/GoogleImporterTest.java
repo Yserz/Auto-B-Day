@@ -117,10 +117,10 @@ private JavaEEGloss gloss;
 		URL feedUrl;
 		try {
 			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
-			expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
+			expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(null);
 			replay(myServiceMock);
 			instance.setMyService(myServiceMock);
-			assertEquals(null, instance.getAllContacts());
+			assertEquals(null, instance.getAllGroups());
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {

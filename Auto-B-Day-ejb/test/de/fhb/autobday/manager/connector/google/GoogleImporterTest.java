@@ -133,7 +133,7 @@ private JavaEEGloss gloss;
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		try {
-			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 			expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
 			replay(myServiceMock);
 			instance.setMyService(myServiceMock);

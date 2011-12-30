@@ -1,5 +1,7 @@
 package de.fhb.autobday.manager.connector.google;
 
+import static org.easymock.EasyMock.*;
+
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
@@ -11,6 +13,7 @@ import com.google.gdata.data.extensions.FamilyName;
 import com.google.gdata.data.extensions.GivenName;
 import com.google.gdata.data.extensions.Name;
 import com.google.gdata.util.AuthenticationException;
+import com.google.gdata.util.ServiceException;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.dao.AbdAccountFacade;
@@ -20,6 +23,9 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.manager.account.AccountManager;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +33,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import org.easymock.EasyMock;
 import org.junit.*;
 
 /**
@@ -62,7 +67,7 @@ private JavaEEGloss gloss;
 		gloss= new JavaEEGloss();
 		
 		//create Mocks
-		contactsServiceMock = EasyMock.createMock(ContactsService.class);
+		contactsServiceMock = createMock(ContactsService.class);
 		//set Objekts to inject
 		gloss.addEJB(contactsServiceMock);
 		
@@ -97,10 +102,10 @@ private JavaEEGloss gloss;
 		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
 		
 		contactsServiceMock.setUserCredentials(data.getUsername(), data.getPasswort());
-		EasyMock.replay(contactsServiceMock);
+		replay(contactsServiceMock);
 		
 		gImporterUnderTest.getConnection(data);
-		EasyMock.verify(contactsServiceMock);
+		verify(contactsServiceMock);
 	}
 
 	/**
@@ -118,41 +123,29 @@ private JavaEEGloss gloss;
 	}
 
 	/**
-	 * Test of getSingleGroup method, of class GoogleImporter.
-	 */
-	@Test
-	public void testGetSingleGroup() {
-		System.out.println("getSingleGroup");
-		String id = "";
-		GoogleImporter instance = new GoogleImporter();
-		//TODO instance.getSingleGroup(id);
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
-	}
-
-	/**
 	 * Test of getAllContacts method, of class GoogleImporter.
 	 */
 	@Test
 	public void testGetAllContacts() {
 		System.out.println("getAllContacts");
 		GoogleImporter instance = new GoogleImporter();
-		// TODO instance.getAllContacts();
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of getSingleContact method, of class GoogleImporter.
-	 */
-	@Test
-	public void testGetSingleContact() {
-		System.out.println("getSingleContact");
-		String id = "";
-		GoogleImporter instance = new GoogleImporter();
-		// TODO instance.getSingleContact(id);
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		try {
+			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+			expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(null);
+			replay(myServiceMock);
+			assertEquals(null, instance.getAllContacts());
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -293,6 +286,7 @@ private JavaEEGloss gloss;
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
 		contactEntry.addEmailAddress(mail);
+		@SuppressWarnings("deprecation")
 		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");

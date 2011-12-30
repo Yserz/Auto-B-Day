@@ -156,7 +156,10 @@ public class GoogleImporter extends AImporter {
 		try {
 			//url to get all groups
 			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
-			ContactGroupFeed resultFeed = myService.getFeed(feedUrl, ContactGroupFeed.class);		
+			ContactGroupFeed resultFeed = myService.getFeed(feedUrl, ContactGroupFeed.class);	
+			if (resultFeed == null){
+				return null;
+			}
 			return resultFeed.getEntries();
 		
 		} catch (IOException ex) {

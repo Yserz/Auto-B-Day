@@ -6,6 +6,7 @@ import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
+import com.google.gdata.data.contacts.ContactGroupEntry;
 import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.Gender;
 import com.google.gdata.data.contacts.Gender.Value;
@@ -110,7 +111,7 @@ private JavaEEGloss gloss;
 	 * Test of getAllGroups method, of class GoogleImporter.
 	 */
 	@Test
-	public void testGetAllGroups() {
+	public void testGetAllGroupsWithNull() {
 		System.out.println("getAllGroups");
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
@@ -121,6 +122,36 @@ private JavaEEGloss gloss;
 			replay(myServiceMock);
 			instance.setMyService(myServiceMock);
 			assertEquals(null, instance.getAllGroups());
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Test of getAllGroups method, of class GoogleImporter.
+	 */
+	@Test
+	public void testGetAllGroupsWithGroupFeed() {
+		System.out.println("getAllGroups");
+		GoogleImporter instance = new GoogleImporter();
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		try {
+			ContactGroupFeed resultFeed = new ContactGroupFeed();
+			List<ContactGroupEntry> contactGroupList = new ArrayList<ContactGroupEntry>();
+			ContactGroupEntry contactGroup = new ContactGroupEntry();
+			contactGroup.setId("hsfsfd");
+			contactGroupList.add(contactGroup);
+			resultFeed.setEntries(contactGroupList);
+			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+			expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+			replay(myServiceMock);
+			instance.setMyService(myServiceMock);
+			assertEquals(contactGroupList, instance.getAllGroups());
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {

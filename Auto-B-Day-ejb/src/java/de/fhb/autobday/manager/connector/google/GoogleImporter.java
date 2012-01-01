@@ -35,9 +35,9 @@ import java.util.logging.Logger;
 public class GoogleImporter extends AImporter {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
-	private boolean connectionEtablished;
-	private AbdAccount accdata;
-	private ContactsService myService;
+	protected boolean connectionEtablished;
+	protected AbdAccount accdata;
+	protected ContactsService myService;
 
 	public GoogleImporter() {
 		connectionEtablished = false;

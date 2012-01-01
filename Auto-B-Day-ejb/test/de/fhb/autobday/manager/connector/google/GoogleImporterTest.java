@@ -261,6 +261,14 @@ private JavaEEGloss gloss;
 		GoogleImporter instance = new GoogleImporter();
 		assertEquals(new Date(90, 4, 22), instance.getGContactBirthday(contactEntry));
 	}
+	
+	@Test
+	public void testgetGContactBirthdayWithoutABirthday(){
+		System.out.println("getGContactBirthday");
+		GoogleImporter instance = new GoogleImporter();
+		contactEntry.setBirthday(new Birthday("---"));
+		assertEquals(null, instance.getGContactBirthday(contactEntry));
+	}
 
 	@Test
 	public void testgetGContactFamilyname(){
@@ -342,7 +350,7 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
-	public void testMapGContacttoContact() {
+	public void testMapGContacttoContactFemale() {
 		System.out.println("mapGContacttoContact");
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
@@ -354,6 +362,52 @@ private JavaEEGloss gloss;
 		exptected.setSex('w');
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
+	
+	@Test
+	public void testMapGContacttoContactMale() {
+		System.out.println("mapGContacttoContact");
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		contactEntry.addEmailAddress(mail);
+		contactEntry.setGender(new Gender(Value.MALE));
+		@SuppressWarnings("deprecation")
+		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
+		exptected.setFirstname("Hans");
+		exptected.setName("Peter");
+		exptected.setSex('m');
+		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
+	}
 
+	@Test
+	public void testsetmyService(){
+		ContactsService myService = new ContactsService(null);
+		GoogleImporter instance = new GoogleImporter();
+		instance.setMyService(myService);
+		assertEquals(myService,instance.myService);
+	}
+	
+	@Test
+	public void testgetmyService(){
+		ContactsService myService = new ContactsService(null);
+		GoogleImporter instance = new GoogleImporter();
+		instance.myService=myService;
+		assertEquals(myService,instance.getMyService());
+	}
+	
+	@Test
+	public void testsetAccdata(){
+		AbdAccount accdata = new AbdAccount();
+		GoogleImporter instance = new GoogleImporter();
+		instance.setAccdata(accdata);
+		assertEquals(accdata,instance.accdata);
+	}
+	
+	@Test
+	public void testgetAccdata(){
+		AbdAccount accdata = new AbdAccount();
+		GoogleImporter instance = new GoogleImporter();
+		instance.accdata = accdata;
+		assertEquals(accdata,instance.getAccdata());
+	}
 	
 }

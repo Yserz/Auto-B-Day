@@ -40,6 +40,8 @@ public class GoogleBirthdayConverter {
 			}
 		} catch (NumberFormatException e){
 			throw new CanNotConvetGoogleBirthdayException("it is not possible to convert the birthday");
+		} catch (StringIndexOutOfBoundsException e){
+			throw new CanNotConvetGoogleBirthdayException("it is not possible to convert the birthday");
 		}
 		
 		return new Date(year-1900,month-1,day);

@@ -68,7 +68,7 @@ private JavaEEGloss gloss;
 		//create Mocks
 		contactsServiceMock = createMock(ContactsService.class);
 		//set Objekts to inject
-		gloss.addEJB(contactsServiceMock);
+		//gloss.addEJB(contactsServiceMock);
 		
 		gImporterUnderTest=gloss.make(GoogleImporter.class);
 		
@@ -93,17 +93,13 @@ private JavaEEGloss gloss;
 	 * @throws AuthenticationException 
 	 */
 	@Test
-	@Ignore
-	//TODO ACHTUNG TEST WIRD IGNORIERT
 	public void testGetConnection() throws AuthenticationException{
 		System.out.println("getConnection");
 
 		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
-		
-		contactsServiceMock.setUserCredentials(data.getUsername(), data.getPasswort());
 		replay(contactsServiceMock);
-		
 		gImporterUnderTest.getConnection(data);
+		assertEquals(true, gImporterUnderTest.isConnectionEtablished());
 		verify(contactsServiceMock);
 	}
 

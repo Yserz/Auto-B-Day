@@ -377,6 +377,18 @@ private JavaEEGloss gloss;
 		exptected.setSex('m');
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
+	
+	@Test
+	public void testMapGContacttoContactWithoutEmailandBirthday() {
+		System.out.println("mapGContacttoContact");
+		contactEntry.setGender(new Gender(Value.MALE));
+		contactEntry.setBirthday(null);
+		AbdContact exptected = new AbdContact("1", null, null, "");
+		exptected.setFirstname("Hans");
+		exptected.setName("Peter");
+		exptected.setSex('m');
+		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
+	}
 
 	@Test
 	public void testsetmyService(){
@@ -408,6 +420,13 @@ private JavaEEGloss gloss;
 		GoogleImporter instance = new GoogleImporter();
 		instance.accdata = accdata;
 		assertEquals(accdata,instance.getAccdata());
+	}
+	
+	@Test
+	public void testsetConnected(){
+		GoogleImporter instance = new GoogleImporter();
+		instance.setConnectionEtablished(true);
+		assertEquals(true,instance.accdata);
 	}
 	
 }

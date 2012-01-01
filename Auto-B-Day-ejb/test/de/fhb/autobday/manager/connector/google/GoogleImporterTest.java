@@ -382,7 +382,7 @@ private JavaEEGloss gloss;
 	public void testMapGContacttoContactWithoutEmailandBirthday() {
 		System.out.println("mapGContacttoContact");
 		contactEntry.setGender(new Gender(Value.MALE));
-		contactEntry.setBirthday(null);
+		contactEntry.setBirthday(new Birthday("---"));
 		AbdContact exptected = new AbdContact("1", null, null, "");
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");

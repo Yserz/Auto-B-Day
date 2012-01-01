@@ -25,6 +25,10 @@ public class GoogleBirthdayConverter {
 	public static Date convertBirthday(String birthdayString) throws CanNotConvetGoogleBirthdayException{
 		int day=1,month=1,year=1970;
 		
+		if (birthdayString == null) {
+			return null;
+		}
+		
 		if (birthdayString.trim().length()==0){
 			return null;
 		}

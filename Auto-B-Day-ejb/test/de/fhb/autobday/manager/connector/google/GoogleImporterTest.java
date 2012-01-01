@@ -426,7 +426,7 @@ private JavaEEGloss gloss;
 	public void testsetConnected(){
 		GoogleImporter instance = new GoogleImporter();
 		instance.setConnectionEtablished(true);
-		assertEquals(true,instance.accdata);
+		assertEquals(true,instance.connectionEtablished);
 	}
 	
 }

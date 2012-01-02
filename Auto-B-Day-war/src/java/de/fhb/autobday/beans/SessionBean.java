@@ -1,17 +1,20 @@
 package de.fhb.autobday.beans;
 
+import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import de.fhb.autobday.beans.utils.ErrorBean;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.manager.user.UserManagerLocal;
-import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
@@ -52,6 +55,9 @@ public class SessionBean implements Serializable {
 			loginName = null;
 			password = null;
 		} catch (UserException ex) {
+			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
+			errorBean.handleException(ex);
+		}catch (HashFailException ex) {
 			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
 			errorBean.handleException(ex);
 		}

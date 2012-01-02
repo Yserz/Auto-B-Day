@@ -1,16 +1,18 @@
 package de.fhb.autobday.beans;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import de.fhb.autobday.beans.utils.ErrorBean;
+import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.manager.user.UserManagerLocal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
 
 /**
  *
@@ -53,7 +55,11 @@ public class RegisterBean {
 		} catch (NoValidUserNameException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
 			returnStat =  errorBean.handleException(ex);
+		}catch (HashFailException ex) {
+			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
+			errorBean.handleException(ex);
 		}
+		
 		return returnStat;
 	}
 

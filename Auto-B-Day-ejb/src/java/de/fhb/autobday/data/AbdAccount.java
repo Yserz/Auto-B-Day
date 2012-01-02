@@ -53,9 +53,11 @@ public class AbdAccount implements Serializable {
 	public AbdAccount() {
 	}
 
+
 	public AbdAccount(Integer id) {
 		this.id = id;
 	}
+
 
 	public AbdAccount(Integer id, String username, String passwort, String type) {
 		this.id = id;

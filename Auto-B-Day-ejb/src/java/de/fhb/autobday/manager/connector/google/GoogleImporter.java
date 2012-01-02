@@ -145,7 +145,7 @@ public class GoogleImporter extends AImporter {
 	/**
 	 * get all groups from google from the connected account
 	 * 
-	 * if don´t get information from google return null else a list of Google ContactGroupEntrys
+	 * if dont get information from google return null else a list of Google ContactGroupEntrys
 	 * 
 	 */
 	protected List<ContactGroupEntry> getAllGroups() {
@@ -173,7 +173,7 @@ public class GoogleImporter extends AImporter {
 	/**
 	 * get all contacts from the connected acoount
 	 * 
-	 * if don´t get information from google return null else a list of Google ContactEntrys
+	 * if dont get information from google return null else a list of Google ContactEntrys
 	 * 
 	 */
 	protected List<ContactEntry> getAllContacts() {

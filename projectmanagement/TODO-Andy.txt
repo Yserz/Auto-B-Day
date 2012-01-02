@@ -4,14 +4,12 @@ TODO - Andy
 
 --- Allgemein 	---
 
-- Tests implementieren, wenn möglich Manager weiter implementieren.
-- helper angucken, testen, weiter verbessern
+- Doku weiter machen
+- UseCase verbessern
+- Micher bei der GUI unterstüzen
 
 nicht vorangig
 *******************
-- tino evtl. noch das propertyfile abnehmen??? @micher bin mir jetz nich mehr sicher was du meintest
-- Doku weiter machen
-- UseCase verbessern
 
 
 *** DB 			***
@@ -28,6 +26,3 @@ nicht vorangig
 
 *** GUI 		***
 
-	@Micher
-	würde später gerne evtl. GUI machen statt Manager und Tests?
-- 

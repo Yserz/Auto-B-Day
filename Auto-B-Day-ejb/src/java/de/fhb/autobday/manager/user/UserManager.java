@@ -16,6 +16,7 @@ import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
@@ -24,6 +25,7 @@ import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
+ * this class manage the userspecific things
  *
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
@@ -41,13 +43,23 @@ public class UserManager implements UserManagerLocal {
 	public UserManager() {
 		
 	}
+	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.user.UserManagerLocal#getUser(int)
+	 */
 	@Override
 	public AbdUser getUser(int userid){
 		return userDAO.find(userid);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @throws HashFailException 
+	 * @see de.fhb.autobday.manager.user.UserManagerLocal#login(java.lang.String, java.lang.String)
+	 */
 	@Override
-	public AbdUser login(String loginName, String password) throws UserException {
+	public AbdUser login(String loginName, String password) throws UserException, HashFailException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "loginName: {0}", loginName);
@@ -75,14 +87,15 @@ public class UserManager implements UserManagerLocal {
 		
 		//check password
 		try {
+			
 			hash=HashHelper.calcSHA1(password+user.getSalt());
 			
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
+			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
+			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		
 		if(!user.getPasswort().equals(hash)){
@@ -93,14 +106,23 @@ public class UserManager implements UserManagerLocal {
 		return user;
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.user.UserManagerLocal#logout()
+	 */
 	@Override
 	public void logout() {
 		LOGGER.log(Level.INFO,"logout");
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @throws HashFailException 
+	 * @see de.fhb.autobday.manager.user.UserManagerLocal#register(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) 
-			throws IncompleteUserRegisterException, NoValidUserNameException {
+			throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
@@ -184,14 +206,15 @@ public class UserManager implements UserManagerLocal {
 		user.setMail(mail);
 		user.setSalt(salt);
 		
+		//hash
 		try {
 			hash= HashHelper.calcSHA1(password+salt);
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
+			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
+			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		
 		user.setPasswort(hash);
@@ -200,17 +223,19 @@ public class UserManager implements UserManagerLocal {
 		userDAO.create(user);
 	}
 	
-	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.user.UserManagerLocal#getAllAccountsFromUser(de.fhb.autobday.data.AbdUser)
+	 */
 	@Override
 	public List<AbdAccount> getAllAccountsFromUser(AbdUser user) throws UserNotFoundException{
 		return getAllAccountsFromUser(user.getId());
 	}
 	
+	
 	/**
-	 * 
-	 * @param userInputObject
-	 * @return
-	 * @throws Exception
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.user.UserManagerLocal#getAllAccountsFromUser(int)
 	 */
 	@Override
 	public List<AbdAccount> getAllAccountsFromUser(int userId) throws UserNotFoundException{

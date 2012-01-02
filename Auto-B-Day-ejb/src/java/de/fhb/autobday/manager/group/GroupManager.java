@@ -42,6 +42,10 @@ public class GroupManager implements GroupManagerLocal {
 	private AbdContactFacade contactDAO;
 
 
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getGroup(java.lang.String)
+	 */
 	@Override
 	public AbdGroup getGroup(String groupId) throws GroupNotFoundException {
 		
@@ -59,13 +63,21 @@ public class GroupManager implements GroupManagerLocal {
 		
 		return actualGroup;
 	}
+	
 
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setTemplate(de.fhb.autobday.data.AbdGroup, java.lang.String)
+	 */
 	@Override
 	public void setTemplate(AbdGroup group, String template) throws GroupNotFoundException {
 		setTemplate(group.getId(), template);
 	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setTemplate(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void setTemplate(String groupId, String template) throws GroupNotFoundException {
 		
@@ -85,6 +97,10 @@ public class GroupManager implements GroupManagerLocal {
 		actualGroup.setTemplate(template);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getTemplate(java.lang.String)
+	 */
 	@Override
 	public String getTemplate(String groupId) throws GroupNotFoundException {
 		
@@ -106,7 +122,12 @@ public class GroupManager implements GroupManagerLocal {
 		
 		return output;
 	}
+	
 
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#testTemplate(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public String testTemplate(String groupId, String contactId) throws GroupException, ContactException{
 		
@@ -141,12 +162,20 @@ public class GroupManager implements GroupManagerLocal {
 		return output;
 	}
 
+	
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setActive(de.fhb.autobday.data.AbdGroup, boolean)
+	 */
 	@Override
 	public void setActive(AbdGroup group, boolean active) throws GroupNotFoundException{
 		setActive(group.getId(), active);
 	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setActive(java.lang.String, boolean)
+	 */
 	@Override
 	public void setActive(String groupId, boolean active) throws GroupNotFoundException {
 		
@@ -169,28 +198,9 @@ public class GroupManager implements GroupManagerLocal {
 	}
 	
 	
-	/**
-	 *  parses templates with the character format ${validExpression}
-	 *  possible Expresions are:
-	 *  attribute of Contacts for e.g.
-	 *  
-	 *  - id
-	 *  - name
-	 *  - firstname
-	 *  - sex
-	 *  - mail
-	 *  - bday
-	 *  
-	 *  
-	 *  or
-	 *  
-	 *  gender specific content expressions
-	 *  e.g. e/er
-	 *  
-	 * @param template
-	 * @param contact
-	 * @return
-	 * @throws NoContactGivenException 
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#parseTemplate(java.lang.String, de.fhb.autobday.data.AbdContact)
 	 */
 	@Override
 	public String parseTemplate(String template, AbdContact contact) throws NoContactGivenException{
@@ -274,15 +284,10 @@ public class GroupManager implements GroupManagerLocal {
 		return output.toString();
 	}
 	
-	
 
-	/**
-	 * parses strings wtih gender specific the contents separated by a slash, depending on gender.
-	 * according to this model female/male e.g. e/er
-	 * 
-	 * @param String expression
-	 * @param Char sex
-	 * @return String decesionOfOne
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#parseSlashExpression(java.lang.String, char)
 	 */
 	@Override
 	public String parseSlashExpression(String expression, char sex){
@@ -309,24 +314,20 @@ public class GroupManager implements GroupManagerLocal {
 		}
 	}
 	
-	/**
-	 * Get all Contacts of a group
-	 * 
-	 * @param group
-	 * @return
-	 * @throws GroupNotFoundException
+	
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getAllContactsFromGroup(de.fhb.autobday.data.AbdGroup)
 	 */
 	@Override
 	public List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws GroupNotFoundException{
 		return getAllContactsFromGroup(group.getId());
 	}
 	
-	/**
-	 * Get all Contacts of a group
-	 * 
-	 * @param groupInputObject
-	 * @return
-	 * @throws GroupNotFoundException 
+
+	/*
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getAllContactsFromGroup(java.lang.String)
 	 */
 	@Override
 	public List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException{
@@ -349,5 +350,6 @@ public class GroupManager implements GroupManagerLocal {
 		
 		return outputCollection;
 	}
+	
+	
 }
-

@@ -3,7 +3,10 @@ package de.fhb.autobday.commons;
 /**
  * Validates emailadresses.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * Andy Klay <klay@fh-brandenburg.de>
+ * 
  */
 public class EMailValidator {
 	

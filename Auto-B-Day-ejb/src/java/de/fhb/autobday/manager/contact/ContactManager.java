@@ -34,12 +34,19 @@ public class ContactManager implements ContactManagerLocal {
 	@EJB
 	private AbdGroupToContactFacade groupToContactDAO;
 	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(de.fhb.autobday.data.AbdContact, boolean)
+	 */
 	@Override
 	public void setActive(AbdContact contact, boolean active) throws ContactException{
 		setActive(contact.getId(), active);
 	}
 	
-	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(java.lang.String, boolean)
+	 */
 	@Override
 	public void setActive(String contactId, boolean active) throws ContactException {
 		
@@ -88,6 +95,10 @@ public class ContactManager implements ContactManagerLocal {
 	}
 	
 	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#getContact(java.lang.String)
+	 */
 	public AbdContact getContact(String contactId)throws ContactException{
 		
 		LOGGER.log(Level.INFO,"parameter:");

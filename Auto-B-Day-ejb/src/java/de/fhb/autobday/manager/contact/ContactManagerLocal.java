@@ -6,6 +6,7 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.exception.contact.ContactException;
 
 /**
+ * The Contactmanager processes all contact specific things.
  *
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
@@ -14,9 +15,32 @@ import de.fhb.autobday.exception.contact.ContactException;
 @Local
 public interface ContactManagerLocal {
 
+	/**
+	 * set a contact to a active stat for sending bdaymails
+	 * by a AbdContactobject
+	 * 
+	 * @param contact
+	 * @param active
+	 * @throws ContactException
+	 */
 	void setActive(AbdContact contact, boolean active) throws ContactException;
-	void setActive(String contactId, boolean active)throws ContactException ;
-
 	
+	/**
+	 * set a contact to a active stat for sending bdaymails
+	 * by a contactid
+	 * 
+	 * @param contactId
+	 * @param active
+	 * @throws ContactException
+	 */
+	void setActive(String contactId, boolean active)throws ContactException ;
+	
+	/**
+	 * get a contact by a contactid
+	 * 
+	 * @param contactId
+	 * @return
+	 * @throws ContactException
+	 */
 	AbdContact getContact(String contactId)throws ContactException ;
 }

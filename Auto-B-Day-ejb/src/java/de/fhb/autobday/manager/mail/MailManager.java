@@ -41,6 +41,10 @@ public class MailManager implements MailManagerLocal {
 		connectToMailServer();
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.mail.MailManagerLocal#sendBdayMail(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void sendBdayMail(String from, String to, String subject, String body) {
 		try {
@@ -60,10 +64,18 @@ public class MailManager implements MailManagerLocal {
 		}
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.mail.MailManagerLocal#sendNotificationMail()
+	 */
 	@Override
 	public void sendNotificationMail() {
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.mail.MailManagerLocal#sendForgotPasswordMail(int)
+	 */
 	@Override
 	public void sendForgotPasswordMail(int userId) throws MailException, UserNotFoundException {
 		// enge zusammenarbeit mit usermanager
@@ -96,6 +108,7 @@ public class MailManager implements MailManagerLocal {
 		this.sendBdayMail("", userMailAdress, "Autobday Notification", mailBody);
 	}
 
+	
 	private void connectToMailServer() {
 		
 		Properties props = new Properties();

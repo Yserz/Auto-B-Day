@@ -13,7 +13,7 @@ import java.util.Formatter;
 public class HashHelper {
 
 	/**
-	 * Diese Methode führt die eigentliche Berechnung des Hashwertes aus.
+	 * This method really calcutates the hashvalues.
 	 */
     private static String calculateHash(MessageDigest algorithm, String pw) throws UnsupportedEncodingException{
 
@@ -22,6 +22,7 @@ public class HashHelper {
 
         return byteArray2Hex(hash);
     }
+    
 	/**
 	 * Diese Methode formatiert den Byte-Array in einen Hexwert.
 	 */
@@ -32,11 +33,12 @@ public class HashHelper {
         }
         return formatter.toString();
     }
+    
 	/**
-	 * Diese Methode generiert den SHA1-Hashwert von einem String.
+	 * This method generates the SHA1-hashvalue of a String.
 	 * 
 	 * @param pw 
-	 * @return 
+	 * @return hashvalue - String
 	 * @throws UnsupportedEncodingException 
 	 * @throws NoSuchAlgorithmException 
 	 */
@@ -47,11 +49,12 @@ public class HashHelper {
 
         return calculateHash(sha1, pw);
     }
+    
 	/**
-	 * Diese Methode generiert den MD5-Hashwert von einem String.
+	 * This method generates the MD5-hashvalue of a String.
 	 * 
 	 * @param pw 
-	 * @return 
+	 * @return hashvalue - String
 	 * @throws UnsupportedEncodingException
 	 * @throws NoSuchAlgorithmException  
 	 */
@@ -62,4 +65,5 @@ public class HashHelper {
 
         return calculateHash(md5, pw);
     }
+	
 }

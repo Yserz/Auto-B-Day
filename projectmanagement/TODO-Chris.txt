@@ -5,8 +5,7 @@ TODO - Chris
 --- Allgemein 	---
 
  	- TODOs in den Manager, die du findest, versuchen zu lösen
- 	- javadoc.....einfügen falls noch fehlt..aber nich autogenerate..bitte was hinschreiben!
- 	- jvadoc überarebiten falls nötig...!
+ 	- gucken ob noch javadoc fehlen ...
  	
 	- Manager mit überprüfen, mal drüberlesen auch die Helper in commons-Package!
 	

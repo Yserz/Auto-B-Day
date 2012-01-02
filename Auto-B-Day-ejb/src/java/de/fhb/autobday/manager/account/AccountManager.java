@@ -39,11 +39,19 @@ public class AccountManager implements AccountManagerLocal {
 	public AccountManager() {
 	}
 
+
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#addAccount(int, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "abdUserId: {0}", abdUserId);
+		LOGGER.log(Level.INFO, "password: {0}", password);
+		LOGGER.log(Level.INFO, "userName: {0}", userName);
+		LOGGER.log(Level.INFO, "type: {0}", type);
 		
 		AbdUser actualUser=null;
 		
@@ -66,15 +74,22 @@ public class AccountManager implements AccountManagerLocal {
 
 		//create and save into db
 		accountDAO.create(createdAccount);
-		
 	}
 
-	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#removeAccount(de.fhb.autobday.data.AbdAccount)
+	 */
 	@Override
 	public void removeAccount(AbdAccount account) throws AccountException{
+		
 		removeAccount(account.getId());
 	}
 	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#removeAccount(int)
+	 */
 	@Override
 	public void removeAccount(int accountId) throws AccountException {
 		
@@ -96,6 +111,10 @@ public class AccountManager implements AccountManagerLocal {
 		accountDAO.remove(account);
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#importGroupsAndContacts(int)
+	 */
 	@Override
 	public void importGroupsAndContacts(int accountId) throws AccountNotFoundException {
 		
@@ -110,7 +129,7 @@ public class AccountManager implements AccountManagerLocal {
 		
 		//if account not found
 		if(account==null){
-			LOGGER.log(Level.SEVERE, "Account {0}not found!", accountId);
+			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
 			throw new AccountNotFoundException("Account " + accountId + "not found!");
 		}
 		
@@ -121,7 +140,10 @@ public class AccountManager implements AccountManagerLocal {
 		importer.importContacts();
 	}
 	
-	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#getAllGroupsFromAccount(de.fhb.autobday.data.AbdAccount)
+	 */
 	@Override
 	public List<AbdGroup> getAllGroupsFromAccount(AbdAccount account) throws AccountNotFoundException{
 		return getAllGroupsFromAccount(account.getId());
@@ -129,13 +151,14 @@ public class AccountManager implements AccountManagerLocal {
 	
 	
 	/**
-	 * 
-	 * @param accountInputObject
-	 * @return
-	 * @throws AccountNotFoundException
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#getAllGroupsFromAccount(int)
 	 */
 	@Override
 	public List<AbdGroup> getAllGroupsFromAccount(int accountId) throws AccountNotFoundException{
+		
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
 		AbdAccount account=null;
 		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
@@ -155,5 +178,6 @@ public class AccountManager implements AccountManagerLocal {
 		return outputCollection;
 	}
 	
+
 	
 }

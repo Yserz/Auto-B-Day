@@ -10,9 +10,12 @@ import java.util.List;
 import javax.ejb.Local;
 
 /**
+ * The GroupManager processes all group specific things.
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * 
  */
 @Local
 public interface GroupManagerLocal {
@@ -95,7 +98,7 @@ public interface GroupManagerLocal {
 	 *  
 	 * @param template
 	 * @param contact
-	 * @return
+	 * @return String
 	 */
 	String parseTemplate(String template, AbdContact contact) throws ContactException;
 	
@@ -113,7 +116,7 @@ public interface GroupManagerLocal {
 	 * Get all Contacts of a group
 	 * 
 	 * @param group
-	 * @return
+	 * @return List<AbdContact> 
 	 * @throws GroupNotFoundException
 	 */
 	List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException;
@@ -122,7 +125,7 @@ public interface GroupManagerLocal {
 	 * Get all Contacts of a group
 	 * 
 	 * @param groupId
-	 * @return
+	 * @return List<AbdContact> 
 	 * @throws GroupNotFoundException 
 	 */
 	List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws GroupNotFoundException;

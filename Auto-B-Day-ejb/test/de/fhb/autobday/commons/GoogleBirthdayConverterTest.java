@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
 import de.fhb.autobday.exception.CanNotConvetGoogleBirthdayException;
-import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
  * This testclass test the GoogleBirthdayConverter class
@@ -45,6 +44,7 @@ public class GoogleBirthdayConverterTest {
 		
 		//prepare variables to test
 		String gbirthday = "1989-01-01";
+		@SuppressWarnings("deprecation")
 		Date expResult = new Date(89, 0, 1);
 		Date result;
 		
@@ -64,6 +64,7 @@ public class GoogleBirthdayConverterTest {
 		
 		//prepare variables to test
 		String gbirthday = "2011-02-29";
+		@SuppressWarnings("deprecation")
 		Date expResult = new Date(111, 1, 29);
 		Date result;
 		
@@ -83,6 +84,7 @@ public class GoogleBirthdayConverterTest {
 		
 		//prepare variables to test
 		String gbirthday = "--01-01";
+		@SuppressWarnings("deprecation")
 		Date expResult = new Date(-1900, 0, 1);
 		Date result;
 		
@@ -102,6 +104,7 @@ public class GoogleBirthdayConverterTest {
 		
 		//prepare variables to test
 		String gbirthday = "--12-31";
+		@SuppressWarnings("deprecation")
 		Date expResult = new Date(-1900, 11, 31);
 		Date result;
 		
@@ -206,5 +209,12 @@ public class GoogleBirthdayConverterTest {
 		GoogleBirthdayConverter.convertBirthday(gbirthday);
 	}
 	
-	
+	@Test
+	public void testConvertBirthdayNULL(){
+		try {
+			assertEquals(null,GoogleBirthdayConverter.convertBirthday(null));
+		} catch (CanNotConvetGoogleBirthdayException e) {
+			e.printStackTrace();
+		}
+	}
 }

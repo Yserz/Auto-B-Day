@@ -18,6 +18,8 @@ import com.google.gdata.util.AuthenticationException;
 import com.google.gdata.util.ServiceException;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
@@ -213,14 +215,28 @@ private JavaEEGloss gloss;
 	 * Test of importContacts method, of class GoogleImporter.
 	 */
 	@Test
-	@Ignore
-	//TODO ACHTUNG TEST WIRD IGNORIERT
 	public void testImportContacts() {
 		System.out.println("importContacts");
-		GoogleImporter instance = new GoogleImporter();
-		instance.importContacts();
-		// TODO review the generated test code and remove the default call to fail.
-		//fail("The test case is a prototype.");
+		
+		//accdata
+		AbdAccount accdata = new AbdAccount();
+		 
+		//Mocks
+		AbdGroupFacade abdGroupFacade = createMock(AbdGroupFacade.class);
+		AbdContactFacade abdContactFacade = createMock(AbdContactFacade.class);
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		
+		//mocks methods
+		//URL feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		//expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
+		//feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		//expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		
+		//Variables setting
+		gImporterUnderTest.setConnectionEtablished(true);
+		gImporterUnderTest.setAccdata(accdata);
+		
+		
 	}
 	
 	@Test

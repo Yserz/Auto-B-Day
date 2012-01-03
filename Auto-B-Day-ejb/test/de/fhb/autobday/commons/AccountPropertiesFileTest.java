@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -13,7 +17,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({BufferedInputStream.class, Properties.class})
 public class AccountPropertiesFileTest {
 	
 	public AccountPropertiesFileTest(){
@@ -29,10 +39,18 @@ public class AccountPropertiesFileTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Properties properties = new Properties();
+		properties.put("loginname", "testname");
+		properties.put("password", "testpw");
+		BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream("test.txt"));
+		properties.store(stream, "Properties");
+		stream.close();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		File file = new  File("test.txt");
+		file.delete();
 	}
 
 	/**
@@ -44,21 +62,13 @@ public class AccountPropertiesFileTest {
 	}
 	
 	@Test
-	@Ignore
-	public void testReadPropertiesFile(){
+	public void testReadPropertiesFile() throws Exception{
 		
-		BufferedInputStream stream = createMock (BufferedInputStream.class);
-		Properties properties = createMock (Properties.class);
-		expect(properties.getProperty("loginname")).andReturn("testname");
-		expect(properties.getProperty("password")).andReturn("testpw");
 		HashMap<String, String> props = new HashMap<String, String>();
 		props.put("loginname", "testname");
 		props.put("password", "testpw");
-		
-		replay(stream);
-		replay(properties);
-		
-		assertEquals(props, AccountPropertiesFile.getProperties("test"));
+
+		assertEquals(props, AccountPropertiesFile.getProperties("test.txt"));
 	}
 
 }

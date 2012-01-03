@@ -1,6 +1,7 @@
 package de.fhb.autobday.manager.account;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
@@ -28,6 +29,7 @@ public class AccountManagerTestIntegration {
 	 * Test of addAccount method, of class AccountManager.
 	 */
 	@Test
+	@Ignore
 	public void testAddAccount() throws Exception {
 		
 		System.out.println("addAccount");

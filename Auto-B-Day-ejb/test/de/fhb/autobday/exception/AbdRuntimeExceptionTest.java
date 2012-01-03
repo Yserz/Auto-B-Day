@@ -33,13 +33,13 @@ public class AbdRuntimeExceptionTest {
 
 	@Test
 	public void testDefaultKonstruktor(){
-		assertEquals(null,new AbdRuntimeException());		
+		assertEquals(null,new AbdRuntimeException().getMessage());		
 	}
 	
 	@Test
 	public void testKonstruktorWithParameter(){
 		String message = "Dies ist eine Testmessage!";
-		assertEquals(message,new AbdRuntimeException(message));		
+		assertEquals(message,new AbdRuntimeException(message).getMessage());		
 	}
 
 }

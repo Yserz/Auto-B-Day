@@ -41,6 +41,8 @@ public class AccountPropertiesFile {
 			loginname= properties.getProperty("loginname");
 			password = properties.getProperty("password");			
 
+			System.out.println(loginname + password);
+			
 			props.put("loginname", loginname);
 			props.put("password", password);
 			return props;

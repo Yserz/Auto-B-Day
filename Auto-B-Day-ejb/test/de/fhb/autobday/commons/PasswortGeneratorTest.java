@@ -40,6 +40,14 @@ public class PasswortGeneratorTest {
 	public void tearDown() throws Exception {
 	}
 
+	/**
+	 * Test the default konstruktor
+	 */
+	@Test
+	public void testKonstruktor(){
+		assertEquals(true, new PasswordGenerator() instanceof PasswordGenerator);
+	}
+	
 	@Test
 	public void testGeneratePassword() {
 		System.out.println("testGeneratePassword");

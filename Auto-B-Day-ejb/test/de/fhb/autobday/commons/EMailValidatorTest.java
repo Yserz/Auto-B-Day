@@ -1,5 +1,6 @@
 package de.fhb.autobday.commons;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.*;
@@ -31,6 +32,14 @@ public class EMailValidatorTest {
 	@After
 	public void tearDown() {
 		
+	}
+	
+	/**
+	 * Test the default konstruktor
+	 */
+	@Test
+	public void testKonstruktor(){
+		assertEquals(true, new EMailValidator() instanceof EMailValidator);
 	}
 
 	/**

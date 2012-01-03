@@ -1,18 +1,17 @@
 package de.fhb.autobday.beans;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedProperty;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import de.fhb.autobday.beans.utils.ErrorBean;
 import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.manager.user.UserManagerLocal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -25,8 +24,6 @@ public class RegisterBean {
 	private UserManagerLocal userManager;
 	@ManagedProperty("#{sessionBean}")
 	private SessionBean sessionBean;
-	@ManagedProperty("#{errorBean}")
-	private ErrorBean errorBean;
 	
 	private String firstName;
 	private String name;
@@ -44,23 +41,21 @@ public class RegisterBean {
 	}
 	
 	public String register(){
-		String returnStat = "index";
 		
 		try {
 			userManager.register(firstName, name, userName, mail, password, passwordWdhl);
 		} catch (IncompleteUserRegisterException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
-			returnStat = errorBean.handleException(ex);
-			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
 		} catch (NoValidUserNameException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
-			returnStat =  errorBean.handleException(ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
 		}catch (HashFailException ex) {
 			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
-			errorBean.handleException(ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
 		}
 		
-		return returnStat;
+		return "welcome";
 	}
 
 	public String getMail() {

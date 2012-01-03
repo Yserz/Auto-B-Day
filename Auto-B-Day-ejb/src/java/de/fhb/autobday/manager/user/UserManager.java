@@ -138,27 +138,27 @@ public class UserManager implements UserManagerLocal {
 		String hash="";
 		
 		
-		if(firstName==null){
+		if(firstName.equals("")){
 			LOGGER.log(Level.SEVERE, "No firstname given!");
 			throw new IncompleteUserRegisterException("No firstname given!");
 		}
 		
-		if(name==null){
+		if(name.equals("")){
 			LOGGER.log(Level.SEVERE, "No name given!");
 			throw new IncompleteUserRegisterException("No firstname given!");
 		}
 		
-		if (mail!=null) {
+		if (!mail.equals("")) {
 			if(!EMailValidator.isEmail(mail)){
 				LOGGER.log(Level.SEVERE, "Mail is not a valid mail!");
 				throw new IncompleteUserRegisterException("Mail is not a valid mail!");
 			}
-		}else{
+		}/*else{
 			LOGGER.log(Level.SEVERE, "No mail given!");
 			throw new IncompleteUserRegisterException("No mail given!");
-		}
+		}*/
 		
-		if(userName==null){
+		if(userName.equals("")){
 			LOGGER.log(Level.SEVERE, "No username given!");
 			throw new IncompleteUserRegisterException("No username given");
 		}
@@ -168,12 +168,12 @@ public class UserManager implements UserManagerLocal {
 			throw new NoValidUserNameException("No valid Username!");
 		}
 		
-		if(password==null){
+		if(password.equals("")){
 			LOGGER.log(Level.SEVERE, "No password given!");
 			throw new IncompleteUserRegisterException("No password given");
 		}
 		
-		if(passwordRepeat==null){
+		if(passwordRepeat.equals("")){
 			LOGGER.log(Level.SEVERE, "No password repetition given!");
 			throw new IncompleteUserRegisterException("No  password repetition given");
 		}

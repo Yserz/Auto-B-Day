@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:p="http://primefaces.prime.com.tr/ui"
-	  xmlns:f="http://java.sun.com/jsf/core">
+	  xmlns:p="http://primefaces.prime.com.tr/ui">
 
     <h:body>
 		<ui:composition>
@@ -32,23 +31,24 @@
 
 							<p:commandButton value="Login" 
 											 ajax="false"
-											 actionListener="#{sessionBean.login}" 
-											 update="panel" 
-											 rendered="#{!sessionBean.loggedIn}"/>
+											 action="#{sessionBean.login}"
+											 update="panel" />
 						</h:panelGrid>
 					</p:panel>
+					
+
+				</h:form>
+				<h:form>
 					<p:commandLink value="Registrieren" 
 								   immediate="true"
 								   ajax="false"
-								   actionListener="register" 
 								   action="register"
 								   rendered="#{!sessionBean.loggedIn}"/>
 
 					<p:commandButton value="Logout" 
 									 ajax="false"
-									 actionListener="#{sessionBean.logout}" 
+									 action="#{sessionBean.logout}"
 									 rendered="#{sessionBean.loggedIn}"/>
-
 				</h:form>
 			</div>
 		</ui:composition>

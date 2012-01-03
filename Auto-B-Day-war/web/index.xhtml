@@ -20,7 +20,7 @@
 			<p:calendar value="#{calendarBean.date1}" mode="inline"   
 					onSelectUpdate="growl"   
 					selectListener="#{calendarBean.handleDateSelect}"/>   
-
+			<p:commandButton value="make error" action="#{sessionBean.doSomethingSilly}" />
 		</h:form>
 		
 	</ui:define>

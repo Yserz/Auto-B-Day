@@ -34,6 +34,11 @@ public class GoogleBirthdayConverterTest {
 	@After
 	public void tearDown() {
 	}
+	
+	@Test
+	public void testKonstruktor(){
+		assertEquals(true, new GoogleBirthdayConverter() instanceof GoogleBirthdayConverter);
+	}
 
 	/**
 	 * Test of convertBirthday method, of class GoogleBirthdayConverter.
@@ -209,6 +214,9 @@ public class GoogleBirthdayConverterTest {
 		GoogleBirthdayConverter.convertBirthday(gbirthday);
 	}
 	
+	/**
+	 * Test with a Null Object
+	 */
 	@Test
 	public void testConvertBirthdayNULL(){
 		try {

@@ -33,6 +33,7 @@ public class AccountPropertiesFile {
 		String password;
 		
 		try {
+			System.out.println("bla");
 			BufferedInputStream stream = new BufferedInputStream(new FileInputStream(filename));
 			properties.load(stream);
 			stream.close();

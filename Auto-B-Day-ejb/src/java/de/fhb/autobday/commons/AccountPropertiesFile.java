@@ -35,9 +35,11 @@ public class AccountPropertiesFile {
 		try {
 			System.out.println("bla");
 			BufferedInputStream stream = new BufferedInputStream(new FileInputStream(filename));
+			System.out.println("bla1");
 			properties.load(stream);
+			System.out.println("bla2");
 			stream.close();
-			
+			System.out.println("bla3");
 			//get data from the propertyfile
 			loginname= properties.getProperty("loginname");
 			password = properties.getProperty("password");			
@@ -46,6 +48,7 @@ public class AccountPropertiesFile {
 			
 			props.put("loginname", loginname);
 			props.put("password", password);
+			System.out.println("bla4");
 			return props;
 			
 		} catch (IOException e){

@@ -3,13 +3,13 @@ package de.fhb.autobday.manager.account;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -21,10 +21,9 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
@@ -94,6 +93,8 @@ public class AccountManagerTest {
 		String userName="mustermann";
 		String type="type";
 		
+		Collection<AbdAccount> collection=new ArrayList<AbdAccount>();
+		
 
 		//prepare a user object
 		int userId=1;	
@@ -104,11 +105,59 @@ public class AccountManagerTest {
 		user.setPasswort("password");
 		user.setSalt("salt");
 		user.setUsername("username");
-				
+		user.setAbdAccountCollection(collection);
 			
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		
+		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(userDAOMock);
+		EasyMock.replay(accountDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.addAccount(userId, password, userName, type);
+		
+		// verify		
+		EasyMock.verify(userDAOMock);
+		EasyMock.verify(accountDAOMock);
+	}
+	
+	/**
+	 * Test of addAccount method, of class AccountManager.
+	 * This test provokes a AccountAlreadyExsistsException!
+	 */
+	@Test(expected = AccountAlreadyExsistsException.class)
+	public void testAddAccountThrowsAccountAlreadyExsistsException() throws Exception {
+		
+		System.out.println("addAccount");
+		
+		//prepare test variables
+		String password="password";
+		String userName="mustermann";
+		String type="type";
+		
+		Collection<AbdAccount> collection=new ArrayList<AbdAccount>();
+		AbdAccount existsAccount= new AbdAccount();
+		existsAccount.setUsername(userName);
+		existsAccount.setType(type);
+
+		//prepare a user object
+		int userId=1;	
+		AbdUser user = new AbdUser();
+		user.setFirstname("");
+		user.setName("");
+		user.setId(userId);
+		user.setPasswort("password");
+		user.setSalt("salt");
+		user.setUsername("username");
+		user.setAbdAccountCollection(collection);
+		user.getAbdAccountCollection().add(existsAccount);
+			
+			
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock

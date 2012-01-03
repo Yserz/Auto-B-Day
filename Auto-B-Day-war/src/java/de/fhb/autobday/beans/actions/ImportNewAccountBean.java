@@ -2,6 +2,7 @@ package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.account.AccountManagerLocal;
 import java.util.logging.Level;
@@ -41,6 +42,9 @@ public class ImportNewAccountBean {
 			AbdUser aktUser = sessionBean.getAktUser();
 			accountManager.addAccount(aktUser.getId(), password, userName, type);
 		} catch (UserNotFoundException ex) {
+			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+		}catch (AccountAlreadyExsistsException ex) {
 			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
 		}

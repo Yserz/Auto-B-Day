@@ -5,6 +5,7 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
@@ -42,10 +43,11 @@ public class AccountManager implements AccountManagerLocal {
 	
 	/**
 	 * (non-Javadoc)
+	 * @throws AccountAlreadyExsistsException 
 	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#addAccount(int, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException {
+	public void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "abdUserId: {0}", abdUserId);
@@ -64,6 +66,17 @@ public class AccountManager implements AccountManagerLocal {
 			throw new UserNotFoundException("User " + abdUserId + " not found!");
 		}
 		
+		//search if account already exists
+		for( AbdAccount actAccount : actualUser.getAbdAccountCollection()){
+			if(actAccount.getUsername().equals(userName)&&actAccount.getType().equals(type)){
+				LOGGER.log(Level.SEVERE, "Account already exists!");
+				throw new AccountAlreadyExsistsException("Account already exists!");
+			}
+		}
+		
+		//TODO ueberpruefen ob userName ne goole mailaddresse ist
+		
+		
 		//add new Account
 		AbdAccount createdAccount=new AbdAccount();	
 		createdAccount.setId(Integer.SIZE);
@@ -75,6 +88,8 @@ public class AccountManager implements AccountManagerLocal {
 
 		//create and save into db
 		accountDAO.create(createdAccount);
+		
+		//TODO einlesen der  google Daten
 	}
 
 	/**

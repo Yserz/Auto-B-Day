@@ -7,7 +7,7 @@ import javax.inject.Named;
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-@Named(value = "contactBean")
+@Named
 @RequestScoped
 public class ContactBean {
 

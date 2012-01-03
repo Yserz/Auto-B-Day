@@ -2,6 +2,7 @@ package de.fhb.autobday.beans;
 
 import de.fhb.autobday.manager.account.AccountManagerLocal;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -9,7 +10,7 @@ import javax.inject.Named;
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-@Named(value = "accountBean")
+@Named
 @RequestScoped
 public class AccountBean {
 	@Inject
@@ -23,7 +24,10 @@ public class AccountBean {
 	}
 	
 	public void getAllAccounts(){
-		sessionBean.getUser();
+		sessionBean.getAktUser();
 		
+	}
+	public void setSessionBean(SessionBean sessionBean) {
+		this.sessionBean = sessionBean;
 	}
 }

@@ -8,375 +8,55 @@
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
 <project name="Auto-B-Day" default="default" basedir="." xmlns:ear="http://www.netbeans.org/ns/j2ee-earproject/2">
-	<!-- <project name="Auto-B-Day" default="default" basedir="." xmlns:ear="http://www.netbeans.org/ns/j2ee-earproject/2" xmlns:ivy="antlib:org.apache.ivy.ant"> -->
-    <description>Builds and tests the project Auto-B-Day.</description>
+    <description>Builds, tests, and runs the project Auto-B-Day.</description>
+    <import file="nbproject/build-impl.xml"/>
 	
-	<!-- 
-	EJB
-	1. copy EJB META-INF to ejb-build dir
-	2. compile EJB Java Files to ejb-build dir
-	3. copy (and invoke) ejb-libs to ejb-dist dir
-	4. make a Jar in the ejb-dist dir
-	
-	WAR
-	1. copy WAR Meta-INF(src/java/meta-inf) and content of Web Folder to build dir
-	2. copy (and invoke) the ejb-lib-folder
-	3. compile WAR Java Files to WEB-INF/classes
-	4. make a War file in the war-dist dir
-	
-	EAR
-	1. copy ejb.jar and war.war to the build dir
-	2. copy all libs and meta-inf to the build dir
-	3. make a ear file to the ear-dist-folder
-	-->
+    <!--
 
-	<property file="build.properties" />
-	
-	<!-- =================================
-		          target: Default
-		 ================================= -->
-	<target name="default" depends="init,compile-ejb,jar,compile-war,war,ear">
-		
-	</target>
-	<target name="test" depends="default, compile-tests, cob-rep, test-ejb">
-		
-	</target>
-	
-	<!-- =================================
-		          target: Clear
-		 ================================= -->
-	<target name="clear">
-		<!--clean-->
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${dist.dir}" />
-		<mkdir dir="${ejb.build.dir}" />
-		<mkdir dir="${ejb.dist.dir}" />
-		<mkdir dir="${war.build.dir}" />
-		<mkdir dir="${war.dist.dir}" />
-		
-		<delete verbose="true" includeEmptyDirs="true">
-			<!--clean General-->
-			<fileset file="${cob.data}" />
-			<fileset dir="${build.dir}"/>
-			<fileset dir="${dist.dir}"/>
-			
-			<!--clean EJB-->
-			<fileset dir="${ejb.build.dir}"/>
-			<fileset dir="${ejb.dist.dir}"/>
-			<!--clean WAR-->
-			<fileset dir="${war.build.dir}"/>
-			<fileset dir="${war.dist.dir}"/>
-			
-		</delete>
-		
-	</target>
-	
-	<!-- =================================
-		          target: Init
-		 ================================= -->
-	<target name="init" depends="clear">
-		
-		
-		<!--init General-->
-		<mkdir dir="${build.dir}" />
-		<mkdir dir="${build.dir}/lib" />
-		<mkdir dir="${build.dir}/META-INF" />
-		<mkdir dir="${dist.dir}" />
-		<!--JUnit-->
-		<mkdir dir="${reports.xml.dir}" />
-		<mkdir dir="${reports.html.dir}" />
-		<!--Cobertura-->
-		<mkdir dir="${cob.inst.dir}" />
-		<mkdir dir="${cob.rep.html}" />
-		<mkdir dir="${cob.rep.xml}" />
-		<!--Checkstyle-->
-		<mkdir dir="${cs.rep.xml}" />
-		<mkdir dir="${cs.rep.html}" />
-		<!--Findbugs-->
-		<mkdir dir="${fb.rep.html}" />
-		
-		<!--init EJB-->
-		<mkdir dir="${ejb.build.dir}" />
-		<mkdir dir="${ejb.dist.dir}" />
-		<mkdir dir="${ejb.classes.dir}" />
-		<!--JUnit-->
-		<mkdir dir="${ejb.reports.xml.dir}" />
-		<mkdir dir="${ejb.reports.html.dir}" />
-		
-		<!--init WAR-->
-		<mkdir dir="${war.build.dir}" />
-		<mkdir dir="${war.dist.dir}" />
-		<mkdir dir="${war.classes.dir}" />
-		<!--JUnit-->
-		<mkdir dir="${war.reports.xml.dir}" />
-		<mkdir dir="${war.reports.html.dir}" />
-		
-	</target>
-	
-	<!-- =================================
-		          target: Compile EJB
-		 ================================= -->
-	<target name="compile-ejb" depends="init">
-		<copy todir="${ejb.classes.dir}/META-INF">
-		    <fileset dir="${ejb.src.dir}/META-INF"/>
-		</copy>
-		
-		<!--General-->
-		<path id="ejb.classpath">
-			<fileset dir="${ejb.lib.default.dir}">
-				<include name="**/*.jar" />
-			</fileset>
-		</path>
-		<javac srcdir="${ejb.src.dir}" destdir="${ejb.classes.dir}" debug="yes">
-			<classpath refid="ejb.classpath" />
-		</javac>
-		
-		
-	</target>
-	
-	<!-- =================================
-		          target: Compile WAR
-		 ================================= -->
-	<target name="compile-war" depends="init, jar">
-		<copy todir="${war.web.dir}">
-		    <fileset dir="${war.websrc.dir}"/>
-		</copy>
-		<copy todir="${war.web.dir}/META-INF">
-		    <fileset dir="${war.src.dir}/META-INF"/>
-		</copy>
-		<copy todir="${war.build.dir}/META-INF">
-		    <fileset dir="${war.src.dir}/META-INF"/>
-		</copy>
-		
-		<!--General-->
-		<path id="war.classpath">
-			<fileset dir="${build.dir}/">
-				<include name="*-ejb.jar" />
-			</fileset>
-			<fileset dir="${war.lib.default.dir}">
-				<include name="*.jar" />
-			</fileset>
-			<fileset dir="${ejb.lib.default.dir}">
-				<include name="*.jar" />
-			</fileset>
-		</path>
-		<javac srcdir="${war.src.dir}" destdir="${war.classes.dir}" debug="yes">
-			<classpath refid="war.classpath" />
-		</javac>
-		
-		
-	</target>
-	
-	<!-- =================================
-		          target: JAR
-		 ================================= -->
-	<target name="jar" depends="init,compile-ejb">
-		<jar destfile="${ejb.dist.dir}/${ant.project.name}-ejb.jar">
-			<fileset dir="${ejb.classes.dir}" />
-		</jar>
-		<copy file="${ejb.dist.dir}/${ant.project.name}-ejb.jar" todir="${build.dir}"/>
-	</target>
-	
-	<!-- =================================
-		          target: WAR
-		 ================================= -->
-	<target name="war" depends="init,compile-war,jar">
-		<war destfile="${war.dist.dir}/${ant.project.name}-war.war">
-			<fileset dir="${war.web.dir}">
-				<include name="**/*.*" />
-			</fileset>
-		</war>
-		<copy file="${war.dist.dir}/${ant.project.name}-war.war" todir="${build.dir}"/>
-	</target>
-	
-	<!-- =================================
-		          target: EAR
-		 ================================= -->
-	<target name="ear" depends="jar,war">
-		<!-- copy libs -->
-		<copy todir="${build.dir}/lib">
-		    <fileset dir="${war.lib.default.dir}"/>
-			<fileset dir="${ejb.lib.default.dir}"/>
-		</copy>
-		<copy todir="${build.dir}/META-INF">
-		    <fileset dir="${basedir}/src/conf"/>
-		</copy>
-		<zip zipfile="${dist.dir}/${ant.project.name}.ear">
-			<zipfileset dir="${build.dir}/lib" prefix="lib/"/>
-			<zipfileset dir="${build.dir}/META-INF" prefix="META-INF/"/>
-			<zipfileset dir="${build.dir}">
-				<include name="${ant.project.name}-ejb.jar"/>
-				<include name="${ant.project.name}-war.war"/>
-			</zipfileset>
-		</zip>
-	</target>
-	
-	<!-- =================================
-		          target: Compile-Tests
-		 ================================= -->
-	<target name="compile-tests" depends="init">
-		 <!--Compile EJB Tests-->
-		<path id="ejb-test.classpath">
-			<fileset dir="${ejb.lib.test.dir}">
-				<include name="*.jar" />
-			</fileset>
-			<fileset dir="${ejb.lib.default.dir}">
-				<include name="**/*.jar" />
-			</fileset>
-			<fileset dir="${build.dir}/">
-				<include name="*-ejb.jar" />
-			</fileset>
-		</path>
-		<javac srcdir="${ejb.test.dir}" destdir="${ejb.classes.dir}" debug="yes">
-			<classpath refid="ejb-test.classpath" />
-		</javac>
-		
-		<!--Compile WAR Tests-->
-		<!--
-		<path id="war-test.classpath">
-			<fileset dir="${war.lib.test.dir}">
-				<include name="*.jar" />
-			</fileset>
-			<fileset dir="${ejb.lib.default.dir}">
-				<include name="*.jar" />
-			</fileset>
-		</path>
-		<javac srcdir="${war.test.dir}" destdir="${war.classes.dir}" debug="yes">
-			<classpath refid="war-test.classpath" />
-		</javac>
-		-->
-	</target>
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
 
-	<!-- =================================
-		          target: Test-EJB
-		 ================================= -->
-	<target name="test-ejb" depends="compile-tests">
-		
-		<junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
+      pre-init:                 called before initialization of project properties 
+      post-init:                called after initialization of project properties 
+      pre-compile:              called before javac compilation 
+      post-compile:             called after javac compilation 
+      pre-dist:                 called before archive building 
+      post-dist:                called after archive building 
+      post-clean:               called after cleaning build products 
+      pre-run-deploy:           called before deploying
+      post-run-deploy:          called after deploying
 
-			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cob.data}" />
-		 	<classpath location="${cob.inst.dir}" />
-			<classpath location="${ejb.classes.dir}" />
-			<classpath refid="ejb-test.classpath" />
+    Example of pluging an obfuscator after the compilation could look like 
 
-		 	<formatter type="brief" usefile="false"/>
-			<formatter type="xml" />
-			
-		 	<test name="${testcase}" todir="${ejb.reports.xml.dir}" if="testcaseejb"/>
-		 	<!-- ant test -Dtestcase=<fully qualified classname> -->
-		 	<!--
-		 	  <sysproperty key="docs.dir" value="${test.dir}/org"/>  
-		 	  Manche Tests benötigen System Properties, diese können im Test umdefiniert werden.
-		 	-->
-		 	<batchtest todir="${ejb.reports.xml.dir}" unless="testcaseejb">
-				<fileset dir="${ejb.test.dir}">
-					<include name="**/*Test.java" />
-				</fileset>
-			</batchtest>
-		</junit>
+        <target name="post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
 
-		<junitreport todir="${ejb.reports.xml.dir}">
-			<fileset dir="${ejb.reports.xml.dir}">
-				<include name="TEST-*.xml" />
-			</fileset>
-			<report format="frames" todir="${ejb.reports.html.dir}" />
-		</junitreport>
-		<fail message="Tests failed. Check log and/or reports."	if="test.failed"/>
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
 
-	</target>
-	
-	<!-- =================================
-		          target: Test-WAR
-		 ================================= -->
-	<target name="test-war" depends="compile-tests">
-		
-		<junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
 
-			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cob.data}" />
-		 	<classpath location="${cob.inst.dir}" />
-			<classpath location="${war.classes.dir}" />
-			<classpath refid="war-test.classpath" />
+    Other way how to customize the build is by overriding existing main targets.
+    The target of interest are: 
 
-		 	<formatter type="brief" usefile="false"/>
-			<formatter type="xml" />
-			
-		 	<test name="${testcase}" todir="${war.reports.xml.dir}" if="testcasewar"/>
-		 	<!-- ant test -Dtestcase=<fully qualified classname> -->
-		 	<!--
-		 	  <sysproperty key="docs.dir" value="${test.dir}/org"/>  
-		 	  Manche Tests benötigen System Properties, diese können im Test umdefiniert werden.
-		 	-->
-		 	<batchtest todir="${war.reports.xml.dir}" unless="testcasewar">
-				<fileset dir="${war.test.dir}">
-					<include name="**/*Test.java" />
-				</fileset>
-			</batchtest>
-		</junit>
+      do-dist:                archive building
+      run:                    execution of project 
 
-		<junitreport todir="${war.reports.xml.dir}">
-			<fileset dir="${war.reports.xml.dir}">
-				<include name="TEST-*.xml" />
-			</fileset>
-			<report format="frames" todir="${war.reports.html.dir}" />
-		</junitreport>
-		<fail message="Tests failed. Check log and/or reports."	if="test.failed"/>
+    Example of overriding the target for project execution could look like 
 
-	</target>
-	
-	<!-- =================================
-		          target: Cobertura
-		 ================================= -->
-	
-	<target name="cob-instr" depends="compile-ejb,compile-war">
-		<taskdef classpathref="ejb-test.classpath" resource="tasks.properties" />
-		
-		<cobertura-instrument todir="${cob.inst.dir}" datafile="${cob.data}">
-		    <fileset dir="${ejb.classes.dir}">
-		        <include name="**/*.class" />
-		        <exclude name="**/*Test.class" />
-		        <exclude name="**/*Suite.class" />
-		    </fileset>
-		</cobertura-instrument>
-		<!--
-		<cobertura-instrument todir="${cob.inst.dir}" datafile="${cob.data}">
-		    <fileset dir="${war.classes.dir}">
-		        <include name="**/*.class" />
-		        <exclude name="**/*Test.class" />
-		        <exclude name="**/*Suite.class" />
-		    </fileset>
-		</cobertura-instrument>
-		-->
-	</target>
+        <target name="run" depends="<PROJNAME>-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
 
-	<target name="cob-rep" depends="cob-instr, test-ejb" description="erzeugt Cobertura Reports">
-		<cobertura-report format="html" datafile="${cob.data}" destdir="${cob.rep.html}" srcdir="${ejb.src.dir}" />
-		<cobertura-report format="xml" datafile="${cob.data}" destdir="${cob.rep.xml}" srcdir="${ejb.src.dir}" />
-	</target>
-	
-	<!-- ================================= 
-          target: clean-cache              
-         ================================= -->
-<!--
-	<target name="clean-cache" description="- clean the ivy cache">
-		<ivy:cleancache />
-	</target>
--->	
-	<!-- ================================= 
-          target: resolve              
-         ================================= -->
-<!-- 
-	<target name="resolve" description="- retreive dependencies with ivy">
-		<property name="ivy.settings.dir" value="settings" />
-		<ivy:settings file="${ivy.settings.dir}/ivysettings.xml" />
-        <ivy:retrieve pattern="${ejb.lib.default.dir}"/>
-    </target>    
--->   
-    <!-- ================================= 
-          target: report              
-         ================================= -->
-<!--
-    <target name="report" depends="resolve" description="- generates a report of dependencies">
-        <ivy:report todir="${build.dir}"/>
-    </target>
--->
+    Notice that overridden target depends on jar target and not only on 
+    compile target as regular run target does. Again, for list of available 
+    properties which you can use check the target you are overriding in 
+    nbproject/build-impl.xml file. 
+
+    -->
 </project>

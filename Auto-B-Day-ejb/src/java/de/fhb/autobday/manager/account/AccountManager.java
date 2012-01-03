@@ -39,7 +39,7 @@ public class AccountManager implements AccountManagerLocal {
 	public AccountManager() {
 	}
 
-
+	
 	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#addAccount(int, java.lang.String, java.lang.String, java.lang.String)
@@ -60,17 +60,18 @@ public class AccountManager implements AccountManagerLocal {
 		
 		//if account not found
 		if(actualUser==null){
-			LOGGER.log(Level.SEVERE, "User {0}not found!", abdUserId);
-			throw new UserNotFoundException("User " + abdUserId + "not found!");
+			LOGGER.log(Level.SEVERE, "User {0} not found!", abdUserId);
+			throw new UserNotFoundException("User " + abdUserId + " not found!");
 		}
 		
 		//add new Account
 		AbdAccount createdAccount=new AbdAccount();	
 		createdAccount.setId(Integer.SIZE);
 		createdAccount.setAbduser(actualUser);
+		//TODO Password verschluesseln
 		createdAccount.setPasswort(password);
 		createdAccount.setUsername(userName);
-		createdAccount.setType(type);
+		createdAccount.setType("google");
 
 		//create and save into db
 		accountDAO.create(createdAccount);

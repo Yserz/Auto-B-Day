@@ -8,15 +8,28 @@
     
     <h:body>
 		<ui:composition>
-			<p:panel header="AccountList" rendered="#{sessionBean.loggedIn}">
+			<p:panel id="accountList" header="AccountList" rendered="#{sessionBean.loggedIn}">
 				<h:form>
-					<h:outputText value="Keine Accounts vorhanden!"
-									rendered="#{userBean.allAccountsFromUser == null or userBean.allAccountsFromUser.rowCount eq 0}" />
-
+					
 					<h:dataTable value="#{userBean.allAccountsFromUser}" 
 									var="account"
 									rendered="#{userBean.allAccountsFromUser != null and userBean.allAccountsFromUser.rowCount > 0}">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="ID" />
+							</f:facet>
+							<h:outputText value="#{account.id}" />
+						</h:column>
+
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Name" />
+							</f:facet>
+							<h:outputText value="#{account.username}" />
+						</h:column>
+
 					</h:dataTable>
+
 				</h:form>
 			</p:panel>
 	    </ui:composition>

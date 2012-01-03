@@ -1,5 +1,6 @@
-package de.fhb.autobday.beans;
+package de.fhb.autobday.beans.actions;
 
+import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
@@ -8,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,13 +17,11 @@ import javax.inject.Named;
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-@Named(value = "registerBean")
+@Named
 @RequestScoped
 public class RegisterBean {
 	@Inject
 	private UserManagerLocal userManager;
-	@ManagedProperty("#{sessionBean}")
-	private SessionBean sessionBean;
 	
 	private String firstName;
 	private String name;
@@ -55,7 +53,7 @@ public class RegisterBean {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
 		}
 		
-		return "welcome";
+		return "index";
 	}
 
 	public String getMail() {

@@ -14,13 +14,41 @@
 	</ui:define>
 	-->
 	<ui:define name="content">
+		Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}.
+		
 		<h:form>
-			<!--<p:growl id="growl" showDetail="true" />-->
+			<p:panel id="panel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts">
+				
+				<h:panelGrid columns="3"> 
+					<h:outputLabel for="userName" value="Username:* " />
+					<p:inputText id="userName" 
+								 value="#{importNewAccountBean.userName}"
+								 label="Username"
+								 required="true"
+								 maxlength="40"/>
+					<p:message for="userName" />
 
-			<p:calendar value="#{calendarBean.date1}" mode="inline"   
-					onSelectUpdate="growl"   
-					selectListener="#{calendarBean.handleDateSelect}"/>   
-			<p:commandButton value="make error" action="#{sessionBean.doSomethingSilly}" />
+					
+					<h:outputLabel for="password" value="Password:* " />
+					<p:password id="password" 
+								value="#{importNewAccountBean.password}" 
+								label="Password"
+								feedback="false"
+								required="true"
+								minLength="1"
+								maxlength="30"/>
+					<p:message for="password" />
+
+					<!-- TODO type -->
+				</h:panelGrid>
+
+
+				<p:commandButton value="Importieren" 
+								 update="panel" 
+								 image="ui-icon ui-icon-disk"
+								 ajax="true"
+								 actionListener="#{importNewAccountBean.importNewAccount}"/>
+			</p:panel>
 		</h:form>
 		
 	</ui:define>

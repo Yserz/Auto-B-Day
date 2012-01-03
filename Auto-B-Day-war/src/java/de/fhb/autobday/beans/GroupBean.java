@@ -7,7 +7,7 @@ import javax.inject.Named;
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-@Named(value = "groupBean")
+@Named
 @RequestScoped
 public class GroupBean {
 

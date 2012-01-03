@@ -10,18 +10,17 @@
 			<div align="right">
 				<h:form>
 					<p:panel id="panel" rendered="#{!sessionBean.loggedIn}" style="width:460px;">
-						<p:messages />
 						<h:panelGrid columns="5">
 
-							<p:inputText id="loginName" 
-										 value="#{sessionBean.loginName}"
+							<p:inputText id="userName" 
+										 value="#{loginLogoutBean.userName}"
 										 label="Username"
 										 required="true"
 										 maxlength="20"
 										 onfocus="if(this.value=='Username') this.value=''"/>
 
 							<p:password id="password" 
-										value="#{sessionBean.password}" 
+										value="#{loginLogoutBean.password}" 
 										label="Password"
 										feedback="false"
 										required="true"
@@ -31,7 +30,7 @@
 
 							<p:commandButton value="Login" 
 											 ajax="false"
-											 action="#{sessionBean.login}"
+											 action="#{loginLogoutBean.login}"
 											 update="panel" />
 						</h:panelGrid>
 					</p:panel>
@@ -47,7 +46,7 @@
 
 					<p:commandButton value="Logout" 
 									 ajax="false"
-									 action="#{sessionBean.logout}"
+									 action="#{loginLogoutBean.logout}"
 									 rendered="#{sessionBean.loggedIn}"/>
 				</h:form>
 			</div>

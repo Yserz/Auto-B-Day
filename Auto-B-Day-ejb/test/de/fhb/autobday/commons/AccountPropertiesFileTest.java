@@ -55,7 +55,7 @@ public class AccountPropertiesFileTest {
 		replay(stream);
 		replay(properties);
 		
-		assertEquals(props, AccountPropertiesFile.getProperties(""));
+		assertEquals(props, AccountPropertiesFile.getProperties("test"));
 	}
 
 }

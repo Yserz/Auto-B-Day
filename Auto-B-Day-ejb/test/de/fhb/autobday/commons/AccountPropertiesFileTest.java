@@ -46,8 +46,8 @@ public class AccountPropertiesFileTest {
 	public void testReadPropertiesFile(){
 		BufferedInputStream stream = createMock (BufferedInputStream.class);
 		Properties properties = createMock (Properties.class);
-		properties.setProperty("loginname", "testname");
-		properties.setProperty("password", "testpw");
+		expect(properties.getProperty("loginname")).andReturn("testname");
+		expect(properties.getProperty("password")).andReturn("testpw");
 		HashMap<String, String> props = new HashMap<String, String>();
 		props.put("loginname", "testname");
 		props.put("password", "testpw");

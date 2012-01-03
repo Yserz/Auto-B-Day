@@ -35,6 +35,9 @@ public class GoogleBirthdayConverterTest {
 	public void tearDown() {
 	}
 	
+	/**
+	 * Test the default konstruktor
+	 */
 	@Test
 	public void testKonstruktor(){
 		assertEquals(true, new GoogleBirthdayConverter() instanceof GoogleBirthdayConverter);

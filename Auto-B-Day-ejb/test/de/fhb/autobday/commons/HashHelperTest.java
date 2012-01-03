@@ -27,6 +27,14 @@ public class HashHelperTest {
 	@After
 	public void tearDown() {
 	}
+	
+	/**
+	 * Test the default konstruktor
+	 */
+	@Test
+	public void testKonstruktor(){
+		assertEquals(true, new HashHelper() instanceof HashHelper);
+	}
 
 	/**
 	 * Test of calcSHA1 method, of class HashHelper.

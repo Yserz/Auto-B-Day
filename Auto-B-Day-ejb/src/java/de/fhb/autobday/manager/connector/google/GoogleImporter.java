@@ -67,7 +67,7 @@ public class GoogleImporter extends AImporter {
 		//connect to google
 		try {
 			myService = new ContactsService("BDayReminder");
-			myService.setUserCredentials("fhbtestacc@googlemail.com", "TestGoogle123");
+			myService.setUserCredentials(accdata.getUsername(), accdata.getPasswort());
 
 		} catch (ServiceException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);

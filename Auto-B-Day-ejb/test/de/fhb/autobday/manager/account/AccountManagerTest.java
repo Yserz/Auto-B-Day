@@ -25,6 +25,7 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
@@ -86,7 +87,7 @@ public class AccountManagerTest {
 	@Test
 	public void testAddAccount() throws Exception {
 		
-		System.out.println("addAccount");
+		System.out.println("testAddAccount");
 		
 		//prepare test variables
 		String password="password";
@@ -104,7 +105,52 @@ public class AccountManagerTest {
 		user.setId(userId);
 		user.setPasswort("password");
 		user.setSalt("salt");
-		user.setUsername("username");
+		user.setUsername("username@gmail.de");
+		user.setAbdAccountCollection(collection);
+			
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
+		
+		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(userDAOMock);
+		EasyMock.replay(accountDAOMock);
+		
+		// testing Methodcall
+		managerUnderTest.addAccount(userId, password, userName, type);
+		
+		// verify		
+		EasyMock.verify(userDAOMock);
+		EasyMock.verify(accountDAOMock);
+	}
+	
+	/**
+	 * Test of addAccount method, of class AccountManager.
+	 * This test provokes a NoValidUserNameException!
+	 */
+	@Test(expected = NoValidUserNameException.class)
+	public void testAddAccountThrowsNoValidUserNameException() throws Exception {
+		
+		System.out.println("testAddAccountThrowsNoValidUserNameException");
+		
+		//prepare test variables
+		String password="password";
+		String userName="mustermann";
+		String type="type";
+		
+		Collection<AbdAccount> collection=new ArrayList<AbdAccount>();
+		
+
+		//prepare a user object
+		int userId=1;	
+		AbdUser user = new AbdUser();
+		user.setFirstname("");
+		user.setName("");
+		user.setId(userId);
+		user.setPasswort("password");
+		user.setSalt("salt");
+		user.setUsername("username@gmail.de");
 		user.setAbdAccountCollection(collection);
 			
 		// Setting up the expected value of the method call of Mockobject
@@ -131,7 +177,7 @@ public class AccountManagerTest {
 	@Test(expected = AccountAlreadyExsistsException.class)
 	public void testAddAccountThrowsAccountAlreadyExsistsException() throws Exception {
 		
-		System.out.println("addAccount");
+		System.out.println("testAddAccountThrowsAccountAlreadyExsistsException");
 		
 		//prepare test variables
 		String password="password";
@@ -151,7 +197,7 @@ public class AccountManagerTest {
 		user.setId(userId);
 		user.setPasswort("password");
 		user.setSalt("salt");
-		user.setUsername("username");
+		user.setUsername("username@gmail.de");
 		user.setAbdAccountCollection(collection);
 		user.getAbdAccountCollection().add(existsAccount);
 			
@@ -205,7 +251,7 @@ public class AccountManagerTest {
 	 */
 	@Test
 	public void testRemoveAccountWithClass() throws Exception {
-		System.out.println("removeAccount");
+		System.out.println("testRemoveAccountWithClass");
 
 		//prepare test variables
 		int accountId = EasyMock.anyInt();
@@ -230,7 +276,7 @@ public class AccountManagerTest {
 	 */
 	@Test
 	public void testRemoveAccountWithInt() throws Exception {
-		System.out.println("removeAccount");
+		System.out.println("testRemoveAccountWithInt");
 
 		//prepare test variables
 		int accountId = EasyMock.anyInt();
@@ -311,7 +357,7 @@ public class AccountManagerTest {
 	 */
 	@Test(expected = AccountNotFoundException.class)
 	public void testImportGroupsAndContactsThrowAccountNotFoundException() throws Exception {
-		
+		System.out.println("testImportGroupsAndContactsThrowAccountNotFoundException");
 		
 		//prepare test variables
 		int accountId = 1;
@@ -334,7 +380,7 @@ public class AccountManagerTest {
 	 */
 	@Test
 	public void testGetAllContactsFromGroupWithClass() throws Exception {
-		System.out.println("testGetAllContactsFromGroup");
+		System.out.println("testGetAllContactsFromGroupWithClass");
 		
 		AbdGroup groupOne = new AbdGroup("1");
 		AbdGroup groupTwo = new AbdGroup("2");
@@ -361,7 +407,7 @@ public class AccountManagerTest {
 	 */
 	@Test
 	public void testGetAllContactsFromGroupWithInt() throws Exception {
-		System.out.println("testGetAllContactsFromGroup");
+		System.out.println("testGetAllContactsFromGroupWithInt");
 		
 		AbdGroup groupOne = new AbdGroup("1");
 		AbdGroup groupTwo = new AbdGroup("2");
@@ -388,7 +434,7 @@ public class AccountManagerTest {
 	 */
 	@Test(expected = AccountNotFoundException.class)
 	public void testGetAllContactsFromGroupShouldThrowAccountNotFoundException() throws Exception {
-		System.out.println("testGetAllContactsFromGroup");
+		System.out.println("testGetAllContactsFromGroupShouldThrowAccountNotFoundException");
 		
 		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");		
 

@@ -1,10 +1,14 @@
 package de.fhb.autobday.manager;
 
 import java.io.Serializable;
+import java.sql.Date;
+import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 
 import de.fhb.autobday.dao.AbdAccountFacade;
@@ -15,7 +19,10 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.AbdException;
+import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.manager.group.GroupManager;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
 
@@ -81,18 +88,19 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 	/*private void checkEveryMinute(){
 		LOGGER.log(Level.INFO, "every minute idle message...{0}", new Date());
 	}
-	*//*
+	*/
 	@Schedule(minute="0", hour="8")
 	private void checkEveryDay() throws AbdException{
 		
-		LOGGER.log(Level.INFO, "EverDayCheck {0}", new Date());
+		LOGGER.log(Level.INFO, "EverDayCheck {0}", new Date(System.currentTimeMillis()));
 		
 		String parsedMessageFromTemplate = "Empty Message!";
 		String template;
+		String sender;
 		AbdContact contact;
 		
 		//search all contacts, which have bday today
-		Collection<AbdContact> birthdayContacts = contactDAO.findContactByBday(new Date());
+		Collection<AbdContact> birthdayContacts = contactDAO.findContactByBday(new Date(System.currentTimeMillis()));
 		
 		if (!birthdayContacts.isEmpty()) {
 			
@@ -116,13 +124,13 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 									
 									template=aktGroupToContact.getAbdGroup().getTemplate();
 									contact=aktGroupToContact.getAbdContact();
+									sender =getSender(aktGroupToContact);
 									
 									//parse Template
 									parsedMessageFromTemplate=groupManager.parseTemplate(template, contact);
-									
-									//TODO absender aendern								
+																
 									//and send mail
-									mailManager.sendBdayMail("autobday@smile.de",contact.getMail(), "Happy Birthday", parsedMessageFromTemplate);
+									mailManager.sendBdayMail(sender,contact.getMail(), "Happy Birthday", parsedMessageFromTemplate);
 									
 								} catch (NoContactGivenException e) {
 									LOGGER.log(Level.SEVERE, "No Contact given while trying to send bdaymail!");
@@ -140,5 +148,9 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 		}
 			
 	}
-	*/
+
+	private String getSender(AbdGroupToContact aktGroupToContact){
+		 return aktGroupToContact.getAbdGroup().getAccount().getUsername();
+	}
+	
 }

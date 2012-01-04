@@ -16,24 +16,24 @@
 	-->
 	<ui:define name="content">
 		<p:panel id="groupList" header="GroupList" rendered="#{sessionBean.loggedIn}">
-				<h:form>
-					
-					<h:dataTable value="#{accountBean.allGroupsFromAccount}" 
-									var="group"
-									rendered="#{accountBean.allGroupsFromAccount.rowCount > 0}">
-						
+			<h:form>
 
-						<h:column>
-							<h:commandLink value="#{group.name}" action="#{groupBean.showgroup}">
-								<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
-							</h:commandLink>
-						</h:column>
+				<h:dataTable value="#{accountBean.groupList}" 
+							 var="group"
+							 rendered="#{accountBean.groupList.rowCount > 0}">
 
-					</h:dataTable>
 
-				</h:form>
-			</p:panel>
-		
+					<h:column>
+						<h:commandLink value="#{group.name}" action="#{groupBean.showgroup}">
+							<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
+						</h:commandLink>
+					</h:column>
+
+				</h:dataTable>
+
+			</h:form>
+		</p:panel>
+
 	</ui:define>
 
 </ui:composition>

@@ -335,9 +335,9 @@ public class UserManagerTest {
 	 * Test of login method, of class UserManager.
 	 * This test provokes a NoSuchAlgorithmException!
 	 */
-	@Test(expected = NoSuchAlgorithmException.class)
-	public void testLoginShouldThrowNoSuchAlgorithmException() throws Exception {
-		System.out.println("loginShouldThrowNoSuchAlgorithmException");
+	@Test(expected = HashFailException.class)
+	public void testLoginShouldThrowHashFailsException() throws Exception {
+		System.out.println("loginShouldThrowHashFailException");
 		
 		//prepare test variables
 		String userName = "ott";
@@ -350,7 +350,7 @@ public class UserManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(user);
-		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andThrow(new NoSuchAlgorithmException());
+		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andThrow(new HashFailException());
 		
 		// Setup is finished need to activate the mock		
 		PowerMock.replay(HashHelper.class);

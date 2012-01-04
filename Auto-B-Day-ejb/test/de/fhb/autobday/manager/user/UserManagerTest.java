@@ -2,6 +2,7 @@ package de.fhb.autobday.manager.user;
 
 import static org.junit.Assert.assertEquals;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
@@ -294,6 +296,72 @@ public class UserManagerTest {
 		// verify	
 		assertEquals(user, result);
 		EasyMock.verify(userDAOMock);
+	}
+	
+	/**
+	 * Test of login method, of class UserManager.
+	 * This test provokes a HashFailException!
+	 */
+	@Test(expected = HashFailException.class)
+	public void testLoginShouldThrowHashFailException() throws Exception {
+		System.out.println("loginShouldThrowHashFailException");
+		
+		//prepare test variables
+		String userName = "ott";
+		String password = "1234";
+		String salt = "testSalt";
+		String hash = "blubb";
+		AbdUser user;
+		
+		user = new AbdUser(1, userName, hash, salt, "Ott", "Chris");
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(user);
+		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andThrow(new HashFailException());
+		
+		// Setup is finished need to activate the mock		
+		PowerMock.replay(HashHelper.class);
+		EasyMock.replay(userDAOMock);
+		
+		//call method to test
+		managerUnderTest.login(userName, password);
+		
+		// verify	
+		EasyMock.verify(userDAOMock);
+		PowerMock.verify(HashHelper.class);	
+	}
+	
+	/**
+	 * Test of login method, of class UserManager.
+	 * This test provokes a NoSuchAlgorithmException!
+	 */
+	@Test(expected = NoSuchAlgorithmException.class)
+	public void testLoginShouldThrowNoSuchAlgorithmException() throws Exception {
+		System.out.println("loginShouldThrowNoSuchAlgorithmException");
+		
+		//prepare test variables
+		String userName = "ott";
+		String password = "1234";
+		String salt = "testSalt";
+		String hash = "blubb";
+		AbdUser user;
+		
+		user = new AbdUser(1, userName, hash, salt, "Ott", "Chris");
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(user);
+		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andThrow(new NoSuchAlgorithmException());
+		
+		// Setup is finished need to activate the mock		
+		PowerMock.replay(HashHelper.class);
+		EasyMock.replay(userDAOMock);
+		
+		//call method to test
+		managerUnderTest.login(userName, password);
+		
+		// verify	
+		EasyMock.verify(userDAOMock);
+		PowerMock.verify(HashHelper.class);	
 	}
 	
 	/**
@@ -811,7 +879,7 @@ public class UserManagerTest {
 		EasyMock.replay(userDAOMock);
 		
 		//call method to test
-		result=managerUnderTest.getAllAccountsFromUser(user.getId());
+		result=managerUnderTest.getAllAccountsFromUser(user);
 		
 		// verify
 		assertEquals(outputCollection, result);

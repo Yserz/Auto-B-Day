@@ -53,7 +53,7 @@ public class AccountManager implements AccountManagerLocal {
 	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#addAccount(int, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
+	public AbdAccount addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "abdUserId: {0}", abdUserId);
@@ -97,6 +97,9 @@ public class AccountManager implements AccountManagerLocal {
 
 		//create and save into db
 		accountDAO.create(createdAccount);
+		userDAO.refresh(actualUser);
+		
+		return createdAccount;
 	}
 
 	/**

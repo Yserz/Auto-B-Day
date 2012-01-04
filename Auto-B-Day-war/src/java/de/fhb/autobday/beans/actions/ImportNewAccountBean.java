@@ -4,6 +4,8 @@ import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.account.NoConnectionException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.account.AccountManagerLocal;
 import java.util.logging.Level;
@@ -41,8 +43,14 @@ public class ImportNewAccountBean {
 	public String importNewAccount(){
 		try {
 			AbdUser aktUser = sessionBean.getAktUser();
-			accountManager.addAccount(aktUser.getId(), password, userName, type);
-			accountManager.importGroupsAndContacts(aktUser.getId());
+			sessionBean.setAktAccount(accountManager.addAccount(aktUser.getId(), password, userName, type));
+			
+			accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
+		} catch (NoConnectionException ex) {
+			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (NoValidUserNameException ex) {
+			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (AccountNotFoundException ex) {
 			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));

@@ -34,7 +34,7 @@ public interface AccountManagerLocal {
 	 * @param type
 	 * @throws UserNotFoundException
 	 */
-	void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException;
+	AbdAccount addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException;
 
 	/**
 	 * remove a account of a user by a AbdAccountobject

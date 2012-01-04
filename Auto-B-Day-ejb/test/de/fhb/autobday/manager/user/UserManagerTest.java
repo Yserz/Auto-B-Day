@@ -2,6 +2,7 @@ package de.fhb.autobday.manager.user;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -303,7 +304,7 @@ public class UserManagerTest {
 	 * This test provokes a HashFailException!
 	 */
 	@Test(expected = HashFailException.class)
-	public void testLoginShouldThrowHashFailException() throws Exception {
+	public void testLoginShouldThrowHashFailExceptionBecauseOFUnsupportedEncodingException() throws Exception {
 		System.out.println("loginShouldThrowHashFailException");
 		
 		//prepare test variables
@@ -317,7 +318,7 @@ public class UserManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(user);
-		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andThrow(new HashFailException());
+		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andThrow(new UnsupportedEncodingException());
 		
 		// Setup is finished need to activate the mock		
 		PowerMock.replay(HashHelper.class);
@@ -333,10 +334,10 @@ public class UserManagerTest {
 	
 	/**
 	 * Test of login method, of class UserManager.
-	 * This test provokes a NoSuchAlgorithmException!
+	 * This test provokes a HashFailException!
 	 */
 	@Test(expected = HashFailException.class)
-	public void testLoginShouldThrowHashFailsException() throws Exception {
+	public void testLoginShouldThrowHashFailExceptionBecauseOfNoSuchAlgorithmException() throws Exception {
 		System.out.println("loginShouldThrowHashFailException");
 		
 		//prepare test variables
@@ -350,7 +351,7 @@ public class UserManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(user);
-		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andThrow(new HashFailException());
+		EasyMock.expect(HashHelper.calcSHA1(password+salt)).andThrow(new NoSuchAlgorithmException());
 		
 		// Setup is finished need to activate the mock		
 		PowerMock.replay(HashHelper.class);

@@ -115,6 +115,7 @@ public class AccountManagerTest {
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(true);
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
+		userDAOMock.refresh(user);
 		
 		// Setup is finished need to activate the mock
 		PowerMock.replay(EMailValidator.class);

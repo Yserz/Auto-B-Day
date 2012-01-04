@@ -9,6 +9,7 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
@@ -32,7 +33,7 @@ public interface AccountManagerLocal {
 	 * @param type
 	 * @throws UserNotFoundException
 	 */
-	void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException;
+	void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException;
 
 	/**
 	 * remove a account of a user by a AbdAccountobject

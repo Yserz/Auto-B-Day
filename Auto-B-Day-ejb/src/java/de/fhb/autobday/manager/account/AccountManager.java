@@ -1,5 +1,6 @@
 package de.fhb.autobday.manager.account;
 
+import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
@@ -8,6 +9,7 @@ import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
 import java.util.ArrayList;
@@ -36,6 +38,8 @@ public class AccountManager implements AccountManagerLocal {
 	@EJB
 	private AbdUserFacade userDAO;
 	
+	private GoogleImporter importer;
+	
 	
 	public AccountManager() {
 	}
@@ -44,10 +48,11 @@ public class AccountManager implements AccountManagerLocal {
 	/**
 	 * (non-Javadoc)
 	 * @throws AccountAlreadyExsistsException 
+	 * @throws NoValidUserNameException 
 	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#addAccount(int, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException {
+	public void addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "abdUserId: {0}", abdUserId);
@@ -74,14 +79,18 @@ public class AccountManager implements AccountManagerLocal {
 			}
 		}
 		
-		//TODO ueberpruefen ob userName ne goole mailaddresse ist
-		
+		//check if userName is mailaddress
+		if(!EMailValidator.isGoogleMail(userName)){
+			LOGGER.log(Level.SEVERE, "UserName is no GoogleMail-address!");
+			throw new NoValidUserNameException("UserName is no GoogleMail-address!");
+		}
 		
 		//add new Account
+		//TODO nicht dringend! Password verschluesseln...achtung googleimporter greift drauf zu im klartext dann
 		AbdAccount createdAccount=new AbdAccount();	
 		createdAccount.setId(Integer.SIZE);
 		createdAccount.setAbduser(actualUser);
-		//TODO Password verschluesseln
+
 		createdAccount.setPasswort(password);
 		createdAccount.setUsername(userName);
 		createdAccount.setType("google");
@@ -89,7 +98,18 @@ public class AccountManager implements AccountManagerLocal {
 		//create and save into db
 		accountDAO.create(createdAccount);
 		
-		//TODO einlesen der  google Daten
+		//readin of google Data
+		importer = new GoogleImporter();
+		
+		importer.getConnection(createdAccount);
+		
+		if(!importer.isConnectionEtablished()){
+			LOGGER.log(Level.SEVERE, "Cant etablish connection to google!");
+			throw new AccountAlreadyExsistsException("Cant etablish connection to google!");
+		}
+		
+		//import
+		importer.importContacts();
 	}
 
 	/**

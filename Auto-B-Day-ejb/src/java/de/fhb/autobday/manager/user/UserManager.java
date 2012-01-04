@@ -251,7 +251,7 @@ public class UserManager implements UserManagerLocal {
 			LOGGER.log(Level.SEVERE, "User does not exist!");
 			throw new UserNotFoundException("User does not exist!");
 		}
-		//userDAO.refresh(user);
+		userDAO.refresh(user);
 		for(AbdAccount actualAccount :user.getAbdAccountCollection()){
 			outputCollection.add(actualAccount);
 		}

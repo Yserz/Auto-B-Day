@@ -995,7 +995,7 @@ public class UserManagerTest {
 
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(user.getId())).andStubReturn(user);
-		
+		userDAOMock.refresh(user);
 		// Setup is finished need to activate the mock	
 		EasyMock.replay(userDAOMock);
 		
@@ -1029,7 +1029,7 @@ public class UserManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(user.getId())).andStubReturn(user);
-		
+		userDAOMock.refresh(user);
 		// Setup is finished need to activate the mock	
 		EasyMock.replay(userDAOMock);
 		

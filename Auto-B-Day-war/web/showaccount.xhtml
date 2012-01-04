@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:p="http://primefaces.prime.com.tr/ui"
+                template="./layout.xhtml"
+				xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+		Welcome to Auto-B-Day
+	</ui:define>
+	<!--
+	<ui:define name="top">
+		
+	</ui:define>
+	-->
+	<ui:define name="content">
+		<p:panel id="groupList" header="GroupList" rendered="#{sessionBean.loggedIn}">
+				<h:form>
+					
+					<h:dataTable value="#{accountBean.allGroupsFromAccount}" 
+									var="group"
+									rendered="#{accountBean.allGroupsFromAccount.rowCount > 0}">
+						
+
+						<h:column>
+							<h:commandLink value="#{group.name}" action="#{groupBean.showgroup}">
+								<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
+							</h:commandLink>
+						</h:column>
+
+					</h:dataTable>
+
+				</h:form>
+			</p:panel>
+		
+	</ui:define>
+
+</ui:composition>

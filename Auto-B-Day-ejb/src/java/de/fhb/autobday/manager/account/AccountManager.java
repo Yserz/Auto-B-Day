@@ -119,8 +119,8 @@ public class AccountManager implements AccountManagerLocal {
 		
 		//if account not found
 		if(account==null){
-			LOGGER.log(Level.SEVERE, "Account {0}not found!", accountId);
-			throw new AccountNotFoundException("Account " + accountId + "not found!");
+			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
+			throw new AccountNotFoundException("Account " + accountId + " not found!");
 		}
 		
 		//delete
@@ -146,7 +146,7 @@ public class AccountManager implements AccountManagerLocal {
 		//if account not found
 		if(account==null){
 			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
-			throw new AccountNotFoundException("Account " + accountId + "not found!");
+			throw new AccountNotFoundException("Account " + accountId + " not found!");
 		}
 		
 		importer= new GoogleImporter();

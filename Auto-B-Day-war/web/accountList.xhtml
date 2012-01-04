@@ -11,21 +11,20 @@
 			<p:panel id="accountList" header="AccountList" rendered="#{sessionBean.loggedIn}">
 				<h:form>
 					
-					<h:dataTable value="#{userBean.allAccountsFromUser}" 
+					<h:dataTable value="#{userBean.accountList}" 
 									var="account"
-									rendered="#{userBean.allAccountsFromUser != null and userBean.allAccountsFromUser.rowCount > 0}">
-						<h:column>
-							<f:facet name="header">
-								<h:outputText value="ID" />
-							</f:facet>
-							<h:outputText value="#{account.id}" />
-						</h:column>
+									rendered="#{userBean.accountList.rowCount > 0}">
+						
 
 						<h:column>
-							<f:facet name="header">
-								<h:outputText value="Name" />
-							</f:facet>
-							<h:outputText value="#{account.username}" />
+							<h:commandLink value="#{account.username}" action="#{accountBean.showAccount}">
+								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
+							</h:commandLink>
+						</h:column>
+						<h:column>
+							<p:commandButton image="ui-icon-close" action="#{accountBean.deleteAccount}" ajax="false">
+								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
+							</p:commandButton>
 						</h:column>
 
 					</h:dataTable>

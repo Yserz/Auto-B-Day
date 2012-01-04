@@ -12,19 +12,20 @@
     position: relative;
     background-color: #c2dfef;
     padding: 5px;
-    margin: 10px 0px 0px 0px;
+	clear: left;
 }
-
+#wrapper {
+}
 #left {
     float: left;
     padding: 5px;
-    width: 150px;
+    width: 300px;
 }
 
 #right {
     float: right;
     padding: 5px;
-    width: 150px;
+    width: 300px;
 }
 
 .center_content {
@@ -34,12 +35,12 @@
 
 .left_content {
     padding: 5px;
-    margin-left: 170px;
+    margin-left: 310px;
 }
 
 .right_content {
     padding: 5px;
-    margin: 0px 170px 0px 170px;
+    margin: 0px 310px 0px 310px;
 }
 
 #top a:link, #top a:visited {

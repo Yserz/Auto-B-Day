@@ -1,6 +1,7 @@
 package de.fhb.autobday.manager.mail;
 
 import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 import javax.mail.Transport;
 
@@ -19,9 +20,6 @@ import org.junit.Test;
 
 public class MailManagerTest {
 	
-	private MailManager managerUnderTest;
-
-	
 	public MailManagerTest() {
 	}
 
@@ -35,7 +33,6 @@ public class MailManagerTest {
 	
 	@Before
 	public void setUp() {
-		managerUnderTest = new MailManager();
 	}
 	
 	@After
@@ -47,8 +44,10 @@ public class MailManagerTest {
 	 * Test of sendBdayMail method, of class MailManager.
 	 */
 	@Test
+	@Ignore
 	public void testSendBdayMail() throws Exception {
 		System.out.println("testSendBdayMail");
+		
 		
 		Transport transport = createMock(Transport.class);
 		
@@ -65,7 +64,8 @@ public class MailManagerTest {
 		*/
 		
 		managerUnderTest.sendBdayMail("test@aol.de","test@fhb.de" , "betreff", "der text");
+		
+		verify(transport);
 	}
-
 
 }

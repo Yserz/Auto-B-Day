@@ -1,5 +1,11 @@
 package de.fhb.autobday.manager.account;
 
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import org.hsqldb.server.Server;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,8 +21,35 @@ public class AccountManagerTestIntegration {
 	
 	private AccountManager managerUnderTest;
 	
+	private Server server;
+	private Connection con;
+	
 	@Before
 	public void setUp() {
+		
+		 server = new Server();
+	        server.setAddress("localhost");
+	        server.setDatabaseName(0, "db");
+	        server.setDatabasePath(0, "file:./testdb/db");
+	        server.setPort(1234);
+	        server.setTrace(true);
+	        server.setLogWriter(new PrintWriter(System.out));
+	        server.start();
+	        try {
+	            Class.forName("org.hsqldb.jdbc.JDBCDriver");
+	        } catch (ClassNotFoundException e) {
+	            e.printStackTrace(System.out);
+	        }
+	        try {
+	            con = DriverManager.getConnection(
+	                    "jdbc:hsqldb:hsql://localhost:1234/db", "SA", "");
+	            con.createStatement()
+	                    .executeUpdate(
+	                            "create table contacts (name varchar(45),email varchar(45),phone varchar(45))");
+	        } catch (SQLException e) {
+	            e.printStackTrace(System.out);
+	        }
+		
 		gloss= new JavaEEGloss();
 		gloss.addEJB(AbdUserFacade.class);
 		gloss.addEJB(AbdAccountFacade.class);
@@ -29,7 +62,6 @@ public class AccountManagerTestIntegration {
 	 * Test of addAccount method, of class AccountManager.
 	 */
 	@Test
-	@Ignore
 	public void testAddAccount() throws Exception {
 		
 		System.out.println("addAccount");
@@ -41,7 +73,7 @@ public class AccountManagerTestIntegration {
 		
 		
 		// testing Methodcall
-		managerUnderTest.addAccount(1, password, userName, type);
+		//managerUnderTest.addAccount(1, password, userName, type);
 		
 
 	}

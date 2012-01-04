@@ -65,6 +65,27 @@ public class MailManager implements MailManagerLocal {
 	}
 
 	/**
+	 * @return the userDAO
+	 */
+	public AbdUserFacade getUserDAO() {
+		return userDAO;
+	}
+
+	/**
+	 * @param userDAO the userDAO to set
+	 */
+	public void setUserDAO(AbdUserFacade userDAO) {
+		this.userDAO = userDAO;
+	}
+
+	/**
+	 * @return the mailSession
+	 */
+	public Session getMailSession() {
+		return mailSession;
+	}
+
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.mail.MailManagerLocal#sendNotificationMail()
 	 */

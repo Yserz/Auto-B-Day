@@ -78,7 +78,7 @@ public class UserManager implements UserManagerLocal {
 			LOGGER.log(Level.SEVERE, "Invalid loginame!");
 			throw new IncompleteLoginDataException("Invalid loginame!");
 		}
-		
+		System.out.println("user: "+user);
 		if(user==null){
 			LOGGER.log(Level.SEVERE, "User not found!");
 			throw new UserNotFoundException("User not found!");

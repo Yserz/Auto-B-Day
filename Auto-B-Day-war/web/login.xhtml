@@ -9,13 +9,15 @@
 		<ui:composition>
 			<div align="right">
 				<h:form>
-					<p:panel id="panel" rendered="#{!sessionBean.loggedIn}" style="width:460px;">
+					<p:panel id="loginpanel" rendered="#{!sessionBean.loggedIn}" style="width:460px;">
+						<p:focus context="loginpanel"/>
 						<h:panelGrid columns="5">
 
 							<p:inputText id="userName" 
 										 value="#{loginLogoutBean.userName}"
 										 label="Username"
 										 required="true"
+										 requiredMessage="Ein Username ist erforderlich."
 										 maxlength="20"
 										 onfocus="if(this.value=='Username') this.value=''"/>
 
@@ -24,6 +26,7 @@
 										label="Password"
 										feedback="false"
 										required="true"
+										requiredMessage="Ein Passwort ist erforderlich."
 										minLength="5"
 										maxlength="20"
 										onfocus="this.value=''"/>
@@ -31,7 +34,7 @@
 							<p:commandButton value="Login" 
 											 ajax="false"
 											 action="#{loginLogoutBean.login}"
-											 update="panel" />
+											 update="loginpanel" />
 						</h:panelGrid>
 					</p:panel>
 					

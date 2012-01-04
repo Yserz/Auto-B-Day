@@ -17,16 +17,17 @@
 		Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}.
 		
 		<h:form>
-			<p:panel id="panel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts">
-				
+			<p:panel id="importpanel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts">
+				<p:focus context="importpanel"/>
 				<h:panelGrid columns="3"> 
 					<h:outputLabel for="userName" value="Username:* " />
 					<p:inputText id="userName" 
 								 value="#{importNewAccountBean.userName}"
 								 label="Username"
 								 required="true"
+								 requiredMessage="Ein Username ist erforderlich."
 								 maxlength="40"/>
-					<p:message for="userName" />
+					<p:message for="userName" showSummary="true" />
 
 					
 					<h:outputLabel for="password" value="Password:* " />
@@ -35,16 +36,17 @@
 								label="Password"
 								feedback="false"
 								required="true"
+								requiredMessage="Ein Passwort ist erforderlich."
 								minLength="1"
 								maxlength="30"/>
-					<p:message for="password" />
+					<p:message for="password" showSummary="true" />
 
 					<!-- TODO type -->
 				</h:panelGrid>
 
 
 				<p:commandButton value="Importieren" 
-								 update="panel" 
+								 update="importpanel" 
 								 image="ui-icon ui-icon-disk"
 								 ajax="false"
 								 actionListener="#{importNewAccountBean.importNewAccount}"/>

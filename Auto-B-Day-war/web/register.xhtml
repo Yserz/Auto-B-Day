@@ -13,14 +13,15 @@
 
 	<ui:define name="content">
 		<h:form>
-			<p:panel id="panel" header="Registrieren">
-				
+			<p:panel id="registerpanel" header="Registrieren">
+				<p:focus context="registerpanel"/>
 				<h:panelGrid columns="3"> 
 					<h:outputLabel for="userName" value="Username:* " />
 					<p:inputText id="userName" 
 								 value="#{registerBean.userName}"
 								 label="Username"
 								 required="true"
+								 requiredMessage="Ein Username ist erforderlich."
 								 maxlength="20"/>
 					<p:message for="userName" />
 
@@ -29,6 +30,7 @@
 								 value="#{registerBean.firstName}"
 								 label="Vorname"
 								 required="true"
+								 requiredMessage="Vorname ist erforderlich."
 								 maxlength="20"/>
 					<p:message for="firstName" />
 
@@ -37,6 +39,7 @@
 								 value="#{registerBean.name}"
 								 label="Name"
 								 required="true"
+								 requiredMessage="Name ist erforderlich."
 								 maxlength="20"/>
 					<p:message for="name" />
 
@@ -53,6 +56,7 @@
 								label="Password"
 								feedback="true"
 								required="true"
+								requiredMessage="Ein Passwort ist erforderlich."
 								minLength="5"
 								maxlength="20"/>
 					<p:message for="password" />
@@ -63,6 +67,7 @@
 								label="PasswordWdhl"
 								feedback="true"
 								required="true"
+								requiredMessage="Eine Wiederholung des Passwortes ist erforderlich."
 								minLength="5"
 								maxlength="20"/>
 					<p:message for="passwordWdhl" />
@@ -70,7 +75,7 @@
 
 
 				<p:commandButton value="Registrieren" 
-								 update="panel" 
+								 update="registerpanel" 
 								 image="ui-icon ui-icon-disk"
 								 actionListener="#{registerBean.register}" />
 			</p:panel>

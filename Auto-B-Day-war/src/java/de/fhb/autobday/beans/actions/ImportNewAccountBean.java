@@ -43,10 +43,10 @@ public class ImportNewAccountBean {
 			accountManager.addAccount(aktUser.getId(), password, userName, type);
 		} catch (UserNotFoundException ex) {
 			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}catch (AccountAlreadyExsistsException ex) {
 			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 		return null;
 	}

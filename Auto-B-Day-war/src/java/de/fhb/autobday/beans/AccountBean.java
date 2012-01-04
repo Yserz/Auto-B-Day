@@ -45,7 +45,7 @@ public class AccountBean {
 			accountManager.removeAccount(sessionBean.getAktAccount());
 		} catch (AccountException ex) {
 			Logger.getLogger(AccountBean.class.getName()).log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 		return null;
 	}
@@ -54,7 +54,7 @@ public class AccountBean {
 			groupList = new ListDataModel<AbdGroup>(accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount()));
 		} catch (AccountNotFoundException ex) {
 			Logger.getLogger(AccountBean.class.getName()).log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(ex.getMessage()));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}
 

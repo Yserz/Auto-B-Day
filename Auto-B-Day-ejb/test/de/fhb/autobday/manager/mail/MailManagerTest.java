@@ -2,15 +2,8 @@ package de.fhb.autobday.manager.mail;
 
 import static org.easymock.EasyMock.*;
 
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
-import org.easymock.EasyMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,15 +11,12 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.stvconsultants.easygloss.javaee.JavaEEGloss;
-
-import de.fhb.autobday.dao.AbdUserFacade;
 
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-@Ignore
+
 public class MailManagerTest {
 	
 	private MailManager managerUnderTest;
@@ -77,21 +67,5 @@ public class MailManagerTest {
 		managerUnderTest.sendBdayMail("test@aol.de","test@fhb.de" , "betreff", "der text");
 	}
 
-	/**
-	 * Test of sendNotificationMail method, of class MailManager.
-	 */
-	@Test
-	@Ignore
-	public void testSendNotificationMail() throws Exception {
-		System.out.println("sendNotificationMail");
-	}
 
-	/**
-	 * Test of sendForgotPasswordMail method, of class MailManager.
-	 */
-	@Test
-	@Ignore
-	public void testSendForgotPasswordMail() throws Exception {
-		System.out.println("sendForgotPasswordMail");
-	}
 }

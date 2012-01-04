@@ -144,7 +144,35 @@ public class GroupManagerTest {
 		// verify		
 		EasyMock.verify(groupDAOMock);
 	}
-
+	
+	/**
+	 * Test the setTemplate Method when a Group given
+	 */
+	@Test
+	public void testSetTemplateWithAGivenGroup() throws Exception{
+		System.out.println("setTemplate");
+		
+		//test variables
+		String groupId="friends";	
+		String template="template";
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		group.setTemplate(template);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		//call method to test
+		managerUnderTest.setTemplate(group, template);
+		
+		// verify
+		EasyMock.verify(groupDAOMock);
+		
+	}
+	
 	/**
 	 * Test of setTemplate method, of class GroupManager.
 	 */
@@ -378,6 +406,34 @@ public class GroupManagerTest {
 		EasyMock.verify(groupDAOMock);
 		
 	}
+	
+	/**
+	 * Test of setActive method when a Group given
+	 */
+	@Test
+	public void testSetActiveWithAGivenGroup() throws Exception {
+		
+		System.out.println("setActive");
+		
+		//test variables
+		String groupId="family";
+		boolean isActive=true;		
+		AbdGroup group=new AbdGroup();
+		group.setId(groupId);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(groupDAOMock.find(groupId)).andReturn(group).times(1);
+		groupDAOMock.edit(group);
+		
+		// Setup is finished need to activate the mock
+		EasyMock.replay(groupDAOMock);
+		
+		//call method to test
+		managerUnderTest.setActive(group, isActive);
+		
+		// verify
+		EasyMock.verify(groupDAOMock);
+	}
 
 	/**
 	 * Test of setActive method, of class GroupManager.
@@ -492,6 +548,45 @@ public class GroupManagerTest {
 		
 		// verify
 		assertEquals(expResult, result);
+	}
+	
+	/**
+	 * Test of getAllContactsFromGroup method when a Group is given.
+	 */
+	@Test
+	public void testGetAllContactsFromGroupWithAGivenGroup() throws Exception {
+		System.out.println("testGetAllContactsFromGroup");
+		
+		//prepare test variables
+		AbdContact contactIch = new AbdContact("1");
+		AbdContact contactDu = new AbdContact("2");
+		AbdGroupToContact gContactIch = new AbdGroupToContact("meineGruppe", "ich");
+		AbdGroupToContact gContactDu = new AbdGroupToContact("meineGruppe", "du");
+		gContactIch.setAbdContact(contactIch);
+		gContactDu.setAbdContact(contactDu);
+		
+		ArrayList<AbdContact> outputCollection = new ArrayList<AbdContact>();
+		outputCollection.add(contactIch);
+		outputCollection.add(contactDu);
+		
+		ArrayList<AbdGroupToContact> abdGroupToContactCollection = new ArrayList<AbdGroupToContact>();
+		abdGroupToContactCollection.add(gContactIch);
+		abdGroupToContactCollection.add(gContactDu);
+		
+		AbdGroup group = new AbdGroup("2");
+		group.setAbdGroupToContactCollection(abdGroupToContactCollection);
+		
+
+		EasyMock.expect(groupDAOMock.find(group.getId())).andStubReturn(group);
+
+		EasyMock.replay(groupDAOMock);
+		
+		//call method to test
+		
+		assertEquals(outputCollection, managerUnderTest.getAllContactsFromGroup(group));
+		
+		// verify
+		EasyMock.verify(groupDAOMock);
 	}
 	
 	/**

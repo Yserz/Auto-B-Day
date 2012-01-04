@@ -16,6 +16,10 @@ public abstract class AbstractFacade<T> {
 
 	protected abstract EntityManager getEntityManager();
 
+	public void refresh(T entity){
+		getEntityManager().refresh(entity);
+	}
+	
 	public void create(T entity) {
 		getEntityManager().persist(entity);
 	}

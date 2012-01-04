@@ -762,7 +762,7 @@ public class UserManagerTest {
 //		// Setting up the expected value of the method call of Mockobject	
 //		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andReturn("4aSe5");
 //		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
-//		//TODO noch nicht fertig!! meine ansätze funktionierten nicht z.b. (AbdUser)EasyMock.anyObject()
+//		//TODO noch nicht fertig!! meine ansï¿½tze funktionierten nicht z.b. (AbdUser)EasyMock.anyObject()
 //		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(null);
 //		EasyMock.expect(PasswordGenerator.generateSalt()).andReturn("salt");
 //		

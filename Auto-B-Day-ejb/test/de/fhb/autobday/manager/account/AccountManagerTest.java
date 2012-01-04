@@ -26,6 +26,7 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.account.NoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
@@ -342,14 +343,17 @@ public class AccountManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
-		EasyMock.replay(accountDAOMock);
+
 		
 		GoogleImporter gimporter = PowerMock.createMock(GoogleImporter.class);
 		
 		PowerMock.expectNew(GoogleImporter.class).andReturn(gimporter);
 		
 		gimporter.getConnection(account);
-		gimporter.importContacts();
+		EasyMock.expect(gimporter.isConnectionEtablished()).andReturn(true);
+		gimporter.importContacts();		
+		
+		EasyMock.replay(accountDAOMock);
 		PowerMock.replay(gimporter, GoogleImporter.class);
 
 		managerUnderTest.importGroupsAndContacts(accountId);
@@ -357,6 +361,41 @@ public class AccountManagerTest {
 		PowerMock.verify(gimporter, GoogleImporter.class);
 		PowerMock.verify(accountDAOMock);
 	}
+	
+	
+	/**
+	 * Test of importGroupsAndContacts method, of class AccountManager.
+	 * This test provokes a NoConnectionException!
+	 */
+	@Test(expected = NoConnectionException.class)
+	public void testImportGroupsAndContactsThrowNoConnectionException() throws Exception {
+		System.out.println("testImportGroupsAndContacts");
+		
+		//prepare test variables
+		int accountId = 2;
+		AbdAccount account = new AbdAccount(accountId);
+		
+		// Setting up the expected value of the method call of Mockobject
+		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
+
+		
+		GoogleImporter gimporter = PowerMock.createMock(GoogleImporter.class);
+		
+		PowerMock.expectNew(GoogleImporter.class).andReturn(gimporter);
+		
+		gimporter.getConnection(account);
+		EasyMock.expect(gimporter.isConnectionEtablished()).andReturn(false);
+		gimporter.importContacts();		
+		
+		EasyMock.replay(accountDAOMock);
+		PowerMock.replay(gimporter, GoogleImporter.class);
+
+		managerUnderTest.importGroupsAndContacts(accountId);
+
+		PowerMock.verify(gimporter, GoogleImporter.class);
+		PowerMock.verify(accountDAOMock);
+	}
+	
 	
 	
 	/**

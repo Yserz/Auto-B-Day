@@ -67,7 +67,7 @@ public class UserManager implements UserManagerLocal {
 		AbdUser user = null;
 		String hash="";
 		
-		if(loginName==null||password==null||password.equals("")){
+		if(loginName==null||password==null||loginName.equals("")||password.equals("")){
 			LOGGER.log(Level.SEVERE, "Invalid input!");
 			throw new IncompleteLoginDataException("Invalid input!");
 		}
@@ -78,7 +78,9 @@ public class UserManager implements UserManagerLocal {
 			LOGGER.log(Level.SEVERE, "Invalid loginame!");
 			throw new IncompleteLoginDataException("Invalid loginame!");
 		}
+		
 		System.out.println("user: "+user);
+		
 		if(user==null){
 			LOGGER.log(Level.SEVERE, "User not found!");
 			throw new UserNotFoundException("User not found!");

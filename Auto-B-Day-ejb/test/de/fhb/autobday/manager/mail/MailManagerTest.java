@@ -57,7 +57,6 @@ public class MailManagerTest {
 	 * Test of sendBdayMail method, of class MailManager.
 	 */
 	@Test
-	@Ignore
 	public void testSendBdayMail() throws Exception {
 		System.out.println("testSendBdayMail");
 		

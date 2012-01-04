@@ -910,9 +910,9 @@ public class UserManagerTest {
 		String passwordRepeat = "123test";
 		
 		// Setting up the expected value of the method call of Mockobject	
-		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andReturn("4aSe5");
+		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andThrow(new UnsupportedEncodingException());
 		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
-		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andThrow(new UnsupportedEncodingException());
+		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(null);
 		EasyMock.expect(PasswordGenerator.generateSalt()).andReturn("salt");
 		
 		userDAOMock.create((AbdUser)EasyMock.anyObject());
@@ -950,9 +950,9 @@ public class UserManagerTest {
 		String passwordRepeat = "123test";
 		
 		// Setting up the expected value of the method call of Mockobject	
-		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andReturn("4aSe5");
+		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andThrow(new NoSuchAlgorithmException());
 		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
-		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andThrow(new NoSuchAlgorithmException());
+		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(null);
 		EasyMock.expect(PasswordGenerator.generateSalt()).andReturn("salt");
 		
 		userDAOMock.create((AbdUser)EasyMock.anyObject());

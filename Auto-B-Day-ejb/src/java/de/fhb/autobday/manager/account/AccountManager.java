@@ -1,5 +1,13 @@
 package de.fhb.autobday.manager.account;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
@@ -9,15 +17,10 @@ import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.account.NoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
 
 /**
  * The AccountManager processes all accountData specific things.
@@ -37,8 +40,6 @@ public class AccountManager implements AccountManagerLocal {
 	
 	@EJB
 	private AbdUserFacade userDAO;
-	
-	private GoogleImporter importer;
 	
 	
 	public AccountManager() {
@@ -90,26 +91,12 @@ public class AccountManager implements AccountManagerLocal {
 		AbdAccount createdAccount=new AbdAccount();	
 		createdAccount.setId(Integer.SIZE);
 		createdAccount.setAbduser(actualUser);
-
 		createdAccount.setPasswort(password);
 		createdAccount.setUsername(userName);
 		createdAccount.setType("google");
 
 		//create and save into db
 		accountDAO.create(createdAccount);
-		
-		//readin of google Data
-		importer = new GoogleImporter();
-		
-		importer.getConnection(createdAccount);
-		
-		if(!importer.isConnectionEtablished()){
-			LOGGER.log(Level.SEVERE, "Cant etablish connection to google!");
-			throw new AccountAlreadyExsistsException("Cant etablish connection to google!");
-		}
-		
-		//import
-		importer.importContacts();
 	}
 
 	/**
@@ -149,10 +136,11 @@ public class AccountManager implements AccountManagerLocal {
 
 	/**
 	 * (non-Javadoc)
+	 * @throws NoConnectionException 
 	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#importGroupsAndContacts(int)
 	 */
 	@Override
-	public void importGroupsAndContacts(int accountId) throws AccountNotFoundException {
+	public void importGroupsAndContacts(int accountId) throws AccountNotFoundException, NoConnectionException {
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
@@ -173,6 +161,12 @@ public class AccountManager implements AccountManagerLocal {
 		
 		//connect and import
 		importer.getConnection(account);
+		
+		if(!importer.isConnectionEtablished()){
+			LOGGER.log(Level.SEVERE, "Cant etablish connection to google!");
+			throw new NoConnectionException("Cant etablish connection to google!");
+		}
+		
 		importer.importContacts();
 	}
 	

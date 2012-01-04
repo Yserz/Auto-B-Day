@@ -18,6 +18,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
+import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
@@ -38,7 +39,7 @@ import de.fhb.autobday.manager.connector.google.GoogleImporter;
  * Christoph Ott <>
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( AccountManager.class )
+@PrepareForTest( {AccountManager.class, EMailValidator.class} )
 public class AccountManagerTest {
 	
 	private JavaEEGloss gloss;
@@ -74,6 +75,7 @@ public class AccountManagerTest {
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(AccountManager.class);
+		PowerMock.mockStatic(EMailValidator.class);
 	}
 	
 	@After
@@ -91,29 +93,30 @@ public class AccountManagerTest {
 		
 		//prepare test variables
 		String password="password";
-		String userName="mustermann";
+		String userName="test@googlemail.com";
 		String type="type";
 		
 		Collection<AbdAccount> collection=new ArrayList<AbdAccount>();
 		
 
 		//prepare a user object
-		int userId=1;	
+		int userId=1;
 		AbdUser user = new AbdUser();
 		user.setFirstname("");
 		user.setName("");
 		user.setId(userId);
 		user.setPasswort("password");
 		user.setSalt("salt");
-		user.setUsername("username@gmail.de");
+		user.setUsername("mustermann");
 		user.setAbdAccountCollection(collection);
 			
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
-		
+		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(true);
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
+		PowerMock.replay(EMailValidator.class);
 		EasyMock.replay(userDAOMock);
 		EasyMock.replay(accountDAOMock);
 		
@@ -123,6 +126,7 @@ public class AccountManagerTest {
 		// verify		
 		EasyMock.verify(userDAOMock);
 		EasyMock.verify(accountDAOMock);
+		PowerMock.verify(EMailValidator.class);
 	}
 	
 	/**
@@ -136,7 +140,7 @@ public class AccountManagerTest {
 		
 		//prepare test variables
 		String password="password";
-		String userName="mustermann";
+		String userName="test@googlemail.com";
 		String type="type";
 		
 		Collection<AbdAccount> collection=new ArrayList<AbdAccount>();
@@ -150,12 +154,12 @@ public class AccountManagerTest {
 		user.setId(userId);
 		user.setPasswort("password");
 		user.setSalt("salt");
-		user.setUsername("username@gmail.de");
+		user.setUsername("mustermann");
 		user.setAbdAccountCollection(collection);
 			
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
-		
+		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(false);
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
@@ -168,6 +172,7 @@ public class AccountManagerTest {
 		// verify		
 		EasyMock.verify(userDAOMock);
 		EasyMock.verify(accountDAOMock);
+		PowerMock.verify(EMailValidator.class);
 	}
 	
 	/**
@@ -181,7 +186,7 @@ public class AccountManagerTest {
 		
 		//prepare test variables
 		String password="password";
-		String userName="mustermann";
+		String userName="test@googlemail.com";
 		String type="type";
 		
 		Collection<AbdAccount> collection=new ArrayList<AbdAccount>();
@@ -197,13 +202,14 @@ public class AccountManagerTest {
 		user.setId(userId);
 		user.setPasswort("password");
 		user.setSalt("salt");
-		user.setUsername("username@gmail.de");
+		user.setUsername("mustermann");
 		user.setAbdAccountCollection(collection);
 		user.getAbdAccountCollection().add(existsAccount);
 			
 			
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
+		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(true);
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
@@ -216,6 +222,7 @@ public class AccountManagerTest {
 		// verify		
 		EasyMock.verify(userDAOMock);
 		EasyMock.verify(accountDAOMock);
+		PowerMock.verify(EMailValidator.class);
 	}
 	
 	/**
@@ -240,6 +247,7 @@ public class AccountManagerTest {
 		EasyMock.replay(userDAOMock);
 		
 		//call method to test
+		EasyMock.expect(EMailValidator.isEmail(userName)).andReturn(true);
 		managerUnderTest.addAccount(abduserId, password, userName, type);
 		
 		// verify		

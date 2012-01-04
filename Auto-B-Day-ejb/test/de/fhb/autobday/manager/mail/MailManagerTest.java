@@ -1,7 +1,12 @@
 package de.fhb.autobday.manager.mail;
 
+import static org.easymock.EasyMock.*;
+
+import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -23,14 +28,10 @@ import de.fhb.autobday.dao.AbdUserFacade;
  */
 @Ignore
 public class MailManagerTest {
-	/*
-	private JavaEEGloss gloss;
 	
 	private MailManager managerUnderTest;
+
 	
-	private AbdUserFacade userDAOMock;
-	private Session sessionMock;
-	*/
 	public MailManagerTest() {
 	}
 
@@ -44,18 +45,7 @@ public class MailManagerTest {
 	
 	@Before
 	public void setUp() {
-		/*
-		gloss= new JavaEEGloss();
-		
-		//create Mocks
-		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
-		//sessionMock = EasyMock.createMock(Session.class);
-		//set Objekts to inject
-		gloss.addEJB(userDAOMock);
-		
-		//create Manager with Mocks
-		managerUnderTest=gloss.make(MailManager.class);
-		*/
+		managerUnderTest = new MailManager();
 	}
 	
 	@After
@@ -70,25 +60,22 @@ public class MailManagerTest {
 	@Ignore
 	public void testSendBdayMail() throws Exception {
 		System.out.println("testSendBdayMail");
+		
+		Transport transport = createMock(Transport.class);
+		
+		replay(transport);
+		
 		/*
-		InternetAddress address = new InternetAddress("ich@wir.de");
-		String to = "du@wir.de";
-		String subject = "Ein Test";
-		String body = "Der Test sollte funktionieren";
+		Properties props = new Properties();
+		props.setProperty("mail.transport.protocol", "smtp");
+		props.setProperty("mail.host", "mymail.server.org");
+		props.setProperty("mail.user", "fhbtestacc@googlemail.com");
+		props.setProperty("mail.password", "TestGoogle123");
 
-		Message message = new MimeMessage(sessionMock);
-		message.setFrom(address);
-		message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(to));
-		message.setSubject(subject);
-		message.setText(body);
-		
-		
-		Transport.send(message);
-		PowerMock.mockStatic(Transport.class);
-		Transport.send(message);
-		PowerMock.replay(Transport.class);
-		PowerMock.verifyAll();
+		Session mailSession = Session.getDefaultInstance(props, null);
 		*/
+		
+		managerUnderTest.sendBdayMail("test@aol.de","test@fhb.de" , "betreff", "der text");
 	}
 
 	/**

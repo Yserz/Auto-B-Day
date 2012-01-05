@@ -23,6 +23,8 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class ImportNewAccountBean {
+	private final static Logger LOGGER = Logger.getLogger(ImportNewAccountBean.class.getName());
+	
 	@Inject
 	private AccountManagerLocal accountManager;
 	@Inject
@@ -47,18 +49,19 @@ public class ImportNewAccountBean {
 			
 			accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
 		} catch (NoConnectionException ex) {
-			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (NoValidUserNameException ex) {
-			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (AccountNotFoundException ex) {
-			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (UserNotFoundException ex) {
-			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}catch (AccountAlreadyExsistsException ex) {
-			Logger.getLogger(ImportNewAccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 		return null;

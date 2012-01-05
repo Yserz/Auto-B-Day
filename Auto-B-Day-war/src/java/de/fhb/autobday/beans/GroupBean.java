@@ -1,5 +1,6 @@
 package de.fhb.autobday.beans;
 
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -10,6 +11,7 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class GroupBean {
+	private final static Logger LOGGER = Logger.getLogger(GroupBean.class.getName());
 
 	/**
 	 * Creates a new instance of GroupBean

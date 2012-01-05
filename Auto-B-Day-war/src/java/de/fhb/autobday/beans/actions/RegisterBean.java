@@ -21,6 +21,8 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class RegisterBean {
+	private final static Logger LOGGER = Logger.getLogger(RegisterBean.class.getName());
+	
 	@Inject
 	private UserManagerLocal userManager;
 	@Inject
@@ -47,13 +49,13 @@ public class RegisterBean {
 			AbdUser user = userManager.register(firstName, name, userName, mail, password, passwordWdhl);
 			sessionBean.setAktUser(user);
 		} catch (IncompleteUserRegisterException ex) {
-			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (NoValidUserNameException ex) {
-			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (HashFailException ex) {
-			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 		

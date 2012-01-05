@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
@@ -25,6 +21,7 @@ import javax.servlet.http.HttpSession;
 @Named
 @RequestScoped
 public class LoginLogoutBean {
+	private final static Logger LOGGER = Logger.getLogger(LoginLogoutBean.class.getName());
 
 	@Inject
 	private UserManagerLocal userManager;
@@ -48,10 +45,10 @@ public class LoginLogoutBean {
 			password = "password";
 			sessionBean.setAktUser(aktUser);
 		} catch (UserException ex) {
-			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (HashFailException ex) {
-			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 

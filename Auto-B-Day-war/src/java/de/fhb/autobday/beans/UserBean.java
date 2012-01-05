@@ -20,6 +20,8 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class UserBean implements Serializable{
+	private final static Logger LOGGER = Logger.getLogger(UserBean.class.getName());
+	
 	@Inject
 	private UserManagerLocal userManager;
 	@Inject
@@ -40,10 +42,10 @@ public class UserBean implements Serializable{
 			accountList = new ListDataModel<AbdAccount>(userManager.getAllAccountsFromUser(sessionBean.getAktUser()));
 			
 		} catch (NullPointerException ex) {
-			Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (UserNotFoundException ex) {
-			Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}

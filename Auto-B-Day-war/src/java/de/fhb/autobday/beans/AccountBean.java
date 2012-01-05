@@ -20,6 +20,8 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class AccountBean {
+	private final static Logger LOGGER = Logger.getLogger(AccountBean.class.getName());
+	
 	@Inject
 	private AccountManagerLocal accountManager;
 	@Inject
@@ -42,7 +44,7 @@ public class AccountBean {
 		try {
 			accountManager.removeAccount(sessionBean.getAktAccount());
 		} catch (AccountException ex) {
-			Logger.getLogger(AccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 		return null;
@@ -51,7 +53,7 @@ public class AccountBean {
 		try {
 			groupList = new ListDataModel<AbdGroup>(accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount()));
 		} catch (AccountNotFoundException ex) {
-			Logger.getLogger(AccountBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}

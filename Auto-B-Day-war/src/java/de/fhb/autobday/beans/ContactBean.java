@@ -1,5 +1,6 @@
 package de.fhb.autobday.beans;
 
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -10,7 +11,7 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class ContactBean {
-
+	private final static Logger LOGGER = Logger.getLogger(ContactBean.class.getName());
 	/**
 	 * Creates a new instance of ContactBean
 	 */

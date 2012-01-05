@@ -144,7 +144,8 @@ public class GoogleImporter extends AImporter {
 		
 		for (ContactGroupEntry contactGroupEntry : groups) {
 			abdGroup = mapGGroupToGroup(contactGroupEntry);
-			abdGroupInDB = groupDAO.find(abdGroup);
+			//TODO Nullpointer
+			abdGroupInDB = groupDAO.find(abdGroup.getId());
 			if (abdGroupInDB == null){
 				groupDAO.create(abdGroup);
 			} else {

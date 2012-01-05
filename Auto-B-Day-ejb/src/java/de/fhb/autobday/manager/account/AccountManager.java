@@ -210,26 +210,5 @@ public class AccountManager implements AccountManagerLocal {
 		
 		return outputCollection;
 	}
-
-
-	public AbdAccountFacade getAccountDAO() {
-		return accountDAO;
-	}
-
-
-	public void setAccountDAO(AbdAccountFacade accountDAO) {
-		this.accountDAO = accountDAO;
-	}
-
-
-	public AbdUserFacade getUserDAO() {
-		return userDAO;
-	}
-
-
-	public void setUserDAO(AbdUserFacade userDAO) {
-		this.userDAO = userDAO;
-	}
-
 	
 }

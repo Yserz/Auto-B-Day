@@ -493,24 +493,4 @@ public class AccountManagerTest {
 		EasyMock.verify(accountDAOMock);
 	}
 	
-	/**
-	 * Test the getter and setter for AccountDAO
-	 */
-	@Test
-	public void testgetAndSetAccountDAO(){
-		AbdAccountFacade accDAO = new AbdAccountFacade();
-		managerUnderTest.setAccountDAO(accDAO);
-		assertEquals(accDAO, managerUnderTest.getAccountDAO());
-	}
-	
-	/**
-	 * Test the getter and setter for userDAO
-	 */
-	@Test
-	public void testGetAndSetUserDAO(){
-		AbdUserFacade userDAO = new AbdUserFacade();
-		managerUnderTest.setUserDAO(userDAO);
-		assertEquals(userDAO, managerUnderTest.getUserDAO());
-	}
-	
 }

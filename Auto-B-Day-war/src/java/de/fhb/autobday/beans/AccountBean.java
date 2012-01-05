@@ -1,6 +1,5 @@
 package de.fhb.autobday.beans;
 
-import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
@@ -10,7 +9,6 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;

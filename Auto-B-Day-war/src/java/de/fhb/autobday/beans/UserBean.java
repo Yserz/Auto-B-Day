@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.ListDataModel;
@@ -19,7 +18,7 @@ import javax.inject.Named;
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named
-@SessionScoped
+@RequestScoped
 public class UserBean implements Serializable{
 	@Inject
 	private UserManagerLocal userManager;
@@ -38,11 +37,8 @@ public class UserBean implements Serializable{
 	
 	private void getAllAccountsFromUser(){
 		try {
-			System.out.println("Refreshing List");
 			accountList = new ListDataModel<AbdAccount>(userManager.getAllAccountsFromUser(sessionBean.getAktUser()));
-			for (AbdAccount abdAccount : accountList) {
-				System.out.println("Account: "+abdAccount);
-			}
+			
 		} catch (NullPointerException ex) {
 			Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));

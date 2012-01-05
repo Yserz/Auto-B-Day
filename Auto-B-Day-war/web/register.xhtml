@@ -15,7 +15,7 @@
 		<h:form>
 			<p:panel id="registerpanel" rendered="#{!sessionBean.loggedIn}" header="Registrieren">
 				<p:focus context="registerpanel"/>
-				<h:panelGrid columns="3"> 
+				<h:panelGrid columns="4"> 
 					<h:outputLabel for="userName" value="Username:* " />
 					<p:inputText id="userName" 
 								 value="#{registerBean.userName}"
@@ -23,7 +23,9 @@
 								 required="true"
 								 requiredMessage="Ein Username ist erforderlich."
 								 maxlength="20"/>
+					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
 					<p:message for="userName" />
+					
 
 					<h:outputLabel for="firstName" value="Vorname:* " />
 					<p:inputText id="firstName" 
@@ -32,6 +34,7 @@
 								 required="true"
 								 requiredMessage="Vorname ist erforderlich."
 								 maxlength="20"/>
+					<h:outputText value="(Max. 20 Zeichen)" />
 					<p:message for="firstName" />
 
 					<h:outputLabel for="name" value="Name:* " />
@@ -39,8 +42,9 @@
 								 value="#{registerBean.name}"
 								 label="Name"
 								 required="true"
-								 requiredMessage="Name ist erforderlich."
+								 requiredMessage="Ein Nachname ist erforderlich."
 								 maxlength="20"/>
+					<h:outputText value="(Max. 20 Zeichen)" />
 					<p:message for="name" />
 
 					<h:outputLabel for="mail" value="Mail:* " />
@@ -48,8 +52,9 @@
 								 value="#{registerBean.mail}" 
 								 label="Mail"
 								 required="true"
-								 requiredMessage="Mail ist erforderlich."
+								 requiredMessage="Eine Mail ist erforderlich."
 								 maxlength="40"/>
+					<h:outputText value="(Max. 40 Zeichen)" />
 					<p:message for="mail" />
 
 					<h:outputLabel for="registerpassword" value="Password:* " />
@@ -61,6 +66,7 @@
 								requiredMessage="Ein Passwort ist erforderlich."
 								minLength="5"
 								maxlength="20"/>
+					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
 					<p:message for="registerpassword" />
 
 					<h:outputLabel for="registerpasswordWdhl" value="Password Wiederholung:* " />
@@ -72,6 +78,7 @@
 								requiredMessage="Eine Wiederholung des Passwortes ist erforderlich."
 								minLength="5"
 								maxlength="20"/>
+					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
 					<p:message for="registerpasswordWdhl" />
 				</h:panelGrid>
 

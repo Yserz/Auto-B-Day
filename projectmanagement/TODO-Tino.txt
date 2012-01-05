@@ -6,16 +6,12 @@ TODO - Tino
 
 	- Weiter an GoogleImporter und Mailmanager arbeiten und
 	  analog dazu die Tests zum GoogleImporter und Mailmanager
-	- importer tests…properties einlesen
+	- importer tests-properties einlesen
 
 
  	
- 	- du bist jetz zusammen mit Chris hauptzuständig für die mangerschicht und deren tests,
- 	ich selbst werde ab dem 5.01 versuchen so gut wie möglich micher zu unterstüzen (@tino from salaxy)
- 	
- 	daraus folgen diese Punkte:
- 	- restl. TODOs überall in den Managern lösen, falls noch welche da sein sollten
- 	- fehlende Tests ergänzen, falls noch welche auffallen sollten
+ 	- restl. TODOs ueberall in den Managern loesen, falls noch welche da sein sollten
+ 	- fehlende Tests ergaenzen, falls noch welche auffallen sollten
 
 *** DB 			***
 

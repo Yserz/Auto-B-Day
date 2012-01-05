@@ -6,6 +6,10 @@ TODO - Micha
 
 ant, gui, struktur
 
+- Ant-Script überarbeiten?
+- Schichtendiagramm hochladen
+(- Projekt auf Maven umbauen?)
+
 *** DB 			***
 
 - 
@@ -20,7 +24,9 @@ ant, gui, struktur
 
 *** GUI 		***
 
-- CDI zum laufen bringen
-- PrimeFaces 3.x einbinden
+- Liste von Gruppen darstellen (warte auf GoogleImporter)
+- Liste von Kontakten darstellen (warte auf GoogleImporter)
+- Informationen zu Kontakten darstellen (warte auf GoogleImporter)
+- Interface zum ändern der Templates erstellen (warte auf GoogleImporter)
 
 

@@ -12,6 +12,11 @@ TODO - Chris
 	- Tests weiter schreiben, so weit wie möglich,
 	  am besten dazu aber immer gucken "Ist der Manager richtig implementiert?" drüber lesen, falls nötig korrigieren!
 	  (außer "GoogleImporter" nicht dran arbeiten)
+	
+	- Unit-Tests für die DAOs
+	
+	- Integrationstest für die Manager die DAOs aufrufen, Manager die Helper benutzen und 
+		Manager die andere Manager benutzen(AccountManager <-> GoogleImporter)
 
 *** DB 			***
 

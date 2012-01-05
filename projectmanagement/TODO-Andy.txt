@@ -6,7 +6,9 @@ TODO - Andy
 
 - Doku weiter machen
 - UseCase verbessern
-- Micher bei der GUI unterstüzen
+(- Micha bei der GUI unterstützen)
+- mit Chris Unit-Tests für DAOs schreiben
+- mit Chris Integrations-Tests schreiben
 
 nicht vorangig
 *******************

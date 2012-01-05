@@ -13,7 +13,7 @@
 
 	<ui:define name="content">
 		<h:form>
-			<p:panel id="registerpanel" header="Registrieren">
+			<p:panel id="registerpanel" rendered="#{!sessionBean.loggedIn}" header="Registrieren">
 				<p:focus context="registerpanel"/>
 				<h:panelGrid columns="3"> 
 					<h:outputLabel for="userName" value="Username:* " />
@@ -43,15 +43,17 @@
 								 maxlength="20"/>
 					<p:message for="name" />
 
-					<h:outputLabel for="mail" value="Mail: " />
+					<h:outputLabel for="mail" value="Mail:* " />
 					<p:inputText id="mail" 
 								 value="#{registerBean.mail}" 
 								 label="Mail"
-								 maxlength="20"/>
+								 required="true"
+								 requiredMessage="Mail ist erforderlich."
+								 maxlength="40"/>
 					<p:message for="mail" />
 
-					<h:outputLabel for="password" value="Password:* " />
-					<p:password id="password" 
+					<h:outputLabel for="registerpassword" value="Password:* " />
+					<p:password id="registerpassword" 
 								value="#{registerBean.password}" 
 								label="Password"
 								feedback="true"
@@ -59,10 +61,10 @@
 								requiredMessage="Ein Passwort ist erforderlich."
 								minLength="5"
 								maxlength="20"/>
-					<p:message for="password" />
+					<p:message for="registerpassword" />
 
-					<h:outputLabel for="passwordWdhl" value="Password Wiederholung:* " />
-					<p:password id="passwordWdhl" 
+					<h:outputLabel for="registerpasswordWdhl" value="Password Wiederholung:* " />
+					<p:password id="registerpasswordWdhl" 
 								value="#{registerBean.passwordWdhl}" 
 								label="PasswordWdhl"
 								feedback="true"
@@ -70,14 +72,15 @@
 								requiredMessage="Eine Wiederholung des Passwortes ist erforderlich."
 								minLength="5"
 								maxlength="20"/>
-					<p:message for="passwordWdhl" />
+					<p:message for="registerpasswordWdhl" />
 				</h:panelGrid>
 
 
 				<p:commandButton value="Registrieren" 
 								 update="registerpanel" 
 								 image="ui-icon ui-icon-disk"
-								 actionListener="#{registerBean.register}" />
+								 ajax="false"
+								 action="#{registerBean.register}"/>
 			</p:panel>
 		</h:form>
 	</ui:define>

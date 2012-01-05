@@ -1,6 +1,7 @@
 package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
+import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
@@ -22,6 +23,8 @@ import javax.inject.Named;
 public class RegisterBean {
 	@Inject
 	private UserManagerLocal userManager;
+	@Inject
+	private SessionBean sessionBean;
 	
 	private String firstName;
 	private String name;
@@ -41,14 +44,15 @@ public class RegisterBean {
 	public String register(){
 		
 		try {
-			userManager.register(firstName, name, userName, mail, password, passwordWdhl);
+			AbdUser user = userManager.register(firstName, name, userName, mail, password, passwordWdhl);
+			sessionBean.setAktUser(user);
 		} catch (IncompleteUserRegisterException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (NoValidUserNameException ex) {
 			Logger.getLogger(RegisterBean.class.getName()).log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-		}catch (HashFailException ex) {
+		} catch (HashFailException ex) {
 			Logger.getLogger(SessionBean.class.getName()).log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}

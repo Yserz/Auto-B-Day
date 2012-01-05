@@ -123,8 +123,8 @@ public class UserManager implements UserManagerLocal {
 	 * @see de.fhb.autobday.manager.user.UserManagerLocal#register(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) 
-			throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException {
+	public AbdUser register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) 
+			throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException{
 		
 		LOGGER.log(Level.INFO,"parameter:");
 		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
@@ -222,6 +222,8 @@ public class UserManager implements UserManagerLocal {
 		
 		//save in to db
 		userDAO.create(user);
+		
+		return user;
 	}
 	
 	/**

@@ -7,7 +7,6 @@ import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
-
 import java.util.List;
 import javax.ejb.Local;
 
@@ -59,7 +58,7 @@ public interface UserManagerLocal {
 	 * @throws NoValidUserNameException
 	 * @throws HashFailException
 	 */
-	void register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException;
+	AbdUser register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException;
 	
 	/**
 	 * 

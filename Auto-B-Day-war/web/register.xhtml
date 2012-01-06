@@ -12,7 +12,7 @@
 
 
 	<ui:define name="content">
-		<h:form>
+		<h:form prependId="false">
 			<p:panel id="registerpanel" rendered="#{!sessionBean.loggedIn}" header="Registrieren">
 				<p:focus context="registerpanel"/>
 				<h:panelGrid columns="4"> 

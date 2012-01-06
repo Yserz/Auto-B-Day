@@ -20,8 +20,8 @@ public class AbdGroupToContactPK implements Serializable {
 	@Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "group")
-	private String group;
+    @Column(name = "group1")
+	private String group1;
 	@Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -32,16 +32,16 @@ public class AbdGroupToContactPK implements Serializable {
 	}
 
 	public AbdGroupToContactPK(String group, String contact) {
-		this.group = group;
+		this.group1 = group;
 		this.contact = contact;
 	}
 
 	public String getGroup() {
-		return group;
+		return group1;
 	}
 
 	public void setGroup(String group) {
-		this.group = group;
+		this.group1 = group;
 	}
 
 	public String getContact() {
@@ -55,7 +55,7 @@ public class AbdGroupToContactPK implements Serializable {
 	@Override
 	public int hashCode() {
 		int hash = 0;
-		hash += (group != null ? group.hashCode() : 0);
+		hash += (group1 != null ? group1.hashCode() : 0);
 		hash += (contact != null ? contact.hashCode() : 0);
 		return hash;
 	}
@@ -66,7 +66,7 @@ public class AbdGroupToContactPK implements Serializable {
 			return false;
 		}
 		AbdGroupToContactPK other = (AbdGroupToContactPK) object;
-		if ((this.group == null && other.group != null) || (this.group != null && !this.group.equals(other.group))) {
+		if ((this.group1 == null && other.group1 != null) || (this.group1 != null && !this.group1.equals(other.group1))) {
 			return false;
 		}
 		if ((this.contact == null && other.contact != null) || (this.contact != null && !this.contact.equals(other.contact))) {
@@ -77,7 +77,7 @@ public class AbdGroupToContactPK implements Serializable {
 
 	@Override
 	public String toString() {
-		return "de.fhb.autobday.data.AbdGroupToContactPK[ group=" + group + ", contact=" + contact + " ]";
+		return "de.fhb.autobday.data.AbdGroupToContactPK[ group=" + group1 + ", contact=" + contact + " ]";
 	}
 	
 }

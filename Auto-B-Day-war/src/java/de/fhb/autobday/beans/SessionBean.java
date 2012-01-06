@@ -1,11 +1,14 @@
 package de.fhb.autobday.beans;
 
 import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
 import java.io.Serializable;
+import java.util.Collection;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import org.primefaces.event.TabChangeEvent;
 
 /**
  *
@@ -17,8 +20,7 @@ public class SessionBean implements Serializable {
 	private AbdUser aktUser;
 	private AbdAccount aktAccount;
 	private AbdGroup aktGroup;
-	
-	
+	private AbdContact aktContact;
 
 	/**
 	 * Creates a new instance of SessionBean
@@ -31,11 +33,21 @@ public class SessionBean implements Serializable {
 	}
 
 	
+	public AbdContact getAktContact() {
+		return aktContact;
+	}
+
+	public void setAktContact(AbdContact aktContact) {
+		System.out.println("Setting aktContact to: "+aktContact);
+		this.aktContact = aktContact;
+	}
+	
 	public AbdUser getAktUser() {
 		return aktUser;
 	}
 
 	public void setAktUser(AbdUser aktUser) {
+		System.out.println("Setting aktUser to: "+aktUser);
 		this.aktUser = aktUser;
 	}
 
@@ -44,6 +56,7 @@ public class SessionBean implements Serializable {
 	}
 
 	public void setAktAccount(AbdAccount aktAccount) {
+		System.out.println("Setting aktAccount to: "+aktAccount);
 		this.aktAccount = aktAccount;
 	}
 
@@ -52,7 +65,9 @@ public class SessionBean implements Serializable {
 	}
 
 	public void setAktGroup(AbdGroup aktGroup) {
+		System.out.println("Setting aktGroup to: "+aktGroup);
 		this.aktGroup = aktGroup;
 	}
+	
 	
 }

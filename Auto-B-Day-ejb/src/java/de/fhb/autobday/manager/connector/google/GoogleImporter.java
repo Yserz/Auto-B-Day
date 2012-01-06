@@ -6,6 +6,7 @@ import com.google.gdata.data.contacts.*;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.util.ServiceException;
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
+import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
@@ -14,11 +15,15 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.CanNotConvetGoogleBirthdayException;
+import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
+import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
+import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.manager.connector.AImporter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,14 +66,19 @@ public class GoogleImporter extends AImporter {
 	 * de.fhb.autobday.manager.connector.AImporter#getConnection(de.fhb.autobday.data.AbdAccount)
 	 * create connection to google contact api
 	 */
-	public void getConnection(AbdAccount data) {
+	public void getConnection(AbdAccount data) throws ConnectorCouldNotLoginException, ConnectorInvalidAccountException {
 
 		LOGGER.info("getConnection");
 		LOGGER.log(Level.INFO, "data : {0}", data.getId());
 
 		connectionEtablished = false;
-		accdata = data;
-
+		
+		if (accdata != null){
+			accdata = data;
+		} else {
+			throw new ConnectorInvalidAccountException();
+		}
+		
 		// testausgabe
 		System.out.println("Username: " + accdata.getUsername());
 		System.out.println("Passwort: " + accdata.getPasswort());
@@ -77,17 +87,18 @@ public class GoogleImporter extends AImporter {
 		try {
 			myService = new ContactsService("BDayReminder");
 			myService.setUserCredentials(accdata.getUsername(), accdata.getPasswort());
-
 		} catch (ServiceException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
+			throw new ConnectorCouldNotLoginException();
 		}
 		connectionEtablished = true;
 	}
 
 	@Override
-	public void importContacts() {
+	public void importContacts() throws ConnectorNoConnectionException {
 
 		LOGGER.info("importContacts");
+		AbdAccountFacade accountDAO = new AbdAccountFacade();
 
 		// if we have a connection and a valid accounddata then import the contacts and groups
 		// else throw an exception
@@ -95,42 +106,37 @@ public class GoogleImporter extends AImporter {
 			
 			updateGroups();
 			updateContacts();
+			accountDAO.edit(accdata);
 
-			/*
-			for (ContactEntry contactEntry : contacts) {
-				abdcontact = mapGContactToContact(contactEntry);
-				//look in the database if the contact exist
-				abdcontacthelp = abdContactFacade.find(abdcontact.getId());
-				if (abdcontacthelp == null) {
-					if ((abdcontact.getBday() != null) && (!abdcontact.getMail().equals(""))) {
-						abdContactFacade.create(abdcontact);
-					}
-				} else {
-					// check if data has been modify
-					if (!abdcontact.equals(abdcontacthelp)) {
-						abdContactFacade.edit(abdcontact);
-					}
-				}
-				groupMembershipInfo = contactEntry.getGroupMembershipInfos();
-				updateGroupMembership(contactEntry.getId(), groupMembershipInfo);
-				
-			}
-			*/
 		} else {
-			//TODO Exception ersetzen
-			throw new UnsupportedOperationException("Please Connect the service first.");
+			throw new ConnectorNoConnectionException();
 		}
 	}
 
 	public void updateContacts(){
 		AbdContact abdContact, abdContactInDB;
 		List<ContactEntry> contacts = getAllContacts();
-		List<GroupMembershipInfo> groupMembershipInfo;
+		List<GroupMembershipInfo> groupMembershipInfos;
+		AbdGroupToContact abdGroupToContact;
 		
 		for (ContactEntry contactEntry : contacts) {
 			abdContact = mapGContactToContact(contactEntry);
 			try {
 				abdContactInDB = contactDAO.find(abdContact.getId());
+				if (abdContactInDB == null){
+					groupMembershipInfos = contactEntry.getGroupMembershipInfos();
+					for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
+						for(AbdGroup abdGroup: accdata.getAbdGroupCollection()){
+							if (abdGroup.getId().equals(groupMembershipInfo.getHref())){
+								abdGroupToContact = new AbdGroupToContact();
+								abdGroupToContact.setAbdContact(abdContact);
+								abdGroupToContact.setActive(true);
+								abdGroupToContact.setAbdGroup(abdGroup);
+								abdGroup.getAbdGroupToContactCollection().add(abdGroupToContact);
+							}
+						}
+					}
+				}
 				if (abdContact.getUpdated().after( abdContactInDB.getUpdated())){
 					contactDAO.edit(abdContact);
 				}
@@ -150,10 +156,10 @@ public class GoogleImporter extends AImporter {
 				
 				//TODO add reference from contact to group this couldnt be null!
 				
-				contactDAO.create(abdContact);
+				//contactDAO.create(abdContact);
 				
-				groupMembershipInfo = contactEntry.getGroupMembershipInfos();
-				updateGroupMembership(abdContact, groupMembershipInfo);
+				//groupMembershipInfo = contactEntry.getGroupMembershipInfos();
+				//updateGroupMembership(abdContact, groupMembershipInfo);
 			}
 			
 			
@@ -164,17 +170,17 @@ public class GoogleImporter extends AImporter {
 		AbdGroup abdGroup;
 		List<ContactGroupEntry> groups = getAllGroups();
 		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>(accdata.getAbdGroupCollection());
+		Collection<AbdGroup> accountGroups = accdata.getAbdGroupCollection();
 		
 		for (ContactGroupEntry contactGroupEntry : groups) {
 			abdGroup = mapGGroupToGroup(contactGroupEntry);
 			for (AbdGroup abdGroupOld : abdGroups) {
 				if(abdGroup.getId().equals(abdGroupOld.getId())){
 					if (abdGroup.getUpdated().after(abdGroupOld.getUpdated())){
-						groupDAO.edit(abdGroup);
+						accountGroups.remove(abdGroupOld);
 						deleteFromGroupList(abdGroups, abdGroup);
 					}
-				}else{
-					groupDAO.create(abdGroup);
+					accountGroups.add(abdGroup);
 				}
 			}
 		}
@@ -374,7 +380,7 @@ public class GoogleImporter extends AImporter {
 	
 	protected void deleteUnusedGroupsFromDatabase(List<AbdGroup> abdGroups){
 		for (AbdGroup abdGroup : abdGroups) {
-			groupDAO.remove(abdGroup);
+			accdata.getAbdGroupCollection().remove(abdGroup);
 		}
 	}
 	

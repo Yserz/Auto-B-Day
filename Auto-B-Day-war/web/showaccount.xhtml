@@ -1,38 +1,56 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
 				xmlns:h="http://java.sun.com/jsf/html"
-				xmlns:p="http://primefaces.prime.com.tr/ui"
+				xmlns:p="http://primefaces.org/ui"
                 template="./layout.xhtml"
 				xmlns:f="http://java.sun.com/jsf/core">
 
     <ui:define name="title">
 		Welcome to Auto-B-Day
 	</ui:define>
-	<!--
-	<ui:define name="top">
-		
-	</ui:define>
-	-->
+	
 	<ui:define name="content">
-		<p:panel id="groupList" header="GroupList" rendered="#{sessionBean.loggedIn}">
-			<h:form>
 
-				<h:dataTable value="#{accountBean.groupList}" 
-							 var="group"
-							 rendered="#{accountBean.groupList.rowCount > 0}">
+		<p:accordionPanel value="#{accountBean.groupList}" var="group" >
+			<p:ajax event="tabChange" listener="#{groupBean.onTabChange}" />
+			<p:tab title="#{group.name}" >
+				|Anzahl Kontakte|        |Editiere Template|Aktiviere Gruppe|
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:form>
+
+						<p:dataTable value="#{groupBean.contactList}" 
+									 var="contact"
+									 rendered="#{groupBean.contactList.rowCount > 0}">
 
 
-					<h:column>
-						<h:commandLink value="#{group.name}" action="#{groupBean.showgroup}">
-							<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
-						</h:commandLink>
-					</h:column>
+							<p:column>
+								<f:facet name="header"> 
+									<h:outputText value="Contact" />
+								</f:facet>
+								<h:commandLink value="#{contact.name}" action="#{contactBean.showContact}">
+									<f:setPropertyActionListener target="#{sessionBean.aktContact}" value="#{contact}" />
+									<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
+								</h:commandLink>
+							</p:column>
+							<p:column>
+								<f:facet name="header"> 
+									<h:outputText value="aktiv" />
+								</f:facet>
+								<!-- TODO Checkbox -->
+								<p:commandButton icon="ui-icon-close" action="#{contactBean.changeStatusContact}" ajax="false">
+									<f:setPropertyActionListener target="#{sessionBean.aktContact}" value="#{contact}" />
+								</p:commandButton>
+							</p:column>
 
-				</h:dataTable>
 
-			</h:form>
-		</p:panel>
+						</p:dataTable>
+
+					</h:form>
+				</h:panelGrid>  
+
+			</p:tab>  
+		</p:accordionPanel>  
+
+
 
 	</ui:define>
 

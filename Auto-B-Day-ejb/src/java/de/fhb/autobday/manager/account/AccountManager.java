@@ -23,6 +23,7 @@ import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.manager.connector.AImporter;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
 /**
@@ -152,7 +153,7 @@ public class AccountManager implements AccountManagerLocal {
 		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
 		AbdAccount account=null;
-		GoogleImporter importer=null;
+		AImporter importer=null;
 		
 		//search
 		account=accountDAO.find(accountId);

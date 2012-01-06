@@ -13,4 +13,5 @@ import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 public abstract class AImporter {
 	public abstract void getConnection(AbdAccount data) throws ConnectorCouldNotLoginException, ConnectorInvalidAccountException;
 	public abstract void importContacts() throws ConnectorNoConnectionException;
+	public abstract boolean isConnectionEtablished();
 }

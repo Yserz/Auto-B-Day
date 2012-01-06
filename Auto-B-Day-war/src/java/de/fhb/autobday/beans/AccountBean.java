@@ -4,6 +4,8 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.manager.account.AccountManagerLocal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -27,12 +29,12 @@ public class AccountBean {
 	@Inject
 	private SessionBean sessionBean;
 	
-	private ListDataModel<AbdGroup> groupList;
+	private List<AbdGroup> groupList;
 	/**
 	 * Creates a new instance of AccountBean
 	 */
 	public AccountBean() {
-		groupList = new ListDataModel<AbdGroup>();
+		groupList = new ArrayList<AbdGroup>();
 	}
 	
 	public String showAccount(){
@@ -51,19 +53,19 @@ public class AccountBean {
 	}
 	private void getAllGroupsFromAccount(){
 		try {
-			groupList = new ListDataModel<AbdGroup>(accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount()));
+			groupList = new ArrayList(accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount()));
 		} catch (AccountNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}
 
-	public ListDataModel<AbdGroup> getGroupList() {
+	public List<AbdGroup> getGroupList() {
 		getAllGroupsFromAccount();
 		return groupList;
 	}
 
-	public void setGroupList(ListDataModel<AbdGroup> groupList) {
+	public void setGroupList(List<AbdGroup> groupList) {
 		this.groupList = groupList;
 	}
 	

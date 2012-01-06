@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.hsqldb.server.Server;
+//import org.hsqldb.server.Server;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -21,13 +21,13 @@ public class AccountManagerTestIntegration {
 	
 	private AccountManager managerUnderTest;
 	
-	private Server server;
+	//private Server server;
 	private Connection con;
 	
 	@Before
 	public void setUp() {
 		
-		 server = new Server();
+		 /*server = new Server();
 	        server.setAddress("localhost");
 	        server.setDatabaseName(0, "db");
 	        server.setDatabasePath(0, "file:./testdb/db");
@@ -35,6 +35,8 @@ public class AccountManagerTestIntegration {
 	        server.setTrace(true);
 	        server.setLogWriter(new PrintWriter(System.out));
 	        server.start();
+			* 
+			*/
 	        try {
 	            Class.forName("org.hsqldb.jdbc.JDBCDriver");
 	        } catch (ClassNotFoundException e) {
@@ -55,8 +57,6 @@ public class AccountManagerTestIntegration {
 		gloss.addEJB(AbdAccountFacade.class);
 		managerUnderTest=gloss.make(AccountManager.class);
 		//set Objekts to inject
-		managerUnderTest.setUserDAO(new AbdUserFacade());
-		managerUnderTest.setAccountDAO(new AbdAccountFacade());
 	}
 	/**
 	 * Test of addAccount method, of class AccountManager.

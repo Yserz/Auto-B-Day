@@ -367,6 +367,7 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
+	@Ignore
 	public void testMapGContacttoContactFemale() {
 		System.out.println("mapGContacttoContact");
 		Email mail = new Email();
@@ -381,6 +382,7 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
+	@Ignore
 	public void testMapGContacttoContactMale() {
 		System.out.println("mapGContacttoContact");
 		Email mail = new Email();
@@ -396,6 +398,7 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
+	@Ignore
 	public void testMapGContacttoContactWithoutEmailandBirthday() {
 		System.out.println("mapGContacttoContact");
 		contactEntry.setGender(new Gender(Value.MALE));

@@ -6,8 +6,8 @@ TODO - Micha
 
 ant, gui, struktur
 
-- Ant-Script überarbeiten?
-- Schichtendiagramm hochladen
+- Ant-Script Ueberarbeiten?
+- !!!Schichtendiagramm hochladen!! Webbeans?? actions weg machen..haben keine mehr
 (- Projekt auf Maven umbauen?)
 
 *** DB 			***

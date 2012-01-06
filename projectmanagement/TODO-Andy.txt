@@ -4,12 +4,15 @@ TODO - Andy
 
 --- Allgemein 	---
 
-- Doku weiter machen
+
+- Doku weiter machen (fast fertig)
 
 - mit Chris Unit-Tests für DAOs schreiben
 - mit Chris Integrations-Tests schreiben
 
-(- Micha bei der GUI unterstützen)>>>schaff ich auch nicht mehr bis mi
+- complete sourcecode durchchecken ~2 tage vorher....Sonntag oder Montag
+
+
 
 nicht vorangig
 *******************

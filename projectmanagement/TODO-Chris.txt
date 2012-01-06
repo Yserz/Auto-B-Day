@@ -4,19 +4,21 @@ TODO - Chris
 
 --- Allgemein 	---
 
- 	- TODOs in den Manager, die du findest, versuchen zu lösen
- 	- gucken ob noch javadoc fehlen ...
- 	
-	- Manager mit überprüfen, mal drüberlesen auch die Helper in commons-Package!
-	
-	- Tests weiter schreiben, so weit wie möglich,
-	  am besten dazu aber immer gucken "Ist der Manager richtig implementiert?" drüber lesen, falls nötig korrigieren!
-	  (außer "GoogleImporter" nicht dran arbeiten)
+
 	
 	- Unit-Tests für die DAOs
 	
 	- Integrationstest für die Manager die DAOs aufrufen, Manager die Helper benutzen und 
 		Manager die andere Manager benutzen(AccountManager <-> GoogleImporter)
+		
+		
+		
+		
+	nebenbei wenn möglich...
+ 	*************************
+ 	- restl. TODOs ueberall in den Managern loesen, FALLS noch welche da sein sollten
+ 	- fehlende Tests ergaenzen, FALLS noch welche auffallen sollten
+ 	- fehlende javadoc, FALLS noch welche fehlen sollten
 
 *** DB 			***
 

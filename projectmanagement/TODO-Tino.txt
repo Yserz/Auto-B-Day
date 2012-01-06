@@ -4,14 +4,21 @@ TODO - Tino
 
 --- Allgemein 	---
 
-	- Weiter an GoogleImporter und Mailmanager arbeiten und
+
+	!!! DRINGEND !!! noch 5 tage bis zur Abgabe
+
+	- Weiter an !!! GOOGLEIMPORTER !!! und Mailmanager arbeiten und
 	  analog dazu die Tests zum GoogleImporter und Mailmanager
-	- importer tests-properties einlesen
-
-
+	- importer tests-properties einlesen (schon passiert ???)
  	
- 	- restl. TODOs ueberall in den Managern loesen, falls noch welche da sein sollten
- 	- fehlende Tests ergaenzen, falls noch welche auffallen sollten
+ 	
+ 	
+	nebenbei wenn möglich...
+ 	*************************
+ 	- restl. TODOs ueberall in den Managern loesen, FALLS noch welche da sein sollten
+ 	- fehlende Tests ergaenzen, FALLS noch welche auffallen sollten
+ 	- fehlende javadoc, FALLS noch welche fehlen sollten
+ 	
 
 *** DB 			***
 

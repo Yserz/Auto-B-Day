@@ -144,13 +144,16 @@ public class GoogleImporter extends AImporter {
 				System.out.println("bday: "+abdContact.getBday());
 				System.out.println("sex: "+abdContact.getSex());
 				System.out.println("updated: "+abdContact.getUpdated());
+				System.out.println("GroupToContact: "+abdContact.getAbdGroupToContactCollection());
 				System.out.println("-------------------------------");
+				
+				
+				//TODO add reference from contact to group this couldnt be null!
+				
+				contactDAO.create(abdContact);
 				
 				groupMembershipInfo = contactEntry.getGroupMembershipInfos();
 				updateGroupMembership(abdContact, groupMembershipInfo);
-				
-				
-				contactDAO.create(abdContact);
 			}
 			
 			
@@ -385,7 +388,6 @@ public class GoogleImporter extends AImporter {
 		
 		AbdGroupToContact abdGroupMembership, abdGroupMembershipTemp;
 		AbdGroup abdGroup;
-		//TODO nullpointer 
 		List<AbdGroupToContact> abdGroupMemberships = new ArrayList<AbdGroupToContact>(
 				groupToContactDAO.findGroupByContact(abdContact.getId()));
 		

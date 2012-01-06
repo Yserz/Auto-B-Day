@@ -20,12 +20,6 @@ public class AbdContactFacade extends AbstractFacade<AbdContact> {
 	protected EntityManager getEntityManager() {
 		return em;
 	}
-	
-	@Override
-	protected void setEntityManager(EntityManager em) {
-		this.em = em;
-	}
-	
 	public Collection<AbdContact> findContactByBday(Date bday) {
         return (Collection<AbdContact>) em.createNamedQuery("Contact.findByBday")
 				.setParameter("bday", bday).getResultList();
@@ -33,6 +27,5 @@ public class AbdContactFacade extends AbstractFacade<AbdContact> {
 	public AbdContactFacade() {
 		super(AbdContact.class);
 	}
-	
 	
 }

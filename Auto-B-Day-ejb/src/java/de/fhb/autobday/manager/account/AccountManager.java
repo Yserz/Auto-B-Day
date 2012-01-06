@@ -18,6 +18,9 @@ import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.account.NoConnectionException;
+import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
+import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
+import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
@@ -163,14 +166,27 @@ public class AccountManager implements AccountManagerLocal {
 		importer= new GoogleImporter();
 		
 		//connect and import
-		importer.getConnection(account);
+		try {
+			importer.getConnection(account);
+		} catch (ConnectorCouldNotLoginException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ConnectorInvalidAccountException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		if(!importer.isConnectionEtablished()){
 			LOGGER.log(Level.SEVERE, "Cant etablish connection to google!");
 			throw new NoConnectionException("Cant etablish connection to google!");
 		}
 		
-		importer.importContacts();
+		try {
+			importer.importContacts();
+		} catch (ConnectorNoConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -16,6 +16,7 @@ public abstract class AbstractFacade<T> {
 	}
 
 	protected abstract EntityManager getEntityManager();
+	protected abstract void setEntityManager(EntityManager em);
 
 	public void flush() {
 		getEntityManager().flush();

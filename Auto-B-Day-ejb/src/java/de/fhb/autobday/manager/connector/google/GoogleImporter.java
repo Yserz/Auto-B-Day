@@ -38,6 +38,10 @@ public class GoogleImporter extends AImporter {
 	protected boolean connectionEtablished;
 	protected AbdAccount accdata;
 	protected ContactsService myService;
+	
+	private AbdContactFacade contactDAO;
+	private AbdGroupFacade groupDAO;
+	private AbdGroupToContactFacade groupToContactDAO;
 
 	public GoogleImporter() {
 		connectionEtablished = false;
@@ -56,7 +60,7 @@ public class GoogleImporter extends AImporter {
 	public void getConnection(AbdAccount data) {
 
 		LOGGER.info("getConnection");
-		LOGGER.log(Level.INFO, "data :{0}", data.getId());
+		LOGGER.log(Level.INFO, "data : {0}", data.getId());
 
 		connectionEtablished = false;
 		accdata = data;
@@ -64,7 +68,6 @@ public class GoogleImporter extends AImporter {
 		// testausgabe
 		System.out.println("Username: " + accdata.getUsername());
 		System.out.println("Passwort: " + accdata.getPasswort());
-		System.err.println("WARNING: User credentials not be used by connector!");
 
 		//connect to google
 		try {
@@ -116,42 +119,55 @@ public class GoogleImporter extends AImporter {
 	}
 
 	public void updateContacts(){
-		AbdContactFacade contactDAO = new AbdContactFacade();
 		AbdContact abdContact, abdContactInDB;
 		List<ContactEntry> contacts = getAllContacts();
 		List<GroupMembershipInfo> groupMembershipInfo;
 		
 		for (ContactEntry contactEntry : contacts) {
 			abdContact = mapGContactToContact(contactEntry);
-			abdContactInDB = contactDAO.find(abdContact);
-			if (abdContactInDB == null){
-				contactDAO.create(abdContact);
-			} else {
+			try {
+				abdContactInDB = contactDAO.find(abdContact.getId());
 				if (abdContact.getUpdated().after( abdContactInDB.getUpdated())){
 					contactDAO.edit(abdContact);
 				}
+			} catch (NullPointerException ex) {
+				System.out.println("-------------------------------");
+				System.out.println("ABDContact: "+abdContact);
+				System.out.println("Firstname: "+abdContact.getFirstname());
+				System.out.println("hashid: "+abdContact.getHashid());
+				System.out.println("mail: "+abdContact.getMail());
+				System.out.println("name: "+abdContact.getName());
+				System.out.println("bday: "+abdContact.getBday());
+				System.out.println("sex: "+abdContact.getSex());
+				System.out.println("updated: "+abdContact.getUpdated());
+				System.out.println("-------------------------------");
+				
+				groupMembershipInfo = contactEntry.getGroupMembershipInfos();
+				updateGroupMembership(abdContact, groupMembershipInfo);
+				
+				
+				contactDAO.create(abdContact);
 			}
-			groupMembershipInfo = contactEntry.getGroupMembershipInfos();
-			updateGroupMembership(abdContact, groupMembershipInfo);
+			
+			
 		}	
 	}
 	
 	public void updateGroups(){
-		AbdGroupFacade groupDAO = new AbdGroupFacade();
-		AbdGroup abdGroup, abdGroupInDB;
+		AbdGroup abdGroup;
 		List<ContactGroupEntry> groups = getAllGroups();
 		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>(accdata.getAbdGroupCollection());
 		
 		for (ContactGroupEntry contactGroupEntry : groups) {
 			abdGroup = mapGGroupToGroup(contactGroupEntry);
-			//TODO Nullpointer
-			abdGroupInDB = groupDAO.find(abdGroup.getId());
-			if (abdGroupInDB == null){
-				groupDAO.create(abdGroup);
-			} else {
-				if (abdGroup.getUpdated().after(abdGroupInDB.getUpdated())){
-					groupDAO.edit(abdGroup);
-					deleteFromGroupList(abdGroups, abdGroup);
+			for (AbdGroup abdGroupOld : abdGroups) {
+				if(abdGroup.getId().equals(abdGroupOld.getId())){
+					if (abdGroup.getUpdated().after(abdGroupOld.getUpdated())){
+						groupDAO.edit(abdGroup);
+						deleteFromGroupList(abdGroups, abdGroup);
+					}
+				}else{
+					groupDAO.create(abdGroup);
 				}
 			}
 		}
@@ -268,8 +284,9 @@ public class GoogleImporter extends AImporter {
 
 		LOGGER.info("mapGContacttoContact");
 		LOGGER.log(Level.INFO, "contactEntry :{0}", contactEntry.getId());
+		
 
-		AbdContact AbdContact;
+		AbdContact abdContact;
 		String firstname;
 		String name;
 		Date birthday;
@@ -277,29 +294,47 @@ public class GoogleImporter extends AImporter {
 		String id;
 		Date updated;
 
-		AbdContact = new AbdContact();
+		abdContact = new AbdContact();
+		System.out.println("-------------------------------------------------");
+		abdContact.setHashid("12");
+		
+		
 		id = contactEntry.getId();
-		AbdContact.setId(id);
+		System.out.println("ID: "+id);
+		abdContact.setId(id);
+		
 		firstname = getGContactFirstname(contactEntry);
-		AbdContact.setFirstname(firstname);
+		System.out.println("Firstname: "+firstname);
+		abdContact.setFirstname(firstname);
+		
 		name = getGContactFamilyname(contactEntry);
-		AbdContact.setName(name);
+		System.out.println("Name: "+name);
+		abdContact.setName(name);
+		
 		birthday = getGContactBirthday(contactEntry);
+		System.out.println("birthday: "+birthday);
+		
+		
 		if (birthday != null) {
-			AbdContact.setBday(birthday);
+			abdContact.setBday(birthday);
 		}
 		if (!contactEntry.getEmailAddresses().isEmpty()) {
 			mailadress = getGContactFirstMailAdress(contactEntry);
-			AbdContact.setMail(mailadress);
+			abdContact.setMail(mailadress);
 		}
-		if (contactEntry.getGender().getValue() == Value.FEMALE) {
-			AbdContact.setSex('w');
-		} else {
-			AbdContact.setSex('m');
+		try {
+			if (contactEntry.getGender().getValue() == Value.FEMALE) {
+				abdContact.setSex('w');
+			} else {
+				abdContact.setSex('m');
+			}
+		} catch (NullPointerException ex) {
+			abdContact.setSex(null);
 		}
+		
 		updated = new Date(contactEntry.getUpdated().getValue());
-		AbdContact.setUpdated(updated);
-		return AbdContact;
+		abdContact.setUpdated(updated);
+		return abdContact;
 	}
 	
 	protected AbdGroup mapGGroupToGroup(ContactGroupEntry contactGroupEntry){
@@ -331,7 +366,6 @@ public class GoogleImporter extends AImporter {
 	}
 	
 	protected void deleteUnusedGroupsFromDatabase(List<AbdGroup> abdGroups){
-		AbdGroupFacade groupDAO = new AbdGroupFacade();
 		for (AbdGroup abdGroup : abdGroups) {
 			groupDAO.remove(abdGroup);
 		}
@@ -344,12 +378,12 @@ public class GoogleImporter extends AImporter {
 	 * @param List<GroupMembershipInfo> groupMembership
 	 */
 	protected void updateGroupMembership(AbdContact abdContact, List<GroupMembershipInfo> groupMemberships) {
-		AbdGroupToContactFacade abdGroupToContactFacade = new AbdGroupToContactFacade();
+		
 		AbdGroupToContact abdGroupMembership, abdGroupMembershipTemp;
 		AbdGroup abdGroup;
-		AbdContactFacade abdContactFacade = new AbdContactFacade();
-		AbdGroupFacade abdGroupFacade = new AbdGroupFacade();
-		List<AbdGroupToContact> abdGroupMemberships = new ArrayList<AbdGroupToContact>(abdGroupToContactFacade.findGroupByContact(abdContact.getId()));
+		//TODO nullpointer 
+		List<AbdGroupToContact> abdGroupMemberships = new ArrayList<AbdGroupToContact>(
+				groupToContactDAO.findGroupByContact(abdContact.getId()));
 		
 		/*
 		for (GroupMembershipInfo groupMembership : groupMemberships) {
@@ -377,17 +411,17 @@ public class GoogleImporter extends AImporter {
 		// delete all unused memberships
 		if (!abdGroupMemberships.isEmpty()) {
 			for (AbdGroupToContact abdGroupToContact : abdGroupMemberships) {
-				abdGroupToContactFacade.remove(abdGroupToContact);
+				groupToContactDAO.remove(abdGroupToContact);
 			}
 		}
 		//create new memberships
 		if (!groupMemberships.isEmpty()) {
 			for (GroupMembershipInfo groupMembershipInfo : groupMemberships) {
 				abdGroupMembership = new AbdGroupToContact();
-				abdGroupMembership.setAbdContact(abdContactFacade.find(abdContact.getId()));
-				abdGroupMembership.setAbdGroup(abdGroupFacade.find(groupMembershipInfo.getHref()));
+				abdGroupMembership.setAbdContact(contactDAO.find(abdContact.getId()));
+				abdGroupMembership.setAbdGroup(groupDAO.find(groupMembershipInfo.getHref()));
 				abdGroupMembership.setActive(true);
-				abdGroupToContactFacade.create(abdGroupMembership);
+				groupToContactDAO.create(abdGroupMembership);
 			}
 		}
 		

@@ -20,6 +20,11 @@ public class AbdUserFacade extends AbstractFacade<AbdUser> {
 		return em;
 	}
 	
+	@Override
+	protected void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
+	
 	public AbdUser findUserByUsername(String username){
 		AbdUser user = null;
 		

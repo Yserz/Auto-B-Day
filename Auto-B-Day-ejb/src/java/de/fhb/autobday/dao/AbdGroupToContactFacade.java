@@ -19,10 +19,17 @@ public class AbdGroupToContactFacade extends AbstractFacade<AbdGroupToContact> {
 	protected EntityManager getEntityManager() {
 		return em;
 	}
+	
+	@Override
+	protected void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
+	
 	public Collection<AbdGroupToContact> findGroupByContact(String id) {
         return (Collection<AbdGroupToContact>) em.createNamedQuery("Contact.findByContact")
 				.setParameter("contact", id).getResultList();
     }
+	
 	public AbdGroupToContactFacade() {
 		super(AbdGroupToContact.class);
 	}

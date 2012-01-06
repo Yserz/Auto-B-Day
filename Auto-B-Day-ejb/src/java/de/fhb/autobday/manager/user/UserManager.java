@@ -178,11 +178,7 @@ public class UserManager implements UserManagerLocal {
 			LOGGER.log(Level.SEVERE, "No password repetition given!");
 			throw new IncompleteUserRegisterException("No  password repetition given");
 		}
-		//TODO Test hinzufuegen!!!
-		if(password.length()<5){
-			LOGGER.log(Level.SEVERE, "Password too short!");
-			throw new IncompleteUserRegisterException("Password too short!");
-		}
+		
 		if(!password.equals(passwordRepeat)){
 			LOGGER.log(Level.SEVERE, "Password not similar to the repetition!");
 			throw new IncompleteUserRegisterException("Password not similar to the repetition!");

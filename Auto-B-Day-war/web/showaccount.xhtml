@@ -11,7 +11,7 @@
 	<ui:define name="content">
 
 		<p:accordionPanel value="#{accountBean.groupList}" var="group" >
-			<p:ajax event="tabChange" listener="#{groupBean.onTabChange}" />
+			<p:ajax event="tabChange" listener="#{accountBean.onTabChange}"  />
 			<p:tab title="#{group.name}" >
 				|Anzahl Kontakte|        |Editiere Template|Aktiviere Gruppe|
 				<h:panelGrid columns="2" cellpadding="10">

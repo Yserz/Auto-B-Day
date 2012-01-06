@@ -1,13 +1,5 @@
 package de.fhb.autobday.manager.account;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
@@ -23,8 +15,13 @@ import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
-import de.fhb.autobday.manager.connector.AImporter;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 /**
  * The AccountManager processes all accountData specific things.
@@ -44,6 +41,8 @@ public class AccountManager implements AccountManagerLocal {
 	
 	@EJB
 	private AbdUserFacade userDAO;
+	@EJB
+	private GoogleImporter importer;
 	
 	
 	public AccountManager() {
@@ -153,7 +152,6 @@ public class AccountManager implements AccountManagerLocal {
 		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
 		AbdAccount account=null;
-		AImporter importer=null;
 		
 		//search
 		account=accountDAO.find(accountId);
@@ -164,7 +162,6 @@ public class AccountManager implements AccountManagerLocal {
 			throw new AccountNotFoundException("Account " + accountId + " not found!");
 		}
 		
-		importer= new GoogleImporter();
 		
 		//connect and import
 		try {

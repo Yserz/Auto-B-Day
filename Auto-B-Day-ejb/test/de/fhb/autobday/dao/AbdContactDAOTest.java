@@ -69,6 +69,14 @@ public class AbdContactDAOTest {
 		verify(emMock);
 		verify(queryMock);
 	}
+	
+	@Test
+	public void testContains() {
+		expect(emMock.contains(contactEntity)).andReturn(true);
+		replay(emMock);
+		assertEquals(true, contactDAOunderTest.contains(contactEntity));
+		verify(emMock);
+	}
 
 	@Test
 	public void testRefresh() {

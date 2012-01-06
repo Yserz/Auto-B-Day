@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import static org.easymock.EasyMock.*;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -46,6 +47,14 @@ public class AbdAccountDAOTest {
 
 	@After
 	public void tearDown() throws Exception {
+	}
+	
+	@Test
+	public void testContains() {
+		expect(emMock.contains(accountEntity)).andReturn(true);
+		replay(emMock);
+		assertEquals(true, accountDAOunderTest.contains(accountEntity));
+		verify(emMock);
 	}
 
 	@Test

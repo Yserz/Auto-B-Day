@@ -77,6 +77,14 @@ public class AbdUserDAOTest {
 		verify(emMock);
 		verify(queryMock);
 	}
+	
+	@Test
+	public void testContains() {
+		expect(emMock.contains(userEntity)).andReturn(true);
+		replay(emMock);
+		assertEquals(true, userDAOunderTest.contains(userEntity));
+		verify(emMock);
+	}
 
 	@Test
 	public void testRefresh() {

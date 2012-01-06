@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import static org.easymock.EasyMock.*;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -48,6 +49,14 @@ public class AbdGroupDAOTest {
 
 	@After
 	public void tearDown() throws Exception {
+	}
+	
+	@Test
+	public void testContains() {
+		expect(emMock.contains(groupEntity)).andReturn(true);
+		replay(emMock);
+		assertEquals(true, groupDAOunderTest.contains(groupEntity));
+		verify(emMock);
 	}
 
 	@Test

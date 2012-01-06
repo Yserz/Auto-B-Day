@@ -18,8 +18,8 @@ public abstract class AbstractFacade<T> {
 	protected abstract EntityManager getEntityManager();
 	protected abstract void setEntityManager(EntityManager em);
 
-	public void contains(T entity) {
-		getEntityManager().contains(entity);
+	public boolean contains(T entity) {
+		return getEntityManager().contains(entity);
 	}
 
 	public void refresh(T entity) {

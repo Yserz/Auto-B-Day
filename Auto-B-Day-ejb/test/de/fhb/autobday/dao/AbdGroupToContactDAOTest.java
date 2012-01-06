@@ -68,6 +68,14 @@ public class AbdGroupToContactDAOTest {
 		verify(emMock);
 		verify(queryMock);
 	}
+	
+	@Test
+	public void testContains() {
+		expect(emMock.contains(abdGroupToContactEntity)).andReturn(true);
+		replay(emMock);
+		assertEquals(true, groupToContactDAOunderTest.contains(abdGroupToContactEntity));
+		verify(emMock);
+	}
 
 	@Test
 	public void testRefresh() {

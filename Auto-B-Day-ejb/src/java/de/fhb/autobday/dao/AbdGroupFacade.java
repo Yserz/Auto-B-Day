@@ -14,13 +14,17 @@ public class AbdGroupFacade extends AbstractFacade<AbdGroup> {
 	@PersistenceContext(unitName = "Auto-B-Day-ejbPU")
 	private EntityManager em;
 
-	@Override
-	protected EntityManager getEntityManager() {
-		return em;
-	}
-
 	public AbdGroupFacade() {
 		super(AbdGroup.class);
 	}
 	
+	@Override
+	protected EntityManager getEntityManager() {
+		return em;
+	}
+	
+	@Override
+	protected void setEntityManager(EntityManager em) {
+		this.em = em;
+	}
 }

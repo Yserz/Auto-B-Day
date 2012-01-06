@@ -321,6 +321,10 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	@Override
 	public List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws GroupNotFoundException{
+		if (group==null) {
+			LOGGER.log(Level.SEVERE, "Group does not exist!");
+			throw new GroupNotFoundException("Keine Gruppe gefunden!");
+		}
 		return getAllContactsFromGroup(group.getId());
 	}
 	
@@ -331,7 +335,7 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	@Override
 	public List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException{
-		
+		//TODO LOGGER
 		AbdGroup group=null;
 		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();
 		
@@ -342,7 +346,6 @@ public class GroupManager implements GroupManagerLocal {
 			LOGGER.log(Level.SEVERE, "Group does not exist!");
 			throw new GroupNotFoundException("Group does not exist!");
 		}
-		
 		for(AbdGroupToContact actualGroupToContact :group.getAbdGroupToContactCollection()){
 			outputCollection.add(actualGroupToContact.getAbdContact());
 		}

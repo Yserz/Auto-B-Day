@@ -14,10 +14,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
 	@NamedQuery(name = "AbdGroupToContact.findAll", query = "SELECT a FROM AbdGroupToContact a"),
-	@NamedQuery(name = "AbdGroupToContact.findByGroup", query = "SELECT a FROM AbdGroupToContact a WHERE a.abdGroupToContactPK.group = :group"),
+	@NamedQuery(name = "AbdGroupToContact.findByGroup", query = "SELECT a FROM AbdGroupToContact a WHERE a.abdGroupToContactPK.group1 = :group1"),
 	@NamedQuery(name = "AbdGroupToContact.findByContact", query = "SELECT a FROM AbdGroupToContact a WHERE a.abdGroupToContactPK.contact = :contact"),
 	@NamedQuery(name = "AbdGroupToContact.findByActive", query = "SELECT a FROM AbdGroupToContact a WHERE a.active = :active")})
 public class AbdGroupToContact implements Serializable {
+	@JoinColumn(name = "group1", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+	private AbdGroup abdGroup;
 	private static final long serialVersionUID = 1L;
 	@EmbeddedId
 	protected AbdGroupToContactPK abdGroupToContactPK;
@@ -25,9 +28,6 @@ public class AbdGroupToContact implements Serializable {
     @NotNull
     @Column(name = "active")
 	private boolean active;
-	@JoinColumn(name = "group", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private AbdGroup abdGroup;
 	@JoinColumn(name = "contact", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private AbdContact abdContact;
@@ -103,5 +103,6 @@ public class AbdGroupToContact implements Serializable {
 	public String toString() {
 		return "de.fhb.autobday.data.AbdGroupToContact[ abdGroupToContactPK=" + abdGroupToContactPK + " ]";
 	}
+
 	
 }

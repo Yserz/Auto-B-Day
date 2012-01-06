@@ -7,33 +7,50 @@
     <ui:define name="title">
 		Welcome to Auto-B-Day
 	</ui:define>
-	<!--
-	<ui:define name="top">
-		
-	</ui:define>
-	-->
+	
 	<ui:define name="content">
-		
-		<p:accordionPanel value="#{accountBean.groupList}" var="group">  
-			<p:tab title="#{group.name}">  
-				<h:panelGrid columns="2" cellpadding="10">  
-					#{group.name}
 
-					<h:panelGrid columns="2" cellpadding="10">  
-						<h:outputText  
-							value="The story begins as Don Vito Corleone, the head of a New York Mafia family, oversees his daughter's wedding.   
-							His beloved son Michael has just come home from the war, but does not intend to become part of his father's business. T  
-							hrough Michael's life the nature of the family business becomes clear. The business of the family is just like the head of the family, kind and benevolent to those who give respect,   
-							but given to ruthless violence whenever anything stands against the good of the family." />  
-								
-					</h:panelGrid>  
+		<p:accordionPanel value="#{accountBean.groupList}" var="group" >
+			<p:ajax event="tabChange" listener="#{groupBean.onTabChange}" />
+			<p:tab title="#{group.name}" >
+				|Anzahl Kontakte|        |Editiere Template|Aktiviere Gruppe|
+				<h:panelGrid columns="2" cellpadding="10">
+					<h:form>
 
+						<p:dataTable value="#{groupBean.contactList}" 
+									 var="contact"
+									 rendered="#{groupBean.contactList.rowCount > 0}">
+
+
+							<p:column>
+								<f:facet name="header"> 
+									<h:outputText value="Contact" />
+								</f:facet>
+								<h:commandLink value="#{contact.name}" action="#{contactBean.showContact}">
+									<f:setPropertyActionListener target="#{sessionBean.aktContact}" value="#{contact}" />
+									<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
+								</h:commandLink>
+							</p:column>
+							<p:column>
+								<f:facet name="header"> 
+									<h:outputText value="aktiv" />
+								</f:facet>
+								<!-- TODO Checkbox -->
+								<p:commandButton icon="ui-icon-close" action="#{contactBean.changeStatusContact}" ajax="false">
+									<f:setPropertyActionListener target="#{sessionBean.aktContact}" value="#{contact}" />
+								</p:commandButton>
+							</p:column>
+
+
+						</p:dataTable>
+
+					</h:form>
 				</h:panelGrid>  
 
 			</p:tab>  
 		</p:accordionPanel>  
-		
-		
+
+
 
 	</ui:define>
 

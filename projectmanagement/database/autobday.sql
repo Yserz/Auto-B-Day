@@ -78,10 +78,10 @@ CREATE TABLE IF NOT EXISTS `abdgroup` (
 --
 
 CREATE TABLE IF NOT EXISTS `abdgrouptocontact` (
-  `group` varchar(255) NOT NULL,
+  `group1` varchar(255) NOT NULL,
   `contact` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`group`,`contact`),
+  PRIMARY KEY (`group1`,`contact`),
   KEY `contact` (`contact`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -123,7 +123,7 @@ ALTER TABLE `abdgroup`
 --
 ALTER TABLE `abdgrouptocontact`
   ADD CONSTRAINT `abdgrouptocontact_ibfk_2` FOREIGN KEY (`contact`) REFERENCES `abdcontact` (`id`),
-  ADD CONSTRAINT `abdgrouptocontact_ibfk_1` FOREIGN KEY (`group`) REFERENCES `abdgroup` (`id`);
+  ADD CONSTRAINT `abdgrouptocontact_ibfk_1` FOREIGN KEY (`group1`) REFERENCES `abdgroup` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

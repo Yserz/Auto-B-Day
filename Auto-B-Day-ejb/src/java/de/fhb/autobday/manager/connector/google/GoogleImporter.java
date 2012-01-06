@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 
 /**
  * class to import the contact information and map the contacts to us contacts
@@ -39,8 +40,11 @@ public class GoogleImporter extends AImporter {
 	protected AbdAccount accdata;
 	protected ContactsService myService;
 	
+	@EJB
 	private AbdContactFacade contactDAO;
+	@EJB
 	private AbdGroupFacade groupDAO;
+	@EJB
 	private AbdGroupToContactFacade groupToContactDAO;
 
 	public GoogleImporter() {

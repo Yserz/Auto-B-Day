@@ -20,6 +20,10 @@ public abstract class AbstractFacade<T> {
 		getEntityManager().refresh(entity);
 	}
 	
+	public void contains(T entity){
+		getEntityManager().contains(entity);
+	}
+	
 	public void create(T entity) {
 		getEntityManager().persist(entity);
 	}

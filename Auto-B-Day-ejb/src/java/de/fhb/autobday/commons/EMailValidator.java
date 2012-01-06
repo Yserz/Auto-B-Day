@@ -17,7 +17,7 @@ public class EMailValidator {
 	 * @return boolean valid
 	 */
 	public static boolean isEmail(String mailAddress) {
-		return mailAddress.matches("[0-9a-z]{2,}@[0-9a-z-]*\\.[a-z]{2,4}");
+		return mailAddress.matches("[0-9a-z]{2,}@[0-9a-z-]{1,}\\.[a-z]{2,4}");
 	}
 	
 	/**

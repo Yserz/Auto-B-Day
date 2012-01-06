@@ -10,4 +10,5 @@ import de.fhb.autobday.data.AbdAccount;
 public abstract class AImporter {
 	public abstract void getConnection(AbdAccount data);
 	public abstract void importContacts();
+	public abstract boolean isConnectionEtablished();
 }

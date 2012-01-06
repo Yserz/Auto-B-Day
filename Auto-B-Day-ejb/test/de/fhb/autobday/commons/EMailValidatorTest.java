@@ -76,10 +76,20 @@ public class EMailValidatorTest {
 	 * Test of isEmail method, of class EMailValidator.
 	 */
 	@Test
-	public void testIsEmailMailWithoutDomain() {
-		System.out.println("testIsEmailMailWithoutDomain");
+	public void testIsEmailMailWithoutLocal() {
+		System.out.println("testIsEmailMailWithoutLocal");
 
-		assertFalse("mail without domain",			EMailValidator.isEmail("test@dawanda"));
+		assertFalse("mail without local",			EMailValidator.isEmail("test@dawanda"));
+	}
+	
+	/**
+	 * Test of isGoogleMail method, of class EMailValidator.
+	 */
+	@Test
+	public void testIsMailMailJustWithLocal() {
+		System.out.println("testIsMailMailJustWithLocal");
+
+		assertFalse("mail without just with local",			EMailValidator.isGoogleMail("test@.de"));
 	}
 	
 	/**
@@ -117,10 +127,20 @@ public class EMailValidatorTest {
 	 * Test of isGoogleMail method, of class EMailValidator.
 	 */
 	@Test
-	public void testIsGoogleMailMailWithoutDomain() {
+	public void testIsGoogleMailMailWithoutLocal() {
+		System.out.println("testIsGoogleMailMailWithoutLocal");
+
+		assertFalse("mail without Local",			EMailValidator.isGoogleMail("test@gmail"));
+	}
+	
+	/**
+	 * Test of isGoogleMail method, of class EMailValidator.
+	 */
+	@Test
+	public void testIsGoogleMailMailJustWithLocal() {
 		System.out.println("testIsGoogleMailMailWithoutDomain");
 
-		assertFalse("mail without domain",			EMailValidator.isGoogleMail("test@gmail"));
+		assertFalse("mail without just with local",			EMailValidator.isGoogleMail("test@.de"));
 	}
 	
 	/**

@@ -1,13 +1,15 @@
 package de.fhb.autobday.manager.group;
 
+import java.util.List;
+
+import javax.ejb.Local;
+
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.group.GroupException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
-
-import java.util.List;
-import javax.ejb.Local;
+import de.fhb.autobday.exception.group.NoGroupGivenException;
 
 /**
  * The GroupManager processes all group specific things.
@@ -128,5 +130,5 @@ public interface GroupManagerLocal {
 	 * @return List<AbdContact> 
 	 * @throws GroupNotFoundException 
 	 */
-	List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws GroupNotFoundException;
+	List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws NoGroupGivenException, GroupNotFoundException;
 }

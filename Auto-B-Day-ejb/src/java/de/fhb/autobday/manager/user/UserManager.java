@@ -1,5 +1,15 @@
 package de.fhb.autobday.manager.user;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.commons.HashHelper;
 import de.fhb.autobday.commons.PasswordGenerator;
@@ -7,17 +17,12 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.HashFailException;
-import de.fhb.autobday.exception.user.*;
-import de.fhb.autobday.manager.LoggerInterceptor;
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
+import de.fhb.autobday.exception.user.IncompleteLoginDataException;
+import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
+import de.fhb.autobday.exception.user.NoValidUserNameException;
+import de.fhb.autobday.exception.user.PasswordInvalidException;
+import de.fhb.autobday.exception.user.UserException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
  * this class manage the userspecific things
@@ -28,7 +33,6 @@ import javax.interceptor.Interceptors;
  * 
  */
 @Stateless
-@Interceptors(LoggerInterceptor.class)
 public class UserManager implements UserManagerLocal {
 	
 	private final static Logger LOGGER = Logger.getLogger(UserManager.class.getName());
@@ -57,6 +61,8 @@ public class UserManager implements UserManagerLocal {
 	@Override
 	public AbdUser login(String loginName, String password) throws UserException, HashFailException {
 		
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO, "loginName: {0}", loginName);
 		
 		AbdUser user = null;
 		String hash="";
@@ -87,10 +93,10 @@ public class UserManager implements UserManagerLocal {
 			hash=HashHelper.calcSHA1(password+user.getSalt());
 			
 		} catch (UnsupportedEncodingException e) {
-			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  {0}", e.getMessage());
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
 			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
 		} catch (NoSuchAlgorithmException e) {
-			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  {0}", e.getMessage());
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
 			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		
@@ -108,6 +114,7 @@ public class UserManager implements UserManagerLocal {
 	 */
 	@Override
 	public void logout() {
+		LOGGER.log(Level.INFO,"logout");
 	}
 	
 	/**
@@ -119,6 +126,13 @@ public class UserManager implements UserManagerLocal {
 	public AbdUser register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) 
 			throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException{
 		
+		LOGGER.log(Level.INFO,"parameter:");
+		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
+		LOGGER.log(Level.INFO, "name: {0}", name);
+		LOGGER.log(Level.INFO, "userName: {0}", userName);
+		LOGGER.log(Level.INFO, "mail: {0}", mail);
+		LOGGER.log(Level.INFO, "password: {0}", password);
+		LOGGER.log(Level.INFO, "passwordRepeat: {0}", passwordRepeat);
 		
 		AbdUser user = null;
 		AbdUser checkUser = null;
@@ -169,7 +183,7 @@ public class UserManager implements UserManagerLocal {
 			LOGGER.log(Level.SEVERE, "Password not similar to the repetition!");
 			throw new IncompleteUserRegisterException("Password not similar to the repetition!");
 		}
-		//TODO Tests hinzufuegen!!!
+		
 		if(password.length()<5){
 			LOGGER.log(Level.SEVERE, "Password too short!");
 			throw new IncompleteUserRegisterException("Password too short!");
@@ -202,10 +216,10 @@ public class UserManager implements UserManagerLocal {
 		try {
 			hash= HashHelper.calcSHA1(password+salt);
 		} catch (UnsupportedEncodingException e) {
-			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  {0}", e.getMessage());
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
 			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
 		} catch (NoSuchAlgorithmException e) {
-			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  {0}", e.getMessage());
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
 			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		

@@ -447,6 +447,47 @@ public class UserManagerTest {
 		PowerMock.verify(PasswordGenerator.class);
 	}
 	
+	/**
+	 * Test of register method, of class UserManager.
+	 * This test provokes a IncompleteUserRegisterException!
+	 */
+	@Test(expected = IncompleteUserRegisterException.class)
+	public void testRegisterTooShortPasswordThrowIncompleteUserRegisterException() throws Exception {
+		
+		System.out.println("testRegisterTooShortPasswordThrowIncompleteUserRegisterException");
+		
+		//prepare test variables
+		String firstName = "biene";
+		String name = "maja";
+		String userName = "summsesum";
+		String mail = "biene@maja.com";
+		String password = "123t";
+		String passwordRepeat = "123t";
+		
+		// Setting up the expected value of the method call of Mockobject	
+		EasyMock.expect(HashHelper.calcSHA1((String)EasyMock.anyObject())).andReturn("4aSe5");
+		EasyMock.expect(EMailValidator.isEmail(mail)).andReturn(true);
+		EasyMock.expect(userDAOMock.findUserByUsername(userName)).andReturn(null);
+		EasyMock.expect(PasswordGenerator.generateSalt()).andReturn("salt");
+		
+		userDAOMock.create((AbdUser)EasyMock.anyObject());
+		
+		// Setup is finished need to activate the mock		
+		PowerMock.replay(EMailValidator.class);
+		PowerMock.replay(HashHelper.class);
+		PowerMock.replay(PasswordGenerator.class);
+		EasyMock.replay(userDAOMock);
+		
+		//call method to test
+		managerUnderTest.register(firstName, name, userName, mail, password, passwordRepeat);
+		
+		// verify	
+		EasyMock.verify(userDAOMock);
+		PowerMock.verify(HashHelper.class);
+		PowerMock.verify(EMailValidator.class);
+		PowerMock.verify(PasswordGenerator.class);
+	}
+	
 	
 	/**
 	 * Test of register method, of class UserManager.

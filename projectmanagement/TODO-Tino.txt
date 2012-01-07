@@ -11,6 +11,14 @@ TODO - Tino
 	  analog dazu die Tests zum GoogleImporter und Mailmanager
 	- importer tests-properties einlesen (schon passiert ???)
  	
+- Importer: 
+Aufräumen, 
+Exceptions ordentlich machen(auch ins richtige package machen),
+Tests schreiben nach dem aufräumen bei gemeldeten fehlern gleich n test dazu schreiben,
+sekundär: Google passwort verschlüsseln
+
+- Mailmanager: 
+alles was nötig ist
  	
  	
 	nebenbei wenn möglich...

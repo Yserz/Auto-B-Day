@@ -308,11 +308,13 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
-	@Ignore
 	public void testMapGContacttoContactMale() {
 		System.out.println("mapGContacttoContact");
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
 		contactEntry.addEmailAddress(mail);
 		contactEntry.setGender(new Gender(Value.MALE));
 		@SuppressWarnings("deprecation")
@@ -320,21 +322,23 @@ private JavaEEGloss gloss;
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
 		exptected.setSex('m');
-		exptected.setUpdated(new Date(contactEntry.getUpdated().getValue()));
+		exptected.setUpdated(new Date(dateTime.getValue()));
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
 	@Test
-	@Ignore
 	public void testMapGContacttoContactWithoutEmailandBirthday() {
 		System.out.println("mapGContacttoContact");
-		contactEntry.setGender(new Gender(Value.MALE));
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
+		contactEntry.setGender(null);
 		contactEntry.setBirthday(new Birthday("---"));
 		AbdContact exptected = new AbdContact("1", null, null, "");
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
-		exptected.setSex('m');
-		exptected.setUpdated(new Date(contactEntry.getUpdated().getValue()));
+		exptected.setSex(null);
+		exptected.setUpdated(new Date(dateTime.getValue()));
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 

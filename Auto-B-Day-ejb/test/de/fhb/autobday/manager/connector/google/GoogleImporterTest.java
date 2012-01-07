@@ -3,6 +3,9 @@ package de.fhb.autobday.manager.connector.google;
 import static org.easymock.EasyMock.*;
 
 import com.google.gdata.client.contacts.ContactsService;
+import com.google.gdata.data.DateTime;
+import com.google.gdata.data.PlainTextConstruct;
+import com.google.gdata.data.TextConstruct;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
@@ -24,6 +27,8 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
+import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
+import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -93,15 +98,16 @@ private JavaEEGloss gloss;
 	/**
 	 * Test of getConnection method, of class GoogleImporter.
 	 * @throws AuthenticationException 
+	 * @throws ConnectorInvalidAccountException 
+	 * @throws ConnectorCouldNotLoginException 
 	 */
 	@Test
-	@Ignore
-	public void testGetConnection() throws AuthenticationException{
+	public void testGetConnection() throws AuthenticationException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException{
 		System.out.println("getConnection");
 
 		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
 		replay(contactsServiceMock);
-		//gImporterUnderTest.getConnection(data);
+		gImporterUnderTest.getConnection(data);
 		assertEquals(true, gImporterUnderTest.isConnectionEtablished());
 		verify(contactsServiceMock);
 	}
@@ -119,7 +125,7 @@ private JavaEEGloss gloss;
 			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
 			expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(null);
 			replay(myServiceMock);
-			instance.setMyService(myServiceMock);
+			instance.myService = myServiceMock;
 			assertEquals(null, instance.getAllGroups());
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
@@ -149,7 +155,7 @@ private JavaEEGloss gloss;
 			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
 			expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
 			replay(myServiceMock);
-			instance.setMyService(myServiceMock);
+			instance.myService = myServiceMock;
 			assertEquals(contactGroupList, instance.getAllGroups());
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
@@ -173,7 +179,7 @@ private JavaEEGloss gloss;
 			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 			expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
 			replay(myServiceMock);
-			instance.setMyService(myServiceMock);
+			instance.myService = myServiceMock;
 			assertEquals(null, instance.getAllContacts());
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
@@ -201,7 +207,7 @@ private JavaEEGloss gloss;
 			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
 			expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
 			replay(myServiceMock);
-			instance.setMyService(myServiceMock);
+			instance.myService = myServiceMock;
 			assertEquals(contactEntryList, instance.getAllContacts());
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
@@ -216,26 +222,10 @@ private JavaEEGloss gloss;
 	 * Test of importContacts method, of class GoogleImporter.
 	 */
 	@Test
+	@Ignore
 	public void testImportContacts() {
 		System.out.println("importContacts");
 		
-		//accdata
-		AbdAccount accdata = new AbdAccount();
-		 
-		//Mocks
-		AbdGroupFacade abdGroupFacade = createMock(AbdGroupFacade.class);
-		AbdContactFacade abdContactFacade = createMock(AbdContactFacade.class);
-		ContactsService myServiceMock = createMock(ContactsService.class);
-		
-		//mocks methods
-		//URL feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
-		//expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
-		//feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
-		//expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
-		
-		//Variables setting
-		gImporterUnderTest.setConnectionEtablished(true);
-		gImporterUnderTest.setAccdata(accdata);
 		
 		
 	}
@@ -300,84 +290,20 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
-	public void testdiffMembershipWithAnExistingGroup(){
-		GoogleImporter instance = new GoogleImporter();
-		List<AbdGroupToContact> abdGroupToContactList = new ArrayList<AbdGroupToContact>();
-		AbdGroupToContact abdGroupToContact = new AbdGroupToContact();
-		AbdGroup abdGroup = new AbdGroup();
-		abdGroup.setId("4");
-		abdGroupToContact.setAbdGroup(abdGroup);
-		abdGroupToContactList.add(abdGroupToContact);
-		abdGroupToContact = new AbdGroupToContact();
-		abdGroup = new AbdGroup();
-		abdGroup.setId("2");
-		abdGroupToContact.setAbdGroup(abdGroup);
-		abdGroupToContactList.add(abdGroupToContact);
-		assertEquals(true,instance.diffMembership("2", abdGroupToContactList));
-	}
-	
-	@Test
-	public void testdiffMembershipWitouthAnExistingGroup(){
-		GoogleImporter instance = new GoogleImporter();
-		List<AbdGroupToContact> abdGroupToContactList = new ArrayList<AbdGroupToContact>();
-		AbdGroupToContact abdGroupToContact = new AbdGroupToContact();
-		AbdGroup abdGroup = new AbdGroup();
-		abdGroup.setId("4");
-		abdGroupToContact.setAbdGroup(abdGroup);
-		abdGroupToContactList.add(abdGroupToContact);
-		abdGroupToContact = new AbdGroupToContact();
-		abdGroup = new AbdGroup();
-		abdGroup.setId("2");
-		abdGroupToContact.setAbdGroup(abdGroup);
-		abdGroupToContactList.add(abdGroupToContact);
-		assertEquals(false,instance.diffMembership("3", abdGroupToContactList));
-	}
-
-	@Test
-	public void testexistGroupWithGroup(){
-		GoogleImporter instance = new GoogleImporter();
-		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
-		AbdGroup abdGroup = new AbdGroup();
-		abdGroup.setId("3");
-		abdGroups.add(abdGroup);
-		abdGroup = new AbdGroup();
-		abdGroup.setId("4");
-		abdGroups.add(abdGroup);
-		//assertEquals(true, instance.existGroup(abdGroups, "4"));
-	}
-	
-	@Test
-	public void testexistGroupWithoutGroup(){
-		GoogleImporter instance = new GoogleImporter();
-		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
-		AbdGroup abdGroup = new AbdGroup();
-		abdGroup.setId("3");
-		abdGroups.add(abdGroup);
-		abdGroup = new AbdGroup();
-		abdGroup.setId("4");
-		abdGroups.add(abdGroup);
-		//assertEquals(false, instance.existGroup(abdGroups, "2"));
-	}
-	
-	@Test
-	public void testexistGroup(){
-		GoogleImporter instance = new GoogleImporter();
-		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
-		//assertEquals(false, instance.existGroup(abdGroups, "4"));
-	}
-	
-	@Test
-	@Ignore
 	public void testMapGContacttoContactFemale() {
 		System.out.println("mapGContacttoContact");
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
 		contactEntry.addEmailAddress(mail);
 		@SuppressWarnings("deprecation")
 		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
 		exptected.setSex('w');
+		exptected.setUpdated(new Date(dateTime.getValue()));
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
@@ -394,6 +320,7 @@ private JavaEEGloss gloss;
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
 		exptected.setSex('m');
+		exptected.setUpdated(new Date(contactEntry.getUpdated().getValue()));
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
@@ -407,46 +334,39 @@ private JavaEEGloss gloss;
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
 		exptected.setSex('m');
+		exptected.setUpdated(new Date(contactEntry.getUpdated().getValue()));
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 
 	@Test
-	public void testsetmyService(){
-		ContactsService myService = new ContactsService(null);
-		GoogleImporter instance = new GoogleImporter();
-		instance.setMyService(myService);
-		assertEquals(myService,instance.myService);
+	public void testGetGroupname(){
+		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
+		PlainTextConstruct title = new PlainTextConstruct();
+		title.setText("Dies ist der Titel");
+		contactGroupEntry.setTitle(title);
+		assertEquals("Dies ist der Titel",gImporterUnderTest.getGroupName(contactGroupEntry));
 	}
 	
 	@Test
-	public void testgetmyService(){
-		ContactsService myService = new ContactsService(null);
-		GoogleImporter instance = new GoogleImporter();
-		instance.myService=myService;
-		assertEquals(myService,instance.getMyService());
-	}
-	
-	@Test
-	public void testsetAccdata(){
-		AbdAccount accdata = new AbdAccount();
-		GoogleImporter instance = new GoogleImporter();
-		instance.setAccdata(accdata);
-		assertEquals(accdata,instance.accdata);
-	}
-	
-	@Test
-	public void testgetAccdata(){
-		AbdAccount accdata = new AbdAccount();
-		GoogleImporter instance = new GoogleImporter();
-		instance.accdata = accdata;
-		assertEquals(accdata,instance.getAccdata());
-	}
-	
-	@Test
-	public void testsetConnected(){
-		GoogleImporter instance = new GoogleImporter();
-		instance.setConnectionEtablished(true);
-		assertEquals(true,instance.connectionEtablished);
+	public void testMapGgroupToGroup(){
+		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
+		AbdGroup abdGroup = new AbdGroup();
+		AbdAccount abdAccount = new AbdAccount();
+		PlainTextConstruct title = new PlainTextConstruct();
+		title.setText("Dies ist der Titel");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactGroupEntry.setTitle(title);
+		contactGroupEntry.setId("id");
+		contactGroupEntry.setUpdated(dateTime);
+		abdGroup.setActive(true);
+		abdGroup.setId("id");
+		abdGroup.setName("Dies ist der Titel");
+		abdGroup.setTemplate("Hier soll das Template rein");
+		abdGroup.setUpdated(new Date(dateTime.getValue()));
+		abdGroup.setAccount(abdAccount);
+		gImporterUnderTest.accdata = abdAccount;
+		assertEquals(abdGroup, gImporterUnderTest.mapGGroupToGroup(contactGroupEntry));
 	}
 	
 }

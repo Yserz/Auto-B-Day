@@ -312,62 +312,24 @@ public class ABDManagerTest {
 	 * Test of testCheckEveryDay method, of class ABDManager.
 	 * 
 	 */
-	@Test(expected=AbdException.class)
+	@Test
 	public void testCheckEveryDayBirthdayContactsIsEmpty() throws Exception {
 		System.out.println("testCheckEveryDay");
 		
 		//prepare test variables
-		String template="template";
-		String sender="sender";
-		String parsedTemplate="parsedTemplate";
-		Date testDate= new Date(2012,1,20);
-		
 		Collection<AbdContact> contactCollection;
 		contactCollection=new ArrayList<AbdContact>();
 		
-		Collection<AbdGroupToContact> contactInGroups;
-		contactInGroups=new ArrayList<AbdGroupToContact>();
-		
-		AbdGroupToContact groupToContact;
-		groupToContact=new AbdGroupToContact();
-		groupToContact.setActive(true);
-				
-		AbdAccount account = new AbdAccount();
-		account.setUsername(sender);
-		
-		//add some testcontacts
-		AbdGroup group=new AbdGroup();
-		group.setActive(true);
-		group.setTemplate("template");
-		group.setAccount(account);
-		
-		AbdContact contactOne;
-		contactOne=new AbdContact();
-		contactOne.setMail("mailaddress");
-				
-		contactCollection.add(contactOne);
-		groupToContact.setAbdContact(contactOne);
-		groupToContact.setAbdGroup(group);
-		
-		contactInGroups.add(groupToContact);
-		group.setAbdGroupToContactCollection(contactInGroups);
-		contactOne.setAbdGroupToContactCollection(contactInGroups);
-		
 		// Setting up the expected value of the method call of Mockobject
-		
 		EasyMock.expect(contactDAOMock.findContactByBday((Date) EasyMock.anyObject())).andReturn(contactCollection);
-
-		EasyMock.expect(groupManagerMock.parseTemplate(template, contactOne)).andThrow(new NoContactGivenException());
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);
-		EasyMock.replay(groupManagerMock);
 		
 		//call method to test
 		managerUnderTest.checkEveryDay();
 		
 		// verify
 		EasyMock.verify(contactDAOMock);
-		EasyMock.verify(groupManagerMock);
 	}
 }

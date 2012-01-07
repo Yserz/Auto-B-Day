@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.commons.HashHelper;
@@ -23,6 +24,7 @@ import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.manager.LoggerInterceptor;
 
 /**
  * this class manage the userspecific things
@@ -33,6 +35,7 @@ import de.fhb.autobday.exception.user.UserNotFoundException;
  * 
  */
 @Stateless
+@Interceptors(LoggerInterceptor.class)
 public class UserManager implements UserManagerLocal {
 	
 	private final static Logger LOGGER = Logger.getLogger(UserManager.class.getName());
@@ -60,9 +63,6 @@ public class UserManager implements UserManagerLocal {
 	 */
 	@Override
 	public AbdUser login(String loginName, String password) throws UserException, HashFailException {
-		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "loginName: {0}", loginName);
 		
 		AbdUser user = null;
 		String hash="";
@@ -114,7 +114,6 @@ public class UserManager implements UserManagerLocal {
 	 */
 	@Override
 	public void logout() {
-		LOGGER.log(Level.INFO,"logout");
 	}
 	
 	/**
@@ -125,14 +124,6 @@ public class UserManager implements UserManagerLocal {
 	@Override
 	public AbdUser register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) 
 			throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException{
-		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "firstName: {0}", firstName);
-		LOGGER.log(Level.INFO, "name: {0}", name);
-		LOGGER.log(Level.INFO, "userName: {0}", userName);
-		LOGGER.log(Level.INFO, "mail: {0}", mail);
-		LOGGER.log(Level.INFO, "password: {0}", password);
-		LOGGER.log(Level.INFO, "passwordRepeat: {0}", passwordRepeat);
 		
 		AbdUser user = null;
 		AbdUser checkUser = null;

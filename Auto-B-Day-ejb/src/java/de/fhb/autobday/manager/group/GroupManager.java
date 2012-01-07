@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
@@ -19,6 +20,7 @@ import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.exception.group.GroupException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.exception.group.NoGroupGivenException;
+import de.fhb.autobday.manager.LoggerInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,7 @@ import java.util.List;
  * 
  */
 @Stateless
+@Interceptors(LoggerInterceptor.class)
 public class GroupManager implements GroupManagerLocal {
 	
 	private final static Logger LOGGER = Logger.getLogger(GroupManager.class.getName());
@@ -50,9 +53,6 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	@Override
 	public AbdGroup getGroup(String groupId) throws GroupNotFoundException {
-		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
 		
 		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
@@ -83,10 +83,6 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public void setTemplate(String groupId, String template) throws GroupNotFoundException {
 		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
-		LOGGER.log(Level.INFO, "template: {1}", template);
-		
 		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
 		
@@ -105,9 +101,6 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	@Override
 	public String getTemplate(String groupId) throws GroupNotFoundException {
-		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
 		
 		String output="dummy";
 		
@@ -132,10 +125,6 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	@Override
 	public String testTemplate(String groupId, String contactId) throws GroupException, ContactException{
-		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
-		LOGGER.log(Level.INFO, "contactid: {1}", contactId);
 		
 		String output="dummy";
 				
@@ -181,9 +170,6 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public void setActive(String groupId, boolean active) throws GroupNotFoundException {
 		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "groupid: {0}", groupId);
-		
 		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
 		
@@ -206,10 +192,6 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	@Override
 	public String parseTemplate(String template, AbdContact contact) throws NoContactGivenException{
-		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "template: {0}", template);
-		LOGGER.log(Level.INFO, "contact: {0}", contact);
 
 		String patternString="";		
 		StringBuilder output = new StringBuilder();
@@ -294,10 +276,6 @@ public class GroupManager implements GroupManagerLocal {
 	@Override
 	public String parseSlashExpression(String expression, char sex){
 		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "expression: {0}", expression);
-		LOGGER.log(Level.INFO, "sex: {1}", sex);
-		
 		Pattern numberPattern = Pattern.compile("/");
 		Matcher numberMatcher = numberPattern.matcher(expression);
 		String contentLeft ="";
@@ -339,9 +317,6 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	@Override
 	public List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException{
-
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "groupId: {0}", groupId);
 
 		AbdGroup group=null;
 		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();

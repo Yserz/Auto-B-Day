@@ -5,20 +5,20 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 
-public class GroupExceptionTest {
+public class NoGroupGivenExceptionTest {
 	
-	public GroupExceptionTest() {
+	public NoGroupGivenExceptionTest() {
 	}
-	
+
 	@Test
 	public void testDefaultKonstruktor(){
-		assertEquals(null,new GroupException().getMessage());		
+		assertEquals(null,new NoGroupGivenException().getMessage());		
 	}
 	
 	@Test
 	public void testKonstruktorWithParameter(){
 		String message = "Dies ist eine Testmessage!";
-		assertEquals(message,new GroupException(message).getMessage());		
+		assertEquals(message,new NoGroupGivenException(message).getMessage());		
 	}
 
 }

@@ -208,26 +208,20 @@ private JavaEEGloss gloss;
 
 	/**
 	 * Test of getAllContacts method, of class GoogleImporter.
+	 * @throws ServiceException 
+	 * @throws IOException 
 	 */
 	@Test
-	public void testGetAllContactsReturnNull() {
+	public void testGetAllContactsReturnNull() throws IOException, ServiceException {
 		System.out.println("getAllContacts");
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		try {
-			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
-			expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
-			replay(myServiceMock);
-			instance.myService = myServiceMock;
-			assertEquals(null, instance.getAllContacts());
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		assertEquals(null, instance.getAllContacts());
 	}
 	
 	/**
@@ -256,6 +250,30 @@ private JavaEEGloss gloss;
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void testGetAllContactsByThrowingIOException() throws IOException, ServiceException{
+		GoogleImporter instance = new GoogleImporter();
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andThrow(new IOException());
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		assertEquals(null,instance.getAllContacts());
+	}
+	
+	@Test
+	public void testGetAllContactsByThrowingServiceException() throws IOException, ServiceException{
+		GoogleImporter instance = new GoogleImporter();
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andThrow(new ServiceException(""));
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		assertEquals(null,instance.getAllContacts());
 	}
 
 	/**

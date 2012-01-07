@@ -28,12 +28,12 @@ public class AbdExceptionTest {
 	public void tearDown() {
 	}
 
-	@Ignore
+	@Test
 	public void testDefaultKonstruktor(){
 		assertEquals(null,new AbdException().getMessage());		
 	}
 	
-	@Ignore
+	@Test
 	public void testKonstruktorWithParameter(){
 		String message = "Dies ist eine Testmessage!";
 		assertEquals(message,new AbdException(message).getMessage());		

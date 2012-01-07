@@ -9,7 +9,7 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
-import de.fhb.autobday.exception.account.NoConnectionException;
+import de.fhb.autobday.exception.connector.ConnectorException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 
@@ -34,7 +34,7 @@ public interface AccountManagerLocal {
 	 * @param type
 	 * @throws UserNotFoundException
 	 */
-	AbdAccount addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException;
+	AbdAccount addAccount(int abdUserId, String password, String userName, String type)  throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException  ;
 
 	/**
 	 * remove a account of a user by a AbdAccountobject
@@ -58,7 +58,7 @@ public interface AccountManagerLocal {
 	 * @param accountId
 	 * @throws AccountNotFoundException
 	 */
-	void importGroupsAndContacts(int accountId) throws AccountNotFoundException, NoConnectionException  ;
+	void importGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorException ;
 	
 	/**
 	 * get all groups of a specific account by a AbdAccountobject

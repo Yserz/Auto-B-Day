@@ -1,5 +1,14 @@
 package de.fhb.autobday.manager.account;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
+
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
@@ -11,19 +20,13 @@ import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.account.NoConnectionException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
+import de.fhb.autobday.exception.connector.ConnectorException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
 
 /**
  * The AccountManager processes all accountData specific things.
@@ -44,6 +47,7 @@ public class AccountManager implements AccountManagerLocal {
 	
 	@EJB
 	private AbdUserFacade userDAO;
+	
 	@EJB
 	private GoogleImporter importer;
 	
@@ -60,7 +64,6 @@ public class AccountManager implements AccountManagerLocal {
 	 */
 	@Override
 	public AbdAccount addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
-		
 		
 		AbdUser actualUser=null;
 		
@@ -138,11 +141,15 @@ public class AccountManager implements AccountManagerLocal {
 
 	/**
 	 * (non-Javadoc)
+	 * @throws AccountNotFoundException 
+	 * @throws ConnectorNoConnectionException 
 	 * @throws NoConnectionException 
+	 * @throws ConnectorInvalidAccountException 
+	 * @throws ConnectorCouldNotLoginException 
 	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#importGroupsAndContacts(int)
 	 */
 	@Override
-	public void importGroupsAndContacts(int accountId) throws AccountNotFoundException, NoConnectionException {
+	public void importGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorException{
 		
 		
 		AbdAccount account=null;
@@ -158,27 +165,9 @@ public class AccountManager implements AccountManagerLocal {
 		
 		
 		//connect and import
-		try {
-			importer.getConnection(account);
-		} catch (ConnectorCouldNotLoginException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ConnectorInvalidAccountException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		importer.getConnection(account);
 		
-		if(!importer.isConnectionEtablished()){
-			LOGGER.log(Level.SEVERE, "Cant etablish connection to google!");
-			throw new NoConnectionException("Cant etablish connection to google!");
-		}
-		
-		try {
-			importer.importContacts();
-		} catch (ConnectorNoConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		importer.importContacts();
 	}
 	
 	/**

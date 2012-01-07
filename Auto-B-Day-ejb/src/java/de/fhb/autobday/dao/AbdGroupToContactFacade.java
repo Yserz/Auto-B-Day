@@ -16,12 +16,12 @@ public class AbdGroupToContactFacade extends AbstractFacade<AbdGroupToContact> {
 	private EntityManager em;
 
 	@Override
-	protected EntityManager getEntityManager() {
+	public EntityManager getEntityManager() {
 		return em;
 	}
 	
 	@Override
-	protected void setEntityManager(EntityManager em) {
+	public void setEntityManager(EntityManager em) {
 		this.em = em;
 	}
 	

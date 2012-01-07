@@ -15,8 +15,8 @@ public abstract class AbstractFacade<T> {
 		this.entityClass = entityClass;
 	}
 
-	protected abstract EntityManager getEntityManager();
-	protected abstract void setEntityManager(EntityManager em);
+	public abstract EntityManager getEntityManager();
+	public abstract void setEntityManager(EntityManager em);
 
 	public void flush() {
 		getEntityManager().flush();

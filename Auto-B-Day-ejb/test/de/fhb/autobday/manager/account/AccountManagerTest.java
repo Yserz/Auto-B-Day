@@ -51,6 +51,8 @@ public class AccountManagerTest {
 	
 	private AbdUserFacade userDAOMock;
 	
+	private GoogleImporter gImporter;
+	
 	public AccountManagerTest() {
 	}
 
@@ -69,10 +71,12 @@ public class AccountManagerTest {
 		//create Mocks
 		accountDAOMock = EasyMock.createMock(AbdAccountFacade.class);
 		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
+		gImporter = EasyMock.createMock(GoogleImporter.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(accountDAOMock);
 		gloss.addEJB(userDAOMock);
+		gloss.addEJB(gImporter);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(AccountManager.class);
@@ -344,23 +348,18 @@ public class AccountManagerTest {
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
-
 		
-		GoogleImporter gimporter = PowerMock.createMock(GoogleImporter.class);
-		
-		PowerMock.expectNew(GoogleImporter.class).andReturn(gimporter);
-		
-		gimporter.getConnection(account);
-		EasyMock.expect(gimporter.isConnectionEtablished()).andReturn(true);
-		gimporter.importContacts();		
+		gImporter.getConnection(account);
+		EasyMock.expect(gImporter.isConnectionEtablished()).andReturn(true);
+		gImporter.importContacts();		
 		
 		EasyMock.replay(accountDAOMock);
-		PowerMock.replay(gimporter, GoogleImporter.class);
+		EasyMock.replay(gImporter);
 
 		managerUnderTest.importGroupsAndContacts(accountId);
 
-		PowerMock.verify(gimporter, GoogleImporter.class);
-		PowerMock.verify(accountDAOMock);
+		EasyMock.verify(gImporter);
+		EasyMock.verify(accountDAOMock);
 	}
 	
 	

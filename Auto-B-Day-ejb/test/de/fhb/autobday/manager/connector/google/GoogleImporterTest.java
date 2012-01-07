@@ -29,6 +29,7 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
+import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -106,6 +107,24 @@ private JavaEEGloss gloss;
 		System.out.println("getConnection");
 
 		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
+		replay(contactsServiceMock);
+		gImporterUnderTest.getConnection(data);
+		assertEquals(true, gImporterUnderTest.isConnectionEtablished());
+		verify(contactsServiceMock);
+	}
+	
+	/**
+	 * Test of getConnection method, of class GoogleImporter.
+	 * @throws AuthenticationException 
+	 * @throws ConnectorInvalidAccountException 
+	 * @throws ConnectorCouldNotLoginException 
+	 */
+	@Test (expected = ConnectorInvalidAccountException.class)
+	public void testGetConnectionCouldThrowConnectorInvalidAccountException() throws AuthenticationException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException{
+		System.out.println("getConnection");
+
+		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
+		expect(new ContactsService("BDayReminder")).andThrow(new ServiceException(""));
 		replay(contactsServiceMock);
 		gImporterUnderTest.getConnection(data);
 		assertEquals(true, gImporterUnderTest.isConnectionEtablished());

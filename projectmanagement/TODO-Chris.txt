@@ -6,13 +6,9 @@ TODO - Chris
 
 
 	
-	- Unit-Tests für die DAOs
-	
 	- Integrationstest für die Manager die DAOs aufrufen, Manager die Helper benutzen und 
-		Manager die andere Manager benutzen(AccountManager <-> GoogleImporter)
-		
-		
-		
+	  Manager die andere Manager benutzen(AccountManager <-> GoogleImporter)
+	  
 		
 	nebenbei wenn möglich...
  	*************************

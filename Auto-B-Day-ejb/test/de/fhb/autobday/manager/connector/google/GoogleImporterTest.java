@@ -534,7 +534,6 @@ private JavaEEGloss gloss;
 		AbdAccount accdata = new AbdAccount();
 		AbdAccount exceptedAccount = new AbdAccount();
 		AbdGroup abdGroup = new AbdGroup();
-		AbdGroup abdGroupOld = new AbdGroup();
 		ArrayList<AbdGroup> groupList = new ArrayList<AbdGroup>();
 		
 		PlainTextConstruct title = new PlainTextConstruct();
@@ -553,21 +552,13 @@ private JavaEEGloss gloss;
 		abdGroup.setTemplate("Hier soll das Template rein");
 		abdGroup.setUpdated(new Date(dateTime.getValue()));
 		abdGroup.setAccount(accdata);
-		
-		abdGroupOld.setActive(true);
-		abdGroupOld.setId("id1");
-		abdGroupOld.setName("Dies ist der Titel");
-		abdGroupOld.setTemplate("Hier soll das Template rein");
-		abdGroupOld.setUpdated(new Date(dateTime.getValue()));
-		abdGroupOld.setAccount(accdata);
 
-		groupList.add(abdGroupOld);
+		groupList.add(abdGroup);
 		accdata.setAbdGroupCollection(groupList);
 		
 		gImporterUnderTest.accdata = accdata;
 		groupList = new ArrayList<AbdGroup>();
 		groupList.add(abdGroup);
-		groupList.add(abdGroupOld);
 		exceptedAccount.setAbdGroupCollection(groupList);
 		
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");

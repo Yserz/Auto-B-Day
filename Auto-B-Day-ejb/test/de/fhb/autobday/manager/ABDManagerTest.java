@@ -252,7 +252,7 @@ public class ABDManagerTest {
 	 */
 	@Test(expected=AbdException.class)
 	public void testCheckEveryDayThrowsAbdException() throws Exception {
-		System.out.println("testCheckEveryDay");
+		System.out.println("testCheckEveryDayThrowsAbdException");
 		
 		//prepare test variables
 		String template="template";
@@ -315,7 +315,7 @@ public class ABDManagerTest {
 	 */
 	@Test
 	public void testCheckEveryDayBirthdayContactsIsEmpty() throws Exception {
-		System.out.println("testCheckEveryDay");
+		System.out.println("testCheckEveryDayBirthdayContactsIsEmpty");
 		
 		//prepare test variables
 		Collection<AbdContact> contactCollection;

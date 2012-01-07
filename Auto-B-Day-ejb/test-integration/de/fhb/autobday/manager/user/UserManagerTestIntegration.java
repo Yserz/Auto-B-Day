@@ -1,10 +1,11 @@
 package de.fhb.autobday.manager.user;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import static org.easymock.EasyMock.createMock;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
@@ -12,68 +13,85 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.manager.account.AccountManager;
+import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
+/**
+ * Integrationtest
+ * 
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>,
+ * Christoph Ott
+ */
 public class UserManagerTestIntegration {
 	
-	private JavaEEGloss gloss;
+	private static JavaEEGloss gloss;
 	
-	private AccountManager managerUnderTest;
+	private static UserManager managerUnderTest;
 	
-	//private Server server;
-	private Connection con;
+	private static AbdAccountFacade accountDAO;
+	
+	private static AbdUserFacade userDAO;
+	
+	private static GoogleImporter gImporter;
+	
+	private EntityManager emMock;
+	
+	@BeforeClass
+	public static void setUpClass(){
+		accountDAO = new AbdAccountFacade();
+		userDAO = new AbdUserFacade();
+		gImporter = new GoogleImporter();
+	}
 	
 	@Before
 	public void setUp() {
 		
-		 /*server = new Server();
-	        server.setAddress("localhost");
-	        server.setDatabaseName(0, "db");
-	        server.setDatabasePath(0, "file:./testdb/db");
-	        server.setPort(1234);
-	        server.setTrace(true);
-	        server.setLogWriter(new PrintWriter(System.out));
-	        server.start();
-			* 
-			*/
-	        try {
-	            Class.forName("org.hsqldb.jdbc.JDBCDriver");
-	        } catch (ClassNotFoundException e) {
-	            e.printStackTrace(System.out);
-	        }
-	        try {
-	            con = DriverManager.getConnection(
-	                    "jdbc:hsqldb:hsql://localhost:1234/db", "SA", "");
-	            con.createStatement()
-	                    .executeUpdate(
-	                            "create table contacts (name varchar(45),email varchar(45),phone varchar(45))");
-	        } catch (SQLException e) {
-	            e.printStackTrace(System.out);
-	        }
-		
 		gloss= new JavaEEGloss();
-		gloss.addEJB(AbdUserFacade.class);
-		gloss.addEJB(AbdAccountFacade.class);
-		managerUnderTest=gloss.make(AccountManager.class);
+		
+		//create Mocks
+		emMock = createMock(EntityManager.class);
+		
+		//set EntityManagers
+		accountDAO.setEntityManager(emMock);
+		userDAO.setEntityManager(emMock);
+		
 		//set Objekts to inject
+		gloss.addEJB(accountDAO);
+		gloss.addEJB(userDAO);
+		gloss.addEJB(gImporter);
+		
+		//create Manager with Mocks
+		managerUnderTest=gloss.make(UserManager.class);
 	}
+
+
 	/**
-	 * Test of addAccount method, of class AccountManager.
+	 * 
+	 * 
 	 */
 	@Test
-	public void testAddAccount() throws Exception {
-		
-		System.out.println("addAccount");
-		
-		//prepare test variables
-		String password="password";
-		String userName="mustermann";
-		String type="type";
-		
-		
-		// testing Methodcall
-		//managerUnderTest.addAccount(1, password, userName, type);
-		
-
+	public void testGetUser(){
+		//TODO implement
 	}
+
+
+	@Test
+	public void testLogin(){
+		//TODO implement
+	}
+	
+
+	@Test
+	public void testRegister(){
+		//TODO implement
+	}
+	
+
+	@Test
+	public void testGetAllAccountsFromUser(){
+		//TODO implement
+	}
+	
+	
 	
 }

@@ -335,11 +335,14 @@ public class AccountManagerTest {
 		gImporter.getConnection(account);
 		gImporter.importContacts();		
 		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
 		EasyMock.replay(gImporter);
-
+		
+		//call method to test
 		managerUnderTest.importGroupsAndContacts(accountId);
-
+		
+		// verify
 		EasyMock.verify(gImporter);
 		EasyMock.verify(accountDAOMock);
 	}
@@ -376,6 +379,7 @@ public class AccountManagerTest {
 	public void testGetAllContactsFromGroupWithClass() throws Exception {
 		System.out.println("testGetAllContactsFromGroupWithClass");
 		
+		//prepare test variables
 		AbdGroup groupOne = new AbdGroup("1");
 		AbdGroup groupTwo = new AbdGroup("2");
 		
@@ -387,11 +391,14 @@ public class AccountManagerTest {
 		
 		account.setAbdGroupCollection(outputCollection);
 		
-
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(account.getId())).andStubReturn(account);
 
+		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
 		
+		//call method to test
+		// verify	
 		assertEquals(outputCollection, managerUnderTest.getAllGroupsFromAccount(account));
 		EasyMock.verify(accountDAOMock);
 	}
@@ -403,6 +410,7 @@ public class AccountManagerTest {
 	public void testGetAllContactsFromGroupWithInt() throws Exception {
 		System.out.println("testGetAllContactsFromGroupWithInt");
 		
+		//prepare test variables
 		AbdGroup groupOne = new AbdGroup("1");
 		AbdGroup groupTwo = new AbdGroup("2");
 		
@@ -411,14 +419,17 @@ public class AccountManagerTest {
 		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
 		outputCollection.add(groupOne);
 		outputCollection.add(groupTwo);
-		
+
 		account.setAbdGroupCollection(outputCollection);
 		
-
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(account.getId())).andStubReturn(account);
 
+		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
 		
+		//call method to test
+		// verify
 		assertEquals(outputCollection, managerUnderTest.getAllGroupsFromAccount(account.getId()));
 		EasyMock.verify(accountDAOMock);
 	}
@@ -430,11 +441,17 @@ public class AccountManagerTest {
 	public void testGetAllContactsFromGroupShouldThrowAccountNotFoundException() throws Exception {
 		System.out.println("testGetAllContactsFromGroupShouldThrowAccountNotFoundException");
 		
+		//prepare test variables
 		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");		
 
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(account.getId())).andStubReturn(null);
+		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
 		
+		//call method to test
+		// verify
 		managerUnderTest.getAllGroupsFromAccount(account.getId());
 		EasyMock.verify(accountDAOMock);
 	}

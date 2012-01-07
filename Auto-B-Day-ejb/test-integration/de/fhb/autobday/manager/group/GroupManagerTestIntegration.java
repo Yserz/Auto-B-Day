@@ -83,7 +83,7 @@ public class GroupManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testGetGroup(){
+	public void testGetGroup()throws Exception {
 		//TODO implement
 	}
 	
@@ -93,7 +93,7 @@ public class GroupManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testSetTemplate(){
+	public void testSetTemplate()throws Exception {
 		//TODO implement
 	}
 	
@@ -102,17 +102,7 @@ public class GroupManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testGetTemplate(){
-		//TODO implement
-	}
-	
-	
-	/**
-	 * 
-	 * 
-	 */
-	@Test
-	public void testTestTemplate(){
+	public void testGetTemplate()throws Exception {
 		//TODO implement
 	}
 	
@@ -122,7 +112,7 @@ public class GroupManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testSetActive(){
+	public void testTestTemplate()throws Exception {
 		//TODO implement
 	}
 	
@@ -132,7 +122,7 @@ public class GroupManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testParseTemplate(){
+	public void testSetActive()throws Exception {
 		//TODO implement
 	}
 	
@@ -142,7 +132,7 @@ public class GroupManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testParseSlashExpression(){
+	public void testParseTemplate()throws Exception {
 		//TODO implement
 	}
 	
@@ -152,7 +142,17 @@ public class GroupManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testGetAllContactsFromGroup(){
+	public void testParseSlashExpression()throws Exception {
+		//TODO implement
+	}
+	
+	
+	/**
+	 * 
+	 * 
+	 */
+	@Test
+	public void testGetAllContactsFromGroup()throws Exception {
 		//TODO implement
 	}
 	

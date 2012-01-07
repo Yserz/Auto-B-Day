@@ -69,25 +69,25 @@ public class UserManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testGetUser(){
+	public void testGetUser()throws Exception {
 		//TODO implement
 	}
 
 
 	@Test
-	public void testLogin(){
-		//TODO implement
-	}
-	
-
-	@Test
-	public void testRegister(){
+	public void testLogin()throws Exception {
 		//TODO implement
 	}
 	
 
 	@Test
-	public void testGetAllAccountsFromUser(){
+	public void testRegister()throws Exception {
+		//TODO implement
+	}
+	
+
+	@Test
+	public void testGetAllAccountsFromUser()throws Exception {
 		//TODO implement
 	}
 	

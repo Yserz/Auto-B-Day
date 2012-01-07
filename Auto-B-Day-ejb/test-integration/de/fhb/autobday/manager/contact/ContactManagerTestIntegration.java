@@ -99,7 +99,7 @@ public class ContactManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testsetActive(){
+	public void testsetActive()throws Exception {
 		//TODO implement
 	}
 
@@ -109,7 +109,7 @@ public class ContactManagerTestIntegration {
 	 * 
 	 */
 	@Test
-	public void testgetContact(){
+	public void testgetContact()throws Exception {
 		//TODO implement
 	}
 	

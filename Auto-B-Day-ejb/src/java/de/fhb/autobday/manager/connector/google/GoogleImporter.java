@@ -15,6 +15,7 @@ import de.fhb.autobday.exception.CanNotConvetGoogleBirthdayException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
+import de.fhb.autobday.manager.LoggerInterceptor;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 /**
  * class to import the contact information and map the contacts to us contacts
@@ -36,6 +38,7 @@ import javax.ejb.Stateless;
  */
 @Stateless
 @LocalBean
+@Interceptors(LoggerInterceptor.class)
 public class GoogleImporter {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
@@ -67,8 +70,6 @@ public class GoogleImporter {
 	 */
 	public void getConnection(AbdAccount data) throws ConnectorCouldNotLoginException, ConnectorInvalidAccountException {
 
-		LOGGER.info("getConnection");
-		LOGGER.log(Level.INFO, "data : {0}", data.getId());
 
 		connectionEtablished = false;
 		
@@ -99,8 +100,6 @@ public class GoogleImporter {
 	 */
 	public void importContacts() throws ConnectorNoConnectionException {
 
-		LOGGER.info("importContacts");
-		
 
 		// if we have a connection and a valid accounddata then import the contacts and groups
 		// else throw an exception
@@ -235,7 +234,6 @@ public class GoogleImporter {
 	 */
 	protected List<ContactGroupEntry> getAllGroups() {
 
-		LOGGER.info("getAllGroups");
 
 		URL feedUrl;
 		try {
@@ -264,7 +262,6 @@ public class GoogleImporter {
 	 */
 	protected List<ContactEntry> getAllContacts() {
 
-		LOGGER.info("getAllContacts");
 
 		URL feedUrl;
 		try {
@@ -292,8 +289,6 @@ public class GoogleImporter {
 	 */
 	protected AbdContact mapGContactToContact(ContactEntry contactEntry) {
 
-		LOGGER.info("mapGContacttoContact");
-		LOGGER.log(Level.INFO, "contactEntry :{0}", contactEntry.getId());
 		
 
 		AbdContact abdContact;

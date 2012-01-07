@@ -4,14 +4,14 @@ TODO - Andy
 
 --- Allgemein 	---
 
-
-- Doku auf aktuellen stand ahlten
+- Doku auf aktuellen stand halten
 - mit Chris Integrations-Tests schreiben
 - complete sourcecode Check am DIENSTAG 
 
-
-- in absprache mit tino accountmanager fertig testen (tino muss noch seine exceptions richtig machen)
-- mit deinem netbeans mal das gui n bissi mittesten...registrieren...login...account hinzufügen(und tino melden falls fehler auftreten...und gleich n test dazu schreiben(tino dann))
+- mit deinem netbeans mal das gui n bissi mittesten
+registrieren...login...account hinzufügen
+(und tino melden falls fehler auftreten...und 
+gleich n test dazu schreiben(tino dann))
 
 nicht vorangig
 *******************

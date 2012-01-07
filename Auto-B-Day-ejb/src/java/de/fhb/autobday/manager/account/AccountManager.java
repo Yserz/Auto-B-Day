@@ -18,7 +18,6 @@ import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
-import de.fhb.autobday.exception.account.NoConnectionException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;

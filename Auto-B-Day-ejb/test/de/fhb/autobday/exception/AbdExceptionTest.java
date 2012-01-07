@@ -2,7 +2,7 @@ package de.fhb.autobday.exception;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.*;
+import org.junit.Test;
 
 
 public class AbdExceptionTest {
@@ -10,24 +10,6 @@ public class AbdExceptionTest {
 	public AbdExceptionTest() {
 	}
 	
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
-	
-	@Before
-	public void setUp() {
-
-	}
-	
-	@After
-	public void tearDown() {
-	}
-
 	@Test
 	public void testDefaultKonstruktor(){
 		assertEquals(null,new AbdException().getMessage());		

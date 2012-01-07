@@ -1,6 +1,10 @@
 package de.fhb.autobday.dao;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +17,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import static org.easymock.EasyMock.*;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
 
 import de.fhb.autobday.data.AbdUser;
 
@@ -34,20 +34,12 @@ public class AbdUserDAOTest {
 	public static void setUpBeforeClass() throws Exception {
 		userDAOunderTest = new AbdUserFacade();
 	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
+	
 	@Before
 	public void setUp() throws Exception {
 		emMock = createMock(EntityManager.class);
 		userDAOunderTest.setEntityManager(emMock);
 		userEntity = new AbdUser(11, "maja", "1234", "salt", "maja", "biene");
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 	
 	@Test

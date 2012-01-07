@@ -1,6 +1,10 @@
 package de.fhb.autobday.dao;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,18 +17,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import static org.easymock.EasyMock.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
 
 import de.fhb.autobday.data.AbdGroupToContact;
-import de.fhb.autobday.data.AbdGroupToContactPK;
 
 public class AbdGroupToContactDAOTest {
 
@@ -37,19 +35,11 @@ public class AbdGroupToContactDAOTest {
 		groupToContactDAOunderTest = new AbdGroupToContactFacade();
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		emMock = createMock(EntityManager.class);
 		groupToContactDAOunderTest.setEntityManager(emMock);
 		abdGroupToContactEntity = new AbdGroupToContact("friends", "11");
-	}
-
-	@After
-	public void tearDown() throws Exception {
 	}
 	
 	@Test

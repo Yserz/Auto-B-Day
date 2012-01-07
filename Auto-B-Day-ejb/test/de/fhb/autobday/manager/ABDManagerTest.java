@@ -1,14 +1,12 @@
 package de.fhb.autobday.manager;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
-import javax.ejb.EJB;
-
 import org.easymock.EasyMock;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
@@ -21,9 +19,7 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.manager.account.AccountManager;
 import de.fhb.autobday.manager.group.GroupManager;
-import de.fhb.autobday.manager.mail.MailManager;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
 
 /**
@@ -47,14 +43,6 @@ public class ABDManagerTest {
 	public ABDManagerTest() {
 	}
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
-	
 	@Before
 	public void setUp() {
 		gloss= new JavaEEGloss();
@@ -82,11 +70,6 @@ public class ABDManagerTest {
 		managerUnderTest=gloss.make(AbdManager.class);
 	}
 	
-	@After
-	public void tearDown() {
-		
-	}
-
 	/**
 	 * Test of getAllUser method, of class ABDManager.
 	 */

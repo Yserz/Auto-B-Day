@@ -1,6 +1,10 @@
 package de.fhb.autobday.dao;
 
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +15,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import static org.easymock.EasyMock.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
 
 import de.fhb.autobday.data.AbdGroup;
 
@@ -32,12 +31,6 @@ public class AbdGroupDAOTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		groupDAOunderTest = new AbdGroupFacade();
-		
-		
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
 	}
 
 	@Before
@@ -47,10 +40,6 @@ public class AbdGroupDAOTest {
 		groupEntity = new AbdGroup("friends_id", "friends", "abc", true);
 	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-	
 	@Test
 	public void testContains() {
 		expect(emMock.contains(groupEntity)).andReturn(true);

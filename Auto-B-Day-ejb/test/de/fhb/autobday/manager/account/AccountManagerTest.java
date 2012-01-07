@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -55,14 +52,6 @@ public class AccountManagerTest {
 	
 	public AccountManagerTest() {
 	}
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
 	
 	@Before
 	public void setUp() {
@@ -83,11 +72,6 @@ public class AccountManagerTest {
 		PowerMock.mockStatic(EMailValidator.class);
 	}
 	
-	@After
-	public void tearDown() {
-		
-	}
-
 	/**
 	 * Test of addAccount method, of class AccountManager.
 	 */

@@ -3,10 +3,7 @@ package de.fhb.autobday.manager.contact;
 import java.util.ArrayList;
 
 import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
@@ -44,16 +41,6 @@ public class ContactManagerTest {
 	
 	public ContactManagerTest() {
 	}
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		
-	}
 	
 	@Before
 	public void setUp() {
@@ -87,9 +74,6 @@ public class ContactManagerTest {
 		allGroupToContact.add(groupToContactTwo);
 	}
 	
-	@After
-	public void tearDown() {
-	}
 	
 	/**
 	 * Test of setActive method, of class ContactManager.

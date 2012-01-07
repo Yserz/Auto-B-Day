@@ -10,10 +10,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 
 import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -56,14 +53,6 @@ public class UserManagerTest {
 	
 	public UserManagerTest() {
 	}
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
 	
 	@Before
 	public void setUp() {
@@ -80,11 +69,6 @@ public class UserManagerTest {
 		PowerMock.mockStatic(HashHelper.class);
 		PowerMock.mockStatic(PasswordGenerator.class);
 		PowerMock.mockStatic(EMailValidator.class);
-	}
-	
-	@After
-	public void tearDown() {
-		
 	}
 
 	/**

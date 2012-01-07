@@ -17,23 +17,6 @@ public class EMailValidatorTest {
 	public EMailValidatorTest() {
 	}
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
-	
-	@Before
-	public void setUp() {
-	}
-	
-	@After
-	public void tearDown() {
-		
-	}
-	
 	/**
 	 * Test the default konstruktor
 	 */

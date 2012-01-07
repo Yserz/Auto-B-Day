@@ -22,24 +22,14 @@ public class MailManagerTest {
 	
 	public MailManagerTest() {
 	}
-
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
 	
 	@Before
 	public void setUp() {
-	}
-	
-	@After
-	public void tearDown() {
 		
 	}
-
+	
+	//TODO Tests implementieren...TINO
+	
 	/**
 	 * Test of sendBdayMail method, of class MailManager.
 	 */

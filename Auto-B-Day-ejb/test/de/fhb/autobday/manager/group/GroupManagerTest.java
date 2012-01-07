@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.easymock.EasyMock;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
@@ -47,15 +44,6 @@ public class GroupManagerTest {
 		
 	}
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-		
-	}
 	
 	@Before
 	public void setUp() {
@@ -81,12 +69,6 @@ public class GroupManagerTest {
 		testContact.setName("Musterman");
 		testContact.setMail("m");
 		testContact.setBday(new Date(27,04,1988));
-		
-	}
-	
-	@After
-	public void tearDown() {
-		
 	}
 
 	/**

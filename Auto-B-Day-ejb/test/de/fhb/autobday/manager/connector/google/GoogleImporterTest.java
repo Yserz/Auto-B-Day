@@ -466,4 +466,59 @@ private JavaEEGloss gloss;
 		assertEquals(exceptedAccount,gImporterUnderTest.accdata);
 	}
 	
+	@Test
+	public void testupdateGroupsWithANewGroup() throws IOException, ServiceException{
+		
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		ContactGroupFeed resultFeed = new ContactGroupFeed();
+		List<ContactGroupEntry> contactGroupList = new ArrayList<ContactGroupEntry>();
+		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
+		AbdAccount accdata = new AbdAccount();
+		AbdAccount exceptedAccount = new AbdAccount();
+		AbdGroup abdGroup = new AbdGroup();
+		AbdGroup abdGroupOld = new AbdGroup();
+		
+		PlainTextConstruct title = new PlainTextConstruct();
+		title.setText("Dies ist der Titel");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactGroupEntry.setTitle(title);
+		contactGroupEntry.setId("id");
+		contactGroupEntry.setUpdated(dateTime);
+		contactGroupList.add(contactGroupEntry);
+		resultFeed.setEntries(contactGroupList);
+		
+		abdGroup.setActive(true);
+		abdGroup.setId("id1");
+		abdGroup.setName("Dies ist der Titel");
+		abdGroup.setTemplate("Hier soll das Template rein");
+		abdGroup.setUpdated(new Date(dateTime.getValue()));
+		abdGroup.setAccount(accdata);
+		
+		abdGroupOld.setActive(true);
+		abdGroupOld.setId("id1");
+		abdGroupOld.setName("Dies ist der Titel");
+		abdGroupOld.setTemplate("Hier soll das Template rein");
+		abdGroupOld.setUpdated(new Date(dateTime.getValue()));
+		abdGroupOld.setAccount(accdata);
+		
+		accdata.setAbdGroupCollection(new ArrayList<AbdGroup>());
+		
+		gImporterUnderTest.accdata = accdata;
+		ArrayList<AbdGroup> groupList = new ArrayList<AbdGroup>();
+		groupList.add(abdGroup);
+		groupList.add(abdGroupOld);
+		exceptedAccount.setAbdGroupCollection(groupList);
+		
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		replay(myServiceMock);
+		gImporterUnderTest.myService = myServiceMock;
+		
+		gImporterUnderTest.updateGroups();
+		
+		assertEquals(exceptedAccount,gImporterUnderTest.accdata);
+	}
+	
 }

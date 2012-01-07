@@ -1,12 +1,5 @@
 package de.fhb.autobday.manager.contact;
 
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
@@ -15,6 +8,13 @@ import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
+import de.fhb.autobday.manager.LoggerInterceptor;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 /**
  * The Contactmanager processes all contact specific things.
@@ -24,6 +24,7 @@ import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
  * Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Stateless
+@Interceptors(LoggerInterceptor.class)
 public class ContactManager implements ContactManagerLocal {
 	
 	private final static Logger LOGGER = Logger.getLogger(ContactManager.class.getName());
@@ -50,9 +51,6 @@ public class ContactManager implements ContactManagerLocal {
 	@Override
 	public void setActive(String contactId, boolean active) throws ContactException {
 		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "contactId: {0}", contactId);
-		LOGGER.log(Level.INFO, "active: {1}", active);
 		
 		AbdGroupToContact groupToContact=null;
 		Collection<AbdGroupToContact> allGroupToContact=null;
@@ -100,9 +98,6 @@ public class ContactManager implements ContactManagerLocal {
 	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#getContact(java.lang.String)
 	 */
 	public AbdContact getContact(String contactId)throws ContactException{
-		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "contactId: {0}", contactId);
 		
 		//find group
 		AbdContact contact = contactDAO.find(contactId);

@@ -1,24 +1,24 @@
 package de.fhb.autobday.manager.mail;
 
+import de.fhb.autobday.commons.PasswordGenerator;
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.mail.MailException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.manager.LoggerInterceptor;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.interceptor.Interceptors;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import de.fhb.autobday.commons.PasswordGenerator;
-import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.mail.MailException;
-import de.fhb.autobday.exception.user.UserNotFoundException;
 
 /**
  * This is the mailmanager, which is responsible for sending mails
@@ -29,6 +29,7 @@ import de.fhb.autobday.exception.user.UserNotFoundException;
  */
 @Singleton
 @Startup
+@Interceptors(LoggerInterceptor.class)
 public class MailManager implements MailManagerLocal {
 
 	private final static Logger LOGGER = Logger.getLogger(MailManager.class.getName());

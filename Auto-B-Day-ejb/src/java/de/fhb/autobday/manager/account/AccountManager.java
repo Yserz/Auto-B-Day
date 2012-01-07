@@ -15,6 +15,7 @@ import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.manager.LoggerInterceptor;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 /**
  * The AccountManager processes all accountData specific things.
@@ -32,6 +34,7 @@ import javax.ejb.Stateless;
  * 
  */
 @Stateless
+@Interceptors(LoggerInterceptor.class)
 public class AccountManager implements AccountManagerLocal {
 	
 	private final static Logger LOGGER = Logger.getLogger(AccountManager.class.getName());
@@ -58,11 +61,6 @@ public class AccountManager implements AccountManagerLocal {
 	@Override
 	public AbdAccount addAccount(int abdUserId, String password, String userName, String type) throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
 		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "abdUserId: {0}", abdUserId);
-		LOGGER.log(Level.INFO, "password: {0}", password);
-		LOGGER.log(Level.INFO, "userName: {0}", userName);
-		LOGGER.log(Level.INFO, "type: {0}", type);
 		
 		AbdUser actualUser=null;
 		
@@ -122,8 +120,6 @@ public class AccountManager implements AccountManagerLocal {
 	@Override
 	public void removeAccount(int accountId) throws AccountException {
 		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
 		AbdAccount account=null;
 		
@@ -148,8 +144,6 @@ public class AccountManager implements AccountManagerLocal {
 	@Override
 	public void importGroupsAndContacts(int accountId) throws AccountNotFoundException, NoConnectionException {
 		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
 		AbdAccount account=null;
 		
@@ -204,8 +198,6 @@ public class AccountManager implements AccountManagerLocal {
 	@Override
 	public List<AbdGroup> getAllGroupsFromAccount(int accountId) throws AccountNotFoundException{
 		
-		LOGGER.log(Level.INFO,"parameter:");
-		LOGGER.log(Level.INFO, "accountId: {0}", accountId);
 		
 		AbdAccount account=null;
 		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();

@@ -16,7 +16,6 @@ import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.manager.LoggerInterceptor;
-import de.fhb.autobday.manager.connector.AImporter;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;

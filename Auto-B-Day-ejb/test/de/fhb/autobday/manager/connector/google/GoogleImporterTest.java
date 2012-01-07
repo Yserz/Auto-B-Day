@@ -123,11 +123,8 @@ private JavaEEGloss gloss;
 	public void testGetConnectionCouldThrowConnectorInvalidAccountException() throws AuthenticationException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException{
 		System.out.println("getConnection");
 
-		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
-		expect(new ContactsService("BDayReminder")).andThrow(new ServiceException(""));
 		replay(contactsServiceMock);
-		gImporterUnderTest.getConnection(data);
-		assertEquals(true, gImporterUnderTest.isConnectionEtablished());
+		gImporterUnderTest.getConnection(null);
 		verify(contactsServiceMock);
 	}
 

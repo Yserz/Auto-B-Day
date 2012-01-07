@@ -3,6 +3,7 @@ package de.fhb.autobday.manager.connector.google;
 import static org.easymock.EasyMock.*;
 
 import com.google.gdata.client.contacts.ContactsService;
+import com.google.gdata.data.DateTime;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
@@ -86,6 +87,7 @@ private JavaEEGloss gloss;
 		contactEntry.setName(name);
 		contactEntry.setGender(new Gender(Value.FEMALE));
 		contactEntry.setBirthday(new Birthday("1990-05-22"));
+		contactEntry.setUpdated(new DateTime());
 	}
 	
 	@After
@@ -297,11 +299,11 @@ private JavaEEGloss gloss;
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
 		exptected.setSex('w');
+		exptected.setUpdated(new Date(contactEntry.getUpdated().getValue()));
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
 	@Test
-	@Ignore
 	public void testMapGContacttoContactMale() {
 		System.out.println("mapGContacttoContact");
 		Email mail = new Email();
@@ -313,11 +315,11 @@ private JavaEEGloss gloss;
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
 		exptected.setSex('m');
+		exptected.setUpdated(new Date(contactEntry.getUpdated().getValue()));
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
 	@Test
-	@Ignore
 	public void testMapGContacttoContactWithoutEmailandBirthday() {
 		System.out.println("mapGContacttoContact");
 		contactEntry.setGender(new Gender(Value.MALE));
@@ -326,6 +328,7 @@ private JavaEEGloss gloss;
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
 		exptected.setSex('m');
+		exptected.setUpdated(new Date(contactEntry.getUpdated().getValue()));
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 

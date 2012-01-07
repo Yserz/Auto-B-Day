@@ -8,6 +8,7 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -85,10 +86,13 @@ public class AccountManagerTestIntegration {
 		String password="password";
 		String userName="test@googlemail.com";
 		String type="type";	
+		
+		Collection<AbdAccount> abdAccountCollection = new ArrayList<AbdAccount>();
 
 		//prepare a user object
 		int userId=1;
 		AbdUser user = new AbdUser(userId, "mustermann", "password", "salt", "mustermann", "max");
+		user.setAbdAccountCollection(abdAccountCollection);
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(emMock.find(AbdUser.class, user.getId())).andReturn(user);

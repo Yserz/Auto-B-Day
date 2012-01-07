@@ -478,6 +478,7 @@ private JavaEEGloss gloss;
 		AbdAccount exceptedAccount = new AbdAccount();
 		AbdGroup abdGroup = new AbdGroup();
 		AbdGroup abdGroupOld = new AbdGroup();
+		ArrayList<AbdGroup> groupList = new ArrayList<AbdGroup>();
 		
 		PlainTextConstruct title = new PlainTextConstruct();
 		title.setText("Dies ist der Titel");
@@ -502,11 +503,12 @@ private JavaEEGloss gloss;
 		abdGroupOld.setTemplate("Hier soll das Template rein");
 		abdGroupOld.setUpdated(new Date(dateTime.getValue()));
 		abdGroupOld.setAccount(accdata);
-		
-		accdata.setAbdGroupCollection(new ArrayList<AbdGroup>());
+
+		groupList.add(abdGroupOld);
+		accdata.setAbdGroupCollection(groupList);
 		
 		gImporterUnderTest.accdata = accdata;
-		ArrayList<AbdGroup> groupList = new ArrayList<AbdGroup>();
+		groupList = new ArrayList<AbdGroup>();
 		groupList.add(abdGroup);
 		groupList.add(abdGroupOld);
 		exceptedAccount.setAbdGroupCollection(groupList);

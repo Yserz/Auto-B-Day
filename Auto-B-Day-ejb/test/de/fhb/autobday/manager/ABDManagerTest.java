@@ -5,20 +5,15 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import org.easymock.EasyMock;
-import org.easymock.IExpectationSetters;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.easymock.PowerMock;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
-import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
@@ -29,7 +24,6 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.manager.account.AccountManager;
 import de.fhb.autobday.manager.group.GroupManager;
 import de.fhb.autobday.manager.mail.MailManagerLocal;
 
@@ -40,7 +34,6 @@ import de.fhb.autobday.manager.mail.MailManagerLocal;
  * Andy Klay <klay@fh-brandenburg.de>
  */
 @RunWith(PowerMockRunner.class)
-//@PrepareForTest( { System.class} )
 public class ABDManagerTest {
 	
 	private JavaEEGloss gloss;
@@ -84,7 +77,6 @@ public class ABDManagerTest {
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(AbdManager.class);
-//		PowerMock.mockStatic(System.class);
 	}
 	
 	/**
@@ -202,7 +194,7 @@ public class ABDManagerTest {
 		
 		AbdGroupToContact groupToContact;
 		groupToContact=new AbdGroupToContact();
-
+		groupToContact.setActive(true);
 				
 		AbdAccount account = new AbdAccount();
 		account.setUsername(sender);
@@ -216,7 +208,6 @@ public class ABDManagerTest {
 		AbdContact contactOne;
 		contactOne=new AbdContact();
 		contactOne.setMail("mailaddress");
-//		contactOne.setBday(testDate);
 				
 		contactCollection.add(contactOne);
 		groupToContact.setAbdContact(contactOne);

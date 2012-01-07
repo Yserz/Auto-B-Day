@@ -4,6 +4,8 @@ import static org.easymock.EasyMock.*;
 
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.DateTime;
+import com.google.gdata.data.PlainTextConstruct;
+import com.google.gdata.data.TextConstruct;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
@@ -336,4 +338,35 @@ private JavaEEGloss gloss;
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 
+	@Test
+	public void testGetGroupname(){
+		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
+		PlainTextConstruct title = new PlainTextConstruct();
+		title.setText("Dies ist der Titel");
+		contactGroupEntry.setTitle(title);
+		assertEquals("Dies ist der Titel",gImporterUnderTest.getGroupName(contactGroupEntry));
+	}
+	
+	@Test
+	public void testMapGgroupToGroup(){
+		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
+		AbdGroup abdGroup = new AbdGroup();
+		AbdAccount abdAccount = new AbdAccount();
+		PlainTextConstruct title = new PlainTextConstruct();
+		title.setText("Dies ist der Titel");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactGroupEntry.setTitle(title);
+		contactGroupEntry.setId("id");
+		contactGroupEntry.setUpdated(dateTime);
+		abdGroup.setActive(true);
+		abdGroup.setId("id");
+		abdGroup.setName("Dies ist der Titel");
+		abdGroup.setTemplate("Hier soll das Template rein");
+		abdGroup.setUpdated(new Date(contactEntry.getUpdated().getValue()));
+		abdGroup.setAccount(abdAccount);
+		gImporterUnderTest.accdata = abdAccount;
+		assertEquals(abdGroup, gImporterUnderTest.mapGGroupToGroup(contactGroupEntry));
+	}
+	
 }

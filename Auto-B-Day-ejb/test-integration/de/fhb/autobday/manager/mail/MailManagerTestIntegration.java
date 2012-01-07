@@ -2,16 +2,13 @@ package de.fhb.autobday.manager.mail;
 
 import static org.easymock.EasyMock.createMock;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import javax.persistence.EntityManager;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
+
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.manager.account.AccountManager;

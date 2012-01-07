@@ -5,11 +5,9 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 
@@ -25,14 +23,16 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
-import de.fhb.autobday.exception.account.AccountException;
-import de.fhb.autobday.exception.account.AccountNotFoundException;
-import de.fhb.autobday.exception.connector.ConnectorException;
-import de.fhb.autobday.exception.user.NoValidUserNameException;
-import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
+
+/**
+ * Integrationtest
+ * 
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>,
+ * Christoph Ott
+ */
 public class AccountManagerTestIntegration {
 	
 	private static JavaEEGloss gloss;
@@ -118,11 +118,12 @@ public class AccountManagerTestIntegration {
 		System.out.println("testRemoveAccountWithClass");
 
 		//prepare test variables
-		AbdAccount account = new AbdAccount(1);
+		AbdAccount account = new AbdAccount();
+		account.setId(0);
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(emMock.find(AbdAccount.class, account.getId())).andReturn(account);
-		emMock.remove((AbdUser)anyObject());
+		emMock.remove(account);
 
 		// Setup is finished need to activate the mock
 		replay(emMock);
@@ -134,51 +135,44 @@ public class AccountManagerTestIntegration {
 		verify(emMock);
 	}
 	
-//	/**
-//	 * Test of getAllContactsFromGroup method, of class GroupManager.
-//	 */
-//	@Test
-//	public void testGetAllContactsFromGroupWithInt() throws Exception {
-//		System.out.println("testGetAllContactsFromGroupWithInt");
-//		
-//		AbdGroup groupOne = new AbdGroup("1");
-//		AbdGroup groupTwo = new AbdGroup("2");
-//		
-//		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");
-//		
-//		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
-//		outputCollection.add(groupOne);
-//		outputCollection.add(groupTwo);
-//		
-//		account.setAbdGroupCollection(outputCollection);
-//		
-//
-//		EasyMock.expect(accountDAOMock.find(account.getId())).andStubReturn(account);
-//
-//		EasyMock.replay(accountDAOMock);
-//		
-//		assertEquals(outputCollection, managerUnderTest.getAllGroupsFromAccount(account.getId()));
-//		EasyMock.verify(accountDAOMock);
-//	}
+	/**
+	 * Test of getAllContactsFromGroup method, of class GroupManager.
+	 */
+	@Test
+	public void testGetAllGroupsFromAccount() throws Exception {
+		System.out.println("testGetAllGroupsFromAccountpWithInt");
+		
+		//prepare test variables
+		AbdGroup groupOne = new AbdGroup("1");
+		AbdGroup groupTwo = new AbdGroup("2");
+		
+		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");
+		
+		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
+		outputCollection.add(groupOne);
+		outputCollection.add(groupTwo);
+		account.setAbdGroupCollection(outputCollection);
+
+		// Setting up the expected value of the method call of Mockobject
+		expect(emMock.find(AbdAccount.class, account.getId())).andReturn(account);
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		// testing Methodcall
+		managerUnderTest.getAllGroupsFromAccount(account.getId());
+		
+		//verify
+		verify(emMock);
+	}
 	
 	
 	/**
-	 * 
+	 * Test of testImportGroupsAndContacts method, of class GroupManager.
 	 * 
 	 */
 	@Test
 	public void testImportGroupsAndContacts(){
-		//TODO implement
-	}
-
-	
-	
-	/**
-	 * 
-	 * 
-	 */
-	@Test
-	public void testGetAllGroupsFromAccount(){
 		//TODO implement
 	}
 

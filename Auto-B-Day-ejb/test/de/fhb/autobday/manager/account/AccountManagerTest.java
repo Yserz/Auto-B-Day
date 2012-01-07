@@ -376,8 +376,8 @@ public class AccountManagerTest {
 	 * Test of getAllContactsFromGroup method, of class GroupManager.
 	 */
 	@Test
-	public void testGetAllContactsFromGroupWithClass() throws Exception {
-		System.out.println("testGetAllContactsFromGroupWithClass");
+	public void testgetAllGroupsFromAccountWithClass() throws Exception {
+		System.out.println("testgetAllGroupsFromAccountWithClass");
 		
 		//prepare test variables
 		AbdGroup groupOne = new AbdGroup("1");
@@ -407,8 +407,8 @@ public class AccountManagerTest {
 	 * Test of getAllContactsFromGroup method, of class GroupManager.
 	 */
 	@Test
-	public void testGetAllContactsFromGroupWithInt() throws Exception {
-		System.out.println("testGetAllContactsFromGroupWithInt");
+	public void testGetAllGroupsFromAccountWithInt() throws Exception {
+		System.out.println("testGetAllGroupsFromAccountWithInt");
 		
 		//prepare test variables
 		AbdGroup groupOne = new AbdGroup("1");
@@ -438,8 +438,8 @@ public class AccountManagerTest {
 	 * Test of getAllContactsFromGroup method, of class GroupManager.
 	 */
 	@Test(expected = AccountNotFoundException.class)
-	public void testGetAllContactsFromGroupShouldThrowAccountNotFoundException() throws Exception {
-		System.out.println("testGetAllContactsFromGroupShouldThrowAccountNotFoundException");
+	public void testGetAllGroupsFromAccountShouldThrowAccountNotFoundException() throws Exception {
+		System.out.println("testGetAllGroupsFromAccountShouldThrowAccountNotFoundException");
 		
 		//prepare test variables
 		AbdAccount account = new AbdAccount(22, "itsme", "itsme", "type");		

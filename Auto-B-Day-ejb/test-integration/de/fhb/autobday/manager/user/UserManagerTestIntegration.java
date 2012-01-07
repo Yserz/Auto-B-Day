@@ -12,7 +12,6 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.manager.account.AccountManager;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
 /**

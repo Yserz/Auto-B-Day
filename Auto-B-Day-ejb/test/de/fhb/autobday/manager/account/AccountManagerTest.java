@@ -333,7 +333,6 @@ public class AccountManagerTest {
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
 		
 		gImporter.getConnection(account);
-		EasyMock.expect(gImporter.isConnectionEtablished()).andReturn(true);
 		gImporter.importContacts();		
 		
 		EasyMock.replay(accountDAOMock);

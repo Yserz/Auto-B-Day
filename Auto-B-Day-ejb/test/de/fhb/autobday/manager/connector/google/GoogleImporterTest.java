@@ -36,6 +36,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -130,56 +131,44 @@ private JavaEEGloss gloss;
 
 	/**
 	 * Test of getAllGroups method, of class GoogleImporter.
+	 * @throws ServiceException 
+	 * @throws IOException 
 	 */
 	@Test
-	public void testGetAllGroupsWithNull() {
+	public void testGetAllGroupsWithNull() throws IOException, ServiceException {
 		System.out.println("getAllGroups");
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		try {
-			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
-			expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(null);
-			replay(myServiceMock);
-			instance.myService = myServiceMock;
-			assertEquals(null, instance.getAllGroups());
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(null);
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		assertEquals(null, instance.getAllGroups());
 	}
 	
 	/**
 	 * Test of getAllGroups method, of class GoogleImporter.
+	 * @throws ServiceException 
+	 * @throws IOException 
 	 */
 	@Test
-	public void testGetAllGroupsWithGroupFeed() {
+	public void testGetAllGroupsWithGroupFeed() throws IOException, ServiceException {
 		System.out.println("getAllGroups");
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		try {
-			ContactGroupFeed resultFeed = new ContactGroupFeed();
-			List<ContactGroupEntry> contactGroupList = new ArrayList<ContactGroupEntry>();
-			ContactGroupEntry contactGroup = new ContactGroupEntry();
-			contactGroup.setId("hsfsfd");
-			contactGroupList.add(contactGroup);
-			resultFeed.setEntries(contactGroupList);
-			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
-			expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
-			replay(myServiceMock);
-			instance.myService = myServiceMock;
-			assertEquals(contactGroupList, instance.getAllGroups());
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
+		ContactGroupFeed resultFeed = new ContactGroupFeed();
+		List<ContactGroupEntry> contactGroupList = new ArrayList<ContactGroupEntry>();
+		ContactGroupEntry contactGroup = new ContactGroupEntry();
+		contactGroup.setId("hsfsfd");
+		contactGroupList.add(contactGroup);
+		resultFeed.setEntries(contactGroupList);
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		assertEquals(contactGroupList, instance.getAllGroups());
 	}
 	
 	@Test
@@ -429,6 +418,52 @@ private JavaEEGloss gloss;
 		abdGroup.setAccount(abdAccount);
 		gImporterUnderTest.accdata = abdAccount;
 		assertEquals(abdGroup, gImporterUnderTest.mapGGroupToGroup(contactGroupEntry));
+	}
+	
+	@Test
+	public void testupdateGroups() throws IOException, ServiceException{
+		
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		ContactGroupFeed resultFeed = new ContactGroupFeed();
+		List<ContactGroupEntry> contactGroupList = new ArrayList<ContactGroupEntry>();
+		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
+		AbdAccount accdata = new AbdAccount();
+		AbdAccount exceptedAccount = new AbdAccount();
+		AbdGroup abdGroup = new AbdGroup();
+		
+		PlainTextConstruct title = new PlainTextConstruct();
+		title.setText("Dies ist der Titel");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactGroupEntry.setTitle(title);
+		contactGroupEntry.setId("id");
+		contactGroupEntry.setUpdated(dateTime);
+		contactGroupList.add(contactGroupEntry);
+		resultFeed.setEntries(contactGroupList);
+		
+		abdGroup.setActive(true);
+		abdGroup.setId("id");
+		abdGroup.setName("Dies ist der Titel");
+		abdGroup.setTemplate("Hier soll das Template rein");
+		abdGroup.setUpdated(new Date(dateTime.getValue()));
+		abdGroup.setAccount(accdata);
+		
+		accdata.setAbdGroupCollection(new ArrayList<AbdGroup>());
+		
+		gImporterUnderTest.accdata = accdata;
+		ArrayList<AbdGroup> groupList = new ArrayList<AbdGroup>();
+		groupList.add(abdGroup);
+		exceptedAccount.setAbdGroupCollection(groupList);
+		
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		replay(myServiceMock);
+		gImporterUnderTest.myService = myServiceMock;
+		
+		gImporterUnderTest.updateGroups();
+		
+		assertEquals(exceptedAccount,gImporterUnderTest.accdata);
 	}
 	
 }

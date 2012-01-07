@@ -108,10 +108,11 @@ public class ContactManagerTest {
 	 */
 	@Test
 	public void testSetActive() throws Exception {
-		
 		System.out.println("testSetActive");
 		
+		//prepare test variables
 		boolean isActive = true;
+		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(contactDAOMock.find(contactOne.getId())).andReturn(contactTwo);
 		EasyMock.expect(groupToContactDAOMock.findGroupByContact(contactOne.getId())).andReturn(allGroupToContact);
@@ -137,9 +138,9 @@ public class ContactManagerTest {
 	 */
 	@Test(expected = NoContactInThisGroupException.class)
 	public void testSetActiveShouldThrowNoContactInThisGroupException() throws Exception {
-		
 		System.out.println("testSetActiveShouldThrowNoContactInThisGroupException");
 		
+		//prepare test variables
 		boolean isActive = true;
 		
 		allGroupToContact.get(0).setAbdContact(new AbdContact("maja"));
@@ -169,9 +170,9 @@ public class ContactManagerTest {
 	 */
 	@Test(expected = ContactNotFoundException.class)
 	public void testSetActiveShouldThrowContactNotFoundException() throws Exception {
-		
 		System.out.println("testSetActiveShouldThrowContactNotFoundException");
 		
+		//prepare test variables
 		boolean isActive=true;		
 		
 		// Setting up the expected value of the method call of Mockobject
@@ -195,9 +196,9 @@ public class ContactManagerTest {
 	 */
 	@Test(expected = ContactToGroupNotFoundException.class)
 	public void testSetActiveShouldThrowContactToGroupNotFoundException() throws Exception {
-		
 		System.out.println("testSetActiveShouldThrowContactToGroupNotFoundException");
 
+		//prepare test variables
 		boolean isActive=true;		
 		
 		// Setting up the expected value of the method call of Mockobject
@@ -221,7 +222,6 @@ public class ContactManagerTest {
 	 */
 	@Test
 	public void testGetContact() throws Exception {
-		
 		System.out.println("testGetContact");
 
 		// Setting up the expected value of the method call of Mockobject
@@ -243,7 +243,6 @@ public class ContactManagerTest {
 	 */
 	@Test(expected = ContactNotFoundException.class)
 	public void testGetContactShouldThrowContactNotFoundException() throws Exception {
-		
 		System.out.println("testGetContactShouldThrowContactNotFoundException");
 		
 		// Setting up the expected value of the method call of Mockobject

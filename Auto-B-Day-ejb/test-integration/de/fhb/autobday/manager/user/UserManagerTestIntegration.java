@@ -1,6 +1,8 @@
 package de.fhb.autobday.manager.user;
 
 import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import javax.persistence.EntityManager;
 
@@ -70,25 +72,75 @@ public class UserManagerTestIntegration {
 	 */
 	@Test
 	public void testGetUser()throws Exception {
+		System.out.println("");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 
 
 	@Test
 	public void testLogin()throws Exception {
+		System.out.println("");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 
 	@Test
 	public void testRegister()throws Exception {
+		System.out.println("");
+		
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 
 	@Test
 	public void testGetAllAccountsFromUser()throws Exception {
+		System.out.println("");
+		
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 	

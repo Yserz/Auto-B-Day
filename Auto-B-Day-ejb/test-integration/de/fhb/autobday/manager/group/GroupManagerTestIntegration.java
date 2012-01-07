@@ -1,6 +1,8 @@
 package de.fhb.autobday.manager.group;
 
 import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -39,7 +41,7 @@ public class GroupManagerTestIntegration {
 	
 	private static JavaEEGloss gloss;
 	
-	private static AccountManager managerUnderTest;
+	private static GroupManager managerUnderTest;
 	
 	private static AbdAccountFacade accountDAO;
 	
@@ -74,86 +76,160 @@ public class GroupManagerTestIntegration {
 		gloss.addEJB(gImporter);
 		
 		//create Manager with Mocks
-		managerUnderTest=gloss.make(AccountManager.class);
+		managerUnderTest=gloss.make(GroupManager.class);
 	}
 	
 	
 	/**
-	 * 
+	 * test GetGroup of GroupManager
 	 * 
 	 */
 	@Test
 	public void testGetGroup()throws Exception {
+		System.out.println("testGetGroup");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 	
 	/**
-	 * 
+	 * test SetTemplate of GroupManager
 	 * 
 	 */
 	@Test
 	public void testSetTemplate()throws Exception {
+		System.out.println("testSetTemplate");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 	/**
-	 * 
+	 * test GetTemplate of GroupManager
 	 * 
 	 */
 	@Test
 	public void testGetTemplate()throws Exception {
+		System.out.println("testGetTemplate");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 	
 	/**
-	 * 
+	 * test TestTemplate of GroupManager
 	 * 
 	 */
 	@Test
 	public void testTestTemplate()throws Exception {
+		System.out.println("testTestTemplate");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 	
 	/**
-	 * 
+	 * test SetActive of GroupManager
 	 * 
 	 */
 	@Test
 	public void testSetActive()throws Exception {
+		System.out.println("testSetActive");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 	
 	/**
-	 * 
+	 * test ParseTemplate of GroupManager
 	 * 
 	 */
 	@Test
 	public void testParseTemplate()throws Exception {
+		System.out.println("testParseTemplate");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 	
 	/**
-	 * 
-	 * 
-	 */
-	@Test
-	public void testParseSlashExpression()throws Exception {
-		//TODO implement
-	}
-	
-	
-	/**
-	 * 
+	 * test GetAllContactsFromGroup of GroupManager
 	 * 
 	 */
 	@Test
 	public void testGetAllContactsFromGroup()throws Exception {
+		System.out.println("testGetAllContactsFromGroup");
+		
 		//TODO implement
+		
+		//prepare test variables
+		
+		// Setting up the expected value of the method call of Mockobject
+		
+		// Setup is finished need to activate the mock
+		replay(emMock);
+		
+		//verify
+		verify(emMock);
 	}
 	
 	

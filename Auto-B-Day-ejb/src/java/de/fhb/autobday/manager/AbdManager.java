@@ -18,8 +18,7 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
 /**
- * This manager speaks to the scheduler and ???
- * TODO bitte ergaenzen!! wer findet eine passende beschreibung?
+ * This manager schedueles the sending of bdaymails
  *
  * @author 
  * Michael Koppen <koppen@fh-brandenburg.de>,
@@ -105,13 +104,11 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 					
 					//if right relation found
 					if(aktGroupToContact.getAbdContact().equals(aktContact)){
-						System.out.println("test");
 						//and if group is marked as active
 						if (aktGroupToContact.getActive()) {
-							System.out.println("test");
 							//and if contactToGroup is marked as active
 							if (aktGroupToContact.getAbdGroup().getActive()) {
-								System.out.println("test");
+								
 								try {
 									
 									template=aktGroupToContact.getAbdGroup().getTemplate();

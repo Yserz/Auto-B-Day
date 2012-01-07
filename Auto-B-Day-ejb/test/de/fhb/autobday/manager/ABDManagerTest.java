@@ -245,6 +245,7 @@ public class ABDManagerTest {
 		EasyMock.verify(mailManagerMock);
 	}
 
+	
 	/**
 	 * Test of testCheckEveryDay method, of class ABDManager.
 	 * 
@@ -308,9 +309,9 @@ public class ABDManagerTest {
 		EasyMock.verify(groupManagerMock);
 	}
 	
+	
 	/**
 	 * Test of testCheckEveryDay method, of class ABDManager.
-	 * 
 	 */
 	@Test
 	public void testCheckEveryDayBirthdayContactsIsEmpty() throws Exception {

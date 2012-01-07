@@ -1,3 +1,2 @@
 Hier sollte alles das rein was wir noch brauchen aber noch keiner für zuständig ist!!!!
 
-- ein propertie file mit einem standard template, oder eine alternative

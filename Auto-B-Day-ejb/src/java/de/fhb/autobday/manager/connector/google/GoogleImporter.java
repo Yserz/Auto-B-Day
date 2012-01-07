@@ -246,7 +246,7 @@ public class GoogleImporter {
 			return resultFeed.getEntries();
 
 		} catch (IOException ex) {
-			
+			LOGGER.log(Level.SEVERE, null, ex);
 		} catch (ServiceException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 		}

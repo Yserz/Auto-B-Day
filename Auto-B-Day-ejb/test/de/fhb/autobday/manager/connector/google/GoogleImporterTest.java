@@ -165,6 +165,30 @@ private JavaEEGloss gloss;
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void testGetAllGroupsByThrowingIOException() throws IOException, ServiceException{
+		GoogleImporter instance = new GoogleImporter();
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andThrow(new IOException());
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		assertEquals(null,instance.getAllGroups());
+	}
+	
+	@Test
+	public void testGetAllGroupsByThrowingServiceException() throws IOException, ServiceException{
+		GoogleImporter instance = new GoogleImporter();
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andThrow(new ServiceException(""));
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		assertEquals(null,instance.getAllGroups());
+	}
 
 	/**
 	 * Test of getAllContacts method, of class GoogleImporter.

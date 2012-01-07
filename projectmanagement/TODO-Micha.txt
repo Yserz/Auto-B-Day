@@ -10,6 +10,8 @@ ant, gui, struktur
 - !!!Schichtendiagramm hochladen!! Webbeans?? actions weg machen..haben keine mehr
 (- Projekt auf Maven umbauen?)
 
+-Deployanleitung für Rambow schreiben in README.md!
+
 *** DB 			***
 
 - 

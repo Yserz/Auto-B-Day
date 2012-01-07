@@ -38,9 +38,6 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 	private AbdGroupFacade groupDAO;
 	
 	@EJB
-	private AbdGroupToContactFacade grouptocontactDAO;
-	
-	@EJB
 	private AbdAccountFacade accountdataDAO;
 	
 	@EJB
@@ -81,8 +78,9 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 		LOGGER.log(Level.INFO, "every minute idle message...{0}", new Date());
 	}
 	*/
+	
 	@Schedule(minute="0", hour="8")
-	private void checkEveryDay() throws AbdException{
+	public void checkEveryDay() throws AbdException{
 		
 		LOGGER.log(Level.INFO, "EverDayCheck {0}", new Date(System.currentTimeMillis()));
 		

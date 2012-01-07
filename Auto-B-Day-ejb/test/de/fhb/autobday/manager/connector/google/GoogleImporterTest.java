@@ -597,16 +597,16 @@ private JavaEEGloss gloss;
 		
 		abdGroup.setActive(true);
 		abdGroup.setId("id");
-		abdGroup.setName("Dies ist der Titel23");
+		abdGroup.setName("Dies ist der Titel");
 		abdGroup.setTemplate("Hier soll das Template rein");
-		abdGroup.setUpdated(new Date(dateTime.getValue()+10));
+		abdGroup.setUpdated(new Date(dateTime.getValue()));
 		abdGroup.setAccount(accdata);
 		
 		abdGroupOld.setActive(true);
-		abdGroupOld.setId("id1");
-		abdGroupOld.setName("Dies ist der Titel");
+		abdGroupOld.setId("id");
+		abdGroupOld.setName("Dies ist der Titel23");
 		abdGroupOld.setTemplate("Hier soll das Template rein");
-		abdGroupOld.setUpdated(new Date(dateTime.getValue()));
+		abdGroupOld.setUpdated(new Date(dateTime.getValue()-10));
 		abdGroupOld.setAccount(accdata);
 
 		groupList.add(abdGroupOld);

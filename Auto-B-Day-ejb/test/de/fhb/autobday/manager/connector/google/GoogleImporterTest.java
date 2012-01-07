@@ -363,7 +363,7 @@ private JavaEEGloss gloss;
 		abdGroup.setId("id");
 		abdGroup.setName("Dies ist der Titel");
 		abdGroup.setTemplate("Hier soll das Template rein");
-		abdGroup.setUpdated(new Date(contactEntry.getUpdated().getValue()));
+		abdGroup.setUpdated(new Date(dateTime.getValue()));
 		abdGroup.setAccount(abdAccount);
 		gImporterUnderTest.accdata = abdAccount;
 		assertEquals(abdGroup, gImporterUnderTest.mapGGroupToGroup(contactGroupEntry));

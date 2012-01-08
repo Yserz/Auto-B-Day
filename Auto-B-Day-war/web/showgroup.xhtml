@@ -9,39 +9,42 @@
 	</ui:define>
 	
 	<ui:define name="content">
-		<p:panel id="groupList" header="Groups" rendered="#{sessionBean.loggedIn}">
+		<p:panel id="contactList" header="Contacts" rendered="#{sessionBean.loggedIn}">
 				<h:form>
-					<p:dataTable value="#{accountBean.groupList}" 
-									var="group"
+					<p:dataTable value="#{groupBean.contactList}" 
+									var="contact"
 									rows="10" 
 									paginator="true" 
-									emptyMessage="There are no Groups"
+									emptyMessage="There are no Contacts"
 									paginatorAlwaysVisible="false">
 						
 
 						<p:column>
 							<f:facet name="header"> 
-								<h:outputText value="Group" />
+								<h:outputText value="Name" />
 							</f:facet>
+							#{contact.name}
+						</p:column>
+						<p:column>
+							<f:facet name="header"> 
+								<h:outputText value="Firstname" />
+							</f:facet>
+							#{contact.firstname}
+						</p:column>
+						<p:column>
+							<f:facet name="header"> 
+								<h:outputText value="Birthday" />
+							</f:facet>
+							<p:outputPanel>
+								#{contact.bday}
+							</p:outputPanel>
 							
-							<h:commandLink value="#{group.name}" action="#{groupBean.showGroup}">
-								<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
-							</h:commandLink>
 						</p:column>
 						<p:column>
 							<f:facet name="header"> 
-								<h:outputText value="Number of Contacts" />
+								<h:outputText value="Mail" />
 							</f:facet>
-							#{group.abdGroupToContactCollection.size()}
-						</p:column>
-						<p:column>
-							<f:facet name="header"> 
-								<h:outputText value="Template" />
-							</f:facet>
-							#{group.template}
-							<p:commandButton value="Edit" action="#{groupBean.showTemplate}" ajax="false">
-								<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
-							</p:commandButton>
+							#{contact.mail}
 						</p:column>
 						<p:column>
 							<f:facet name="header"> 

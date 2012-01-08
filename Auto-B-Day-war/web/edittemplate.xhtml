@@ -1,0 +1,63 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:p="http://primefaces.org/ui"
+                template="./layout.xhtml"
+				xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+		Welcome to Auto-B-Day
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:panel id="templatepanel">
+					<p:inputTextarea value="#{sessionBean.aktGroup.template}" 
+						 autoResize="true"
+						 cols="100"
+						 maxlength="2000" 
+						 required="true" 
+						 requiredMessage="Template is needed" 
+						 effectDuration="200" />
+					<p:commandButton value="Save" action="#{groupBean.editTemplate}" ajax="false" />
+				</p:panel>
+				<p:panel id="legendepanel">
+					<h:panelGrid columns="2">
+						<h:panelGroup>
+							<p:panel>
+								Command:
+							</p:panel>
+							<p:panel>
+								<p:outputPanel>
+									\${name}
+									\${firstname}
+									\${mail}
+									\${bday}
+								</p:outputPanel>
+							</p:panel>
+						</h:panelGroup>
+						<h:panelGroup>
+							<p:panel>
+								Explanation:
+							</p:panel>
+							<p:panel>
+								<p:outputPanel>
+									- gibt Nachnamen aus 
+									- gibt Vornamen aus
+									- gibt E-Mail aus
+									- gibt Geburtsdatum aus
+								</p:outputPanel>
+							</p:panel>
+						</h:panelGroup>
+					</h:panelGrid>
+				</p:panel>
+				
+				
+			</h:panelGrid>
+		</h:form>
+		
+		
+
+	</ui:define>
+
+</ui:composition>

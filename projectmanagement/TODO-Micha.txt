@@ -7,7 +7,6 @@ TODO - Micha
 ant, gui, struktur
 
 - Ant-Script Ueberarbeiten?
-- !!!Schichtendiagramm hochladen!! Webbeans?? actions weg machen..haben keine mehr
 (- Projekt auf Maven umbauen?)
 
 -Deployanleitung für Rambow schreiben in README.md!

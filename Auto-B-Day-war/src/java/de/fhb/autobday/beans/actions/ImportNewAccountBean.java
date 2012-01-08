@@ -1,5 +1,6 @@
 package de.fhb.autobday.beans.actions;
 
+import de.fhb.autobday.beans.AccountBean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -10,8 +11,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import de.fhb.autobday.beans.SessionBean;
+import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
+import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.connector.ConnectorException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
@@ -25,17 +28,19 @@ import de.fhb.autobday.manager.account.AccountManagerLocal;
 @Named
 @RequestScoped
 public class ImportNewAccountBean {
+
 	private final static Logger LOGGER = Logger.getLogger(ImportNewAccountBean.class.getName());
-	
 	@Inject
 	private AccountManagerLocal accountManager;
 	@Inject
 	private SessionBean sessionBean;
+	@Inject
+	private AccountBean accountBean;
 	
 	private String password;
 	private String userName;
 	private String type;
-	
+
 	/**
 	 * Creates a new instance of ImportNewAccountBean
 	 */
@@ -44,25 +49,31 @@ public class ImportNewAccountBean {
 		userName = "fhbtestacc@googlemail.com";
 		password = "TestGoogle123";
 	}
-	public String importNewAccount(){
+
+	public String importNewAccount() {
 		try {
 			AbdUser aktUser = sessionBean.getAktUser();
-			sessionBean.setAktAccount(accountManager.addAccount(aktUser.getId(), password, userName, type));
-			
-			accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
-		} catch (ConnectorException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			AbdAccount aktAccount = accountManager.addAccount(aktUser.getId(), password, userName, type);
+			sessionBean.setAktAccount(aktAccount);
+			try {
+				accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
+			} catch (AccountNotFoundException ex) {
+				LOGGER.log(Level.SEVERE, null, ex);
+				accountBean.deleteAccount();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			} catch (ConnectorException ex) {
+				LOGGER.log(Level.SEVERE, null, ex);
+				accountBean.deleteAccount();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+				
+			}
 		} catch (NoValidUserNameException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-		} catch (AccountNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (UserNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-		}catch (AccountAlreadyExsistsException ex) {
+		} catch (AccountAlreadyExsistsException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
@@ -92,5 +103,4 @@ public class ImportNewAccountBean {
 	public void setUserName(String username) {
 		this.userName = username;
 	}
-	
 }

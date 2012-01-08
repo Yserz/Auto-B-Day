@@ -31,14 +31,26 @@ public class GroupBean {
 	 */
 	public GroupBean() {
 	}
+	
+	public String showGroup(){
+		return "showgroup";
+	}
+	public String showTemplate(){
+		return "edittemplate";
+	}
+	public String editTemplate(){
+		return "edittemplate";
+	}
 	private void getAllContactsFromGroup(){
 		try {
 			contactList = new ListDataModel(groupManager.getAllContactsFromGroup(sessionBean.getAktGroup()));
+			
 		} catch (Exception ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}
+	
 	public ListDataModel<AbdContact> getContactList() {
 		getAllContactsFromGroup();
 		return contactList;

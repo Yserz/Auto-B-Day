@@ -91,7 +91,7 @@ public class GoogleImporter extends AImporter{
 			myService.setUserCredentials(accdata.getUsername(), accdata.getPasswort());
 		} catch (ServiceException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			throw new ConnectorCouldNotLoginException();
+			throw new ConnectorCouldNotLoginException("Importer cant connect to the account!");
 		}
 		connectionEtablished = true;
 	}

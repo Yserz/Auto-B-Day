@@ -31,12 +31,12 @@ public class AccountBean {
 	@Inject
 	private SessionBean sessionBean;
 	
-	private List<AbdGroup> groupList;
+	private ListDataModel<AbdGroup> groupList;
 	/**
 	 * Creates a new instance of AccountBean
 	 */
 	public AccountBean() {
-		groupList = new ArrayList<AbdGroup>();
+		groupList = new ListDataModel<AbdGroup>();
 	}
 	
 	public String showAccount(){
@@ -45,28 +45,29 @@ public class AccountBean {
 	public String deleteAccount(){
 		try {
 			accountManager.removeAccount(sessionBean.getAktAccount());
+			sessionBean.setAktAccount(null);
 		} catch (AccountException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		return null;
+		return "index";
 	}
 	private void getAllGroupsFromAccount(){
 		try {
-			groupList = new ArrayList(accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount()));
-			sessionBean.setAktGroup(groupList.get(0));
+			groupList = new ListDataModel<AbdGroup>(accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount()));
+			
 		} catch (AccountNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}
 
-	public List<AbdGroup> getGroupList() {
+	public ListDataModel<AbdGroup> getGroupList() {
 		getAllGroupsFromAccount();
 		return groupList;
 	}
 
-	public void setGroupList(List<AbdGroup> groupList) {
+	public void setGroupList(ListDataModel<AbdGroup> groupList) {
 		this.groupList = groupList;
 	}
 	public void onTabChange(TabChangeEvent event){

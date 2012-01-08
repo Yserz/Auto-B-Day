@@ -14,7 +14,6 @@ import javax.persistence.EntityManager;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
@@ -116,7 +115,7 @@ public class AccountManagerTestIntegration {
 	/**
 	 * Test of removeAccount method, of class AccountManager.
 	 */
-	@Ignore
+	@Test
 	public void testRemoveAccount() throws Exception {
 		System.out.println("testRemoveAccountWithClass");
 
@@ -126,9 +125,8 @@ public class AccountManagerTestIntegration {
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(emMock.find(AbdAccount.class, account.getId())).andReturn(account);
+		expect(emMock.merge(account)).andReturn(account);
 		emMock.remove(account);
-
-		//TODO k.a. funktioniert einfach nicht
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
@@ -185,20 +183,20 @@ public class AccountManagerTestIntegration {
 		AbdAccount account = new AbdAccount(accountId);
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(emMock.find(AbdAccount.class, account.getId())).andReturn(account);
+		expect(emMock.find(AbdAccount.class, account.getId())).andReturn(account);
 		
 		gImporterMock.getConnection(account);
 		gImporterMock.importContacts();		
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
-		EasyMock.replay(gImporterMock);
+		replay(gImporterMock);
 		
 		//call method to test
 		managerUnderTest.importGroupsAndContacts(accountId);
 		
 		// verify
-		EasyMock.verify(gImporterMock);
+		verify(gImporterMock);
 		verify(emMock);
 	}
 

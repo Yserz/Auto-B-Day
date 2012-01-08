@@ -1,15 +1,14 @@
 package de.fhb.autobday.manager.contact;
 
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.easymock.EasyMock.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
-import org.easymock.EasyMock;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -17,6 +16,8 @@ import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroupToContact;
@@ -35,7 +36,9 @@ public class ContactManagerTestIntegration {
 	
 	private static ContactManager managerUnderTest;
 	
-	private static AbdUserFacade userDAO;
+	private static AbdGroupToContactFacade groupContactFacade;
+	
+	private static AbdContactFacade contactDAO;
 	
 	private EntityManager emMock;
 	
@@ -47,7 +50,8 @@ public class ContactManagerTestIntegration {
 	
 	@BeforeClass
 	public static void setUpClass(){
-		userDAO = new AbdUserFacade();
+		groupContactFacade = new AbdGroupToContactFacade();
+		contactDAO = new AbdContactFacade();
 	}
 	
 	@Before
@@ -59,10 +63,12 @@ public class ContactManagerTestIntegration {
 		emMock = createMock(EntityManager.class);
 		
 		//set EntityManagers
-		userDAO.setEntityManager(emMock);
+		groupContactFacade.setEntityManager(emMock);
+		contactDAO.setEntityManager(emMock);
 		
 		//set Objekts to inject
-		gloss.addEJB(userDAO);
+		gloss.addEJB(groupContactFacade);
+		gloss.addEJB(contactDAO);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(ContactManager.class);
@@ -87,42 +93,49 @@ public class ContactManagerTestIntegration {
 	/**
 	 * test setActive of ContactManage 
 	 */
-	@Ignore
-	public void testsetActive()throws Exception {
+	@Test
+	public void testSetActive()throws Exception {
 		System.out.println("testsetActive");
-		
+	
+		Query queryMock = createMock(Query.class);
 		
 		//prepare test variables
 		boolean isActive = true;
 		
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(emMock.find(AbdContact.class,contactOne.getId())).andReturn(contactOne);
-		//TODO laueft nicht nullpointer
-		expect(emMock.createNamedQuery("Contact.findByContact").setParameter("contact", contactOne.getId()).getResultList()).andReturn(allGroupToContact);
+		expect(emMock.find(AbdContact.class,contactOne.getId())).andReturn(contactOne);
 		
+		expect(queryMock.setParameter("contact", "mustermann")).andReturn(queryMock);
+		expect(queryMock.getResultList()).andReturn(allGroupToContact);
+		expect(emMock.createNamedQuery("Contact.findByContact")).andReturn(queryMock);
+		expect(emMock.merge(groupToContactOne)).andReturn(groupToContactOne);
+			
 		// Setup is finished need to activate the mock
 		replay(emMock);
+		replay(queryMock);
 		
 		//call method to test
 		managerUnderTest.setActive(contactOne, isActive);
 		
 		//verify
 		verify(emMock);
+		verify(queryMock);
 	}
 
 	
 	/**
 	 * test getContact of ContactManager
 	 */
-	@Ignore
+	@Test
 	public void testGetContact()throws Exception {
 		System.out.println("testgetContact");
-		//TODO laueft nicht, assertionerror
 		// Setting up the expected value of the method call of Mockobject
-		EasyMock.expect(emMock.find(AbdContact.class,contactOne.getId())).andReturn(contactOne);
+		expect(emMock.find(AbdContact.class,contactOne.getId())).andReturn(contactOne);
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
+		
+		assertEquals(managerUnderTest.getContact(contactOne.getId()), contactOne);
 		
 		//verify
 		verify(emMock);

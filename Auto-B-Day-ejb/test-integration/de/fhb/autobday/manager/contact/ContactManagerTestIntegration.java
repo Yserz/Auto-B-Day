@@ -3,7 +3,6 @@ package de.fhb.autobday.manager.contact;
 import static org.easymock.EasyMock.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -11,7 +10,6 @@ import javax.persistence.Query;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;

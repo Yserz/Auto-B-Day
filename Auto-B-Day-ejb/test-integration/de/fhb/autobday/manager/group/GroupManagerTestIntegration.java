@@ -1,32 +1,24 @@
 package de.fhb.autobday.manager.group;
 
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.easymock.EasyMock.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.persistence.EntityManager;
 
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
-import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.exception.contact.ContactException;
-import de.fhb.autobday.exception.group.GroupException;
-import de.fhb.autobday.exception.group.GroupNotFoundException;
-import de.fhb.autobday.exception.group.NoGroupGivenException;
-import de.fhb.autobday.manager.account.AccountManager;
-import de.fhb.autobday.manager.connector.google.GoogleImporter;
+import de.fhb.autobday.data.AbdGroupToContact;
 
 
 /**
@@ -38,24 +30,22 @@ import de.fhb.autobday.manager.connector.google.GoogleImporter;
  */
 public class GroupManagerTestIntegration {
 	
-	
 	private static JavaEEGloss gloss;
 	
 	private static GroupManager managerUnderTest;
 	
-	private static AbdAccountFacade accountDAO;
-	
-	private static AbdUserFacade userDAO;
-	
-	private static GoogleImporter gImporter;
+	private static AbdGroupFacade groupDAO;
+	private static AbdContactFacade contactDAO;
 	
 	private EntityManager emMock;
 	
+	private AbdGroup group;
+	private AbdContact contact;
+	
 	@BeforeClass
 	public static void setUpClass(){
-		accountDAO = new AbdAccountFacade();
-		userDAO = new AbdUserFacade();
-		gImporter = new GoogleImporter();
+		groupDAO = new AbdGroupFacade();
+		contactDAO = new AbdContactFacade();
 	}
 	
 	@Before
@@ -67,16 +57,18 @@ public class GroupManagerTestIntegration {
 		emMock = createMock(EntityManager.class);
 		
 		//set EntityManagers
-		accountDAO.setEntityManager(emMock);
-		userDAO.setEntityManager(emMock);
+		groupDAO.setEntityManager(emMock);
+		contactDAO.setEntityManager(emMock);
 		
 		//set Objekts to inject
-		gloss.addEJB(accountDAO);
-		gloss.addEJB(userDAO);
-		gloss.addEJB(gImporter);
+		gloss.addEJB(groupDAO);
+		gloss.addEJB(contactDAO);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(GroupManager.class);
+		
+		group = new AbdGroup("friends");
+		contact = new AbdContact("maja");
 	}
 	
 	
@@ -88,14 +80,12 @@ public class GroupManagerTestIntegration {
 	public void testGetGroup()throws Exception {
 		System.out.println("testGetGroup");
 		
-		//TODO implement
-		
-		//prepare test variables
-		
-		// Setting up the expected value of the method call of Mockobject
+		expect(emMock.find(AbdGroup.class, group.getId())).andReturn(group);
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
+		
+		managerUnderTest.getGroup(group.getId());
 		
 		//verify
 		verify(emMock);
@@ -110,14 +100,12 @@ public class GroupManagerTestIntegration {
 	public void testSetTemplate()throws Exception {
 		System.out.println("testSetTemplate");
 		
-		//TODO implement
-		
-		//prepare test variables
-		
-		// Setting up the expected value of the method call of Mockobject
+		expect(emMock.find(AbdGroup.class, group.getId())).andReturn(group);
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
+		
+		managerUnderTest.setTemplate(group.getId(), "template");
 		
 		//verify
 		verify(emMock);
@@ -131,14 +119,16 @@ public class GroupManagerTestIntegration {
 	public void testGetTemplate()throws Exception {
 		System.out.println("testGetTemplate");
 		
-		//TODO implement
+		String expectedOutput = "template";
 		
-		//prepare test variables
+		group.setTemplate(expectedOutput);
 		
-		// Setting up the expected value of the method call of Mockobject
+		expect(emMock.find(AbdGroup.class, group.getId())).andReturn(group);
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
+		
+		assertEquals(expectedOutput, managerUnderTest.getTemplate(group.getId()));
 		
 		//verify
 		verify(emMock);
@@ -153,14 +143,17 @@ public class GroupManagerTestIntegration {
 	public void testTestTemplate()throws Exception {
 		System.out.println("testTestTemplate");
 		
-		//TODO implement
+		group.setTemplate("Hello ${name} ${sex}");
+		contact.setName("biene");
+		contact.setSex('w');
 		
-		//prepare test variables
-		
-		// Setting up the expected value of the method call of Mockobject
+		expect(emMock.find(AbdGroup.class, group.getId())).andReturn(group);
+		expect(emMock.find(AbdContact.class, contact.getId())).andReturn(contact);
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
+		
+		assertEquals("Hello biene w", managerUnderTest.testTemplate(group.getId(), contact.getId()));
 		
 		//verify
 		verify(emMock);
@@ -175,36 +168,13 @@ public class GroupManagerTestIntegration {
 	public void testSetActive()throws Exception {
 		System.out.println("testSetActive");
 		
-		//TODO implement
-		
-		//prepare test variables
-		
-		// Setting up the expected value of the method call of Mockobject
+		expect(emMock.find(AbdGroup.class, group.getId())).andReturn(group);
+		expect(emMock.merge(group)).andReturn(group);
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
 		
-		//verify
-		verify(emMock);
-	}
-	
-	
-	/**
-	 * test ParseTemplate of GroupManager
-	 * 
-	 */
-	@Test
-	public void testParseTemplate()throws Exception {
-		System.out.println("testParseTemplate");
-		
-		//TODO implement
-		
-		//prepare test variables
-		
-		// Setting up the expected value of the method call of Mockobject
-		
-		// Setup is finished need to activate the mock
-		replay(emMock);
+		managerUnderTest.setActive(group, true);
 		
 		//verify
 		verify(emMock);
@@ -219,14 +189,30 @@ public class GroupManagerTestIntegration {
 	public void testGetAllContactsFromGroup()throws Exception {
 		System.out.println("testGetAllContactsFromGroup");
 		
-		//TODO implement
-		
 		//prepare test variables
+		AbdContact contactIch = new AbdContact("1");
+		AbdContact contactDu = new AbdContact("2");
+		AbdGroupToContact gContactIch = new AbdGroupToContact("meineGruppe", "ich");
+		AbdGroupToContact gContactDu = new AbdGroupToContact("meineGruppe", "du");
+		gContactIch.setAbdContact(contactIch);
+		gContactDu.setAbdContact(contactDu);
 		
-		// Setting up the expected value of the method call of Mockobject
+		ArrayList<AbdGroupToContact> abdGroupToContactCollection = new ArrayList<AbdGroupToContact>();
+		abdGroupToContactCollection.add(gContactIch);
+		abdGroupToContactCollection.add(gContactDu);
+		
+		ArrayList<AbdContact> outputCollection = new ArrayList<AbdContact>();
+		outputCollection.add(contactIch);
+		outputCollection.add(contactDu);
+		
+		group.setAbdGroupToContactCollection(abdGroupToContactCollection);
+		
+		expect(emMock.find(AbdGroup.class, group.getId())).andReturn(group);
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);
+		
+		assertEquals(outputCollection, managerUnderTest.getAllContactsFromGroup(group));
 		
 		//verify
 		verify(emMock);

@@ -74,7 +74,7 @@ public class AbdAccountDAOTest {
 
 	@Test
 	public void testRemove() {
-		expect(emMock.merge(accountEntity)).andStubReturn(accountEntity);
+		expect(emMock.merge(accountEntity)).andReturn(accountEntity);
 		emMock.remove(accountEntity);
 		replay(emMock);
 		accountDAOunderTest.remove(accountEntity);

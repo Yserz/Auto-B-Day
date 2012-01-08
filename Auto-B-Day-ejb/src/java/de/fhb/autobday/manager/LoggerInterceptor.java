@@ -21,12 +21,14 @@ public class LoggerInterceptor {
 		LOGGER.log(Level.INFO, " + Class: {0}", context.getMethod().getDeclaringClass().getName());
 		LOGGER.log(Level.INFO, " -    Method: {0}", context.getMethod().getName());
 
-		
-		for (Object object : context.getParameters()) {
-			count++;
-			LOGGER.log(Level.INFO, " -       Param {0}: {1}", new Object[]{count, object});
-			
+		if (context.getParameters() != null) {
+			for (Object object : context.getParameters()) {
+				count++;
+				LOGGER.log(Level.INFO, " -       Param {0}: {1}", new Object[]{count, object});
+
+			}
 		}
+		
         return context.proceed();
     }
 }

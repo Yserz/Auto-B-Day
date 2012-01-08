@@ -39,7 +39,7 @@ public class MailManager implements MailManagerLocal {
 	private AbdUserFacade userDAO;
 
 	public MailManager() {
-		connectToMailServer();
+
 	}
 
 	/**
@@ -48,6 +48,10 @@ public class MailManager implements MailManagerLocal {
 	 */
 	@Override
 	public void sendBdayMail(String from, String to, String subject, String body) {
+		
+		//connect
+		connectToMailServer();
+		
 		try {
 			 
 			Message message = new MimeMessage(mailSession);
@@ -116,6 +120,9 @@ public class MailManager implements MailManagerLocal {
 		}
 		
 		userMailAdress=user.getUsername();
+		
+		//connect
+		connectToMailServer();
 		
 		//generate new Password
 		newPassword=PasswordGenerator.generatePassword();

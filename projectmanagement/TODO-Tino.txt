@@ -5,20 +5,14 @@ TODO - Tino
 --- Allgemein 	---
 
 
-	!!! DRINGEND !!! noch 5 tage bis zur Abgabe
+	!!! DRINGEND !!! noch 3 tage bis zur Abgabe
 
-	- Weiter an !!! GOOGLEIMPORTER !!! und Mailmanager arbeiten und
-	  analog dazu die Tests zum GoogleImporter und Mailmanager
-	- importer tests-properties einlesen (schon passiert ???)
+	- Weiter an !!! MAILMANGER !!! und Tests
+	- importer tests-properties einlesen (schon passiert, dann Eintrag loeschen ???)
  	
-- Importer: 
-Aufräumen, 
-Exceptions ordentlich machen(auch ins richtige package machen),
-Tests schreiben nach dem aufräumen bei gemeldeten fehlern gleich n test dazu schreiben,
-sekundär: Google passwort verschlüsseln
-
-- Mailmanager: 
-alles was nötig ist
+	sekundär: 
+	- Google passwort verschlüsseln
+	- Importer aufraemen
  	
  	
 	nebenbei wenn möglich...

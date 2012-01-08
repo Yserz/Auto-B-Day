@@ -2,32 +2,6 @@
 TODO - Andy
 ===========
 
---- Allgemein 	---
-
-- Doku auf aktuellen stand halten
-- mit Chris Integrations-Tests schreiben
+- Doku nochmal checken
 - complete sourcecode Check am DIENSTAG 
-
-- mit deinem netbeans mal das gui n bissi mittesten
-registrieren...login...account hinzufügen
-(und tino melden falls fehler auftreten...und 
-gleich n test dazu schreiben(tino dann))
-
-nicht vorangig
-*******************
-
-
-*** DB 			***
-
-- 
-
-*** Persistent 	***
-
-- 
-
-*** Session 	***
-
-
-
-*** GUI 		***
-
+- mit netbeans mal das gui n bissi mittesten

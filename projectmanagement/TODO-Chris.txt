@@ -4,13 +4,7 @@ TODO - Chris
 
 --- Allgemein 	---
 
-
-	
-	- Integrationstest für die Manager die DAOs aufrufen, Manager die Helper benutzen und 
-	  Manager die andere Manager benutzen(AccountManager <-> GoogleImporter)
-	  
-	 - AbdManagerTest Schreiben
-	  
+	- Tino unterstüzen bei MailManagerTest ... wenn möglich
 		
 	nebenbei wenn möglich...
  	*************************

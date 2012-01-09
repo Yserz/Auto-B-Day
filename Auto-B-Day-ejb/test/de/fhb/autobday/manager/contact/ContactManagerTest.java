@@ -150,6 +150,35 @@ public class ContactManagerTest {
 	
 	/**
 	 * Test fail of setActive method, of class ContactManager.
+	 * This test provokes a ContactNotFoundException!
+	 */
+	@Test(expected = ContactNotFoundException.class)
+	public void testSetActiveShouldThrowContactNotFoundExceptionBecauseNoGroup() throws Exception {
+		System.out.println("testSetActiveShouldThrowContactNotFoundException");
+		
+		//prepare test variables
+		boolean isActive=true;		
+		
+		// Setting up the expected value of the method call of Mockobject
+		expect(contactDAOMock.find(contactOne.getId())).andReturn(contactOne);
+		expect(groupDAOMock.find(groupOne.getId())).andReturn(null);
+		
+		// Setup is finished need to activate the mock
+		replay(contactDAOMock);
+		replay(groupDAOMock);
+		replay(groupToContactDAOMock);
+		
+		//call method to test
+		managerUnderTest.setActive(contactOne, groupOne, isActive);
+		
+		// verify
+		verify(contactDAOMock);
+		verify(groupDAOMock);
+		verify(groupToContactDAOMock);
+	}
+	
+	/**
+	 * Test fail of setActive method, of class ContactManager.
 	 * This test provokes a ContactToGroupNotFoundException!
 	 */
 	@Test(expected = ContactToGroupNotFoundException.class)

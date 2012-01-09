@@ -127,7 +127,7 @@ public class AccountManagerTestIntegration {
 		System.out.println("testRemoveAccountWithClass");
 
 		//prepare test variables
-		int accountId = EasyMock.anyInt();
+		int accountId = 5;
 		Collection<AbdGroup> groupCollection = new ArrayList<AbdGroup>();
 		Collection<AbdGroupToContact> groupToContactCollection = new ArrayList<AbdGroupToContact>();
 		AbdAccount account = new AbdAccount(accountId);
@@ -144,8 +144,9 @@ public class AccountManagerTestIntegration {
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(emMock.find(AbdAccount.class, account.getId())).andReturn(account);
-//		expect(emMock.merge(account)).andReturn(account);
-		//TODO
+		expect(emMock.merge(account)).andReturn(account);
+		expect(emMock.merge(contact)).andReturn(contact);
+
 		emMock.remove(account);
 		emMock.remove(contact);
 		emMock.flush();

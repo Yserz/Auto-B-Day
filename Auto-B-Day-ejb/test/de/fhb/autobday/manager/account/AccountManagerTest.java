@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -17,16 +18,18 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
-import org.junit.Ignore;
 
 /**
  * Test the AccountManager
@@ -48,6 +51,8 @@ public class AccountManagerTest {
 	
 	private AbdUserFacade userDAOMock;
 	
+	private AbdContactFacade contactDAOMock;
+	
 	private GoogleImporter gImporter;
 	
 	public AccountManagerTest() {
@@ -60,11 +65,13 @@ public class AccountManagerTest {
 		//create Mocks
 		accountDAOMock = EasyMock.createMock(AbdAccountFacade.class);
 		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
+		contactDAOMock = EasyMock.createMock(AbdContactFacade.class);
 		gImporter = EasyMock.createMock(GoogleImporter.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(accountDAOMock);
 		gloss.addEJB(userDAOMock);
+		gloss.addEJB(contactDAOMock);
 		gloss.addEJB(gImporter);
 		
 		//create Manager with Mocks
@@ -246,56 +253,85 @@ public class AccountManagerTest {
 	
 	/**
 	 * Test of removeAccount method, of class AccountManager.
-	 * TODO
+	 * 
 	 */
 	@Test
-	@Ignore
 	public void testRemoveAccountWithClass() throws Exception {
 		System.out.println("testRemoveAccountWithClass");
 
 		//prepare test variables
 		int accountId = EasyMock.anyInt();
-		AbdAccount account = new AbdAccount(1);
+		Collection<AbdGroup> groupCollection = new ArrayList<AbdGroup>();
+		Collection<AbdGroupToContact> groupToContactCollection = new ArrayList<AbdGroupToContact>();
+		AbdAccount account = new AbdAccount(accountId);
+		AbdContact contact = new AbdContact("testname");
+		AbdGroup group = new AbdGroup("testgroup");
+		AbdGroupToContact groupToContact = new AbdGroupToContact();
+		
+		account.setAbdGroupCollection(groupCollection);
+		groupToContact.setAbdContact(contact);
+		groupToContact.setAbdGroup(group);
+		groupCollection.add(group);
+		groupToContactCollection.add(groupToContact);
+		group.setAbdGroupToContactCollection(groupToContactCollection);
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
 		accountDAOMock.remove(account);
+		contactDAOMock.remove(contact);
+		accountDAOMock.flush();
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
+		EasyMock.replay(contactDAOMock);
 		
 		//call method to test
 		managerUnderTest.removeAccount(account);
 		
 		// verify		
 		EasyMock.verify(accountDAOMock);
+		EasyMock.verify(contactDAOMock);
 	}
 
 	/**
 	 * Test of removeAccount method, of class AccountManager.
-	 * TODO
 	 */
 	@Test
-	@Ignore
 	public void testRemoveAccountWithInt() throws Exception {
 		System.out.println("testRemoveAccountWithInt");
 
 		//prepare test variables
 		int accountId = EasyMock.anyInt();
-		AbdAccount account = new AbdAccount(1);
+		Collection<AbdGroup> groupCollection = new ArrayList<AbdGroup>();
+		Collection<AbdGroupToContact> groupToContactCollection = new ArrayList<AbdGroupToContact>();
+		AbdAccount account = new AbdAccount(accountId);
+		AbdContact contact = new AbdContact("testname");
+		AbdGroup group = new AbdGroup("testgroup");
+		AbdGroupToContact groupToContact = new AbdGroupToContact();
+		
+		account.setAbdGroupCollection(groupCollection);
+		groupToContact.setAbdContact(contact);
+		groupToContact.setAbdGroup(group);
+		groupCollection.add(group);
+		groupToContactCollection.add(groupToContact);
+		group.setAbdGroupToContactCollection(groupToContactCollection);
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
 		accountDAOMock.remove(account);
+		contactDAOMock.remove(contact);
+		accountDAOMock.flush();
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);
+		EasyMock.replay(contactDAOMock);
 		
 		//call method to test
 		managerUnderTest.removeAccount(accountId);
 		
 		// verify		
 		EasyMock.verify(accountDAOMock);
+		EasyMock.verify(contactDAOMock);
 	}
 	
 	/**

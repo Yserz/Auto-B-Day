@@ -122,7 +122,6 @@ public class AccountManager implements AccountManagerLocal {
 	@Override
 	public void removeAccount(int accountId) throws AccountException {
 		
-		
 		AbdAccount account=null;
 		ArrayList<AbdContact> contactList = new ArrayList<AbdContact>();
 		
@@ -134,18 +133,22 @@ public class AccountManager implements AccountManagerLocal {
 			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
 			throw new AccountNotFoundException("Account " + accountId + " not found!");
 		}
+		
+		//notice the contacts of this account
 		for (AbdGroup group : account.getAbdGroupCollection()) {
 			for (AbdGroupToContact gtc : group.getAbdGroupToContactCollection()) {
 				contactList.add(gtc.getAbdContact());
-			}
-			
+			}	
 		}
-		//delete
+		
+		//delete acccount itself
 		accountDAO.remove(account);
 		
+		//and remove addtionally the contacts
 		for (AbdContact contact : contactList) {
 			contactDAO.remove(contact);
 		}
+		
 		accountDAO.flush();
 	}
 

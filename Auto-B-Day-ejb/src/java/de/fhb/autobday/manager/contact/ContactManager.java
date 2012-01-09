@@ -104,17 +104,15 @@ public class ContactManager implements ContactManagerLocal {
 			}
 		}
 		
-		if(groupToContact==null){
-			//if no compatible realtion found
-			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
-			throw new NoContactInThisGroupException("Relation groupToContact not found!");
-		}
 		
-		
-		groupToContact.setActive(active);
 		
 		//save into database
-		groupToContactDAO.edit(groupToContact);
+		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
+			if(actualGroupToContact.getAbdContact().equals(contact)){
+				groupToContactDAO.edit(actualGroupToContact);
+			}
+		}
+		
 		
 	}
 	

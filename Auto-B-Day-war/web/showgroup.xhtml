@@ -50,8 +50,10 @@
 							<f:facet name="header"> 
 								<h:outputText value="aktiv" />
 							</f:facet>
-							<p:selectBooleanCheckbox value="#{groupBean.aktiveState}">
-								<p:ajax listener="#{groupBean.toggleContactActivation}"/> 
+							<p:selectBooleanCheckbox value="#{groupBean.activeState}">
+								<p:ajax event="click" listener="#{groupBean.toggleContactActivation}"/> 
+								<f:attribute name="contact" value="#{contact}" />
+								
 							</p:selectBooleanCheckbox>
 						</p:column>
 

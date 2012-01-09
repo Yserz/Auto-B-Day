@@ -32,6 +32,7 @@ public class GroupBean {
 	private SessionBean sessionBean;
 	
 	private ListDataModel<AbdContact> contactList;
+	private boolean activeState = false;
 	/**
 	 * Creates a new instance of GroupBean
 	 */
@@ -85,7 +86,7 @@ public class GroupBean {
 		}
           
     }
-	public boolean getAktiveState(){
+	public boolean changeAktiveState(){
 		AbdGroup aktGroup = sessionBean.getAktGroup();
 		AbdContact aktContact = contactList.getRowData();
 		boolean active = false;
@@ -96,4 +97,14 @@ public class GroupBean {
 		}
 		return active;
 	}
+
+	public boolean isActiveState() {
+		activeState = changeAktiveState();
+		return activeState;
+	}
+
+	public void setActiveState(boolean activeState) {
+		this.activeState = activeState;
+	}
+	
 }

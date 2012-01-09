@@ -29,14 +29,11 @@ import de.fhb.autobday.data.AbdUser;
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest({Session.class, Transport.class})
-@Ignore
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ Transport.class })
 public class MailManagerTest {
 	
 	private JavaEEGloss gloss;
-	
-	private Session mailSessionMock;
 	
 	private AbdUserFacade userDAOMock;
 	
@@ -47,30 +44,26 @@ public class MailManagerTest {
 	
 	@Before
 	public void setUp() {
-		/*
+		
 		gloss= new JavaEEGloss();
 		
 		//create Mocks
 		userDAOMock = createMock(AbdUserFacade.class);
-		mailSessionMock = PowerMock.createMock(Session.class);
+
 		PowerMock.mockStatic(Transport.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(userDAOMock);
 		
 		mailManagerUnderTest = gloss.make(MailManager.class);
-		mailManagerUnderTest.setMailSession(mailSessionMock);
 		
 		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
 		user.setMail("bienemaja@googlemail.com");
-		*/
 	}
-	
-	//TODO Tests implementieren...TINO
 	
 	/**
 	 * Test of sendBdayMail method, of class MailManager.
-	 
+	 */
 	@Test
 	public void testSendBdayMail() throws Exception {
 		System.out.println("testSendBdayMail");
@@ -93,6 +86,6 @@ public class MailManagerTest {
 		mailManagerUnderTest.sendForgotPasswordMail(user.getId());
 		verify(userDAOMock);
 	}
-*/
+
 }
 

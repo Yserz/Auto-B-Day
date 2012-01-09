@@ -23,6 +23,8 @@ import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.exception.user.IncompleteLoginDataException;
+import de.fhb.autobday.exception.user.UserNotFoundException;
 
 
 /**
@@ -87,5 +89,16 @@ public class MailManagerTest {
 		verify(userDAOMock);
 	}
 
+	@Test (expected = UserNotFoundException.class)
+	public void testSendForgotPasswordMailShouldThrowUserNotFoundException() throws Exception{
+		expect(userDAOMock.find(user.getId())).andReturn(null);
+		userDAOMock.edit(user);
+		Transport.send((Message)anyObject());
+		replay(userDAOMock);
+		PowerMock.replay(Transport.class);
+		mailManagerUnderTest.sendForgotPasswordMail(user.getId());
+		verify(userDAOMock);
+	}
+	
 }
 

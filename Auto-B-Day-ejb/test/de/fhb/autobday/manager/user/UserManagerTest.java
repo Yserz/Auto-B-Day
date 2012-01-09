@@ -223,7 +223,25 @@ public class UserManagerTest {
 		assertEquals(user, result);
 	}
 	
-	
+	/**
+	 * Test of login method, of class UserManager.
+	 * This test provokes a IncompleteLoginDataException!
+	 */
+	@Test(expected = IncompleteLoginDataException.class)
+	public void testLoginShouldThrowIncompleteLoginDataExceptionLoginNameEmpty() throws Exception {
+		System.out.println("testLoginShouldThrowIncompleteLoginDataExceptionLoginNameNotFound");
+		
+		//prepare test variables
+		String loginName = "";
+		String password = "1234";
+		AbdUser user, result;
+		
+		user = new AbdUser(1, "ott", "1234", null, "Ott", "Chris");
+				
+		//call method to test
+		result = managerUnderTest.login(loginName, password);
+		
+	}
 	
 	/**
 	 * Test of login method, of class UserManager.

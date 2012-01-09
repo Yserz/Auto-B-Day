@@ -308,18 +308,18 @@
 		 	  <sysproperty key="docs.dir" value="${test.dir}/org"/>  
 		 	  Manche Tests benötigen System Properties, diese können im Test umdefiniert werden.
 		 	-->
-		 	<batchtest todir="${ejb.reports.xml.dir}/integration" unless="testcaseejbintegration">
+		 	<batchtest todir="${ejb.reports.xml.dir}" unless="testcaseejbintegration">
 				<fileset dir="${ejb.test.integration.dir}">
 					<include name="**/*TestIntegration.java" />
 				</fileset>
 			</batchtest>
 		</junit>
 
-		<junitreport todir="${ejb.reports.xml.dir}/integration">
-			<fileset dir="${ejb.reports.xml.dir}/integration">
+		<junitreport todir="${ejb.reports.xml.dir}">
+			<fileset dir="${ejb.reports.xml.dir}">
 				<include name="TEST-*.xml" />
 			</fileset>
-			<report format="frames" todir="${ejb.reports.html.dir}/integration" />
+			<report format="frames" todir="${ejb.reports.html.dir}" />
 		</junitreport>
 		<fail message="Tests failed. Check log and/or reports."	if="test.failed"/>
 	</target>

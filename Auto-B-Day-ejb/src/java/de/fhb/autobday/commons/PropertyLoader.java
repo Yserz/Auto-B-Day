@@ -11,10 +11,10 @@ import java.util.Properties;
 public class PropertyLoader {
 	
 	
-	public static Properties loadSystemMailProperty() throws IOException{
+	public static Properties loadSystemMailProperty(String path) throws IOException{
 		Properties props = new Properties();
 		try {
-			FileInputStream stream = new FileInputStream("settings/SystemMail.properties");
+			FileInputStream stream = new FileInputStream(path);
 			props.load(stream);
 			stream.close();
 		} finally {
@@ -22,10 +22,10 @@ public class PropertyLoader {
 		}
 		return props;
 	}
-	public static Properties loadSystemMailAccountProperty() throws IOException{
+	public static Properties loadSystemMailAccountProperty(String path) throws IOException{
 		Properties props = new Properties();
 		try {
-			FileInputStream stream = new FileInputStream("settings/SystemMailAccount.properties");
+			FileInputStream stream = new FileInputStream(path);
 			props.load(stream);
 			stream.close();
 		} finally {

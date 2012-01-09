@@ -1,11 +1,14 @@
 package de.fhb.autobday.manager.mail;
 
+import de.fhb.autobday.commons.AccountPropertiesFile;
 import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
+
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +18,7 @@ import javax.ejb.Startup;
 import javax.interceptor.Interceptors;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -140,6 +144,7 @@ public class MailManager implements MailManagerLocal {
 	
 	private void connectToMailServer() {
 		
+		/*
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "smtp");
 		props.setProperty("mail.host", "mymail.server.org");
@@ -147,8 +152,8 @@ public class MailManager implements MailManagerLocal {
 		props.setProperty("mail.password", "TestGoogle123");
 
 		mailSession = Session.getDefaultInstance(props, null);
-		/*
-		
+		*/
+				
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -157,14 +162,13 @@ public class MailManager implements MailManagerLocal {
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "465");
  
-		mailSession = Session.getDefaultInstance(props,
+		mailSession = Session.getInstance(props,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					HashMap<String,String> properties = AccountPropertiesFile.getProperties("mailaccount.properties");
+					HashMap<String,String> properties = AccountPropertiesFile.getProperties("account.properties");
 					return new PasswordAuthentication(properties.get("loginname"),properties.get("password"));
 				}
 			});
-		*/
 	}
 
 	public void setMailSession(Session mailSession) {

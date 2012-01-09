@@ -134,7 +134,7 @@ public class MailManager implements MailManagerLocal {
 		mailBody =  "You recieved a new password for your autobdayaccount: " + newPassword + "\n\n" + "greetz your Autobdayteam";
 		
 		// Send mail with new Password
-		this.sendBdayMail("", userMailAdress, "Autobday Notification", mailBody);
+		this.sendBdayMail("dummy@stub.com", userMailAdress, "Autobday Notification", mailBody);
 	}
 
 	

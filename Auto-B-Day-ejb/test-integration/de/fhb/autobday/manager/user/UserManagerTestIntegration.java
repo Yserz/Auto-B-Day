@@ -53,7 +53,7 @@ public class UserManagerTestIntegration {
 	}
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception{
 		
 		gloss= new JavaEEGloss();
 		
@@ -71,13 +71,9 @@ public class UserManagerTestIntegration {
 		
 		String salt = PasswordGenerator.generateSalt();
 		String password = "";
-		try {
-			password = HashHelper.calcSHA1("1234abcd"+salt);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+
+		password = HashHelper.calcSHA1("1234abcd"+salt);
+
 		user = new AbdUser(1, "max", password, salt, "mustermann", "max");
 	}
 

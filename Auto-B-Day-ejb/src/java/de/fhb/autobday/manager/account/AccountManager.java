@@ -1,20 +1,10 @@
 package de.fhb.autobday.manager.account;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
-
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.data.*;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
@@ -26,6 +16,13 @@ import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 /**
  * The AccountManager processes all accountData specific things.
@@ -43,6 +40,9 @@ public class AccountManager implements AccountManagerLocal {
 	
 	@EJB
 	private AbdAccountFacade accountDAO;
+	
+	@EJB
+	private AbdContactFacade contactDAO;
 	
 	@EJB
 	private AbdUserFacade userDAO;
@@ -124,6 +124,7 @@ public class AccountManager implements AccountManagerLocal {
 		
 		
 		AbdAccount account=null;
+		ArrayList<AbdContact> contactList = new ArrayList<AbdContact>();
 		
 		//search
 		account=accountDAO.find(accountId);
@@ -133,9 +134,19 @@ public class AccountManager implements AccountManagerLocal {
 			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
 			throw new AccountNotFoundException("Account " + accountId + " not found!");
 		}
-		
+		for (AbdGroup group : account.getAbdGroupCollection()) {
+			for (AbdGroupToContact gtc : group.getAbdGroupToContactCollection()) {
+				contactList.add(gtc.getAbdContact());
+			}
+			
+		}
 		//delete
 		accountDAO.remove(account);
+		
+		for (AbdContact contact : contactList) {
+			contactDAO.remove(contact);
+		}
+		accountDAO.flush();
 	}
 
 	/**

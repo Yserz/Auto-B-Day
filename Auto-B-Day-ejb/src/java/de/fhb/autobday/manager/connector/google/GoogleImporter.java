@@ -106,6 +106,7 @@ public class GoogleImporter extends AImporter{
 		// if we have a connection and a valid accounddata then import the contacts and groups
 		// else throw an exception
 		if (connectionEtablished && accdata != null) {
+			accountDAO.flush();
 			
 			updateGroups();
 			updateContacts();

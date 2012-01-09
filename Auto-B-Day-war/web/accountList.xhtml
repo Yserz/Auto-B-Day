@@ -9,23 +9,26 @@
 			<p:panel id="accountList" header="AccountList" rendered="#{sessionBean.loggedIn}">
 				<h:form>
 					
-					<h:dataTable value="#{userBean.accountList}" 
+					<p:dataTable value="#{userBean.accountList}" 
 									var="account"
-									rendered="#{userBean.accountList.rowCount > 0}">
+									rows="20" 
+									paginator="true" 
+									emptyMessage="There are no Accounts"
+									paginatorAlwaysVisible="false">
 						
 
-						<h:column>
+						<p:column>
 							<h:commandLink value="#{account.username}" action="#{accountBean.showAccount}">
 								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
 							</h:commandLink>
-						</h:column>
-						<h:column>
+						</p:column>
+						<p:column>
 							<p:commandButton icon="ui-icon-close" action="#{accountBean.deleteAccount}" ajax="false">
 								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
 							</p:commandButton>
-						</h:column>
+						</p:column>
 
-					</h:dataTable>
+					</p:dataTable>
 
 				</h:form>
 			</p:panel>

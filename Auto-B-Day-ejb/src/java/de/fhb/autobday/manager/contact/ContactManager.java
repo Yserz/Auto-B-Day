@@ -1,8 +1,10 @@
 package de.fhb.autobday.manager.contact;
 
 import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
@@ -31,6 +33,9 @@ public class ContactManager implements ContactManagerLocal {
 		
 	@EJB
 	private AbdContactFacade contactDAO;
+	
+	@EJB
+	private AbdGroupFacade groupDAO;
 
 	@EJB
 	private AbdGroupToContactFacade groupToContactDAO;
@@ -40,8 +45,9 @@ public class ContactManager implements ContactManagerLocal {
 	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(de.fhb.autobday.data.AbdContact, boolean)
 	 */
 	@Override
-	public void setActive(AbdContact contact, boolean active) throws ContactException{
-		setActive(contact.getId(), active);
+	public void setActive(AbdContact contact, AbdGroup group, boolean active) throws ContactException{
+		//TODO missing group param?
+		setActive(contact.getId(), group.getId(), active);
 	}
 	
 	/**
@@ -49,8 +55,8 @@ public class ContactManager implements ContactManagerLocal {
 	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(java.lang.String, boolean)
 	 */
 	@Override
-	public void setActive(String contactId, boolean active) throws ContactException {
-		
+	public void setActive(String contactId, String groupId, boolean active) throws ContactException {
+		//TODO missing group param?
 		
 		AbdGroupToContact groupToContact=null;
 		Collection<AbdGroupToContact> allGroupToContact=null;
@@ -60,21 +66,41 @@ public class ContactManager implements ContactManagerLocal {
 		
 		if(contact==null){
 			//if contact not found
-			LOGGER.log(Level.SEVERE, "Contact {0}not found!", contactId);
-			throw new ContactNotFoundException("Contact " + contactId + "not found!");
+			LOGGER.log(Level.SEVERE, "Contact {0} not found!", contactId);
+			throw new ContactNotFoundException("Contact " + contactId + " not found!");
 		}
 		
-		allGroupToContact = groupToContactDAO.findGroupByContact(contactId);
+		AbdGroup group=groupDAO.find(groupId);
 		
-		if(allGroupToContact==null){
+		
+		if(group==null){
+			//if contact not found
+			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
+			throw new ContactNotFoundException("Group " + groupId + " not found!");
+		}
+		
+		allGroupToContact = contact.getAbdGroupToContactCollection();
+		
+		if(allGroupToContact.isEmpty()){
 			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
 			throw new ContactToGroupNotFoundException("Relation groupToContact not found!");
 		}
 		
+		if (active) {
+			for(AbdGroupToContact actualGroupToContact:allGroupToContact){
+				if(actualGroupToContact.getAbdContact().equals(contact)){
+					actualGroupToContact.setActive(false);
+				}
+			}
+		}
+		
+		
 		//search for relation
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
 			if(actualGroupToContact.getAbdContact().equals(contact)){
-				groupToContact=actualGroupToContact;
+				if (actualGroupToContact.getAbdGroup().equals(group)) {
+					actualGroupToContact.setActive(active);
+				}
 			}
 		}
 		

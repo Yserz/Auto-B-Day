@@ -324,7 +324,7 @@ public class GoogleImporter extends AImporter{
 		if (firstname != null) {
 			abdContact.setFirstname(firstname);
 		}else{
-			System.out.println("Skipping current Contact: No Firstname");
+			System.err.println("Skipping current Contact: No Firstname");
 			return null;
 		}
 		
@@ -333,7 +333,7 @@ public class GoogleImporter extends AImporter{
 		if (name != null) {
 			abdContact.setName(name);
 		}else{
-			System.out.println("Skipping current Contact: No Name");
+			System.err.println("Skipping current Contact: No Name");
 			return null;
 		}
 		
@@ -342,7 +342,7 @@ public class GoogleImporter extends AImporter{
 		if (birthday != null) {
 			abdContact.setBday(birthday);
 		}else{
-			System.out.println("Skipping current Contact: No Bday");
+			System.err.println("Skipping current Contact: No Bday");
 			return null;
 		}
 		
@@ -350,7 +350,7 @@ public class GoogleImporter extends AImporter{
 			mailadress = getGContactFirstMailAdress(contactEntry);
 			abdContact.setMail(mailadress);
 		}else{
-			System.out.println("Skipping current Contact: No Mail");
+			System.err.println("Skipping current Contact: No Mail");
 			return null;
 		}
 		
@@ -378,7 +378,7 @@ public class GoogleImporter extends AImporter{
 	protected AbdGroup mapGGroupToGroup(ContactGroupEntry contactGroupEntry){
 		AbdGroup abdGroupEntry;
 		//TODO Template einbinden
-		String template = "Hier soll das Template rein";
+		String template = "Herzlichen Glückwunsch zum Geburtstag ${firstname}.";
 		
 		abdGroupEntry = new AbdGroup();
 		abdGroupEntry.setId(contactGroupEntry.getId());

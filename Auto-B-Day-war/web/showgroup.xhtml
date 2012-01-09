@@ -50,9 +50,9 @@
 							<f:facet name="header"> 
 								<h:outputText value="aktiv" />
 							</f:facet>
-							<p:commandButton icon="ui-icon-close" action="#{groupBean.changeStatusGroup}" ajax="false">
-								<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
-							</p:commandButton>
+							<p:selectBooleanCheckbox value="#{groupBean.aktiveState}">
+								<p:ajax listener="#{groupBean.toggleContactActivation}"/> 
+							</p:selectBooleanCheckbox>
 						</p:column>
 
 					</p:dataTable>

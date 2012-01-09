@@ -1,6 +1,10 @@
 package de.fhb.autobday.beans;
 
 import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
+import de.fhb.autobday.exception.contact.ContactException;
+import de.fhb.autobday.manager.contact.ContactManagerLocal;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +26,8 @@ public class GroupBean {
 
 	@Inject
 	private GroupManagerLocal groupManager;
+	@Inject
+	private ContactManagerLocal contactManager;
 	@Inject
 	private SessionBean sessionBean;
 	
@@ -59,5 +65,35 @@ public class GroupBean {
 	public void setContactList(ListDataModel<AbdContact> contactList) {
 		this.contactList = contactList;
 	}
-	
+	public void toggleContactActivation() {
+		AbdGroup aktGroup = sessionBean.getAktGroup();
+		AbdContact aktContact = contactList.getRowData();
+  
+		for (AbdGroupToContact gtc : aktGroup.getAbdGroupToContactCollection()) {
+			if (gtc.getAbdContact().equals(aktContact)) {
+				try {
+					if (gtc.getActive()) {
+						contactManager.setActive(aktContact, aktGroup, false);
+					}else{
+						contactManager.setActive(aktContact, aktGroup, true);
+					}
+				} catch (ContactException ex) {
+					LOGGER.log(Level.SEVERE, null, ex);
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+				}
+			}
+		}
+          
+    }
+	public boolean getAktiveState(){
+		AbdGroup aktGroup = sessionBean.getAktGroup();
+		AbdContact aktContact = contactList.getRowData();
+		boolean active = false;
+		for (AbdGroupToContact gtc : aktGroup.getAbdGroupToContactCollection()) {
+			if (gtc.getAbdContact().equals(aktContact)) {
+				active = gtc.getActive();
+			}
+		}
+		return active;
+	}
 }

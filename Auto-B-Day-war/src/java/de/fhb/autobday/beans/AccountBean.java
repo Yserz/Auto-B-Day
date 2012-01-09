@@ -1,9 +1,12 @@
 package de.fhb.autobday.beans;
 
+import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.manager.account.AccountManagerLocal;
+import de.fhb.autobday.manager.group.GroupManagerLocal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,6 +31,8 @@ public class AccountBean {
 	
 	@Inject
 	private AccountManagerLocal accountManager;
+	@Inject
+	private GroupManagerLocal groupManager;
 	@Inject
 	private SessionBean sessionBean;
 	
@@ -70,9 +75,24 @@ public class AccountBean {
 	public void setGroupList(ListDataModel<AbdGroup> groupList) {
 		this.groupList = groupList;
 	}
-	public void onTabChange(TabChangeEvent event){
-		System.out.println("ID des Tabs: "+event.getTab().getId());
-		//sessionBean.setAktGroup(groupList.get(event.getTab().getId().));
-		
-	}
+	public void toggleGroupActivation() {
+		AbdGroup aktGroup = groupList.getRowData();
+		boolean toggle = false;
+  
+		if (aktGroup.getActive()) {
+			System.out.println("Deactivate Group");
+			toggle=false;
+		}else{
+			System.out.println("Activate Group");
+			toggle=true;
+		}
+		try {
+			groupManager.setActive(aktGroup, toggle);
+		} catch (GroupNotFoundException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+		}
+          
+    }  
+	
 }

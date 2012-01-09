@@ -3,6 +3,7 @@ package de.fhb.autobday.manager.contact;
 import javax.ejb.Local;
 
 import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactException;
 
 /**
@@ -23,7 +24,7 @@ public interface ContactManagerLocal {
 	 * @param active
 	 * @throws ContactException
 	 */
-	void setActive(AbdContact contact, boolean active) throws ContactException;
+	void setActive(AbdContact contact, AbdGroup group, boolean active) throws ContactException;
 	
 	/**
 	 * set a contact to a active stat for sending bdaymails
@@ -33,7 +34,7 @@ public interface ContactManagerLocal {
 	 * @param active
 	 * @throws ContactException
 	 */
-	void setActive(String contactId, boolean active)throws ContactException ;
+	void setActive(String contactId, String groupId, boolean active)throws ContactException ;
 	
 	/**
 	 * get a contact by a contactid

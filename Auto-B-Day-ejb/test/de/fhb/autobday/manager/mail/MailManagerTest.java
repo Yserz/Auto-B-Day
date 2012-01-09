@@ -29,8 +29,8 @@ import de.fhb.autobday.data.AbdUser;
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({Session.class, Transport.class})
+//@RunWith(PowerMockRunner.class)
+//@PrepareForTest({Session.class, Transport.class})
 @Ignore
 public class MailManagerTest {
 	

@@ -158,6 +158,7 @@ public class ContactManagerTest {
 		
 		//prepare test variables
 		boolean isActive=true;		
+		contactOne.setAbdGroupToContactCollection(allGroupToContact);
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(contactDAOMock.find(contactOne.getId())).andReturn(contactOne);

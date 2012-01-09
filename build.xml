@@ -38,8 +38,11 @@
 	<target name="default" depends="init,compile-ejb,jar,compile-war,war,ear">
 		
 	</target>
-	<target name="test" depends="default, compile-tests, cob-rep">
-		<!-- cob-rep includes test-ejb & test-integration-ejb -->
+	<target name="test" depends="default, compile-tests, cob-rep, junit-report-ejb">
+		<!-- cob-rep includes test-ejb -->
+	</target>
+	<target name="test-integration" depends="default, compile-tests, test-integration-ejb, junit-report-ejb">
+	
 	</target>
 	
 	<!-- =================================
@@ -278,14 +281,6 @@
 			</batchtest>
 		</junit>
 
-		<junitreport todir="${ejb.reports.xml.dir}">
-			<fileset dir="${ejb.reports.xml.dir}">
-				<include name="TEST-*.xml" />
-			</fileset>
-			<report format="frames" todir="${ejb.reports.html.dir}" />
-		</junitreport>
-		<fail message="Tests failed. Check log and/or reports."	if="test.failed"/>
-
 	</target>
 	
 	<!-- =================================
@@ -315,6 +310,14 @@
 			</batchtest>
 		</junit>
 
+		
+	</target>
+	
+	<!-- =================================
+		          target: JUnit-Report
+		 ================================= -->
+		
+	<target name="junit-report-ejb" depends="compile-tests">
 		<junitreport todir="${ejb.reports.xml.dir}">
 			<fileset dir="${ejb.reports.xml.dir}">
 				<include name="TEST-*.xml" />
@@ -327,6 +330,7 @@
 	<!-- =================================
 		          target: Test-WAR
 		 ================================= -->
+		
 	<target name="test-war" depends="compile-tests">
 		
 		<junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">

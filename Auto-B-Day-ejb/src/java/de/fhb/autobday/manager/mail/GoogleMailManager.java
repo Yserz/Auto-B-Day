@@ -44,6 +44,7 @@ public class GoogleMailManager {
 		Properties accountProps = null;
 		AbdAccount systemAccount = null;
 		try {
+			//DON´T CHANGE THIS PATH
 			accountProps = new PropertyLoader().loadSystemMailAccountProperty("SystemMailAccount.properties");
 			
 
@@ -66,6 +67,7 @@ public class GoogleMailManager {
 	public synchronized void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception{
 		Properties systemProps = null;
 		try {
+			//DON´T CHANGE THIS PATH
 			systemProps = new PropertyLoader().loadSystemMailProperty("SystemMail.properties");
 		
 			//systemProps

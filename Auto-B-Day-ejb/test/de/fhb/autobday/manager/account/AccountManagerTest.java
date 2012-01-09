@@ -141,7 +141,7 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 		
 		Collection<AbdAccount> collection=new ArrayList<AbdAccount>();
 		AbdAccount existsAccount= new AbdAccount();
-		existsAccount.setUsername("test@googlemail.com");
+		existsAccount.setUsername("test1234@googlemail.com");
 		existsAccount.setType(type);
 
 		//prepare a user object
@@ -179,7 +179,7 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 	 * Test of addAccount method, of class AccountManager.
 	 */
 	@Test
-	public void testAddAccountWithOtherNameButSomeType() throws Exception {
+	public void testAddAccountWithOtherNameButSameType() throws Exception {
 		
 System.out.println("testAddAccountWithSameNameButOtherType");
 		

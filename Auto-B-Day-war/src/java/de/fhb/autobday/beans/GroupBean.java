@@ -37,6 +37,7 @@ public class GroupBean {
 	 * Creates a new instance of GroupBean
 	 */
 	public GroupBean() {
+		
 	}
 	
 	public String showGroup(){
@@ -67,15 +68,18 @@ public class GroupBean {
 		this.contactList = contactList;
 	}
 	public void toggleContactActivation() {
+		System.out.println("toggleContactActivation");
 		AbdGroup aktGroup = sessionBean.getAktGroup();
 		AbdContact aktContact = contactList.getRowData();
   
-		for (AbdGroupToContact gtc : aktGroup.getAbdGroupToContactCollection()) {
-			if (gtc.getAbdContact().equals(aktContact)) {
+		for (AbdGroupToContact gtc : aktContact.getAbdGroupToContactCollection()) {
+			if (gtc.getAbdGroup().equals(aktGroup)) {
 				try {
 					if (gtc.getActive()) {
+						System.out.println("was aktive");
 						contactManager.setActive(aktContact, aktGroup, false);
 					}else{
+						System.out.println("was inaktive");
 						contactManager.setActive(aktContact, aktGroup, true);
 					}
 				} catch (ContactException ex) {
@@ -86,20 +90,24 @@ public class GroupBean {
 		}
           
     }
-	public boolean changeAktiveState(){
+	private boolean changeAktiveState(){
 		AbdGroup aktGroup = sessionBean.getAktGroup();
 		AbdContact aktContact = contactList.getRowData();
 		boolean active = false;
-		for (AbdGroupToContact gtc : aktGroup.getAbdGroupToContactCollection()) {
-			if (gtc.getAbdContact().equals(aktContact)) {
+		
+		
+		for (AbdGroupToContact gtc : aktContact.getAbdGroupToContactCollection()) {
+			if (gtc.getAbdGroup().equals(aktGroup)) {
 				active = gtc.getActive();
 			}
 		}
+		
 		return active;
 	}
 
 	public boolean isActiveState() {
 		activeState = changeAktiveState();
+		System.out.println("is Aktive?: "+activeState);
 		return activeState;
 	}
 

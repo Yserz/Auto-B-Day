@@ -46,7 +46,6 @@ public class ContactManager implements ContactManagerLocal {
 	 */
 	@Override
 	public void setActive(AbdContact contact, AbdGroup group, boolean active) throws ContactException{
-		//TODO missing group param?
 		setActive(contact.getId(), group.getId(), active);
 	}
 	
@@ -56,9 +55,6 @@ public class ContactManager implements ContactManagerLocal {
 	 */
 	@Override
 	public void setActive(String contactId, String groupId, boolean active) throws ContactException {
-		//TODO missing group param?
-		
-		AbdGroupToContact groupToContact=null;
 		Collection<AbdGroupToContact> allGroupToContact=null;
 		
 		AbdContact contact=contactDAO.find(contactId);
@@ -70,6 +66,13 @@ public class ContactManager implements ContactManagerLocal {
 			throw new ContactNotFoundException("Contact " + contactId + " not found!");
 		}
 		
+		allGroupToContact = contact.getAbdGroupToContactCollection();
+		
+		if(allGroupToContact.isEmpty()){
+			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
+			throw new ContactToGroupNotFoundException("Relation groupToContact not found!");
+		}
+		
 		AbdGroup group=groupDAO.find(groupId);
 		
 		
@@ -79,41 +82,26 @@ public class ContactManager implements ContactManagerLocal {
 			throw new ContactNotFoundException("Group " + groupId + " not found!");
 		}
 		
-		allGroupToContact = contact.getAbdGroupToContactCollection();
-		
-		if(allGroupToContact.isEmpty()){
-			LOGGER.log(Level.SEVERE, "Relation groupToContact not found!");
-			throw new ContactToGroupNotFoundException("Relation groupToContact not found!");
-		}
-		
-		if (active) {
-			for(AbdGroupToContact actualGroupToContact:allGroupToContact){
-				if(actualGroupToContact.getAbdContact().equals(contact)){
-					actualGroupToContact.setActive(false);
-				}
-			}
-		}
-		
 		
 		//search for relation
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
 			if(actualGroupToContact.getAbdContact().equals(contact)){
 				if (actualGroupToContact.getAbdGroup().equals(group)) {
 					actualGroupToContact.setActive(active);
+				}else{
+					actualGroupToContact.setActive(false);
 				}
 			}
 		}
-		
 		
 		
 		//save into database
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
 			if(actualGroupToContact.getAbdContact().equals(contact)){
 				groupToContactDAO.edit(actualGroupToContact);
+				LOGGER.log(Level.INFO, "Manager: isAktive?: {0}", actualGroupToContact.getActive());
 			}
 		}
-		
-		
 	}
 	
 	

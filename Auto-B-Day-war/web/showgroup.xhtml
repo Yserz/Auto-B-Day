@@ -48,10 +48,10 @@
 						</p:column>
 						<p:column>
 							<f:facet name="header"> 
-								<h:outputText value="aktiv" />
+								<h:outputText value="aktive" />
 							</f:facet>
-							<p:selectBooleanCheckbox value="#{groupBean.activeState}">
-								<p:ajax update="contactList" listener="#{groupBean.toggleContactActivation}"/> 
+							<p:selectBooleanCheckbox id="aktiv" value="#{groupBean.activeState}">
+								<p:ajax update="aktiv" listener="#{groupBean.toggleContactActivation}"/> 
 								
 							</p:selectBooleanCheckbox>
 						</p:column>

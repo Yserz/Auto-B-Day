@@ -2,6 +2,8 @@ package de.fhb.autobday.manager.mail;
 
 import de.fhb.autobday.commons.PropertyLoader;
 import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
+import de.fhb.autobday.exception.mail.FailedToSendMailException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import java.io.IOException;
 import java.util.Properties;
@@ -34,18 +36,13 @@ public class GoogleMailManager {
 	}
 
 	
-	public synchronized void sendSystemMail(String subject, String message, String to) throws Exception{
+	public synchronized void sendSystemMail(String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException {
 		Properties systemProps = null;
 		Properties accountProps = null;
 		try {
 			systemProps = PropertyLoader.loadSystemMailProperty();
 			accountProps = PropertyLoader.loadSystemMailAccountProperty();
-		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-			throw new Exception(ex);
-		}
-		
-		try {
+			
             //Obtain the default mail session
             Session session = Session.getDefaultInstance(systemProps, null);
             session.setDebug(true);
@@ -65,9 +62,12 @@ public class GoogleMailManager {
             transport.sendMessage(mail, mail.getAllRecipients());
             transport.close();
 			
-        } catch (Exception ex) {
+        } catch (IOException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			throw new FailedToLoadPropertiesException("Failed to load mail properties.");
+		} catch (Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-			throw new Exception(ex);
+			throw new FailedToSendMailException("Failed to send mail.");
         }
 
 	}
@@ -75,12 +75,7 @@ public class GoogleMailManager {
 		Properties systemProps = null;
 		try {
 			systemProps = PropertyLoader.loadSystemMailProperty();
-		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
-			throw new Exception(ex);
-		}
 		
-		try {
             //Obtain the default mail session
             Session session = Session.getDefaultInstance(systemProps, null);
             session.setDebug(true);
@@ -100,9 +95,12 @@ public class GoogleMailManager {
             transport.sendMessage(mail, mail.getAllRecipients());
             transport.close();
 			
-        } catch (Exception ex) {
+        } catch (IOException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			throw new FailedToLoadPropertiesException("Failed to load mail properties.");
+		} catch (Exception ex) {
             LOGGER.log(Level.SEVERE, null, ex);
-			throw new Exception(ex);
+			throw new FailedToSendMailException("Failed to send mail.");
         }
 
 	}

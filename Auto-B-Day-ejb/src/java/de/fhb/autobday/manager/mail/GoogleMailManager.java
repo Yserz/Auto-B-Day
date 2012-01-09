@@ -1,6 +1,7 @@
 package de.fhb.autobday.manager.mail;
 
 import de.fhb.autobday.commons.PropertyLoader;
+import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import java.io.IOException;
 import java.util.Properties;
@@ -33,7 +34,7 @@ public class GoogleMailManager {
 	}
 
 	
-	public void sendSystemMail(String subject, String message, String to) throws Exception{
+	public synchronized void sendSystemMail(String subject, String message, String to) throws Exception{
 		Properties systemProps = null;
 		Properties accountProps = null;
 		try {
@@ -43,7 +44,7 @@ public class GoogleMailManager {
 			LOGGER.log(Level.SEVERE, null, ex);
 			throw new Exception(ex);
 		}
-
+		
 		try {
             //Obtain the default mail session
             Session session = Session.getDefaultInstance(systemProps, null);
@@ -61,6 +62,41 @@ public class GoogleMailManager {
             //Use Transport to deliver the message
             Transport transport = session.getTransport("smtp");
             transport.connect(systemProps.getProperty("mail.smtp.host"), accountProps.getProperty("mail.smtp.user"), accountProps.getProperty("mail.smtp.password"));
+            transport.sendMessage(mail, mail.getAllRecipients());
+            transport.close();
+			
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, null, ex);
+			throw new Exception(ex);
+        }
+
+	}
+	public synchronized void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception{
+		Properties systemProps = null;
+		try {
+			systemProps = PropertyLoader.loadSystemMailProperty();
+		} catch (IOException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			throw new Exception(ex);
+		}
+		
+		try {
+            //Obtain the default mail session
+            Session session = Session.getDefaultInstance(systemProps, null);
+            session.setDebug(true);
+			
+            //Construct the mail message
+            MimeMessage mail = new MimeMessage(session);
+			
+            mail.setText(message);
+            mail.setSubject(subject);
+            mail.setFrom(new InternetAddress(account.getUsername()));
+            mail.addRecipient(RecipientType.TO, new InternetAddress(to));
+            mail.saveChanges();
+			
+            //Use Transport to deliver the message
+            Transport transport = session.getTransport("smtp");
+            transport.connect(systemProps.getProperty("mail.smtp.host"), account.getUsername(), account.getPasswort());
             transport.sendMessage(mail, mail.getAllRecipients());
             transport.close();
 			

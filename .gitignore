@@ -11,6 +11,8 @@
 /Auto-B-Day-ejb/.project
 /Auto-B-Day-ejb/.classpath
 
+/Auto-B-Day-ejb/src/java/SystemMailAccount.properties
+
 /setup
 /lib
 /buildNet.xml

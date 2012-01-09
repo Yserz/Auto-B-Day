@@ -31,6 +31,7 @@ import de.fhb.autobday.data.AbdUser;
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Session.class, Transport.class})
+@Ignore
 public class MailManagerTest {
 	
 	private JavaEEGloss gloss;

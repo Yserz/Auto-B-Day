@@ -127,67 +127,75 @@ public class GoogleImporter extends AImporter{
 		AbdGroupToContact abdGroupToContact;
 		AbdGroupToContactPK gtcPK;
 		
+		int membershipCounter;
+		
 		for (ContactEntry contactEntry : contacts) {
 			abdContact = mapGContactToContact(contactEntry);
-			System.out.println("Mapped Contact: "+abdContact);
-			try {
-				abdContactInDB = contactDAO.find(abdContact.getId());
-				System.out.println("Contact in db: "+abdContactInDB);
-				if (abdContactInDB == null){
-					System.out.println("HERE");
-					groupMembershipInfos = contactEntry.getGroupMembershipInfos();
-					for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
-						System.out.println("HERE HERE");
-						for(AbdGroup abdGroup: accdata.getAbdGroupCollection()){
-							System.out.println("??????????????????????????????????????");
-							if (abdGroup.getId().equals(groupMembershipInfo.getHref())){
-								System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-								contactDAO.create(abdContact);
-								
-								abdGroupToContact = new AbdGroupToContact();
-								
-								gtcPK = new AbdGroupToContactPK(abdGroup.getId(), abdContact.getId());
-								abdGroupToContact.setAbdGroupToContactPK(gtcPK);
-								
-								abdGroupToContact.setAbdContact(abdContact);
-								abdGroupToContact.setActive(true);
-								abdGroupToContact.setAbdGroup(abdGroup);
-								
-								System.out.println("Contact: "+abdGroupToContact.getAbdContact());
-								System.out.println("Group: "+abdGroupToContact.getAbdGroup());
-								System.out.println("Active: "+abdGroupToContact.getActive());
-								System.out.println("ContactPK: "+abdGroupToContact.getAbdGroupToContactPK().getContact());
-								System.out.println("GroupPK: "+abdGroupToContact.getAbdGroupToContactPK().getGroup());
-								
-								groupToContactDAO.create(abdGroupToContact);
-								groupToContactDAO.flush();
-								
-								abdGroup.getAbdGroupToContactCollection().add(abdGroupToContact);
-								
-								groupDAO.edit(abdGroup);
+			if (abdContact != null) {
+				System.out.println("Mapped Contact: "+abdContact);
+				try {
+					abdContactInDB = contactDAO.find(abdContact.getId());
+					System.out.println("Contact in db: "+abdContactInDB);
+					if (abdContactInDB == null){
+						groupMembershipInfos = contactEntry.getGroupMembershipInfos();
+						membershipCounter = 0;
+						for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
+							membershipCounter++;
+							for(AbdGroup abdGroup: accdata.getAbdGroupCollection()){
+								if (abdGroup.getId().equals(groupMembershipInfo.getHref())){
+									contactDAO.create(abdContact);
+
+									abdGroupToContact = new AbdGroupToContact();
+
+									gtcPK = new AbdGroupToContactPK(abdGroup.getId(), abdContact.getId());
+									abdGroupToContact.setAbdGroupToContactPK(gtcPK);
+
+									abdGroupToContact.setAbdContact(abdContact);
+									if (membershipCounter > 1) {
+										abdGroupToContact.setActive(false);
+									}else{
+										abdGroupToContact.setActive(true);
+									}
+									
+									abdGroupToContact.setAbdGroup(abdGroup);
+
+									System.out.println("Contact: "+abdGroupToContact.getAbdContact());
+									System.out.println("Group: "+abdGroupToContact.getAbdGroup());
+									System.out.println("Active: "+abdGroupToContact.getActive());
+									System.out.println("ContactPK: "+abdGroupToContact.getAbdGroupToContactPK().getContact());
+									System.out.println("GroupPK: "+abdGroupToContact.getAbdGroupToContactPK().getGroup());
+
+									groupToContactDAO.create(abdGroupToContact);
+									groupToContactDAO.flush();
+
+									abdGroup.getAbdGroupToContactCollection().add(abdGroupToContact);
+
+									groupDAO.edit(abdGroup);
+								}
 							}
 						}
+					}else{
+						if (abdContact.getUpdated().after( abdContactInDB.getUpdated())){
+							contactDAO.edit(abdContact);
+						}
 					}
-				}else{
-					if (abdContact.getUpdated().after( abdContactInDB.getUpdated())){
-						contactDAO.edit(abdContact);
-					}
+
+				} catch (NullPointerException ex) {
+					System.out.println("-------------------------------");
+					System.out.println("ABDContact: "+abdContact);
+					System.out.println("Firstname: "+abdContact.getFirstname());
+					System.out.println("hashid: "+abdContact.getHashid());
+					System.out.println("mail: "+abdContact.getMail());
+					System.out.println("name: "+abdContact.getName());
+					System.out.println("bday: "+abdContact.getBday());
+					System.out.println("sex: "+abdContact.getSex());
+					System.out.println("updated: "+abdContact.getUpdated());
+					System.out.println("GroupToContact: "+abdContact.getAbdGroupToContactCollection());
+					System.out.println("-------------------------------");
+
 				}
-				
-			} catch (NullPointerException ex) {
-				System.out.println("-------------------------------");
-				System.out.println("ABDContact: "+abdContact);
-				System.out.println("Firstname: "+abdContact.getFirstname());
-				System.out.println("hashid: "+abdContact.getHashid());
-				System.out.println("mail: "+abdContact.getMail());
-				System.out.println("name: "+abdContact.getName());
-				System.out.println("bday: "+abdContact.getBday());
-				System.out.println("sex: "+abdContact.getSex());
-				System.out.println("updated: "+abdContact.getUpdated());
-				System.out.println("GroupToContact: "+abdContact.getAbdGroupToContactCollection());
-				System.out.println("-------------------------------");
-				
 			}
+			
 			
 			
 		}	
@@ -312,23 +320,39 @@ public class GoogleImporter extends AImporter{
 		
 		firstname = getGContactFirstname(contactEntry);
 		System.out.println("Firstname: "+firstname);
-		abdContact.setFirstname(firstname);
+		if (firstname != null) {
+			abdContact.setFirstname(firstname);
+		}else{
+			System.out.println("Skipping current Contact: No Firstname");
+			return null;
+		}
 		
 		name = getGContactFamilyname(contactEntry);
 		System.out.println("Name: "+name);
-		abdContact.setName(name);
+		if (name != null) {
+			abdContact.setName(name);
+		}else{
+			System.out.println("Skipping current Contact: No Name");
+			return null;
+		}
 		
 		birthday = getGContactBirthday(contactEntry);
 		System.out.println("birthday: "+birthday);
-		
-		
 		if (birthday != null) {
 			abdContact.setBday(birthday);
+		}else{
+			System.out.println("Skipping current Contact: No Bday");
+			return null;
 		}
+		
 		if (!contactEntry.getEmailAddresses().isEmpty()) {
 			mailadress = getGContactFirstMailAdress(contactEntry);
 			abdContact.setMail(mailadress);
+		}else{
+			System.out.println("Skipping current Contact: No Mail");
+			return null;
 		}
+		
 		try {
 			if (contactEntry.getGender().getValue() == Value.FEMALE) {
 				abdContact.setSex('w');
@@ -374,8 +398,13 @@ public class GoogleImporter extends AImporter{
 	 * @return String
 	 */
 	protected String getGContactFirstname(ContactEntry contactEntry) {
-		String firstname;
-		firstname = contactEntry.getName().getGivenName().getValue();
+		String firstname = null;
+		try {
+			firstname = contactEntry.getName().getGivenName().getValue();
+		} catch (NullPointerException ex) {
+			//LOGGER.log(Level.SEVERE, null, ex);
+		}
+		
 		return firstname;
 
 	}
@@ -388,8 +417,12 @@ public class GoogleImporter extends AImporter{
 	 * @return String
 	 */
 	protected String getGContactFamilyname(ContactEntry contactEntry) {
-		String familyname;
-		familyname = contactEntry.getName().getFamilyName().getValue();
+		String familyname = null;
+		try {
+			familyname = contactEntry.getName().getFamilyName().getValue();
+		} catch (NullPointerException ex) {
+			//LOGGER.log(Level.SEVERE, null, ex);
+		}
 		return familyname;
 
 	}
@@ -402,12 +435,17 @@ public class GoogleImporter extends AImporter{
 	 * @ return Date
 	 */
 	protected Date getGContactBirthday(ContactEntry contactEntry) {
-		String gContactBirthday = contactEntry.getBirthday().getValue();
+		String gContactBirthday = null;
+		Date bday = null;
 		try {
-			return GoogleBirthdayConverter.convertBirthday(gContactBirthday);
-		} catch (CanNotConvetGoogleBirthdayException e) {
-			return null;
+			gContactBirthday = contactEntry.getBirthday().getValue();
+			bday = GoogleBirthdayConverter.convertBirthday(gContactBirthday);
+		} catch (CanNotConvetGoogleBirthdayException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		} catch (NullPointerException ex){
+			//LOGGER.log(Level.SEVERE, null, ex);
 		}
+		return bday;
 	}
 
 	/**
@@ -434,8 +472,13 @@ public class GoogleImporter extends AImporter{
 	 * @return String
 	 */
 	protected String getGroupName(ContactGroupEntry contactGroupEntry){
-		String groupName;
-		groupName = contactGroupEntry.getTitle().getPlainText();
+		String groupName = null;
+		
+		try {
+			groupName = contactGroupEntry.getTitle().getPlainText();
+		} catch (NullPointerException ex) {
+			//LOGGER.log(Level.SEVERE, null, ex);
+		}
 		return groupName;
 	}
 

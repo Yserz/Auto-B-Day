@@ -49,6 +49,26 @@ public class EMailValidatorTest {
 	 * Test of isEmail method, of class EMailValidator.
 	 */
 	@Test
+	public void testIsEmailMailWithPoint() {
+		System.out.println("testIsEmailMailWithPoint");
+
+		assertTrue("mail with point",				EMailValidator.isEmail("test.test@dawanda.com"));
+	}
+	
+	/**
+	 * Test of isEmail method, of class EMailValidator.
+	 */
+	@Test
+	public void testIsEmailMailWithStrangeSigns() {
+		System.out.println("testIsEmailMailWithStrangeSigns");
+
+		assertFalse("mail with strange signs",				EMailValidator.isEmail("test?!§$%&/()=?`test@dawanda.com"));
+	}
+	
+	/**
+	 * Test of isEmail method, of class EMailValidator.
+	 */
+	@Test
 	public void testIsEmailMailWithNumberInDomain() {
 		System.out.println("testIsEmailMailWithNumberInDomain");
 

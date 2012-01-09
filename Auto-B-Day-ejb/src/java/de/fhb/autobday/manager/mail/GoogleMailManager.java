@@ -43,6 +43,14 @@ public class GoogleMailManager {
 			systemProps = PropertyLoader.loadSystemMailProperty();
 			accountProps = PropertyLoader.loadSystemMailAccountProperty();
 			
+			//systemProps
+			String host = systemProps.getProperty("mail.smtp.host");
+			
+			//accountProps
+			String user = accountProps.getProperty("mail.smtp.user");
+			String password = accountProps.getProperty("mail.smtp.password");
+			
+			
             //Obtain the default mail session
             Session session = Session.getDefaultInstance(systemProps, null);
             session.setDebug(true);
@@ -52,13 +60,13 @@ public class GoogleMailManager {
 			
             mail.setText(message);
             mail.setSubject(subject);
-            mail.setFrom(new InternetAddress(accountProps.getProperty("mail.smtp.user")));
+            mail.setFrom(new InternetAddress(user));
             mail.addRecipient(RecipientType.TO, new InternetAddress(to));
             mail.saveChanges();
 			
             //Use Transport to deliver the message
             Transport transport = session.getTransport("smtp");
-            transport.connect(systemProps.getProperty("mail.smtp.host"), accountProps.getProperty("mail.smtp.user"), accountProps.getProperty("mail.smtp.password"));
+            transport.connect(host, user, password);
             transport.sendMessage(mail, mail.getAllRecipients());
             transport.close();
 			
@@ -76,6 +84,9 @@ public class GoogleMailManager {
 		try {
 			systemProps = PropertyLoader.loadSystemMailProperty();
 		
+			//systemProps
+			String host = systemProps.getProperty("mail.smtp.host");
+			
             //Obtain the default mail session
             Session session = Session.getDefaultInstance(systemProps, null);
             session.setDebug(true);
@@ -91,7 +102,7 @@ public class GoogleMailManager {
 			
             //Use Transport to deliver the message
             Transport transport = session.getTransport("smtp");
-            transport.connect(systemProps.getProperty("mail.smtp.host"), account.getUsername(), account.getPasswort());
+            transport.connect(host, account.getUsername(), account.getPasswort());
             transport.sendMessage(mail, mail.getAllRecipients());
             transport.close();
 			

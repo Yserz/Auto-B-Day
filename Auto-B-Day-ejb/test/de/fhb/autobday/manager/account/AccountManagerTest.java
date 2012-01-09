@@ -163,6 +163,7 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
+		PowerMock.replay(EMailValidator.class);
 		EasyMock.replay(userDAOMock);
 		EasyMock.replay(accountDAOMock);
 		
@@ -212,6 +213,7 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
+		PowerMock.replay(EMailValidator.class);
 		EasyMock.replay(userDAOMock);
 		EasyMock.replay(accountDAOMock);
 		

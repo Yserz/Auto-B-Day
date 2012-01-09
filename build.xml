@@ -38,8 +38,8 @@
 	<target name="default" depends="init,compile-ejb,jar,compile-war,war,ear">
 		
 	</target>
-	<target name="test" depends="default, compile-tests, cob-rep, test-ejb">
-		
+	<target name="test" depends="default, compile-tests, cob-rep">
+		<!-- cob-rep includes test-ejb & test-integration-ejb -->
 	</target>
 	
 	<!-- =================================
@@ -101,6 +101,7 @@
 		<mkdir dir="${ejb.classes.dir}" />
 		<!--JUnit-->
 		<mkdir dir="${ejb.reports.xml.dir}" />
+		<mkdir dir="${ejb.reports.xml.dir}/integration" />
 		<mkdir dir="${ejb.reports.html.dir}" />
 		
 		<!--init WAR-->
@@ -214,7 +215,7 @@
 	<!-- =================================
 		          target: Compile-Tests
 		 ================================= -->
-	<target name="compile-tests" depends="init">
+	<target name="compile-tests" depends="ear">
 		 <!--Compile EJB Tests-->
 		<path id="ejb-test.classpath">
 			<fileset dir="${ejb.lib.test.dir}">
@@ -228,6 +229,9 @@
 			</fileset>
 		</path>
 		<javac srcdir="${ejb.test.dir}" destdir="${ejb.classes.dir}" debug="yes">
+			<classpath refid="ejb-test.classpath" />
+		</javac>
+		<javac srcdir="${ejb.test.integration.dir}" destdir="${ejb.classes.dir}" debug="yes">
 			<classpath refid="ejb-test.classpath" />
 		</javac>
 		
@@ -253,7 +257,6 @@
 	<target name="test-ejb" depends="compile-tests">
 		
 		<junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
-
 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cob.data}" />
 		 	<classpath location="${cob.inst.dir}" />
 			<classpath location="${ejb.classes.dir}" />
@@ -283,6 +286,42 @@
 		</junitreport>
 		<fail message="Tests failed. Check log and/or reports."	if="test.failed"/>
 
+	</target>
+	
+	<!-- =================================
+		          target: Test-Integration-EJB
+		 ================================= -->
+	<target name="test-integration-ejb" depends="compile-tests">
+		<junit errorProperty="test.failed" failureProperty="test.failed" fork="yes">
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cob.data}" />
+		 	<classpath location="${cob.inst.dir}" />
+		
+			<classpath location="${ejb.classes.dir}" />
+			<classpath refid="ejb-test.classpath" />
+
+		 	<formatter type="brief" usefile="false"/>
+			<formatter type="xml" />
+			
+		 	<test name="${testcase}" todir="${ejb.reports.xml.dir}/integration" if="testcaseejbintegration"/>
+		 	<!-- ant test -Dtestcase=<fully qualified classname> -->
+		 	<!--
+		 	  <sysproperty key="docs.dir" value="${test.dir}/org"/>  
+		 	  Manche Tests benötigen System Properties, diese können im Test umdefiniert werden.
+		 	-->
+		 	<batchtest todir="${ejb.reports.xml.dir}/integration" unless="testcaseejbintegration">
+				<fileset dir="${ejb.test.integration.dir}">
+					<include name="**/*TestIntegration.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+
+		<junitreport todir="${ejb.reports.xml.dir}/integration">
+			<fileset dir="${ejb.reports.xml.dir}/integration">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${ejb.reports.html.dir}/integration" />
+		</junitreport>
+		<fail message="Tests failed. Check log and/or reports."	if="test.failed"/>
 	</target>
 	
 	<!-- =================================
@@ -334,6 +373,7 @@
 		    <fileset dir="${ejb.classes.dir}">
 		        <include name="**/*.class" />
 		        <exclude name="**/*Test.class" />
+				<exclude name="**/*TestIntegration.class" />
 		        <exclude name="**/*Suite.class" />
 		    </fileset>
 		</cobertura-instrument>
@@ -348,7 +388,7 @@
 		-->
 	</target>
 
-	<target name="cob-rep" depends="cob-instr, test-ejb" description="erzeugt Cobertura Reports">
+	<target name="cob-rep" depends="cob-instr, test-ejb, test-integration-ejb" description="erzeugt Cobertura Reports">
 		<cobertura-report format="html" datafile="${cob.data}" destdir="${cob.rep.html}" srcdir="${ejb.src.dir}" />
 		<cobertura-report format="xml" datafile="${cob.data}" destdir="${cob.rep.xml}" srcdir="${ejb.src.dir}" />
 	</target>

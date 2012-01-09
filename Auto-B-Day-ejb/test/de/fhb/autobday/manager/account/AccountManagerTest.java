@@ -161,6 +161,7 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(true);
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
+		userDAOMock.refresh(user);
 		
 		// Setup is finished need to activate the mock
 		PowerMock.replay(EMailValidator.class);
@@ -211,6 +212,7 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(true);
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
+		userDAOMock.refresh(user);
 		
 		// Setup is finished need to activate the mock
 		PowerMock.replay(EMailValidator.class);

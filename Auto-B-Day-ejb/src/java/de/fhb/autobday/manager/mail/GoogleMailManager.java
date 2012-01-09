@@ -31,44 +31,22 @@ import javax.mail.internet.MimeMessage;
 @Interceptors(LoggerInterceptor.class)
 public class GoogleMailManager {
 	private final static Logger LOGGER = Logger.getLogger(GoogleMailManager.class.getName());
+	
 
 	public GoogleMailManager() {
 	}
 
 	
-	public synchronized void sendSystemMail(String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException {
-		Properties systemProps = null;
+	public synchronized void sendSystemMail(String subject, String message, String to) throws Exception {
+
 		Properties accountProps = null;
+		AbdAccount systemAccount = null;
 		try {
-			systemProps = PropertyLoader.loadSystemMailProperty();
-			accountProps = PropertyLoader.loadSystemMailAccountProperty();
-			
-			//systemProps
-			String host = systemProps.getProperty("mail.smtp.host");
-			
-			//accountProps
+
+			accountProps = PropertyLoader.loadSystemMailAccountProperty("settings/SystemMailAccountTemplate.properties");
 			String user = accountProps.getProperty("mail.smtp.user");
 			String password = accountProps.getProperty("mail.smtp.password");
-			
-			
-            //Obtain the default mail session
-            Session session = Session.getDefaultInstance(systemProps, null);
-            session.setDebug(true);
-			
-            //Construct the mail message
-            MimeMessage mail = new MimeMessage(session);
-			
-            mail.setText(message);
-            mail.setSubject(subject);
-            mail.setFrom(new InternetAddress(user));
-            mail.addRecipient(RecipientType.TO, new InternetAddress(to));
-            mail.saveChanges();
-			
-            //Use Transport to deliver the message
-            Transport transport = session.getTransport("smtp");
-            transport.connect(host, user, password);
-            transport.sendMessage(mail, mail.getAllRecipients());
-            transport.close();
+			systemAccount = new AbdAccount(1, user, password, "");
 			
         } catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
@@ -77,12 +55,15 @@ public class GoogleMailManager {
             LOGGER.log(Level.SEVERE, null, ex);
 			throw new FailedToSendMailException("Failed to send mail.");
         }
+		
+		this.sendUserMail(systemAccount, subject, message, to);
 
 	}
+	
 	public synchronized void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception{
 		Properties systemProps = null;
 		try {
-			systemProps = PropertyLoader.loadSystemMailProperty();
+			systemProps = PropertyLoader.loadSystemMailProperty("settings/SystemMailTemplate.properties");
 		
 			//systemProps
 			String host = systemProps.getProperty("mail.smtp.host");

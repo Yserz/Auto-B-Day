@@ -28,7 +28,7 @@ import de.fhb.autobday.data.AbdUser;
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
- */
+ 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Session.class, Transport.class})
 @Ignore
@@ -68,7 +68,7 @@ public class MailManagerTest {
 	
 	/**
 	 * Test of sendBdayMail method, of class MailManager.
-	 */
+	 
 	@Test
 	public void testSendBdayMail() throws Exception {
 		System.out.println("testSendBdayMail");
@@ -93,3 +93,4 @@ public class MailManagerTest {
 	}
 
 }
+*/

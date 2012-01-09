@@ -28,7 +28,7 @@ import de.fhb.autobday.data.AbdUser;
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
- 
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Session.class, Transport.class})
 @Ignore
@@ -47,6 +47,7 @@ public class MailManagerTest {
 	
 	@Before
 	public void setUp() {
+		/*
 		gloss= new JavaEEGloss();
 		
 		//create Mocks
@@ -62,6 +63,7 @@ public class MailManagerTest {
 		
 		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
 		user.setMail("bienemaja@googlemail.com");
+		*/
 	}
 	
 	//TODO Tests implementieren...TINO
@@ -91,6 +93,6 @@ public class MailManagerTest {
 		mailManagerUnderTest.sendForgotPasswordMail(user.getId());
 		verify(userDAOMock);
 	}
-
-}
 */
+}
+

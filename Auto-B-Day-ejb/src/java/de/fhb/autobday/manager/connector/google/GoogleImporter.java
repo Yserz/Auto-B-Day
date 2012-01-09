@@ -196,9 +196,6 @@ public class GoogleImporter extends AImporter{
 
 				}
 			}
-			
-			
-			
 		}	
 	}
 	
@@ -399,7 +396,7 @@ public class GoogleImporter extends AImporter{
 	 * @return String
 	 */
 	protected String getGContactFirstname(ContactEntry contactEntry) {
-		String firstname = null;
+		String firstname = "";
 		try {
 			firstname = contactEntry.getName().getGivenName().getValue();
 		} catch (NullPointerException ex) {
@@ -418,7 +415,7 @@ public class GoogleImporter extends AImporter{
 	 * @return String
 	 */
 	protected String getGContactFamilyname(ContactEntry contactEntry) {
-		String familyname = null;
+		String familyname = "";
 		try {
 			familyname = contactEntry.getName().getFamilyName().getValue();
 		} catch (NullPointerException ex) {
@@ -473,7 +470,7 @@ public class GoogleImporter extends AImporter{
 	 * @return String
 	 */
 	protected String getGroupName(ContactGroupEntry contactGroupEntry){
-		String groupName = null;
+		String groupName = "";
 		
 		try {
 			groupName = contactGroupEntry.getTitle().getPlainText();

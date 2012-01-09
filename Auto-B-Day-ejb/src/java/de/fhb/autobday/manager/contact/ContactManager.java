@@ -94,7 +94,6 @@ public class ContactManager implements ContactManagerLocal {
 			}
 		}
 		
-		
 		//search for relation
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
 			if(actualGroupToContact.getAbdContact().equals(contact)){
@@ -103,8 +102,7 @@ public class ContactManager implements ContactManagerLocal {
 				}
 			}
 		}
-		
-		
+
 		
 		//save into database
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){

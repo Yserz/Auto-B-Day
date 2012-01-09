@@ -1,8 +1,13 @@
 package de.fhb.autobday.commons;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -11,10 +16,12 @@ import java.util.Properties;
 public class PropertyLoader {
 	
 	
-	public static Properties loadSystemMailProperty(String path) throws IOException{
+	public Properties loadSystemMailProperty(String path) throws IOException{
 		Properties props = new Properties();
 		try {
-			FileInputStream stream = new FileInputStream(path);
+			URL url =  de.fhb.autobday.commons.PropertyLoader.class.getResource("/SystemMail.properties");
+			File temp = new File(url.getFile());
+			FileInputStream stream = new FileInputStream(temp);
 			props.load(stream);
 			stream.close();
 		} finally {
@@ -22,10 +29,13 @@ public class PropertyLoader {
 		}
 		return props;
 	}
-	public static Properties loadSystemMailAccountProperty(String path) throws IOException{
+	public Properties loadSystemMailAccountProperty(String path) throws IOException{
 		Properties props = new Properties();
 		try {
-			FileInputStream stream = new FileInputStream(path);
+			
+			URL url =  de.fhb.autobday.commons.PropertyLoader.class.getResource("/SystemMailAccount.properties");
+			File temp = new File(url.getFile());
+			FileInputStream stream = new FileInputStream(temp);
 			props.load(stream);
 			stream.close();
 		} finally {

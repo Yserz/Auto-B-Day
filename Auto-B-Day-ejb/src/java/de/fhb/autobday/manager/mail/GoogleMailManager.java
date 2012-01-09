@@ -5,6 +5,7 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
 import de.fhb.autobday.exception.mail.FailedToSendMailException;
 import de.fhb.autobday.manager.LoggerInterceptor;
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -13,6 +14,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.interceptor.Interceptors;
+import javax.mail.AuthenticationFailedException;
 import javax.mail.Message.RecipientType;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -42,8 +44,9 @@ public class GoogleMailManager {
 		Properties accountProps = null;
 		AbdAccount systemAccount = null;
 		try {
+			accountProps = new PropertyLoader().loadSystemMailAccountProperty("SystemMailAccount.properties");
+			
 
-			accountProps = PropertyLoader.loadSystemMailAccountProperty("settings/SystemMailAccountTemplate.properties");
 			String user = accountProps.getProperty("mail.smtp.user");
 			String password = accountProps.getProperty("mail.smtp.password");
 			systemAccount = new AbdAccount(1, user, password, "");
@@ -63,7 +66,7 @@ public class GoogleMailManager {
 	public synchronized void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception{
 		Properties systemProps = null;
 		try {
-			systemProps = PropertyLoader.loadSystemMailProperty("settings/SystemMailTemplate.properties");
+			systemProps = new PropertyLoader().loadSystemMailProperty("SystemMail.properties");
 		
 			//systemProps
 			String host = systemProps.getProperty("mail.smtp.host");
@@ -87,7 +90,10 @@ public class GoogleMailManager {
             transport.sendMessage(mail, mail.getAllRecipients());
             transport.close();
 			
-        } catch (IOException ex) {
+        } catch (AuthenticationFailedException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			throw new FailedToSendMailException("Authentication-Error. Please check your credentials.");
+		} catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			throw new FailedToLoadPropertiesException("Failed to load mail properties.");
 		} catch (Exception ex) {

@@ -142,7 +142,7 @@ public class MailManager implements MailManagerLocal {
 		
 		Properties props = new Properties();
 		props.setProperty("mail.transport.protocol", "smtp");
-		props.setProperty("mail.host", "mymail.server.org");
+		props.setProperty("mail.host", "smtp.gmail.com");
 		props.setProperty("mail.user", "fhbtestacc@googlemail.com");
 		props.setProperty("mail.password", "TestGoogle123");
 

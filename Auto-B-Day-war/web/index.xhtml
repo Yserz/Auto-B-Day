@@ -52,7 +52,25 @@
 								 actionListener="#{importNewAccountBean.importNewAccount}"/>
 			</p:panel>
 		</h:form>
-		
+		<h:form prependId="false">
+			<p:panel id="mailpanel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts">
+				<h:outputLabel for="mailTo" value="MailTo:* " />
+						<p:inputText id="mailTo" 
+									value="#{mailTestBean.mailTo}"
+									label="Mail"
+									required="true"
+									requiredMessage="Eine Mail ist erforderlich."
+									maxlength="40"/>
+						<h:outputText value="(Max. 40 Zeichen)" />
+						<p:message for="mailTo" showSummary="true" />
+
+				<p:commandButton value="send Mail" 
+									update="mailpanel" 
+									icon="ui-icon ui-icon-disk"
+									ajax="false"
+									actionListener="#{mailTestBean.testMailManager}"/>
+			</p:panel>
+		</h:form>
 	</ui:define>
 
 </ui:composition>

@@ -15,9 +15,11 @@ import org.junit.Test;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 
 
@@ -37,6 +39,7 @@ public class ContactManagerTestIntegration {
 	private static AbdGroupToContactFacade groupContactFacade;
 	
 	private static AbdContactFacade contactDAO;
+	private static AbdGroupFacade groupDAO;
 	
 	private EntityManager emMock;
 	
@@ -45,11 +48,14 @@ public class ContactManagerTestIntegration {
 	private AbdGroupToContact groupToContactOne;
 	private AbdGroupToContact groupToContactTwo;
 	private ArrayList<AbdGroupToContact> allGroupToContact;
+	private AbdGroup groupOne;
+	private AbdGroup groupTwo;
 	
 	@BeforeClass
 	public static void setUpClass(){
 		groupContactFacade = new AbdGroupToContactFacade();
 		contactDAO = new AbdContactFacade();
+		groupDAO = new AbdGroupFacade();
 	}
 	
 	@Before
@@ -63,10 +69,12 @@ public class ContactManagerTestIntegration {
 		//set EntityManagers
 		groupContactFacade.setEntityManager(emMock);
 		contactDAO.setEntityManager(emMock);
+		groupDAO.setEntityManager(emMock);
 		
 		//set Objekts to inject
 		gloss.addEJB(groupContactFacade);
 		gloss.addEJB(contactDAO);
+		gloss.addEJB(groupDAO);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(ContactManager.class);
@@ -75,15 +83,20 @@ public class ContactManagerTestIntegration {
 		contactOne=new AbdContact("mustermann");
 		contactTwo=new AbdContact("otto");
 		
+		groupOne = new AbdGroup("friends");
+		groupTwo = new AbdGroup("family");
+		
 		groupToContactOne = new AbdGroupToContact();
 		groupToContactTwo = new AbdGroupToContact();
 		
 		allGroupToContact = new ArrayList<AbdGroupToContact>();
 		
 		groupToContactOne.setAbdContact(contactOne);
+		groupToContactOne.setAbdGroup(groupOne);
 		allGroupToContact.add(groupToContactOne);
 		
 		groupToContactTwo.setAbdContact(contactTwo);
+		groupToContactOne.setAbdGroup(groupTwo);
 		allGroupToContact.add(groupToContactTwo);
 	}
 	
@@ -94,26 +107,25 @@ public class ContactManagerTestIntegration {
 	@Test
 	public void testSetActive()throws Exception {
 		System.out.println("testsetActive");
-	
+		
 		Query queryMock = createMock(Query.class);
 		
 		//prepare test variables
 		boolean isActive = true;
+		contactOne.setAbdGroupToContactCollection(allGroupToContact);
 		
 		// Setting up the expected value of the method call of Mockobject
-		expect(emMock.find(AbdContact.class,contactOne.getId())).andReturn(contactOne);
+		expect(emMock.find(AbdContact.class, contactOne.getId())).andReturn(contactOne);
+		expect(emMock.find(AbdGroup.class, groupOne.getId())).andReturn(groupOne);
 		
-		expect(queryMock.setParameter("contact", "mustermann")).andReturn(queryMock);
-		expect(queryMock.getResultList()).andReturn(allGroupToContact);
-		expect(emMock.createNamedQuery("Contact.findByContact")).andReturn(queryMock);
 		expect(emMock.merge(groupToContactOne)).andReturn(groupToContactOne);
-			
+		
 		// Setup is finished need to activate the mock
 		replay(emMock);
 		replay(queryMock);
 		
 		//call method to test
-		managerUnderTest.setActive(contactOne, isActive);
+		managerUnderTest.setActive(contactOne, groupOne, isActive);
 		
 		//verify
 		verify(emMock);

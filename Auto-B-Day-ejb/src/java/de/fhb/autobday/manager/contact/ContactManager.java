@@ -82,7 +82,6 @@ public class ContactManager implements ContactManagerLocal {
 			throw new ContactNotFoundException("Group " + groupId + " not found!");
 		}
 		
-		
 		//search for relation
 		for(AbdGroupToContact actualGroupToContact:allGroupToContact){
 			if(actualGroupToContact.getAbdContact().equals(contact)){

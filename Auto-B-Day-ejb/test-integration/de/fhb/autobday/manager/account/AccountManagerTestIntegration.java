@@ -1,21 +1,32 @@
 package de.fhb.autobday.manager.account;
 
-import com.stvconsultants.easygloss.javaee.JavaEEGloss;
-import de.fhb.autobday.dao.AbdAccountFacade;
-import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.manager.connector.google.GoogleImporter;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import java.util.ArrayList;
 import java.util.Collection;
+
 import javax.persistence.EntityManager;
+
 import org.easymock.EasyMock;
-import static org.easymock.EasyMock.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+
+import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
+import de.fhb.autobday.data.AbdUser;
+import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
 
 /**
@@ -35,6 +46,8 @@ public class AccountManagerTestIntegration {
 	
 	private static AbdUserFacade userDAO;
 	
+	private static AbdContactFacade contactDAO;
+	
 	private static GoogleImporter gImporterMock;
 	
 	private EntityManager emMock;
@@ -42,6 +55,7 @@ public class AccountManagerTestIntegration {
 	@BeforeClass
 	public static void setUpClass(){
 		accountDAO = new AbdAccountFacade();
+		contactDAO = new AbdContactFacade();
 		userDAO = new AbdUserFacade();
 		gImporterMock = new GoogleImporter();
 	}
@@ -58,11 +72,12 @@ public class AccountManagerTestIntegration {
 		//set EntityManagers
 		accountDAO.setEntityManager(emMock);
 		userDAO.setEntityManager(emMock);
-
+		contactDAO.setEntityManager(emMock);
 		
 		//set Objekts to inject
 		gloss.addEJB(accountDAO);
 		gloss.addEJB(userDAO);
+		gloss.addEJB(contactDAO);
 		gloss.addEJB(gImporterMock);
 		
 		//create Manager with Mocks
@@ -108,18 +123,33 @@ public class AccountManagerTestIntegration {
 	 * Test of removeAccount method, of class AccountManager.
 	 */
 	@Test
-	@Ignore
 	public void testRemoveAccount() throws Exception {
 		System.out.println("testRemoveAccountWithClass");
 
 		//prepare test variables
-		AbdAccount account = new AbdAccount();
-		account.setId(1);
+		int accountId = 5;
+		Collection<AbdGroup> groupCollection = new ArrayList<AbdGroup>();
+		Collection<AbdGroupToContact> groupToContactCollection = new ArrayList<AbdGroupToContact>();
+		AbdAccount account = new AbdAccount(accountId);
+		AbdContact contact = new AbdContact("testname");
+		AbdGroup group = new AbdGroup("testgroup");
+		AbdGroupToContact groupToContact = new AbdGroupToContact();
+		
+		account.setAbdGroupCollection(groupCollection);
+		groupToContact.setAbdContact(contact);
+		groupToContact.setAbdGroup(group);
+		groupCollection.add(group);
+		groupToContactCollection.add(groupToContact);
+		group.setAbdGroupToContactCollection(groupToContactCollection);
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(emMock.find(AbdAccount.class, account.getId())).andReturn(account);
 		expect(emMock.merge(account)).andReturn(account);
+		expect(emMock.merge(contact)).andReturn(contact);
+
 		emMock.remove(account);
+		emMock.remove(contact);
+		emMock.flush();
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);

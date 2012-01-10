@@ -1,32 +1,29 @@
 package de.fhb.autobday.manager.user;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.commons.HashHelper;
 import de.fhb.autobday.commons.PasswordGenerator;
-import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.manager.connector.google.GoogleImporter;
 
 /**
  * Integrationtest
@@ -164,7 +161,6 @@ public class UserManagerTestIntegration {
 		AbdAccount accountOne = new AbdAccount(1);
 		AbdAccount accountTwo = new AbdAccount(2);
 				
-		List<AbdAccount> result;
 		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
 		outputCollection.add(accountOne);
 		outputCollection.add(accountTwo);

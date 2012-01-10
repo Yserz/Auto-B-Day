@@ -39,11 +39,20 @@
 
 				</h:form>
 				<h:form>
-					<p:commandLink value="Registrieren" 
+					<h:panelGrid columns="3">
+						<p:commandLink value="Passwort vergessen" 
+								   immediate="true"
+								   ajax="false"
+								   action="forgotpassword"
+								   rendered="#{!sessionBean.loggedIn}"/>
+						 | 
+						<p:commandLink value="Registrieren" 
 								   immediate="true"
 								   ajax="false"
 								   action="register"
 								   rendered="#{!sessionBean.loggedIn}"/>
+					</h:panelGrid>
+					
 
 					<p:commandButton value="Logout" 
 									 ajax="false"

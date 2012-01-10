@@ -1144,7 +1144,7 @@ public class UserManagerTest {
 		String newPassword = "abcd1234";
 		
 		// Setting up the expected value of the method call of Mockobject
-		expect(userDAOMock.find(user.getId())).andReturn(user);
+		expect(userDAOMock.findUserByUsername(user.getUsername())).andReturn(user);
 		userDAOMock.edit(user);
 		
 		
@@ -1184,7 +1184,7 @@ public class UserManagerTest {
 		user.setMail("bienemaja@googlemail.com");
 		
 		// Setting up the expected value of the method call of Mockobject
-		expect(userDAOMock.find(user.getId())).andReturn(null);
+		expect(userDAOMock.findUserByUsername(user.getUsername())).andReturn(null);
 		userDAOMock.edit(user);
 
 		
@@ -1215,7 +1215,7 @@ public class UserManagerTest {
 		String newPassword = "abcd1234";
 		
 		// Setting up the expected value of the method call of Mockobject
-		expect(userDAOMock.find(user.getId())).andReturn(user);
+		expect(userDAOMock.findUserByUsername(user.getUsername())).andReturn(user);
 		userDAOMock.edit(user);
 		
 		expect(PasswordGenerator.generatePassword()).andReturn(newPassword);
@@ -1225,7 +1225,7 @@ public class UserManagerTest {
 
 		mailMock.sendSystemMail("Autobday Notification", mailBody, user.getMail());
 		
-		expectLastCall().andThrow(new Exception("Test Exception"));
+		expectLastCall().andThrow(new Exception("TestExcesption"));
 		
 		// Setup is finished need to activate the mock
 		replay(userDAOMock);

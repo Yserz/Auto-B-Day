@@ -204,6 +204,9 @@ public class GroupManager implements GroupManagerLocal {
 			LOGGER.log(Level.SEVERE, "No Contact given");
 			throw new NoContactGivenException("No Contact given");
 		}
+		
+		//filter umlauts	
+		template=filterUmlauts(template);	
 
 		//create pattern for identifing of clamp-expresions
 		Pattern pattern = Pattern.compile("\\$\\{\\S+\\}");
@@ -335,5 +338,64 @@ public class GroupManager implements GroupManagerLocal {
 		return outputCollection;
 	}
 	
+	/**
+	 * filters umlauts
+	 * @param template
+	 * @return
+	 */
+	public String filterUmlauts(String template){
+				
+		StringBuilder output = new StringBuilder();
+		
+		//create pattern for identifing of clamp-expresions
+		Pattern pattern = Pattern.compile("ä|ü|ö|Ä|Ö|Ü");
+		Matcher matcher = pattern.matcher(template);
+		int lastend = 0;
+		
+		//find clamp expression
+		while (matcher.find()) {
+			
+			//appending of text between expresions
+			output.append(template.substring(lastend, matcher.start()));
+			//merke das ende fuer den Anfang des naechsten zwischen Textes
+			lastend = matcher.end();
+			
+			// fetch content
+			String tagExpression = template.substring(matcher.start(),matcher.end());
+			
+			//evaluation of the tag
+			if (tagExpression.equals("ä")) {
+				
+				output.append("ae");
+				
+			} else if (tagExpression.equals("ö")) {
+				
+				output.append("oe");
+				
+			} else if (tagExpression.equals("ü")) {
+				
+				output.append("ue");
+				
+			} else if (tagExpression.equals("Ä")) {
+				
+				output.append("Ae");
+				
+			} else if (tagExpression.equals("Ö")) {
+				
+				output.append("Oe");
+				
+			} else if (tagExpression.equals("Ü")) {
+				
+				output.append("Ue");
+				
+			}			
+		}	
+		
+		//append textend
+		output.append(template.substring(lastend,template.length()));
+		
+		return output.toString();
+		
+	}
 	
 }

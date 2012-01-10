@@ -4,6 +4,7 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
+import de.fhb.autobday.exception.group.GroupException;
 import de.fhb.autobday.manager.contact.ContactManagerLocal;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
 import java.sql.Date;
@@ -34,12 +35,26 @@ public class GroupBean {
 	
 	private ListDataModel<AbdContact> contactList;
 	private boolean activeState = false;
+	private String parsedTemplate;
 	/**
 	 * Creates a new instance of GroupBean
 	 */
 	public GroupBean() {
 		
 	}
+	
+	public String showGroup(){
+		return "showgroup";
+	}
+	
+	public String showTemplate(){
+		return "edittemplate";
+	}
+	
+	public String editTemplate(){
+		return "edittemplate";
+	}
+	
 	public void diffBday(){
 		try {
 			AbdContact contact = contactManager.getContact("http://www.google.com/m8/feeds/contacts/fhbtestacc%40googlemail.com/base/420ecdae886214de");
@@ -51,15 +66,7 @@ public class GroupBean {
 			Logger.getLogger(GroupBean.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-	public String showGroup(){
-		return "showgroup";
-	}
-	public String showTemplate(){
-		return "edittemplate";
-	}
-	public String editTemplate(){
-		return "edittemplate";
-	}
+	
 	private void getAllContactsFromGroup(){
 		try {
 			contactList = new ListDataModel(groupManager.getAllContactsFromGroup(sessionBean.getAktGroup()));
@@ -69,15 +76,7 @@ public class GroupBean {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}
-	
-	public ListDataModel<AbdContact> getContactList() {
-		getAllContactsFromGroup();
-		return contactList;
-	}
 
-	public void setContactList(ListDataModel<AbdContact> contactList) {
-		this.contactList = contactList;
-	}
 	public void toggleContactActivation() {
 		System.out.println("toggleContactActivation");
 		AbdGroup aktGroup = sessionBean.getAktGroup();
@@ -115,6 +114,28 @@ public class GroupBean {
 		
 		return active;
 	}
+	public void testTemplate(){
+		try {
+			AbdContact contact = sessionBean.getAktContact();
+			AbdGroup group = sessionBean.getAktGroup();
+			
+			if (contact != null && group != null) {
+				parsedTemplate = groupManager.testTemplate(group.getId(), contact.getId());
+				System.out.println("template: "+parsedTemplate);
+			}else{
+				System.out.println("Contact: "+contact);
+				System.out.println("Group: "+group);
+				parsedTemplate = "Couldn´t parse the template with this user!";
+			}
+			
+		} catch (GroupException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			parsedTemplate = ex.getMessage();
+		} catch (ContactException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			parsedTemplate = ex.getMessage();
+		}
+	}
 
 	public boolean isActiveState() {
 		activeState = changeAktiveState();
@@ -124,6 +145,23 @@ public class GroupBean {
 
 	public void setActiveState(boolean activeState) {
 		this.activeState = activeState;
+	}
+
+	public String getParsedTemplate() {
+		return parsedTemplate;
+	}
+
+	public void setParsedTemplate(String parsedTemplate) {
+		this.parsedTemplate = parsedTemplate;
+	}
+	
+	public ListDataModel<AbdContact> getContactList() {
+		getAllContactsFromGroup();
+		return contactList;
+	}
+
+	public void setContactList(ListDataModel<AbdContact> contactList) {
+		this.contactList = contactList;
 	}
 	
 }

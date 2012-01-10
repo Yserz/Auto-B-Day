@@ -503,7 +503,7 @@ public class GroupManagerTest {
 		String template="Ä test Ü test Ö test ö test ä test ü";
 		
 		//prepare expected variables
-		String expResult="Ae test Ue test Oe test oe test ae test ue";
+		String expResult="Ae test Ue test Oe test oe test ae test ue test";
 		
 		//call method to test
 		String result = managerUnderTest.filterUmlauts(template);

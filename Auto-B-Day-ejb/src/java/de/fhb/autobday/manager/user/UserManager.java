@@ -361,7 +361,7 @@ public class UserManager implements UserManagerLocal {
 		//search user
 		user=userDAO.find(userId);
 		
-		if(user!=null){
+		if(user==null){
 			LOGGER.log(Level.SEVERE, "User is not found!");
 			throw new UserNotFoundException("User is not found!");
 		}

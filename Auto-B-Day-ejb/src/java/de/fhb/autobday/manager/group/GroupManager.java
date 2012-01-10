@@ -388,7 +388,7 @@ public class GroupManager implements GroupManagerLocal {
 				
 				output.append("Ue");
 				
-			}			
+			}
 		}	
 		
 		//append textend

@@ -147,6 +147,7 @@ public class GoogleImporter extends AImporter {
 						groupMembershipInfos = contactEntry
 								.getGroupMembershipInfos();
 						membershipCounter = 0;
+						System.out.println("bla");
 						for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
 							membershipCounter++;
 							for (AbdGroup abdGroup : accdata

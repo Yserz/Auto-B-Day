@@ -1142,6 +1142,7 @@ public class UserManagerTest {
 		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
 		user.setMail("bienemaja@googlemail.com");
 		String newPassword = "abcd1234";
+		String newSalt = "salt1234";
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(userDAOMock.findUserByUsername(user.getUsername())).andReturn(user);
@@ -1149,6 +1150,8 @@ public class UserManagerTest {
 		
 		
 		expect(PasswordGenerator.generatePassword()).andReturn(newPassword);
+		expect(PasswordGenerator.generateSalt()).andReturn(newSalt);
+		expect(HashHelper.calcSHA1(newPassword+newSalt)).andReturn("passwordPlusSalt");
 		
 		String mailBody = "You recieved a new password for your autobdayaccount: "
 				+ newPassword + "\n\n" + "greetz your Autobdayteam";
@@ -1160,6 +1163,7 @@ public class UserManagerTest {
 		replay(userDAOMock);
 		replay(mailMock);
 		PowerMock.replay(PasswordGenerator.class);
+		PowerMock.replay(HashHelper.class);
 		
 		//call method to test
 		managerUnderTest.sendForgotPasswordMail(user.getUsername());
@@ -1168,6 +1172,7 @@ public class UserManagerTest {
 		verify(userDAOMock);
 		verify(mailMock);
 		PowerMock.verify(PasswordGenerator.class);
+		PowerMock.verify(HashHelper.class);
 	}
 	
 	/**
@@ -1213,12 +1218,15 @@ public class UserManagerTest {
 		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
 		user.setMail("bienemaja@googlemail.com");
 		String newPassword = "abcd1234";
+		String newSalt = "salt1234";
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(userDAOMock.findUserByUsername(user.getUsername())).andReturn(user);
 		userDAOMock.edit(user);
 		
 		expect(PasswordGenerator.generatePassword()).andReturn(newPassword);
+		expect(PasswordGenerator.generateSalt()).andReturn(newSalt);
+		expect(HashHelper.calcSHA1(newPassword+newSalt)).andReturn("passwordPlusSalt");
 		
 		String mailBody = "You recieved a new password for your autobdayaccount: "
 				+ newPassword + "\n\n" + "greetz your Autobdayteam";
@@ -1231,6 +1239,7 @@ public class UserManagerTest {
 		replay(userDAOMock);
 		replay(mailMock);
 		PowerMock.replay(PasswordGenerator.class);
+		PowerMock.replay(HashHelper.class);
 		
 		//call method to test
 		managerUnderTest.sendForgotPasswordMail(user.getUsername());
@@ -1239,6 +1248,96 @@ public class UserManagerTest {
 		verify(userDAOMock);
 		verify(mailMock);
 		PowerMock.verify(PasswordGenerator.class);
+		PowerMock.verify(HashHelper.class);
 	}
+	
+	/**
+	 *  tests the changePassword method
+	 * @throws Exception
+	 */
+	@Test
+	public void testChangePassword() throws Exception{
+		AbdUser user = new AbdUser(1, "max", "hash", "salt", "max", "mustermann");
+		String oldPassword = user.getPasswort();
+		String newPassword = "1234abcd";
+		String newSalt = "saltNew";
+		
+		expect(userDAOMock.find(user.getId())).andReturn(user);
+		expect(PasswordGenerator.generateSalt()).andReturn(newSalt);
+		expect(HashHelper.calcSHA1(newPassword+newSalt)).andReturn("newHash");
+		userDAOMock.edit(user);
+		
+		replay(userDAOMock);
+		PowerMock.replay(HashHelper.class);
+		PowerMock.replay(PasswordGenerator.class);
+		
+		managerUnderTest.changePassword(user, oldPassword, newPassword, newPassword);
+		
+		verify(userDAOMock);
+		PowerMock.verify(HashHelper.class);
+		PowerMock.verify(PasswordGenerator.class);
+	}
+
+	/**
+	 *  tests the changePassword method
+	 *  This test provokes a PasswordInvalidException
+	 *  @throws Exception
+	 */
+	@Test(expected = PasswordInvalidException.class)
+	public void testChangePasswordThrowPasswordInvalidExceptionByForgottenPasswords() throws Exception{
+		AbdUser user = new AbdUser(1, "max", "hash", "salt", "max", "mustermann");
+		String oldPassword = "";
+		String newPassword = "1234abcd";
+		
+		managerUnderTest.changePassword(user, oldPassword, newPassword, newPassword);
+
+	}
+	/**
+	 *  tests the changePassword method
+	 *  This test provokes a PasswordInvalidException
+	 *  @throws Exception
+	 */
+	@Test(expected = PasswordInvalidException.class)
+	public void testChangePasswordThrowPasswordInvalidExceptionByNotEqualPasswords() throws Exception{
+		AbdUser user = new AbdUser(1, "max", "hash", "salt", "max", "mustermann");
+		String oldPassword = "abcdefg";
+		String newPassword = "1234abcd";
+		
+		managerUnderTest.changePassword(user, oldPassword, newPassword, newPassword+"sth");
+	}
+	/**
+	 *  tests the changePassword method
+	 *  This test provokes a PasswordInvalidException
+	 *  @throws Exception
+	 */
+	@Test(expected = PasswordInvalidException.class)
+	public void testChangePasswordThrowPasswordInvalidExceptionByTooShortPassword() throws Exception{
+		AbdUser user = new AbdUser(1, "max", "hash", "salt", "max", "mustermann");
+		String oldPassword = "abcdefg";
+		String newPassword = "1234";
+		
+		managerUnderTest.changePassword(user, oldPassword, newPassword, newPassword);
+	}
+
+	/**
+	 *  tests the changePassword method
+	 *  This test provokes a UserNotFoundException
+	 *  @throws Exception
+	 */
+	@Test(expected = UserNotFoundException.class)
+	public void testChangePasswordThrowUserNotFoundException() throws Exception{
+		AbdUser user = new AbdUser(1, "max", "hash", "salt", "max", "mustermann");
+		String oldPassword = user.getPasswort();
+		String newPassword = "1234abcd";
+		String newSalt = "saltNew";
+		
+		expect(userDAOMock.find(user.getId())).andReturn(null);
+		replay(userDAOMock);
+		
+		managerUnderTest.changePassword(user, oldPassword, newPassword, newPassword);
+		
+		verify(userDAOMock);
+	}
+
 	
 }

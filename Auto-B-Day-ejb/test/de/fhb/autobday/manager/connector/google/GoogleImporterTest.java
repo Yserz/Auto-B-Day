@@ -781,8 +781,8 @@ private JavaEEGloss gloss;
 		instance.updateContacts();
 	}
 	
-	@Ignore
 	@Test
+	@Ignore
 	public void updateContactThrowNullPointerException() throws IOException, ServiceException{
 		System.out.println("updateContactThrowNullPointerException");
 		

@@ -42,10 +42,10 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 		propLoader = new PropertyLoader();
 	}
 	
+	@Override
 	public synchronized void sendSystemMail(String subject, String message, String to) throws Exception {
 
 		Properties accountProps = null;
-		AbdAccount systemAccount = null;
 		
 		try {
 			
@@ -54,7 +54,8 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 			String user = accountProps.getProperty("mail.smtp.user");
 			String password = accountProps.getProperty("mail.smtp.password");
-			systemAccount = new AbdAccount(1, user, password, "");
+			
+			this.sendUserMailInternal(user, password, subject, message, to);
 			
         } catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
@@ -64,11 +65,15 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 			throw new FailedToSendMailException("Failed to send mail.");
         }
 		
-		this.sendUserMail(systemAccount, subject, message, to);
+		
 
 	}
-	
+	@Override
 	public synchronized void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception{
+		sendUserMailInternal(account.getUsername(), account.getPasswort(), subject, message, to);
+	}
+	
+	private synchronized void sendUserMailInternal(String username, String password, String subject, String message, String to) throws Exception{
 		Properties systemProps = null;
 		try {
 			
@@ -87,13 +92,13 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 			
             mail.setText(message);
             mail.setSubject(subject);
-            mail.setFrom(new InternetAddress(account.getUsername()));
+            mail.setFrom(new InternetAddress(username));
             mail.addRecipient(RecipientType.TO, new InternetAddress(to));
             mail.saveChanges();
 			
             //Use Transport to deliver the message
             Transport transport = session.getTransport("smtp");
-            transport.connect(host, account.getUsername(), account.getPasswort());
+            transport.connect(host, username, password);
             transport.sendMessage(mail, mail.getAllRecipients());
             transport.close();
 			
@@ -110,10 +115,12 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 	}
 
+	@Override
 	public PropertyLoader getPropLoader() {
 		return propLoader;
 	}
 
+	@Override
 	public void setPropLoader(PropertyLoader propLoader) {
 		this.propLoader = propLoader;
 	}

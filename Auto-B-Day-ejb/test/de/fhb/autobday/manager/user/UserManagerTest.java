@@ -1,5 +1,9 @@
 package de.fhb.autobday.manager.user;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import java.io.UnsupportedEncodingException;
@@ -26,11 +30,13 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.HashFailException;
+import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 
 /**
  * Tests the userManager class and their methods.
@@ -49,6 +55,8 @@ public class UserManagerTest {
 	
 	private AbdUserFacade userDAOMock;
 	
+	private GoogleMailManagerLocal mailMock;
+	
 	public UserManagerTest() {
 	}
 	
@@ -58,9 +66,11 @@ public class UserManagerTest {
 		
 		//create Mocks
 		userDAOMock = EasyMock.createMock(AbdUserFacade.class);
+		mailMock = EasyMock.createMock(GoogleMailManagerLocal.class);
 		
 		//set Objekts to inject
 		gloss.addEJB(userDAOMock);
+		gloss.addEJB(mailMock);
 		
 		//create Manager with Mocks
 		managerUnderTest=gloss.make(UserManager.class);
@@ -1115,6 +1125,108 @@ public class UserManagerTest {
 		assertEquals(outputCollection, result);
 		EasyMock.verify(userDAOMock);
 	}
+	
+	/**
+	 *  tests the sendForgotPasswordMail method
+	 * @throws Exception
+	 */
+	@Test
+	public void testSendForgotPasswordMail() throws Exception{
+		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");
+		
+		//TODO
+		//prepare test variables
+		AbdUser user;
+		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
+		user.setMail("bienemaja@googlemail.com");
+		
+		// Setting up the expected value of the method call of Mockobject
+		expect(userDAOMock.find(user.getId())).andReturn(user);
+		userDAOMock.edit(user);
+		
+		mailMock.sendSystemMail("Autobday Notification", (String)anyObject(), user.getMail());
 
+//		Transport.send((Message)anyObject());
+		
+		// Setup is finished need to activate the mock
+		replay(userDAOMock);
+		replay(mailMock);
+//		PowerMock.replay(Transport.class);
+		
+		//call method to test
+		managerUnderTest.sendForgotPasswordMail(user.getId());
+		
+		// verify
+		verify(userDAOMock);
+		verify(mailMock);
+	}
+	
+	/**
+	 *  tests the sendForgotPasswordMail method
+	 * @throws Exception
+	 */
+	@Test(expected = UserNotFoundException.class)
+	public void testSendForgotPasswordMailShouldThrowUserNotFoundException() throws Exception{
+		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");
+		
+		//prepare test variables
+		AbdUser user;
+		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
+		user.setMail("bienemaja@googlemail.com");
+		//TODO
+		// Setting up the expected value of the method call of Mockobject
+		expect(userDAOMock.find(user.getId())).andReturn(user);
+		userDAOMock.edit(user);
+		
+		mailMock.sendSystemMail("Autobday Notification", (String)anyObject(), user.getMail());
+
+//		Transport.send((Message)anyObject());
+		
+		// Setup is finished need to activate the mock
+		replay(userDAOMock);
+		replay(mailMock);
+//		PowerMock.replay(Transport.class);
+		
+		//call method to test
+		managerUnderTest.sendForgotPasswordMail(user.getId());
+		
+		// verify
+		verify(userDAOMock);
+		verify(mailMock);
+	}
+	
+	/**
+	 *  tests the sendForgotPasswordMail method
+	 * @throws Exception
+	 */
+	@Test(expected = MailException.class)
+	public void testSendForgotPasswordMailShouldThrowMailException() throws Exception{
+		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");
+		
+		//prepare test variables
+		AbdUser user;
+		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
+		user.setMail("bienemaja@googlemail.com");
+		
+		// Setting up the expected value of the method call of Mockobject
+		expect(userDAOMock.find(user.getId())).andReturn(user);
+		userDAOMock.edit(user);
+		
+		mailMock.sendSystemMail("Autobday Notification", (String)anyObject(), user.getMail());
+
+//		Transport.send((Message)anyObject());
+		//TODO
+		// Setup is finished need to activate the mock
+		replay(userDAOMock);
+		replay(mailMock);
+//		PowerMock.replay(Transport.class);
+		
+		//call method to test
+		managerUnderTest.sendForgotPasswordMail(user.getId());
+		
+		// verify
+		verify(userDAOMock);
+		verify(mailMock);
+	}
 	
 }

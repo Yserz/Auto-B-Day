@@ -109,10 +109,6 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
         }
 
 	}
-	
-
-	
-	
 
 	public PropertyLoader getPropLoader() {
 		return propLoader;

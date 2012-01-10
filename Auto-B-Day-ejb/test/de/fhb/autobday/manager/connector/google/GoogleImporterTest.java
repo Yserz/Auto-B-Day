@@ -807,6 +807,7 @@ private JavaEEGloss gloss;
 		
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		replay(contactDAOMock);
 		instance.myService = myServiceMock;
 		instance.updateContacts();
 	}

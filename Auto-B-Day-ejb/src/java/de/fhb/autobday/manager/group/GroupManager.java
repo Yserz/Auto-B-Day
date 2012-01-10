@@ -348,7 +348,7 @@ public class GroupManager implements GroupManagerLocal {
 		StringBuilder output = new StringBuilder();
 		
 		//create pattern for identifing of clamp-expresions
-		Pattern pattern = Pattern.compile("ä|ö|ü|Ä|Ö|Ü|ß");
+		Pattern pattern = Pattern.compile("ä|ö|ü|Ä|Ö|Ü");
 		Matcher matcher = pattern.matcher(template);
 		int lastend = 0;
 		
@@ -388,8 +388,6 @@ public class GroupManager implements GroupManagerLocal {
 				
 				output.append("Ue");
 				
-			} else if (tagExpression.equals("ß")) {
-				output.append("ss");
 			}
 		}	
 		

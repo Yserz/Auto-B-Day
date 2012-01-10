@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -743,6 +744,48 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
+	public void updateContactWithExistContact() throws IOException, ServiceException{
+		System.out.println("updateContactWithExistContact");
+		
+		//prepare test variables
+		GoogleImporter instance = new GoogleImporter();
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		AbdContactFacade contactDAOMock = createMock(AbdContactFacade.class);
+		URL feedUrl;
+		List<ContactEntry> contactEntryList = new ArrayList<ContactEntry>();
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		contactEntry.addEmailAddress(mail);
+		contactEntryList.add(contactEntry);
+		ContactFeed resultFeed = new ContactFeed();
+		resultFeed.setEntries(contactEntryList);
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		
+		@SuppressWarnings("deprecation")
+		AbdContact abdContactInDB = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
+		abdContactInDB.setFirstname("Hans");
+		abdContactInDB.setName("Peter");
+		abdContactInDB.setSex('w');
+		abdContactInDB.setUpdated(new Date(dateTime.getValue()));
+		
+		System.out.println(abdContactInDB);
+		
+		// Setting up the expected value of the method call of Mockobject
+		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
+		expect(contactDAOMock.find("1")).andReturn(abdContactInDB);
+		
+		// Setup is finished need to activate the mock
+		replay(myServiceMock);
+		instance.contactDAO=contactDAOMock;
+		instance.myService = myServiceMock;
+		instance.updateContacts();
+	}
+	
+	@Test
+	@Ignore
 	public void updateContactWithNewContact() throws IOException, ServiceException{
 		System.out.println("updateContactWithNewContact");
 		
@@ -776,7 +819,6 @@ private JavaEEGloss gloss;
 		
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
-		replay(contactDAOMock);
 		instance.contactDAO=contactDAOMock;
 		instance.myService = myServiceMock;
 		instance.updateContacts();

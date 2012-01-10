@@ -1162,7 +1162,7 @@ public class UserManagerTest {
 		PowerMock.replay(PasswordGenerator.class);
 		
 		//call method to test
-		managerUnderTest.sendForgotPasswordMail(user.getId());
+		managerUnderTest.sendForgotPasswordMail(user.getUsername());
 		
 		// verify
 		verify(userDAOMock);
@@ -1193,7 +1193,7 @@ public class UserManagerTest {
 		replay(mailMock);
 		
 		//call method to test
-		managerUnderTest.sendForgotPasswordMail(user.getId());
+		managerUnderTest.sendForgotPasswordMail(user.getUsername());
 		
 		// verify
 		verify(userDAOMock);
@@ -1233,7 +1233,7 @@ public class UserManagerTest {
 		PowerMock.replay(PasswordGenerator.class);
 		
 		//call method to test
-		managerUnderTest.sendForgotPasswordMail(user.getId());
+		managerUnderTest.sendForgotPasswordMail(user.getUsername());
 		
 		// verify
 		verify(userDAOMock);

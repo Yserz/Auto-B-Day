@@ -6,6 +6,7 @@ import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
+import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import java.util.List;
@@ -98,7 +99,7 @@ public interface UserManagerLocal {
 	 * @throws MailException
 	 * @throws UserNotFoundException
 	 */
-	void changePassword(int userId, String oldPassword, String newPassword, String newPasswordRepeat) throws UserNotFoundException;
+	void changePassword(int userId, String oldPassword, String newPassword, String newPasswordRepeat) throws UserNotFoundException, PasswordInvalidException, HashFailException;
 	
 	/**
 	 * change a users password by userobject
@@ -109,7 +110,7 @@ public interface UserManagerLocal {
 	 * @throws MailException
 	 * @throws UserNotFoundException
 	 */
-	void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat) throws UserNotFoundException;
+	void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat) throws UserNotFoundException, PasswordInvalidException, HashFailException;
 	
 	
 }

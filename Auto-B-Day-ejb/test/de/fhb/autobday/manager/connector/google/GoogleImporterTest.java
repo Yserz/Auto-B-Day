@@ -773,4 +773,42 @@ private JavaEEGloss gloss;
 		instance.updateContacts();
 	}
 	
+	@Test
+	public void updateContactWithNewContact() throws IOException, ServiceException{
+		System.out.println("updateContactThrowNullPointerException");
+		
+		//prepare test variables
+		GoogleImporter instance = new GoogleImporter();
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		AbdContactFacade contactDAOMock = createMock(AbdContactFacade.class);
+		URL feedUrl;
+		List<ContactEntry> contactEntryList = new ArrayList<ContactEntry>();
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		contactEntry.addEmailAddress(mail);
+		contactEntryList.add(contactEntry);
+		ContactFeed resultFeed = new ContactFeed();
+		resultFeed.setEntries(contactEntryList);
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		
+		@SuppressWarnings("deprecation")
+		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
+		exptected.setFirstname("Hans");
+		exptected.setName("Peter");
+		exptected.setSex('w');
+		exptected.setUpdated(new Date(dateTime.getValue()));
+		
+		// Setting up the expected value of the method call of Mockobject
+		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
+		expect(contactDAOMock.find(contactEntry.getId())).andReturn(exptected);
+		
+		// Setup is finished need to activate the mock
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		instance.updateContacts();
+	}
+	
 }

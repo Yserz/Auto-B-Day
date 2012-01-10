@@ -60,15 +60,11 @@
 								<h:outputText value="Test Template" />
 							</f:facet>
 							<p:dialog header="Parsed Template" widgetVar="dialog" showEffect="fade" hideEffect="fade" height="200" width="500">  
-      
 								<h:panelGrid id="display" columns="2" border="0">  
-
 									<h:outputText value="Template: " style="color: red;"/>  
 									<h:outputText value="#{groupBean.parsedTemplate}">
 									</h:outputText>  
-
 								</h:panelGrid>  
-
 							</p:dialog>
 							<p:commandButton value="Test" action="#{groupBean.testTemplate}" update="display" oncomplete="dialog.show()">
 								<f:setPropertyActionListener target="#{sessionBean.aktContact}" value="#{contact}" />

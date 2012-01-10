@@ -35,7 +35,8 @@ public class GroupBean {
 	
 	private ListDataModel<AbdContact> contactList;
 	private boolean activeState = false;
-	private String parsedTemplate;
+	private String parsedTemplate = "";
+	private String template = "";
 	/**
 	 * Creates a new instance of GroupBean
 	 */
@@ -52,7 +53,13 @@ public class GroupBean {
 	}
 	
 	public String editTemplate(){
-		return "edittemplate";
+		try {
+			groupManager.setTemplate(sessionBean.getAktGroup(), template);
+		} catch (GroupException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+		}
+		return "showgroup";
 	}
 	
 	public void diffBday(){
@@ -162,6 +169,15 @@ public class GroupBean {
 
 	public void setContactList(ListDataModel<AbdContact> contactList) {
 		this.contactList = contactList;
+	}
+
+	public String getTemplate() {
+		template = sessionBean.getAktGroup().getTemplate();
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
 	}
 	
 }

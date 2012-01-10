@@ -1225,7 +1225,7 @@ public class UserManagerTest {
 
 		mailMock.sendSystemMail("Autobday Notification", mailBody, user.getMail());
 		
-		expectLastCall().andThrow(new Exception("Test Exception"));
+		expectLastCall().andThrow(new Exception("TestException"));
 		
 		// Setup is finished need to activate the mock
 		replay(userDAOMock);

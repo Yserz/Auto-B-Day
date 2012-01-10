@@ -34,9 +34,10 @@ import de.fhb.autobday.manager.LoggerInterceptor;
 public class GoogleMailManager {
 	
 	private final static Logger LOGGER = Logger.getLogger(GoogleMailManager.class.getName());
-	
+	private PropertyLoader propLoader;
 	
 	public GoogleMailManager() {
+		propLoader = new PropertyLoader();
 	}
 	
 	public synchronized void sendSystemMail(String subject, String message, String to) throws Exception {
@@ -47,7 +48,7 @@ public class GoogleMailManager {
 		try {
 			
 			//DONT CHANGE THIS PATH
-			accountProps = new PropertyLoader().loadSystemMailAccountProperty("SystemMailAccount.properties");	
+			accountProps = propLoader.loadSystemMailAccountProperty("SystemMailAccount.properties");	
 
 			String user = accountProps.getProperty("mail.smtp.user");
 			String password = accountProps.getProperty("mail.smtp.password");
@@ -70,7 +71,7 @@ public class GoogleMailManager {
 		try {
 			
 			//DONT CHANGE THIS PATH
-			systemProps = new PropertyLoader().loadSystemMailProperty("SystemMail.properties");
+			systemProps = propLoader.loadSystemMailProperty("SystemMail.properties");
 		
 			//systemProps
 			String host = systemProps.getProperty("mail.smtp.host");
@@ -105,6 +106,14 @@ public class GoogleMailManager {
 			throw new FailedToSendMailException("Failed to send mail.");
         }
 
+	}
+
+	public PropertyLoader getPropLoader() {
+		return propLoader;
+	}
+
+	public void setPropLoader(PropertyLoader propLoader) {
+		this.propLoader = propLoader;
 	}
 }
 

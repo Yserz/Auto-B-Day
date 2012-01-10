@@ -198,7 +198,6 @@ public class UserManager implements UserManagerLocal {
 		// generate Salt
 		salt=PasswordGenerator.generateSalt();
 		
-		
 		//user init
 		user= new AbdUser();
 		user.setId(Integer.SIZE);
@@ -269,7 +268,7 @@ public class UserManager implements UserManagerLocal {
 	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
 	 */
 	@Override
-	public void sendForgotPasswordMail(int userId) throws MailException, UserNotFoundException {
+	public void sendForgotPasswordMail(String userName) throws MailException, UserNotFoundException {
 		// enge zusammenarbeit mit usermanager
 		
 		//getUser
@@ -277,11 +276,11 @@ public class UserManager implements UserManagerLocal {
 		String newPassword;
 		String mailBody;
 		
-		user=userDAO.find(userId);
+		user=userDAO.findUserByUsername(userName);
 		
 		if(user==null){
-			LOGGER.log(Level.SEVERE, "User {0}not found!", userId);
-			throw new UserNotFoundException("User " + userId + "not found!");
+			LOGGER.log(Level.SEVERE, "User {0}not found!", userName);
+			throw new UserNotFoundException("User " + userName + "not found!");
 		}
 		
 		
@@ -301,6 +300,73 @@ public class UserManager implements UserManagerLocal {
 			LOGGER.log(Level.SEVERE, e.getMessage());
 			throw new MailException(e.getMessage());
 		}
+	}
+	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
+	 */
+	@Override
+	public void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat) throws UserNotFoundException{
+		changePassword(user.getId(), oldPassword, password, passwordRepeat);
+	}
+	
+	
+	/**
+	 * (non-Javadoc)
+	 * @throws HashFailException 
+	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
+	 */
+	@Override
+	public void changePassword(int userId, String oldPassword, String password, String passwordRepeat) throws UserNotFoundException{
+//		
+//		AbdUser user = null;
+//		String salt="";
+//		String hash="";
+//		
+//		
+//		if(oldPassword.equals("")||password.equals("")||passwordRepeat.equals("")){
+//			LOGGER.log(Level.SEVERE, "Incomplete passwordsfields!");
+//			throw new IncompleteUserRegisterException("Incomplete passwordsfields!");
+//		}
+//
+//		if(!password.equals(passwordRepeat)){
+//			LOGGER.log(Level.SEVERE, "Password not similar to the repetition!");
+//			throw new IncompleteUserRegisterException("Password not similar to the repetition!");
+//		}
+//		
+//		if(password.length()<5){
+//			LOGGER.log(Level.SEVERE, "Password too short!");
+//			throw new IncompleteUserRegisterException("Password too short!");
+//		}
+//		
+//		//search user
+//		user=userDAO.find(userId);
+//		
+//		if(user!=null){
+//			LOGGER.log(Level.SEVERE, "User is not found!");
+//			throw new UserNotFoundException("User is not found!");
+//		}
+//		
+//		
+//		// generate Salt
+//		salt=user.getSalt();
+//		
+//		//hash
+//		try {
+//			hash= HashHelper.calcSHA1(password+salt);
+//		} catch (UnsupportedEncodingException e) {
+//			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
+//			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
+//		} catch (NoSuchAlgorithmException e) {
+//			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
+//			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
+//		}
+//		
+//		user.setPasswort(hash);
+//		
+//		//save in to db
+//		userDAO.create(user);
 	}
 	
 }

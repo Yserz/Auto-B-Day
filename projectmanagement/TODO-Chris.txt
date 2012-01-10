@@ -4,7 +4,7 @@ TODO - Chris
 
 --- Allgemein 	---
 
-	- Tino unterstüzen bei MailManagerTest ... wenn möglich
+	- bei tests helfen wenn welche anfallen
 		
 	nebenbei wenn möglich...
  	*************************

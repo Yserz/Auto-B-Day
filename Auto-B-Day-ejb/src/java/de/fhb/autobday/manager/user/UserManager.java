@@ -265,30 +265,48 @@ public class UserManager implements UserManagerLocal {
 	
 	/**
 	 * (non-Javadoc)
+	 * {@inheritDoc}
 	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
 	 */
 	@Override
-	public void sendForgotPasswordMail(String userName) throws MailException, UserNotFoundException {
+	public void sendForgotPasswordMail(String userName) throws MailException, UserNotFoundException, HashFailException {
 		// enge zusammenarbeit mit usermanager
 		
 		//getUser
 		AbdUser user = null;
 		String newPassword;
 		String mailBody;
+		String hash="";
+		String salt="";
 		
 		user=userDAO.findUserByUsername(userName);
 		
 		if(user==null){
-			LOGGER.log(Level.SEVERE, "User {0}not found!", userName);
+			LOGGER.log(Level.SEVERE, "User {0} not found!", userName);
 			throw new UserNotFoundException("User " + userName + "not found!");
 		}
 		
+		// generate Salt
+		salt=PasswordGenerator.generateSalt();
 		
 		//generate new Password
 		newPassword=PasswordGenerator.generatePassword();
 		
+		
+		//hash
+		try {
+			hash= HashHelper.calcSHA1(newPassword+salt);
+		} catch (UnsupportedEncodingException e) {
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
+			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
+		} catch (NoSuchAlgorithmException e) {
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
+			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
+		}
+		
 		// save new password into database
-		user.setPasswort(newPassword);
+		user.setSalt(salt);
+		user.setPasswort(hash);
 		userDAO.edit(user);
 		
 		mailBody =  "You recieved a new password for your autobdayaccount: " + newPassword + "\n\n" + "greetz your Autobdayteam";
@@ -348,9 +366,9 @@ public class UserManager implements UserManagerLocal {
 			throw new UserNotFoundException("User is not found!");
 		}
 		
-		
 		// generate Salt
-		salt=user.getSalt();
+		salt=PasswordGenerator.generateSalt();
+		
 		
 		//hash
 		try {
@@ -363,10 +381,10 @@ public class UserManager implements UserManagerLocal {
 			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		
+		// save new password into database
+		user.setSalt(salt);
 		user.setPasswort(hash);
-		
-		//save in to db
-		userDAO.create(user);
+		userDAO.edit(user);
 	}
 	
 }

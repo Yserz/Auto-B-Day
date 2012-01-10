@@ -5,6 +5,7 @@
 package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
+import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.user.UserManagerLocal;
@@ -46,7 +47,11 @@ public class ForgotPasswordBean {
 		} catch (UserNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+		} catch (HashFailException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
+		
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mail was send. Please check your mails.", ""));
 		return "index";
 	}

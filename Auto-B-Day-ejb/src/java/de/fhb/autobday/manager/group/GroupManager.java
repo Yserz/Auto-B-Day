@@ -144,7 +144,7 @@ public class GroupManager implements GroupManagerLocal {
 		
 		if(chosenContact==null){
 			//if contact not found
-			LOGGER.log(Level.SEVERE, "Contact {1} not found!", contactId);
+			LOGGER.log(Level.SEVERE, "Contact {0} not found!", contactId);
 			throw new ContactNotFoundException("Contact " + contactId + "not found!");
 		}
 		

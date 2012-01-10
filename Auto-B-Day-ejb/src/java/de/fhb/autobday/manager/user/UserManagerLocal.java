@@ -87,7 +87,7 @@ public interface UserManagerLocal {
 	 * @throws MailException
 	 * @throws UserNotFoundException
 	 */
-	void sendForgotPasswordMail(String userName) throws MailException,UserNotFoundException;
+	void sendForgotPasswordMail(String userName) throws MailException,UserNotFoundException, HashFailException;
 	
 
 	/**

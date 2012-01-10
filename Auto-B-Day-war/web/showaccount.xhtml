@@ -28,24 +28,36 @@
 								<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
 							</h:commandLink>
 						</p:column>
-						<p:column>
+						<p:column style="width: 10px;">
 							<f:facet name="header"> 
-								<h:outputText value="Number of Contacts" />
+								<h:outputText value="#Contacts" />
 							</f:facet>
 							#{group.abdGroupToContactCollection.size()}
 						</p:column>
-						<p:column>
+						<p:column style="width: 500px;">
 							<f:facet name="header"> 
 								<h:outputText value="Template" />
 							</f:facet>
-							#{group.template}
-							<p:commandButton value="Edit" action="#{groupBean.showTemplate}" ajax="false">
-								<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
-							</p:commandButton>
+							<h:panelGrid columns="2" style="border-color: white;" cellpadding="10">
+								<h:panelGroup layout="block">
+									<p:panel header="Template" 
+											 toggleable="true" 
+											 collapsed="true" 
+											 toggleSpeed="200" 
+											 style="width: 500px; word-break: break-all;">
+										#{group.template}
+									</p:panel>
+								</h:panelGroup>
+								<h:panelGroup layout="block" style="float: right; width: 50px;">
+									<p:commandButton value="Edit" action="#{groupBean.showTemplate}" ajax="false">
+										<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
+									</p:commandButton>
+								</h:panelGroup>
+							</h:panelGrid>
 						</p:column>
-						<p:column>
+						<p:column style="width: 10px">
 							<f:facet name="header"> 
-								<h:outputText value="aktiv" />
+								<h:outputText value="aktive" />
 							</f:facet>
 							<p:selectBooleanCheckbox value="#{group.active}" >
 								<p:ajax listener="#{accountBean.toggleGroupActivation}"/> 

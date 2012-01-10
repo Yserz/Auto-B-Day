@@ -1,8 +1,12 @@
 package de.fhb.autobday.manager.contact;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import java.util.ArrayList;
 
-import static org.easymock.EasyMock.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,15 +20,13 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
-import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
 
 /**
  * Test the ContactManager
  *
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
- * Michael Koppen <koppen@fh-brandenburg.de>
- * Christoph Ott <>
+ * Christoph Ott
  */
 public class ContactManagerTest {
 
@@ -84,8 +86,6 @@ public class ContactManagerTest {
 		groupToContactTwo.setAbdContact(contactTwo);
 		groupToContactOne.setAbdGroup(groupTwo);
 		allGroupToContact.add(groupToContactTwo);
-		
-		
 	}
 	
 	

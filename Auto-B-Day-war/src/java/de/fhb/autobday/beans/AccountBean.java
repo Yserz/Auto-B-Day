@@ -1,15 +1,11 @@
 package de.fhb.autobday.beans;
 
-import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.manager.account.AccountManagerLocal;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -18,7 +14,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.primefaces.event.TabChangeEvent;
 
 /**
  *
@@ -55,6 +50,7 @@ public class AccountBean {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully deleted account!", ""));
 		return "index";
 	}
 	private void getAllGroupsFromAccount(){
@@ -77,13 +73,14 @@ public class AccountBean {
 	}
 	public void toggleGroupActivation() {
 		AbdGroup aktGroup = groupList.getRowData();
+		String infoString = "";
 		boolean toggle = false;
   
 		if (aktGroup.getActive()) {
-			System.out.println("Deactivate Group");
+			infoString = "deactivated";
 			toggle=false;
 		}else{
-			System.out.println("Activate Group");
+			infoString = "activated";
 			toggle=true;
 		}
 		try {
@@ -92,7 +89,7 @@ public class AccountBean {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-          
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You successfully "+infoString+" this Group!", ""));
     }  
 	
 }

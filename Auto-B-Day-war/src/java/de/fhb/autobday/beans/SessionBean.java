@@ -5,10 +5,8 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
 import java.io.Serializable;
-import java.util.Collection;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
-import org.primefaces.event.TabChangeEvent;
 
 /**
  *

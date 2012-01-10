@@ -13,7 +13,6 @@ import java.util.Properties;
  * 
  * @author
  * Tino Reuschel <reuschel@fh-brandenburg.de>
- * 
  */
 public class AccountPropertiesFile {
 	

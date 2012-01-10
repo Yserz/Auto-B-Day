@@ -30,6 +30,7 @@ import javax.mail.internet.MimeMessage;
  * @author
  * Andy Klay <klay@fh-brandenburg.de>
  * Michael Koppen <koppen@fh-brandenburg.de>
+ * Tino Reuschel <reuschel@fh-brandenburg.de>
  */
 @Singleton
 @Startup

@@ -40,7 +40,7 @@ public interface ContactManagerLocal {
 	 * get a contact by a contactid
 	 * 
 	 * @param contactId
-	 * @return
+	 * @return AbdContact
 	 * @throws ContactException
 	 */
 	AbdContact getContact(String contactId)throws ContactException ;

@@ -47,7 +47,7 @@ public class GroupManager implements GroupManagerLocal {
 	private AbdContactFacade contactDAO;
 
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getGroup(java.lang.String)
 	 */
@@ -67,7 +67,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 	
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setTemplate(de.fhb.autobday.data.AbdGroup, java.lang.String)
 	 */
@@ -76,7 +76,7 @@ public class GroupManager implements GroupManagerLocal {
 		setTemplate(group.getId(), template);
 	}
 	
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setTemplate(java.lang.String, java.lang.String)
 	 */
@@ -95,7 +95,7 @@ public class GroupManager implements GroupManagerLocal {
 		actualGroup.setTemplate(template);
 	}
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getTemplate(java.lang.String)
 	 */
@@ -118,8 +118,8 @@ public class GroupManager implements GroupManagerLocal {
 		return output;
 	}
 	
-
-	/*
+	
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#testTemplate(java.lang.String, java.lang.String)
 	 */
@@ -154,7 +154,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setActive(de.fhb.autobday.data.AbdGroup, boolean)
 	 */
@@ -163,7 +163,7 @@ public class GroupManager implements GroupManagerLocal {
 		setActive(group.getId(), active);
 	}
 	
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setActive(java.lang.String, boolean)
 	 */
@@ -186,7 +186,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 	
 	
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#parseTemplate(java.lang.String, de.fhb.autobday.data.AbdContact)
 	 */
@@ -269,7 +269,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 	
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#parseSlashExpression(java.lang.String, char)
 	 */
@@ -295,7 +295,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 	
 	
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getAllContactsFromGroup(de.fhb.autobday.data.AbdGroup)
 	 */
@@ -311,7 +311,7 @@ public class GroupManager implements GroupManagerLocal {
 	}
 	
 
-	/*
+	/**
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getAllContactsFromGroup(java.lang.String)
 	 */
@@ -331,7 +331,6 @@ public class GroupManager implements GroupManagerLocal {
 		for(AbdGroupToContact actualGroupToContact :group.getAbdGroupToContactCollection()){
 			outputCollection.add(actualGroupToContact.getAbdContact());
 		}
-		
 		
 		return outputCollection;
 	}

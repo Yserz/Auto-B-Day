@@ -1,22 +1,21 @@
 package de.fhb.autobday.exception.contact;
 
 /**
- * Exception die geworfen wird, wenn einer Methode kein Kontakt mitgegebn wurde
+ * Exception, which is thrown, if to a method is no contact given
  *
  * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class NoContactInThisGroupException extends ContactException {
 	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public NoContactInThisGroupException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public NoContactInThisGroupException(String string) {

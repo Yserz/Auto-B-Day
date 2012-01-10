@@ -6,7 +6,7 @@ package de.fhb.autobday.commons;
  *
  *
  * @author 
- * Tino Reuschel <>
+ * Tino Reuschel <reuschel@fh-brandenburg.de>
  * Michael Koppen <koppen@fh-brandenburg.de>
  * Andy Klay <klay@fh-brandenburg.de>
  * 

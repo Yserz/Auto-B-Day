@@ -4,18 +4,20 @@ import de.fhb.autobday.exception.AbdException;
 
 /**
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class GroupException extends AbdException {
+	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public GroupException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public GroupException(String string) {

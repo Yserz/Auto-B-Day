@@ -8,15 +8,16 @@ package de.fhb.autobday.exception.user;
  * Andy Klay <klay@fh-brandenburg.de>
  */
 public class NoValidUserNameException extends UserException {
+	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public NoValidUserNameException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public NoValidUserNameException(String string) {

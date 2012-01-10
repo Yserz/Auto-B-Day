@@ -1,16 +1,20 @@
 package de.fhb.autobday.exception.connector;
 
+/**
+*
+* @author Tino Reuschel <reuschel@fh-brandenburg.de>
+*/
 public class ConnectorCouldNotLoginException extends ConnectorException{
 	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public ConnectorCouldNotLoginException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public ConnectorCouldNotLoginException(String string) {

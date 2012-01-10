@@ -11,7 +11,8 @@ import java.util.Properties;
  * 
  * This class read a properties file with logindata.
  * 
- * @author Tino Reuschel<reuschel@fh-brandenburg.de
+ * @author
+ * Tino Reuschel <reuschel@fh-brandenburg.de>
  * 
  */
 public class AccountPropertiesFile {

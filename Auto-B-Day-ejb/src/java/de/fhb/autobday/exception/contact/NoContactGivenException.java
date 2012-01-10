@@ -1,22 +1,22 @@
 package de.fhb.autobday.exception.contact;
 
 /**
- * Exception die geworfen wird, wenn ein Kontakt in einer Gruppe nicht gefunden wird
+ * Exception, which is thrown, if a contact in a group not  found 
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Andy Klay <klay@fh-brandenburg.de>
  */
 public class NoContactGivenException extends ContactException {
 	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public NoContactGivenException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public NoContactGivenException(String string) {

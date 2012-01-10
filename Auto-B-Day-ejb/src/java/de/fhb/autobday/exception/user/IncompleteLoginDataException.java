@@ -2,22 +2,23 @@ package de.fhb.autobday.exception.user;
 
 
 /**
- * Exception die geworfen wird, wenn Logindaten fehlen
+ * Exception, which is thrown, if a logindata is missing
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
  */
 public class IncompleteLoginDataException extends UserException {
 	
+	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public IncompleteLoginDataException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public IncompleteLoginDataException(String string) {

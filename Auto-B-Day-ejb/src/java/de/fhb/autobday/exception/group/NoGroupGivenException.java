@@ -5,19 +5,18 @@ package de.fhb.autobday.exception.group;
  *
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
- * 
  */
 public class NoGroupGivenException extends GroupException {
 	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public NoGroupGivenException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public NoGroupGivenException(String string) {

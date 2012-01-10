@@ -86,7 +86,30 @@ public interface UserManagerLocal {
 	 * @throws MailException
 	 * @throws UserNotFoundException
 	 */
-	void sendForgotPasswordMail(int userId) throws MailException,UserNotFoundException;
+	void sendForgotPasswordMail(String userName) throws MailException,UserNotFoundException;
+	
+
+	/**
+	 * change a users password by userid
+	 * @param userId
+	 * @param oldPassword
+	 * @param newPassword
+	 * @param newPasswordRepeat
+	 * @throws MailException
+	 * @throws UserNotFoundException
+	 */
+	void changePassword(int userId, String oldPassword, String newPassword, String newPasswordRepeat) throws UserNotFoundException;
+	
+	/**
+	 * change a users password by userobject
+	 * @param userId
+	 * @param oldPassword
+	 * @param newPassword
+	 * @param newPasswordRepeat
+	 * @throws MailException
+	 * @throws UserNotFoundException
+	 */
+	void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat) throws UserNotFoundException;
 	
 	
 }

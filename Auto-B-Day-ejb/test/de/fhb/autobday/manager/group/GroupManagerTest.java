@@ -500,7 +500,7 @@ public class GroupManagerTest {
 		System.out.println("testFilterUmlauts");
 		
 		//test variables
-		String template="Ä test Ü test Ö test ö test ä test ü";
+		String template="Ã„ test Ãœ test Ã– test Ã¶ test Ã¤ test Ã¼";
 		
 		//prepare expected variables
 		String expResult="Ae test Ue test Oe test oe test ae test ue";

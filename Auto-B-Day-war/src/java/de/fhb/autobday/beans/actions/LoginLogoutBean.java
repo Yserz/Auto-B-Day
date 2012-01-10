@@ -44,6 +44,8 @@ public class LoginLogoutBean {
 			aktUser = userManager.login(userName, password);
 			password = "password";
 			sessionBean.setAktUser(aktUser);
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are logged in!", ""));
 		} catch (UserException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
@@ -52,7 +54,7 @@ public class LoginLogoutBean {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are logged in!", ""));
+		
 		return "index";
 	}
 

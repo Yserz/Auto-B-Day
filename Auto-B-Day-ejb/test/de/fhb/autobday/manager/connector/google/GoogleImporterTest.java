@@ -772,11 +772,12 @@ private JavaEEGloss gloss;
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
-		expect(contactDAOMock.find(contactEntry.getId())).andReturn(exptected);
+		expect(contactDAOMock.find(contactEntry.getId())).andReturn(null);
 		
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
 		replay(contactDAOMock);
+		instance.contactDAO=contactDAOMock;
 		instance.myService = myServiceMock;
 		instance.updateContacts();
 	}

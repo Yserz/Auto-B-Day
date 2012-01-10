@@ -53,7 +53,7 @@ public class GoogleImporter extends AImporter {
 	protected ContactsService myService;
 
 	@EJB
-	private AbdContactFacade contactDAO;
+	protected AbdContactFacade contactDAO;
 	@EJB
 	private AbdGroupFacade groupDAO;
 	@EJB

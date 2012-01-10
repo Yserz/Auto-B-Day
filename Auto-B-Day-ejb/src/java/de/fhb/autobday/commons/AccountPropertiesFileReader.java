@@ -14,7 +14,7 @@ import java.util.Properties;
  * @author
  * Tino Reuschel <reuschel@fh-brandenburg.de>
  */
-public class AccountPropertiesFile {
+public class AccountPropertiesFileReader {
 	
 	/**
 	 * this methode return a hashmap with the logindata

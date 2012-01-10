@@ -25,6 +25,12 @@ import org.junit.Test;
 
 import de.fhb.autobday.data.AbdContact;
 
+/**
+ * Test of AbdContactDAO
+ * 
+ * @author 
+ * Christoph Ott
+ */
 public class AbdContactDAOTest {
 
 	private static AbdContactFacade contactDAOunderTest;
@@ -121,6 +127,7 @@ public class AbdContactDAOTest {
 		List<AbdContact> resultList = new ArrayList<AbdContact>();
 		resultList.add(contactEntity);
 		resultList.add(new AbdContact("22"));
+		
 		expect(emMock.getCriteriaBuilder()).andReturn(criteriaBuilderMock);
 		expect(criteriaBuilderMock.createQuery()).andReturn(criteriaQueryMock);
 		expect(criteriaQueryMock.from(AbdContact.class)).andReturn(rootMock);
@@ -128,6 +135,7 @@ public class AbdContactDAOTest {
 		expect(emMock.createQuery(criteriaQueryMock)).andReturn(typedQueryMock);
 		expect(typedQueryMock.getResultList()).andReturn(resultList);
 		assertEquals(resultList, contactDAOunderTest.findAll());
+		
 		replay(emMock);
 		replay(criteriaBuilderMock);
 		replay(criteriaQueryMock);

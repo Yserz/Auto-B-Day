@@ -24,6 +24,12 @@ import org.junit.Test;
 
 import de.fhb.autobday.data.AbdGroupToContact;
 
+/**
+ * Test of AbdGroupToContact
+ * 
+ * @author 
+ * Christoph Ott
+ */
 public class AbdGroupToContactDAOTest {
 
 	private static AbdGroupToContactFacade groupToContactDAOunderTest;
@@ -119,6 +125,7 @@ public class AbdGroupToContactDAOTest {
 		List<AbdGroupToContact> resultList = new ArrayList<AbdGroupToContact>();
 		resultList.add(abdGroupToContactEntity);
 		resultList.add(new AbdGroupToContact("family","22"));
+		
 		expect(emMock.getCriteriaBuilder()).andReturn(criteriaBuilderMock);
 		expect(criteriaBuilderMock.createQuery()).andReturn(criteriaQueryMock);
 		expect(criteriaQueryMock.from(AbdGroupToContact.class)).andReturn(rootMock);
@@ -126,14 +133,15 @@ public class AbdGroupToContactDAOTest {
 		expect(emMock.createQuery(criteriaQueryMock)).andReturn(typedQueryMock);
 		expect(typedQueryMock.getResultList()).andReturn(resultList);
 		assertEquals(resultList, groupToContactDAOunderTest.findAll());
+		
 		replay(emMock);
 		replay(criteriaBuilderMock);
 		replay(criteriaQueryMock);
 		replay(rootMock);
 		replay(typedQueryMock);
 		
-		
 		groupToContactDAOunderTest.findAll();
+		
 		verify(criteriaBuilderMock);
 		verify(criteriaQueryMock);
 		verify(rootMock);

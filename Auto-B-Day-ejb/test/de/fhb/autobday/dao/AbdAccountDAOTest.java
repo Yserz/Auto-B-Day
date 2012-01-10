@@ -22,6 +22,12 @@ import org.junit.Test;
 
 import de.fhb.autobday.data.AbdAccount;
 
+/**
+ * Test of AbdAccountDAO
+ * 
+ * @author 
+ * Christoph Ott
+ */
 public class AbdAccountDAOTest {
 
 	private static AbdAccountFacade accountDAOunderTest;

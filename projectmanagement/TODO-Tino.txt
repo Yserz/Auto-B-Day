@@ -5,15 +5,7 @@ TODO - Tino
 --- Allgemein 	---
 
 
-	!!! DRINGEND !!! noch 3 tage bis zur Abgabe
-
-	- Weiter an !!! MAILMANGER !!! und Tests
-	- importer tests-properties einlesen (schon passiert, dann Eintrag loeschen ???)
- 	
-	sekundär: 
-	- Google passwort verschlüsseln
-	- Importer aufraemen
- 	
+ - den einen Test commiten
  	
 	nebenbei wenn möglich...
  	*************************

@@ -2,6 +2,5 @@
 TODO - Andy
 ===========
 
-- Doku nochmal checken
-- complete sourcecode Check am DIENSTAG 
-- mit netbeans mal das gui n bissi mittesten
+- PasswordAendern implementieren + tests 
+- 1, 2  praktische tests

@@ -4,6 +4,7 @@ import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.junit.Assert.assertEquals;
 
 import java.io.UnsupportedEncodingException;
@@ -11,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.Transport;
 import javax.persistence.NoResultException;
 
 import org.easymock.EasyMock;
@@ -47,7 +49,7 @@ import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
  * Christoph Ott
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({PasswordGenerator.class, EMailValidator.class, HashHelper.class})
+@PrepareForTest({PasswordGenerator.class, EMailValidator.class, HashHelper.class, Transport.class})
 public class UserManagerTest {
 
 	private JavaEEGloss gloss;
@@ -1131,43 +1133,47 @@ public class UserManagerTest {
 	 *  tests the sendForgotPasswordMail method
 	 * @throws Exception
 	 */
-	@Ignore
 	@Test
 	public void testSendForgotPasswordMail() throws Exception{
 		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");
 		
-		//TODO
 		//prepare test variables
 		AbdUser user;
 		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
 		user.setMail("bienemaja@googlemail.com");
+		String newPassword = "abcd1234";
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(userDAOMock.find(user.getId())).andReturn(user);
 		userDAOMock.edit(user);
 		
-		mailMock.sendSystemMail("Autobday Notification", (String)anyObject(), user.getMail());
-
-//		Transport.send((Message)anyObject());
 		
+		expect(PasswordGenerator.generatePassword()).andReturn(newPassword);
+		
+		String mailBody = "You recieved a new password for your autobdayaccount: "
+				+ newPassword + "\n\n" + "greetz your Autobdayteam";
+
+		mailMock.sendSystemMail("Autobday Notification", mailBody, user.getMail());
+
+
 		// Setup is finished need to activate the mock
 		replay(userDAOMock);
 		replay(mailMock);
-//		PowerMock.replay(Transport.class);
+		PowerMock.replay(PasswordGenerator.class);
 		
 		//call method to test
-		managerUnderTest.sendForgotPasswordMail(user.getUsername());
+		managerUnderTest.sendForgotPasswordMail(user.getId());
 		
 		// verify
 		verify(userDAOMock);
 		verify(mailMock);
+		PowerMock.verify(PasswordGenerator.class);
 	}
 	
 	/**
 	 *  tests the sendForgotPasswordMail method
 	 * @throws Exception
 	 */
-	@Ignore
 	@Test(expected = UserNotFoundException.class)
 	public void testSendForgotPasswordMailShouldThrowUserNotFoundException() throws Exception{
 		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");
@@ -1176,22 +1182,18 @@ public class UserManagerTest {
 		AbdUser user;
 		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
 		user.setMail("bienemaja@googlemail.com");
-		//TODO
-		// Setting up the expected value of the method call of Mockobject
-		expect(userDAOMock.find(user.getId())).andReturn(user);
-		userDAOMock.edit(user);
 		
-		mailMock.sendSystemMail("Autobday Notification", (String)anyObject(), user.getMail());
+		// Setting up the expected value of the method call of Mockobject
+		expect(userDAOMock.find(user.getId())).andReturn(null);
+		userDAOMock.edit(user);
 
-//		Transport.send((Message)anyObject());
 		
 		// Setup is finished need to activate the mock
 		replay(userDAOMock);
 		replay(mailMock);
-//		PowerMock.replay(Transport.class);
 		
 		//call method to test
-		managerUnderTest.sendForgotPasswordMail(user.getUsername());
+		managerUnderTest.sendForgotPasswordMail(user.getId());
 		
 		// verify
 		verify(userDAOMock);
@@ -1202,7 +1204,6 @@ public class UserManagerTest {
 	 *  tests the sendForgotPasswordMail method
 	 * @throws Exception
 	 */
-	@Ignore
 	@Test(expected = MailException.class)
 	public void testSendForgotPasswordMailShouldThrowMailException() throws Exception{
 		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");
@@ -1211,26 +1212,33 @@ public class UserManagerTest {
 		AbdUser user;
 		user = new AbdUser(1, "bienemaja", "1234abcd", "salt", "mustermann", "max");
 		user.setMail("bienemaja@googlemail.com");
+		String newPassword = "abcd1234";
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(userDAOMock.find(user.getId())).andReturn(user);
 		userDAOMock.edit(user);
 		
-		mailMock.sendSystemMail("Autobday Notification", (String)anyObject(), user.getMail());
+		expect(PasswordGenerator.generatePassword()).andReturn(newPassword);
+		
+		String mailBody = "You recieved a new password for your autobdayaccount: "
+				+ newPassword + "\n\n" + "greetz your Autobdayteam";
 
-//		Transport.send((Message)anyObject());
-		//TODO
+		mailMock.sendSystemMail("Autobday Notification", mailBody, user.getMail());
+		
+		expectLastCall().andThrow(new Exception("Test Exception"));
+		
 		// Setup is finished need to activate the mock
 		replay(userDAOMock);
 		replay(mailMock);
-//		PowerMock.replay(Transport.class);
+		PowerMock.replay(PasswordGenerator.class);
 		
 		//call method to test
-		managerUnderTest.sendForgotPasswordMail(user.getUsername());
+		managerUnderTest.sendForgotPasswordMail(user.getId());
 		
 		// verify
 		verify(userDAOMock);
 		verify(mailMock);
+		PowerMock.verify(PasswordGenerator.class);
 	}
 	
 }

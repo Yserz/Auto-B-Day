@@ -9,6 +9,7 @@ import de.fhb.autobday.manager.group.GroupManager;
 import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -91,7 +92,16 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 		AbdAccount actAccount;
 		
 		//search all contacts, which have bday today
-		Collection<AbdContact> birthdayContacts = contactDAO.findContactByBday(new Date(System.currentTimeMillis()));
+		Date currentDate = new Date(System.currentTimeMillis());
+		Collection<AbdContact> Contacts = contactDAO.findAll();
+		
+		List<AbdContact> birthdayContacts = new ArrayList<AbdContact>();
+		
+		for (AbdContact abdContact : Contacts) {
+			if((abdContact.getBday().getDay()==currentDate.getDay())&&(abdContact.getBday().getMonth()==currentDate.getMonth())){
+				birthdayContacts.add(abdContact);
+			}
+		}
 		
 		if (!birthdayContacts.isEmpty()) {
 			

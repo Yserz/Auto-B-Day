@@ -492,6 +492,28 @@ public class GroupManagerTest {
 	}
 	
 	/**
+	 * Test of filterUmlauts method, of class GroupManager.
+	 */
+	@Test
+	public void testFilterUmlauts() throws Exception {
+		
+		System.out.println("testFilterUmlauts");
+		
+		//test variables
+		String template="Ä test Ü test Ö test ö test ä test ü";
+		
+		//prepare expected variables
+		String expResult="Ae test Ue test Oe test oe test ae test ue";
+		
+		//call method to test
+		String result = managerUnderTest.filterUmlauts(template);
+		
+		// verify
+		assertEquals(expResult, result);
+	}
+
+	
+	/**
 	 * Test fail of parseTemplate method, of class GroupManager.
 	 * This test provokes a NoContactGivenException!
 	 */

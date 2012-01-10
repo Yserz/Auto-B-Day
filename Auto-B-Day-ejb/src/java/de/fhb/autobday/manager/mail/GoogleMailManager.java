@@ -23,15 +23,17 @@ import de.fhb.autobday.exception.mail.FailedToSendMailException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 
 /**
+ * This is the mailmanager, which is responsible for sending mails
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
- * 
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Singleton
 @Startup
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class GoogleMailManager {
+public class GoogleMailManager implements GoogleMailManagerLocal{
 	
 	private final static Logger LOGGER = Logger.getLogger(GoogleMailManager.class.getName());
 	private PropertyLoader propLoader;
@@ -107,6 +109,10 @@ public class GoogleMailManager {
         }
 
 	}
+	
+
+	
+	
 
 	public PropertyLoader getPropLoader() {
 		return propLoader;

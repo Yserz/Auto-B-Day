@@ -27,7 +27,7 @@ import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.AbdException;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.manager.group.GroupManager;
-import de.fhb.autobday.manager.mail.MailManagerLocal;
+import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 
 /**
  *
@@ -49,7 +49,7 @@ public class ABDManagerTest {
 	private AbdContactFacade contactDAOMock;
 	
 	private GroupManager groupManagerMock;
-	private MailManagerLocal mailManagerMock;
+	private GoogleMailManagerLocal mailManagerMock;
 	
 	public ABDManagerTest() {
 	}
@@ -65,7 +65,7 @@ public class ABDManagerTest {
 		accountDAOMock = EasyMock.createMock(AbdAccountFacade.class);
 		contactDAOMock = EasyMock.createMock(AbdContactFacade.class);
 		groupManagerMock = EasyMock.createMock(GroupManager.class);
-		mailManagerMock = EasyMock.createMock(MailManagerLocal.class);
+		mailManagerMock = EasyMock.createMock(GoogleMailManagerLocal.class);
 		
 		
 		//set Objekts to inject

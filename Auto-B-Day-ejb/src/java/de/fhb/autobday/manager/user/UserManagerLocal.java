@@ -3,6 +3,7 @@ package de.fhb.autobday.manager.user;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.HashFailException;
+import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserException;
@@ -78,6 +79,15 @@ public interface UserManagerLocal {
 	 * @throws UserNotFoundException
 	 */
 	List<AbdAccount> getAllAccountsFromUser(int userId) throws UserNotFoundException;
+
+	/**
+	 * send a mail with a new password
+	 * @param userId
+	 * @throws MailException
+	 * @throws UserNotFoundException
+	 */
+	void sendForgotPasswordMail(int userId) throws MailException,
+			UserNotFoundException;
 	
 	
 }

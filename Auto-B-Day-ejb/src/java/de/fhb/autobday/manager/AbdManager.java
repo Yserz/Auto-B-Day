@@ -5,7 +5,7 @@ import de.fhb.autobday.data.*;
 import de.fhb.autobday.exception.AbdException;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.manager.group.GroupManager;
-import de.fhb.autobday.manager.mail.MailManagerLocal;
+import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
@@ -43,7 +43,7 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 	private AbdContactFacade contactDAO;
 	
 	@EJB
-	private MailManagerLocal mailManager;
+	private GoogleMailManagerLocal mailManager;
 	
 	@EJB
 	private GroupManager groupManager;
@@ -119,7 +119,7 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 									parsedMessageFromTemplate=groupManager.parseTemplate(template, contact);
 																
 									//and send mail
-									mailManager.sendBdayMail(sender,contact.getMail(), "Happy Birthday", parsedMessageFromTemplate);
+									mailManager.sendUserMail(account, "Happy Birthday", parsedMessageFromTemplate, contact.getMail());
 									
 								} catch (NoContactGivenException e) {
 									LOGGER.log(Level.SEVERE, "No Contact given while trying to send bdaymail!");

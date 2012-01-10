@@ -18,6 +18,7 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.HashFailException;
+import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
@@ -25,6 +26,7 @@ import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
+import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 
 /**
  * this class manage the userspecific things
@@ -42,6 +44,9 @@ public class UserManager implements UserManagerLocal {
 	
 	@EJB
 	private AbdUserFacade userDAO;
+	
+	@EJB
+	private GoogleMailManagerLocal mailManager;
 	
 	public UserManager() {
 		
@@ -256,6 +261,46 @@ public class UserManager implements UserManagerLocal {
 		
 		
 		return outputCollection;
+	}
+	
+	
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
+	 */
+	@Override
+	public void sendForgotPasswordMail(int userId) throws MailException, UserNotFoundException {
+		// enge zusammenarbeit mit usermanager
+		
+		//getUser
+		AbdUser user = null;
+		String newPassword;
+		String mailBody;
+		
+		user=userDAO.find(userId);
+		
+		if(user==null){
+			LOGGER.log(Level.SEVERE, "User {0}not found!", userId);
+			throw new UserNotFoundException("User " + userId + "not found!");
+		}
+		
+		
+		//generate new Password
+		newPassword=PasswordGenerator.generatePassword();
+		
+		// save new password into database
+		user.setPasswort(newPassword);
+		userDAO.edit(user);
+		
+		mailBody =  "You recieved a new password for your autobdayaccount: " + newPassword + "\n\n" + "greetz your Autobdayteam";
+		
+		// Send mail with new Password
+		try {
+			mailManager.sendSystemMail("Autobday Notification", mailBody, user.getMail());
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+			throw new MailException(e.getMessage());
+		}
 	}
 	
 }

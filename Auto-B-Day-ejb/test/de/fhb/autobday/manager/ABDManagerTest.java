@@ -229,7 +229,7 @@ public class ABDManagerTest {
 
 		EasyMock.expect(groupManagerMock.parseTemplate(template, contactOne)).andReturn(parsedTemplate);
 		
-		mailManagerMock.sendBdayMail(sender,contactOne.getMail(), "Happy Birthday", parsedTemplate);
+		mailManagerMock.sendUserMail(account, "Happy Birthday", parsedTemplate, contactOne.getMail());
 		
 		// Setup is finished need to activate the mock
 		EasyMock.replay(contactDAOMock);

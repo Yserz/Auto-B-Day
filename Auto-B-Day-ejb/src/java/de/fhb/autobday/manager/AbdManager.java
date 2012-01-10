@@ -4,6 +4,7 @@ import de.fhb.autobday.dao.*;
 import de.fhb.autobday.data.*;
 import de.fhb.autobday.exception.AbdException;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
+import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.manager.group.GroupManager;
 import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 import java.io.Serializable;
@@ -79,7 +80,7 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 	*/
 	
 	@Schedule(minute="0", hour="8")
-	public void checkEveryDay() throws AbdException{
+	public void checkEveryDay() throws MailException,AbdException{
 		
 		LOGGER.log(Level.INFO, "EverDayCheck {0}", new Date(System.currentTimeMillis()));
 		
@@ -87,6 +88,7 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 		String template;
 		String sender;
 		AbdContact contact;
+		AbdAccount actAccount;
 		
 		//search all contacts, which have bday today
 		Collection<AbdContact> birthdayContacts = contactDAO.findContactByBday(new Date(System.currentTimeMillis()));
@@ -110,7 +112,7 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 							if (aktGroupToContact.getAbdGroup().getActive()) {
 								
 								try {
-									
+									actAccount=aktGroupToContact.getAbdGroup().getAccount();
 									template=aktGroupToContact.getAbdGroup().getTemplate();
 									contact=aktGroupToContact.getAbdContact();
 									sender =getSender(aktGroupToContact);
@@ -119,7 +121,12 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 									parsedMessageFromTemplate=groupManager.parseTemplate(template, contact);
 																
 									//and send mail
-									mailManager.sendUserMail(account, "Happy Birthday", parsedMessageFromTemplate, contact.getMail());
+									try {
+										mailManager.sendUserMail(actAccount, "Happy Birthday", parsedMessageFromTemplate, contact.getMail());
+									} catch (Exception e) {
+										LOGGER.log(Level.SEVERE, e.getMessage());
+										throw new MailException(e.getMessage());
+									}
 									
 								} catch (NoContactGivenException e) {
 									LOGGER.log(Level.SEVERE, "No Contact given while trying to send bdaymail!");

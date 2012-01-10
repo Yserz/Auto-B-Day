@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -1130,6 +1131,7 @@ public class UserManagerTest {
 	 *  tests the sendForgotPasswordMail method
 	 * @throws Exception
 	 */
+	@Ignore
 	@Test
 	public void testSendForgotPasswordMail() throws Exception{
 		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");
@@ -1165,6 +1167,7 @@ public class UserManagerTest {
 	 *  tests the sendForgotPasswordMail method
 	 * @throws Exception
 	 */
+	@Ignore
 	@Test(expected = UserNotFoundException.class)
 	public void testSendForgotPasswordMailShouldThrowUserNotFoundException() throws Exception{
 		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");
@@ -1199,6 +1202,7 @@ public class UserManagerTest {
 	 *  tests the sendForgotPasswordMail method
 	 * @throws Exception
 	 */
+	@Ignore
 	@Test(expected = MailException.class)
 	public void testSendForgotPasswordMailShouldThrowMailException() throws Exception{
 		System.out.println("testSendForgotPasswordMailShouldThrowUserNotFoundException");

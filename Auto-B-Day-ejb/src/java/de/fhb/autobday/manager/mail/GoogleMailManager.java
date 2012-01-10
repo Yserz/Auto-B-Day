@@ -1,15 +1,10 @@
 package de.fhb.autobday.manager.mail;
 
-import de.fhb.autobday.commons.PropertyLoader;
-import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
-import de.fhb.autobday.exception.mail.FailedToSendMailException;
-import de.fhb.autobday.manager.LoggerInterceptor;
-import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -21,32 +16,39 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import de.fhb.autobday.commons.PropertyLoader;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
+import de.fhb.autobday.exception.mail.FailedToSendMailException;
+import de.fhb.autobday.manager.LoggerInterceptor;
+
 /**
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  * 
  */
-
 @Singleton
 @Startup
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class GoogleMailManager {
-	private final static Logger LOGGER = Logger.getLogger(GoogleMailManager.class.getName());
 	
-
+	private final static Logger LOGGER = Logger.getLogger(GoogleMailManager.class.getName());
+	private PropertyLoader propLoader;
+	
 	public GoogleMailManager() {
+		propLoader = new PropertyLoader();
 	}
-
 	
 	public synchronized void sendSystemMail(String subject, String message, String to) throws Exception {
 
 		Properties accountProps = null;
 		AbdAccount systemAccount = null;
+		
 		try {
-			//DON´T CHANGE THIS PATH
-			accountProps = new PropertyLoader().loadSystemMailAccountProperty("SystemMailAccount.properties");
 			
+			//DONT CHANGE THIS PATH
+			accountProps = propLoader.loadSystemMailAccountProperty("SystemMailAccount.properties");	
 
 			String user = accountProps.getProperty("mail.smtp.user");
 			String password = accountProps.getProperty("mail.smtp.password");
@@ -67,8 +69,9 @@ public class GoogleMailManager {
 	public synchronized void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception{
 		Properties systemProps = null;
 		try {
-			//DON´T CHANGE THIS PATH
-			systemProps = new PropertyLoader().loadSystemMailProperty("SystemMail.properties");
+			
+			//DONT CHANGE THIS PATH
+			systemProps = propLoader.loadSystemMailProperty("SystemMail.properties");
 		
 			//systemProps
 			String host = systemProps.getProperty("mail.smtp.host");
@@ -103,6 +106,14 @@ public class GoogleMailManager {
 			throw new FailedToSendMailException("Failed to send mail.");
         }
 
+	}
+
+	public PropertyLoader getPropLoader() {
+		return propLoader;
+	}
+
+	public void setPropLoader(PropertyLoader propLoader) {
+		this.propLoader = propLoader;
 	}
 }
 

@@ -1,11 +1,24 @@
 package de.fhb.autobday.manager.connector.google;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.DateTime;
 import com.google.gdata.data.PlainTextConstruct;
-import com.google.gdata.data.TextConstruct;
 import com.google.gdata.data.contacts.Birthday;
 import com.google.gdata.data.contacts.ContactEntry;
 import com.google.gdata.data.contacts.ContactFeed;
@@ -22,53 +35,28 @@ import com.google.gdata.util.ServiceException;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.dao.AbdContactFacade;
-import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
-import de.fhb.autobday.exception.contact.NoContactInThisGroupException;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-
-import org.junit.*;
 
 /**
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Tino Reuschel <reuschel@fh-brandenburg.de>
  */
 public class GoogleImporterTest {
 	
 private JavaEEGloss gloss;
 	
 	private ContactsService contactsServiceMock;
-	
 	private ContactEntry contactEntry;
 	private GoogleImporter gImporterUnderTest;
 	
 	public GoogleImporterTest() {
 	}
-	
 
-	@BeforeClass
-	public static void setUpClass() throws Exception {
-		
-	}
-
-	@AfterClass
-	public static void tearDownClass() throws Exception {
-	}
-	
 	@Before
 	public void setUp() {
 		
@@ -76,11 +64,12 @@ private JavaEEGloss gloss;
 		
 		//create Mocks
 		contactsServiceMock = createMock(ContactsService.class);
-		//set Objekts to inject
-		//gloss.addEJB(contactsServiceMock);
 		
+		//set Objekts to inject
 		gImporterUnderTest=gloss.make(GoogleImporter.class);
 		
+		
+		//prepare test variables
 		Name name = new Name();
 		gImporterUnderTest = new GoogleImporter();
 		contactEntry = new ContactEntry();
@@ -91,10 +80,6 @@ private JavaEEGloss gloss;
 		contactEntry.setName(name);
 		contactEntry.setGender(new Gender(Value.FEMALE));
 		contactEntry.setBirthday(new Birthday("1990-05-22"));
-	}
-	
-	@After
-	public void tearDown() {
 	}
 
 	/**
@@ -108,8 +93,12 @@ private JavaEEGloss gloss;
 		System.out.println("getConnection");
 
 		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
+		
+		// Setup is finished need to activate the mock
 		replay(contactsServiceMock);
 		gImporterUnderTest.getConnection(data);
+		
+		//call method to test and verify
 		assertEquals(true, gImporterUnderTest.isConnectionEtablished());
 		verify(contactsServiceMock);
 	}
@@ -124,7 +113,10 @@ private JavaEEGloss gloss;
 	public void testGetConnectionCouldThrowConnectorInvalidAccountException() throws AuthenticationException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException{
 		System.out.println("getConnection");
 
+		// Setup is finished need to activate the mock
 		replay(contactsServiceMock);
+		
+		//call method to test and verify
 		gImporterUnderTest.getConnection(null);
 		verify(contactsServiceMock);
 	}
@@ -137,11 +129,17 @@ private JavaEEGloss gloss;
 	@Test
 	public void testGetAllGroupsWithNull() throws IOException, ServiceException {
 		System.out.println("getAllGroups");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(null);
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
 		instance.myService = myServiceMock;
 		assertEquals(null, instance.getAllGroups());
@@ -155,6 +153,8 @@ private JavaEEGloss gloss;
 	@Test
 	public void testGetAllGroupsWithGroupFeed() throws IOException, ServiceException {
 		System.out.println("getAllGroups");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
@@ -165,32 +165,55 @@ private JavaEEGloss gloss;
 		contactGroupList.add(contactGroup);
 		resultFeed.setEntries(contactGroupList);
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		instance.myService = myServiceMock;
 		assertEquals(contactGroupList, instance.getAllGroups());
 	}
 	
 	@Test
 	public void testGetAllGroupsByThrowingIOException() throws IOException, ServiceException{
+		System.out.println("testGetAllGroupsByThrowingIOException");
+		
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andThrow(new IOException());
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		instance.myService = myServiceMock;
 		assertEquals(null,instance.getAllGroups());
 	}
 	
 	@Test
 	public void testGetAllGroupsByThrowingServiceException() throws IOException, ServiceException{
+		System.out.println("testGetAllGroupsByThrowingServiceException");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andThrow(new ServiceException(""));
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		instance.myService = myServiceMock;
 		assertEquals(null,instance.getAllGroups());
 	}
@@ -203,12 +226,20 @@ private JavaEEGloss gloss;
 	@Test
 	public void testGetAllContactsReturnNull() throws IOException, ServiceException {
 		System.out.println("getAllContacts");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		instance.myService = myServiceMock;
 		assertEquals(null, instance.getAllContacts());
 	}
@@ -221,6 +252,8 @@ private JavaEEGloss gloss;
 	@Test
 	public void testGetAllContactsReturnList() throws IOException, ServiceException {
 		System.out.println("getAllContacts");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
@@ -229,32 +262,54 @@ private JavaEEGloss gloss;
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
 		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		instance.myService = myServiceMock;
 		assertEquals(contactEntryList, instance.getAllContacts());
 	}
 	
 	@Test
 	public void testGetAllContactsByThrowingIOException() throws IOException, ServiceException{
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andThrow(new IOException());
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		instance.myService = myServiceMock;
 		assertEquals(null,instance.getAllContacts());
 	}
 	
 	@Test
 	public void testGetAllContactsByThrowingServiceException() throws IOException, ServiceException{
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andThrow(new ServiceException(""));
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		instance.myService = myServiceMock;
 		assertEquals(null,instance.getAllContacts());
 	}
@@ -274,16 +329,22 @@ private JavaEEGloss gloss;
 	@Test
 	public void testgetGContactFirstMailAdressWithOneAdress(){
 		System.out.println("getGContactFirstMailAdress");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
 		contactEntry.addEmailAddress(mail);
+		
+		//call method to test and verify
 		assertEquals("test@aol.de", instance.getGContactFirstMailAdress(contactEntry));
 	}
 	
 	@Test
 	public void testgetGContactFirstMailAdressWithManyAdress(){
 		System.out.println("getGContactFirstMailAdress");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
@@ -292,12 +353,16 @@ private JavaEEGloss gloss;
 		contactEntry.addEmailAddress(mail);
 		mail.setAddress("test@cks.de");
 		contactEntry.addEmailAddress(mail);
+		
+		//call method to test and verify
 		assertEquals(contactEntry.getEmailAddresses().get(0).getAddress(), instance.getGContactFirstMailAdress(contactEntry));
 	}
 	
 	@Test
 	public void testgetGContactFirstMailAdressWithNoAdress(){
 		System.out.println("getGContactFirstMailAdress");
+		
+		//call method to test and verify
 		GoogleImporter instance = new GoogleImporter();
 		assertEquals("", instance.getGContactFirstMailAdress(contactEntry));
 	}
@@ -306,33 +371,46 @@ private JavaEEGloss gloss;
 	@Test
 	public void testgetGContactBirthdayWithABirthday(){
 		System.out.println("getGContactBirthday");
-		GoogleImporter instance = new GoogleImporter();
+	
+		GoogleImporter instance = new GoogleImporter();		
+		
+		//call method to test and verify
 		assertEquals(new Date(90, 4, 22), instance.getGContactBirthday(contactEntry));
 	}
 	
 	@Test
 	public void testgetGContactBirthdayWithoutABirthday(){
 		System.out.println("getGContactBirthday");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		contactEntry.setBirthday(new Birthday("---"));
+		
+		//call method to test and verify
 		assertEquals(null, instance.getGContactBirthday(contactEntry));
 	}
 
 	@Test
 	public void testgetGContactFamilyname(){
 		GoogleImporter instance = new GoogleImporter();
+		
+		//call method to test and verify
 		assertEquals("Peter",instance.getGContactFamilyname(contactEntry));
 	}
 	
 	@Test
 	public void testgetGContactFirstname(){
 		GoogleImporter instance = new GoogleImporter();
+		
+		//call method to test and verify
 		assertEquals("Hans",instance.getGContactFirstname(contactEntry));
 	}
 	
 	@Test
 	public void testMapGContacttoContactFemale() {
 		System.out.println("mapGContacttoContact");
+		
+		//prepare test variables
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
 		DateTime dateTime = new DateTime();
@@ -345,12 +423,16 @@ private JavaEEGloss gloss;
 		exptected.setName("Peter");
 		exptected.setSex('w');
 		exptected.setUpdated(new Date(dateTime.getValue()));
+		
+		//call method to test and verify
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
 	@Test
 	public void testMapGContacttoContactMale() {
 		System.out.println("mapGContacttoContact");
+		
+		//prepare test variables
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
 		DateTime dateTime = new DateTime();
@@ -364,8 +446,11 @@ private JavaEEGloss gloss;
 		exptected.setName("Peter");
 		exptected.setSex('m');
 		exptected.setUpdated(new Date(dateTime.getValue()));
+		
+		//call method to test and verify
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
+	
 	/**
 	 * TODO das sollte hier null sein
 	 */
@@ -373,6 +458,8 @@ private JavaEEGloss gloss;
 	@Ignore
 	public void testMapGContacttoContactWithoutEmailandBirthday() {
 		System.out.println("mapGContacttoContact");
+		
+		//prepare test variables
 		DateTime dateTime = new DateTime();
 		dateTime = DateTime.now();
 		contactEntry.setUpdated(dateTime);
@@ -383,6 +470,8 @@ private JavaEEGloss gloss;
 		exptected.setName("Peter");
 		exptected.setSex(null);
 		exptected.setUpdated(new Date(dateTime.getValue()));
+		
+		//call method to test and verify
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 
@@ -392,11 +481,16 @@ private JavaEEGloss gloss;
 		PlainTextConstruct title = new PlainTextConstruct();
 		title.setText("Dies ist der Titel");
 		contactGroupEntry.setTitle(title);
+		
+		//call method to test and verify
 		assertEquals("Dies ist der Titel",gImporterUnderTest.getGroupName(contactGroupEntry));
 	}
 	
 	@Test
 	public void testMapGgroupToGroup(){
+		System.out.println("testMapGgroupToGroup");
+		
+		//prepare test variables
 		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
 		AbdGroup abdGroup = new AbdGroup();
 		AbdAccount abdAccount = new AbdAccount();
@@ -414,12 +508,16 @@ private JavaEEGloss gloss;
 		abdGroup.setUpdated(new Date(dateTime.getValue()));
 		abdGroup.setAccount(abdAccount);
 		gImporterUnderTest.accdata = abdAccount;
+		
+		//call method to test and verify
 		assertEquals(abdGroup, gImporterUnderTest.mapGGroupToGroup(contactGroupEntry));
 	}
 	
 	@Test
 	public void testupdateGroups() throws IOException, ServiceException{
+		System.out.println("testupdateGroups");
 		
+		//prepare test variables
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		ContactGroupFeed resultFeed = new ContactGroupFeed();
@@ -445,7 +543,6 @@ private JavaEEGloss gloss;
 		abdGroup.setTemplate("Hier soll das Template rein");
 		abdGroup.setUpdated(new Date(dateTime.getValue()));
 		abdGroup.setAccount(accdata);
-		
 		accdata.setAbdGroupCollection(new ArrayList<AbdGroup>());
 		
 		gImporterUnderTest.accdata = accdata;
@@ -454,18 +551,23 @@ private JavaEEGloss gloss;
 		exceptedAccount.setAbdGroupCollection(groupList);
 		
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
 		replay(myServiceMock);
 		gImporterUnderTest.myService = myServiceMock;
 		
 		gImporterUnderTest.updateGroups();
 		
+		//call method to test and verify
 		assertEquals(exceptedAccount,gImporterUnderTest.accdata);
 	}
 	
 	@Test
 	public void testupdateGroupsWithANewGroup() throws IOException, ServiceException{
+		System.out.println("testupdateGroupsWithANewGroup");
 		
+		//prepare test variables
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		ContactGroupFeed resultFeed = new ContactGroupFeed();
@@ -511,18 +613,24 @@ private JavaEEGloss gloss;
 		exceptedAccount.setAbdGroupCollection(groupList);
 		
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		gImporterUnderTest.myService = myServiceMock;
-		
 		gImporterUnderTest.updateGroups();
-		
 		assertEquals(exceptedAccount,gImporterUnderTest.accdata);
 	}
 	
 	@Test
 	public void testupdateGroupsWithNoUpdates() throws IOException, ServiceException{
+		System.out.println("testupdateGroupsWithNoUpdates");
 		
+		//prepare test variables
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		ContactGroupFeed resultFeed = new ContactGroupFeed();
@@ -559,18 +667,24 @@ private JavaEEGloss gloss;
 		exceptedAccount.setAbdGroupCollection(groupList);
 		
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		gImporterUnderTest.myService = myServiceMock;
-		
 		gImporterUnderTest.updateGroups();
-		
 		assertEquals(exceptedAccount,gImporterUnderTest.accdata);
 	}
 	
 	@Test
 	public void testupdateGroupsWithAUpdateGroup() throws IOException, ServiceException{
+		System.out.println("testupdateGroupsWithAUpdateGroup");
 		
+		//prepare test variables
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
 		ContactGroupFeed resultFeed = new ContactGroupFeed();
@@ -615,17 +729,24 @@ private JavaEEGloss gloss;
 		exceptedAccount.setAbdGroupCollection(groupList);
 		
 		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		
+		//call method to test and verify
 		gImporterUnderTest.myService = myServiceMock;
-		
 		gImporterUnderTest.updateGroups();
-		
 		assertEquals(exceptedAccount,gImporterUnderTest.accdata);
 	}
 	
 	@Test
 	public void updateContactThrowNullPointerException() throws IOException, ServiceException{
+		System.out.println("updateContactThrowNullPointerException");
+		
+		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		AbdContactFacade contactDAOMock = createMock(AbdContactFacade.class);
@@ -638,8 +759,12 @@ private JavaEEGloss gloss;
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
 		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		
+		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
 		expect(contactDAOMock.find(contactEntry.getId())).andThrow(new NullPointerException());
+		
+		// Setup is finished need to activate the mock
 		replay(myServiceMock);
 		instance.myService = myServiceMock;
 		instance.updateContacts();

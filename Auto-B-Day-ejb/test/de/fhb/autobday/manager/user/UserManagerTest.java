@@ -37,9 +37,7 @@ import de.fhb.autobday.exception.user.UserNotFoundException;
  *
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
- * Michael Koppen <koppen@fh-brandenburg.de>
- * 
- * 
+ * Christoph Ott
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({PasswordGenerator.class, EMailValidator.class, HashHelper.class})

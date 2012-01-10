@@ -8,8 +8,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
+ * the primary key for AbdGroupToContact
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Embeddable
 public class AbdGroupToContactPK implements Serializable {

@@ -1,6 +1,6 @@
 package de.fhb.autobday.manager.mail;
 
-import de.fhb.autobday.commons.AccountPropertiesFile;
+import de.fhb.autobday.commons.AccountPropertiesFileReader;
 import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdUser;
@@ -30,6 +30,7 @@ import javax.mail.internet.MimeMessage;
  * @author
  * Andy Klay <klay@fh-brandenburg.de>
  * Michael Koppen <koppen@fh-brandenburg.de>
+ * Tino Reuschel <reuschel@fh-brandenburg.de>
  */
 @Singleton
 @Startup
@@ -144,7 +145,7 @@ public class MailManager implements MailManagerLocal {
 		mailSession = Session.getInstance(props,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					HashMap<String,String> properties = AccountPropertiesFile.getProperties("account.properties");
+					HashMap<String,String> properties = AccountPropertiesFileReader.getProperties("account.properties");
 					return new PasswordAuthentication(properties.get("loginname"),properties.get("password"));
 				}
 			});

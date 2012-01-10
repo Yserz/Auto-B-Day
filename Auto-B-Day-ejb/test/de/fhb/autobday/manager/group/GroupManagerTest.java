@@ -26,8 +26,7 @@ import de.fhb.autobday.exception.group.NoGroupGivenException;
  * 
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
- * Michael Koppen <koppen@fh-brandenburg.de>
- * Christoph Ott <>
+ * Christoph Ott
  */
 public class GroupManagerTest {
 	
@@ -38,12 +37,10 @@ public class GroupManagerTest {
 	private AbdGroupFacade groupDAOMock;
 	private AbdContactFacade contactDAOMock;
 	
-	AbdContact testContact;
+	private AbdContact testContact;
 	
 	public GroupManagerTest() {
-		
 	}
-
 	
 	@Before
 	public void setUp() {
@@ -77,7 +74,7 @@ public class GroupManagerTest {
 	@Test
 	public void testGetGroup() throws Exception {
 		
-		System.out.println("getGroup");
+		System.out.println("testGetGroup");
 
 		//test variables
 		String groupId="friends";	
@@ -153,7 +150,6 @@ public class GroupManagerTest {
 		
 		// verify
 		EasyMock.verify(groupDAOMock);
-		
 	}
 	
 	/**
@@ -349,7 +345,6 @@ public class GroupManagerTest {
 		// verify
 		assertEquals("Template test", expectedOutput, output);	
 		EasyMock.verify(groupDAOMock);
-		
 	}
 	
 	/**
@@ -561,11 +556,11 @@ public class GroupManagerTest {
 		
 
 		EasyMock.expect(groupDAOMock.find(group.getId())).andStubReturn(group);
-
+		
+		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
 		//call method to test
-		
 		assertEquals(outputCollection, managerUnderTest.getAllContactsFromGroup(group));
 		
 		// verify
@@ -615,13 +610,13 @@ public class GroupManagerTest {
 		AbdGroup group = new AbdGroup("2");
 		group.setAbdGroupToContactCollection(abdGroupToContactCollection);
 		
-
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(groupDAOMock.find(group.getId())).andStubReturn(group);
 
+		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
 		//call method to test
-		
 		assertEquals(outputCollection, managerUnderTest.getAllContactsFromGroup(group.getId()));
 		
 		// verify
@@ -638,8 +633,10 @@ public class GroupManagerTest {
 		//prepare test variables
 		AbdGroup group = new AbdGroup("2");
 
+		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(groupDAOMock.find(group.getId())).andStubReturn(null);
 
+		// Setup is finished need to activate the mock
 		EasyMock.replay(groupDAOMock);
 		
 		//call method to test

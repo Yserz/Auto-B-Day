@@ -4,18 +4,23 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 /**
+ * Loads some propertyfiles
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author 
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class PropertyLoader {
 	
-	
+	/**
+	 * load the SystemMailProperty
+	 * 
+	 * @param String path
+	 * @return Properties
+	 * @throws IOException
+	 */
 	public Properties loadSystemMailProperty(String path) throws IOException{
 		Properties props = new Properties();
 		try {
@@ -29,6 +34,14 @@ public class PropertyLoader {
 		}
 		return props;
 	}
+	
+	/**
+	 * load the SystemMailAccountProperty
+	 * 
+	 * @param String path
+	 * @return Properties
+	 * @throws IOException
+	 */
 	public Properties loadSystemMailAccountProperty(String path) throws IOException{
 		Properties props = new Properties();
 		try {

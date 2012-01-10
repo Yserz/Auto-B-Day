@@ -2,18 +2,20 @@ package de.fhb.autobday.exception;
 
 /**
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class AbdRuntimeException extends RuntimeException{
+	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public AbdRuntimeException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public AbdRuntimeException(String string) {

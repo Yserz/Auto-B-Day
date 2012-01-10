@@ -1,21 +1,22 @@
 package de.fhb.autobday.exception.contact;
 
 /**
- * Exception die geworfen wird, wenn keine ContactToGroupRealtion gefunden wird
+ * Exception, which is thrown, if no ContactToGroupRealtion found 
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
  */
 public class ContactToGroupNotFoundException extends ContactException {
 	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public ContactToGroupNotFoundException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public ContactToGroupNotFoundException(String string) {

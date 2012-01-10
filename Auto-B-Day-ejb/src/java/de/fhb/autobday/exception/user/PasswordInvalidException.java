@@ -2,22 +2,24 @@ package de.fhb.autobday.exception.user;
 
 
 /**
- * Exception die geworfen wird, wenn das Passwort ungueltig ist
+ * Exception, which is thrown, if password is not valid
  *
- * @author Andy Klay <klay@fh-brandenburg.de>
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Andy Klay <klay@fh-brandenburg.de>
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class PasswordInvalidException extends UserException {
 	
+	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public PasswordInvalidException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public PasswordInvalidException(String string) {

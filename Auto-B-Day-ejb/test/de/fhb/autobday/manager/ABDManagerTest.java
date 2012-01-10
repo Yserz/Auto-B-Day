@@ -31,9 +31,9 @@ import de.fhb.autobday.manager.mail.MailManagerLocal;
 
 /**
  *
- * @author 
- * Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
  * Andy Klay <klay@fh-brandenburg.de>
+ * Christoph Ott
  */
 @RunWith(PowerMockRunner.class)
 public class ABDManagerTest {
@@ -47,8 +47,8 @@ public class ABDManagerTest {
 	private AbdGroupToContactFacade grouptocontactDAOMock;
 	private AbdAccountFacade accountDAOMock;
 	private AbdContactFacade contactDAOMock;
-	private GroupManager groupManagerMock;
 	
+	private GroupManager groupManagerMock;
 	private MailManagerLocal mailManagerMock;
 	
 	public ABDManagerTest() {

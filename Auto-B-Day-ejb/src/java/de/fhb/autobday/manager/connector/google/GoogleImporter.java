@@ -33,21 +33,25 @@ import javax.interceptor.Interceptors;
 /**
  * class to import the contact information and map the contacts to us contacts
  * write the contact information in the database
- *
+ * 
  * variablename if the variable start with abd this is an Auto-B-Day model
- *
- * @author Tino Reuschel
+ * 
+ * @author Tino Reuschel <reuschel@fh-brandenburg.de>
  */
 @Stateless
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
-public class GoogleImporter extends AImporter{
+public class GoogleImporter extends AImporter {
 
-	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
+	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class
+			.getName());
+
 	protected boolean connectionEtablished;
+
 	protected AbdAccount accdata;
+
 	protected ContactsService myService;
-	
+
 	@EJB
 	private AbdContactFacade contactDAO;
 	@EJB
@@ -65,19 +69,19 @@ public class GoogleImporter extends AImporter{
 
 	/**
 	 * (non-Javadoc)
-	 *
-	 * @see
-	 * de.fhb.autobday.manager.connector.AImporter#getConnection(de.fhb.autobday.data.AbdAccount)
-	 * create connection to google contact api
+	 * 
+	 * @see de.fhb.autobday.manager.connector.AImporter#getConnection(de.fhb.autobday.data.AbdAccount)
+	 *      create connection to google contact api
 	 */
-	public void getConnection(AbdAccount data) throws ConnectorCouldNotLoginException, ConnectorInvalidAccountException {
-
+	public void getConnection(AbdAccount data)
+			throws ConnectorCouldNotLoginException,
+			ConnectorInvalidAccountException {
 
 		connectionEtablished = false;
-		
-		System.out.println("Account: "+data);
-		
-		if (data == null){
+
+		System.out.println("Account: " + data);
+
+		if (data == null) {
 			throw new ConnectorInvalidAccountException();
 		}
 		accdata = data;
@@ -85,29 +89,31 @@ public class GoogleImporter extends AImporter{
 		System.out.println("Username: " + accdata.getUsername());
 		System.out.println("Passwort: " + accdata.getPasswort());
 
-		//connect to google
+		// connect to google
 		try {
 			myService = new ContactsService("BDayReminder");
-			myService.setUserCredentials(accdata.getUsername(), accdata.getPasswort());
+			myService.setUserCredentials(accdata.getUsername(),
+					accdata.getPasswort());
 		} catch (ServiceException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			throw new ConnectorCouldNotLoginException("Importer cant connect to the account!");
+			throw new ConnectorCouldNotLoginException(
+					"Importer cant connect to the account!");
 		}
 		connectionEtablished = true;
 	}
 
 	/**
-	 * Methode that import all Contact information
-	 * @throws ConnectorNoConnectionException
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.connector.AImporter#importContacts()
 	 */
 	public void importContacts() throws ConnectorNoConnectionException {
 
-
-		// if we have a connection and a valid accounddata then import the contacts and groups
+		// if we have a connection and a valid accounddata then import the
+		// contacts and groups
 		// else throw an exception
 		if (connectionEtablished && accdata != null) {
 			accountDAO.flush();
-			
+
 			updateGroups();
 			updateContacts();
 
@@ -121,133 +127,157 @@ public class GoogleImporter extends AImporter{
 	/**
 	 * Methode that update the Contact of an Account
 	 */
-	protected void updateContacts(){
+	protected void updateContacts() {
 		AbdContact abdContact, abdContactInDB;
 		List<ContactEntry> contacts = getAllContacts();
 		List<GroupMembershipInfo> groupMembershipInfos;
 		AbdGroupToContact abdGroupToContact;
 		AbdGroupToContactPK gtcPK;
-		
+
 		int membershipCounter;
-		
+
 		for (ContactEntry contactEntry : contacts) {
 			abdContact = mapGContactToContact(contactEntry);
 			if (abdContact != null) {
-				System.out.println("Mapped Contact: "+abdContact);
+				System.out.println("Mapped Contact: " + abdContact);
 				try {
 					abdContactInDB = contactDAO.find(abdContact.getId());
-					System.out.println("Contact in db: "+abdContactInDB);
-					if (abdContactInDB == null){
-						groupMembershipInfos = contactEntry.getGroupMembershipInfos();
+					System.out.println("Contact in db: " + abdContactInDB);
+					if (abdContactInDB == null) {
+						groupMembershipInfos = contactEntry
+								.getGroupMembershipInfos();
 						membershipCounter = 0;
 						for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
 							membershipCounter++;
-							for(AbdGroup abdGroup: accdata.getAbdGroupCollection()){
-								if (abdGroup.getId().equals(groupMembershipInfo.getHref())){
+							for (AbdGroup abdGroup : accdata
+									.getAbdGroupCollection()) {
+								if (abdGroup.getId().equals(
+										groupMembershipInfo.getHref())) {
 									contactDAO.create(abdContact);
 
 									abdGroupToContact = new AbdGroupToContact();
 
-									gtcPK = new AbdGroupToContactPK(abdGroup.getId(), abdContact.getId());
-									abdGroupToContact.setAbdGroupToContactPK(gtcPK);
+									gtcPK = new AbdGroupToContactPK(
+											abdGroup.getId(),
+											abdContact.getId());
+									abdGroupToContact
+											.setAbdGroupToContactPK(gtcPK);
 
 									abdGroupToContact.setAbdContact(abdContact);
 									if (membershipCounter > 1) {
 										abdGroupToContact.setActive(false);
-									}else{
+									} else {
 										abdGroupToContact.setActive(true);
 									}
-									
+
 									abdGroupToContact.setAbdGroup(abdGroup);
 
-									System.out.println("Contact: "+abdGroupToContact.getAbdContact());
-									System.out.println("Group: "+abdGroupToContact.getAbdGroup());
-									System.out.println("Active: "+abdGroupToContact.getActive());
-									System.out.println("ContactPK: "+abdGroupToContact.getAbdGroupToContactPK().getContact());
-									System.out.println("GroupPK: "+abdGroupToContact.getAbdGroupToContactPK().getGroup());
+									System.out
+											.println("Contact: "
+													+ abdGroupToContact
+															.getAbdContact());
+									System.out.println("Group: "
+											+ abdGroupToContact.getAbdGroup());
+									System.out.println("Active: "
+											+ abdGroupToContact.getActive());
+									System.out.println("ContactPK: "
+											+ abdGroupToContact
+													.getAbdGroupToContactPK()
+													.getContact());
+									System.out.println("GroupPK: "
+											+ abdGroupToContact
+													.getAbdGroupToContactPK()
+													.getGroup());
 
 									groupToContactDAO.create(abdGroupToContact);
 									groupToContactDAO.flush();
 
-									abdGroup.getAbdGroupToContactCollection().add(abdGroupToContact);
+									abdGroup.getAbdGroupToContactCollection()
+											.add(abdGroupToContact);
 
 									groupDAO.edit(abdGroup);
 								}
 							}
 						}
-					}else{
-						if (abdContact.getUpdated().after( abdContactInDB.getUpdated())){
+					} else {
+						if (abdContact.getUpdated().after(
+								abdContactInDB.getUpdated())) {
 							contactDAO.edit(abdContact);
 						}
 					}
 
 				} catch (NullPointerException ex) {
 					System.out.println("-------------------------------");
-					System.out.println("ABDContact: "+abdContact);
-					System.out.println("Firstname: "+abdContact.getFirstname());
-					System.out.println("hashid: "+abdContact.getHashid());
-					System.out.println("mail: "+abdContact.getMail());
-					System.out.println("name: "+abdContact.getName());
-					System.out.println("bday: "+abdContact.getBday());
-					System.out.println("sex: "+abdContact.getSex());
-					System.out.println("updated: "+abdContact.getUpdated());
-					System.out.println("GroupToContact: "+abdContact.getAbdGroupToContactCollection());
+					System.out.println("ABDContact: " + abdContact);
+					System.out.println("Firstname: "
+							+ abdContact.getFirstname());
+					System.out.println("hashid: " + abdContact.getHashid());
+					System.out.println("mail: " + abdContact.getMail());
+					System.out.println("name: " + abdContact.getName());
+					System.out.println("bday: " + abdContact.getBday());
+					System.out.println("sex: " + abdContact.getSex());
+					System.out.println("updated: " + abdContact.getUpdated());
+					System.out.println("GroupToContact: "
+							+ abdContact.getAbdGroupToContactCollection());
 					System.out.println("-------------------------------");
 
 				}
 			}
-		}	
+		}
 	}
-	
+
 	/**
-	 * Methode that update the Groups of an Account
+	 * Method that update the Groups of an Account
 	 */
-	protected void updateGroups(){
+	protected void updateGroups() {
 		AbdGroup abdGroup;
 		List<ContactGroupEntry> groups = getAllGroups();
-		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>(accdata.getAbdGroupCollection());
+		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>(
+				accdata.getAbdGroupCollection());
 
 		boolean foundMatch = false;
 		for (ContactGroupEntry contactGroupEntry : groups) {
 			abdGroup = mapGGroupToGroup(contactGroupEntry);
-			System.out.println("Found GroupID: "+abdGroup+" Name: "+abdGroup.getName());
-			//iterare over old groups
+			System.out.println("Found GroupID: " + abdGroup + " Name: "
+					+ abdGroup.getName());
+			// iterare over old groups
 			for (AbdGroup abdGroupOld : abdGroups) {
 				foundMatch = false;
-				//if new group == old group
-				if(abdGroup.getId().equals(abdGroupOld.getId())){
+				// if new group == old group
+				if (abdGroup.getId().equals(abdGroupOld.getId())) {
 					foundMatch = true;
-					//and if new group newer than the old group
-					if (abdGroup.getUpdated().after(abdGroupOld.getUpdated())){
-						abdGroups.remove(abdGroupOld);						
+					// and if new group newer than the old group
+					if (abdGroup.getUpdated().after(abdGroupOld.getUpdated())) {
+						abdGroups.remove(abdGroupOld);
 						abdGroups.add(abdGroup);
 					}
-					
+
 				}
 			}
 			if (!foundMatch) {
 				abdGroups.add(abdGroup);
 			}
-			
+
 		}
 		accdata.setAbdGroupCollection(abdGroups);
 	}
-	
+
 	/**
 	 * get all groups from google from the connected account
-	 *
+	 * 
 	 * if dont get information from google return null else a list of Google
 	 * ContactGroupEntrys
-	 *
+	 * 
 	 */
 	protected List<ContactGroupEntry> getAllGroups() {
 
-
 		URL feedUrl;
 		try {
-			//url to get all groups
-			feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
-			ContactGroupFeed resultFeed = myService.getFeed(feedUrl, ContactGroupFeed.class);
+			// url to get all groups
+			feedUrl = new URL(
+					"https://www.google.com/m8/feeds/groups/default/full");
+			ContactGroupFeed resultFeed = myService.getFeed(feedUrl,
+					ContactGroupFeed.class);
 			if (resultFeed == null) {
 				return null;
 			}
@@ -263,18 +293,18 @@ public class GoogleImporter extends AImporter{
 
 	/**
 	 * get all contacts from the connected acoount
-	 *
+	 * 
 	 * if dont get information from google return null else a list of Google
 	 * ContactEntrys
-	 *
 	 */
 	protected List<ContactEntry> getAllContacts() {
 
-
 		URL feedUrl;
 		try {
-			feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
-			ContactFeed resultFeed = myService.getFeed(feedUrl, ContactFeed.class);
+			feedUrl = new URL(
+					"https://www.google.com/m8/feeds/contacts/default/full");
+			ContactFeed resultFeed = myService.getFeed(feedUrl,
+					ContactFeed.class);
 			if (resultFeed == null) {
 				return null;
 			}
@@ -289,15 +319,12 @@ public class GoogleImporter extends AImporter{
 
 	/**
 	 * methode to map a google contact to a auto-b-day contact
-	 *
-	 * @param ContactEntry contactEntry
-	 *
+	 * 
+	 * @param ContactEntry
+	 *            contactEntry
 	 * @return AbdContact
-	 *
 	 */
 	protected AbdContact mapGContactToContact(ContactEntry contactEntry) {
-
-		
 
 		AbdContact abdContact;
 		String firstname;
@@ -310,47 +337,46 @@ public class GoogleImporter extends AImporter{
 		abdContact = new AbdContact();
 		System.out.println("-------------------------------------------------");
 		abdContact.setHashid("12");
-		
-		
+
 		id = contactEntry.getId();
-		System.out.println("ID: "+id);
+		System.out.println("ID: " + id);
 		abdContact.setId(id);
-		
+
 		firstname = getGContactFirstname(contactEntry);
-		System.out.println("Firstname: "+firstname);
+		System.out.println("Firstname: " + firstname);
 		if (firstname != null) {
 			abdContact.setFirstname(firstname);
-		}else{
+		} else {
 			System.err.println("Skipping current Contact: No Firstname");
 			return null;
 		}
-		
+
 		name = getGContactFamilyname(contactEntry);
-		System.out.println("Name: "+name);
+		System.out.println("Name: " + name);
 		if (name != null) {
 			abdContact.setName(name);
-		}else{
+		} else {
 			System.err.println("Skipping current Contact: No Name");
 			return null;
 		}
-		
+
 		birthday = getGContactBirthday(contactEntry);
-		System.out.println("birthday: "+birthday);
+		System.out.println("birthday: " + birthday);
 		if (birthday != null) {
 			abdContact.setBday(birthday);
-		}else{
+		} else {
 			System.err.println("Skipping current Contact: No Bday");
 			return null;
 		}
-		
+
 		if (!contactEntry.getEmailAddresses().isEmpty()) {
 			mailadress = getGContactFirstMailAdress(contactEntry);
 			abdContact.setMail(mailadress);
-		}else{
+		} else {
 			System.err.println("Skipping current Contact: No Mail");
 			return null;
 		}
-		
+
 		try {
 			if (contactEntry.getGender().getValue() == Value.FEMALE) {
 				abdContact.setSex('w');
@@ -360,39 +386,41 @@ public class GoogleImporter extends AImporter{
 		} catch (NullPointerException ex) {
 			abdContact.setSex(null);
 		}
-		
+
 		updated = new Date(contactEntry.getUpdated().getValue());
 		abdContact.setUpdated(updated);
 		return abdContact;
 	}
-	
+
 	/**
 	 * Method that map a GoogleGroup to a Auto-B-Day-Group
 	 * 
 	 * @param contactGroupEntry
 	 * @return AbdGroup
 	 */
-	protected AbdGroup mapGGroupToGroup(ContactGroupEntry contactGroupEntry){
+	protected AbdGroup mapGGroupToGroup(ContactGroupEntry contactGroupEntry) {
 		AbdGroup abdGroupEntry;
-		//TODO Template einbinden
+		// TODO Template einbinden
 		String template = "Herzlichen Glückwunsch zum Geburtstag ${firstname}.";
-		
+
 		abdGroupEntry = new AbdGroup();
 		abdGroupEntry.setId(contactGroupEntry.getId());
 		abdGroupEntry.setName(getGroupName(contactGroupEntry));
 		abdGroupEntry.setAccount(accdata);
 		abdGroupEntry.setActive(true);
 		abdGroupEntry.setTemplate(template);
-		abdGroupEntry.setUpdated(new Date(contactGroupEntry.getUpdated().getValue()));
-		
+		abdGroupEntry.setUpdated(new Date(contactGroupEntry.getUpdated()
+				.getValue()));
+
 		return abdGroupEntry;
 	}
 
 	/**
 	 * methode that return the firstname of a given contact
-	 *
-	 * @param ContactEntry contactEntry
-	 *
+	 * 
+	 * @param ContactEntry
+	 *            contactEntry
+	 * 
 	 * @return String
 	 */
 	protected String getGContactFirstname(ContactEntry contactEntry) {
@@ -400,18 +428,19 @@ public class GoogleImporter extends AImporter{
 		try {
 			firstname = contactEntry.getName().getGivenName().getValue();
 		} catch (NullPointerException ex) {
-			//LOGGER.log(Level.SEVERE, null, ex);
+			// LOGGER.log(Level.SEVERE, null, ex);
 		}
-		
+
 		return firstname;
 
 	}
 
 	/**
 	 * methode that return the familyname of a given Contact
-	 *
-	 * @param ContactEntry contactEntry
-	 *
+	 * 
+	 * @param ContactEntry
+	 *            contactEntry
+	 * 
 	 * @return String
 	 */
 	protected String getGContactFamilyname(ContactEntry contactEntry) {
@@ -419,7 +448,7 @@ public class GoogleImporter extends AImporter{
 		try {
 			familyname = contactEntry.getName().getFamilyName().getValue();
 		} catch (NullPointerException ex) {
-			//LOGGER.log(Level.SEVERE, null, ex);
+			// LOGGER.log(Level.SEVERE, null, ex);
 		}
 		return familyname;
 
@@ -427,10 +456,11 @@ public class GoogleImporter extends AImporter{
 
 	/**
 	 * methode that return the birthday of a given Contact
-	 *
-	 * @param ContactEntry contactEntry
-	 *
-	 * @ return Date
+	 * 
+	 * @param ContactEntry
+	 *            contactEntry
+	 * 
+	 *            @ return Date
 	 */
 	protected Date getGContactBirthday(ContactEntry contactEntry) {
 		String gContactBirthday = null;
@@ -440,17 +470,18 @@ public class GoogleImporter extends AImporter{
 			bday = GoogleBirthdayConverter.convertBirthday(gContactBirthday);
 		} catch (CanNotConvetGoogleBirthdayException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-		} catch (NullPointerException ex){
-			//LOGGER.log(Level.SEVERE, null, ex);
+		} catch (NullPointerException ex) {
+			// LOGGER.log(Level.SEVERE, null, ex);
 		}
 		return bday;
 	}
 
 	/**
 	 * Methode that return a mailadress of a given Contact
-	 *
-	 * @param ContactEntry contactEntry
-	 *
+	 * 
+	 * @param ContactEntry
+	 *            contactEntry
+	 * 
 	 * @return String
 	 */
 	protected String getGContactFirstMailAdress(ContactEntry contactEntry) {
@@ -463,23 +494,29 @@ public class GoogleImporter extends AImporter{
 		}
 		return "";
 	}
-	
+
 	/**
 	 * Methode that return the Groupname from a GoogleGroup
+	 * 
 	 * @param contactGroupEntry
 	 * @return String
 	 */
-	protected String getGroupName(ContactGroupEntry contactGroupEntry){
+	protected String getGroupName(ContactGroupEntry contactGroupEntry) {
 		String groupName = "";
-		
+
 		try {
 			groupName = contactGroupEntry.getTitle().getPlainText();
 		} catch (NullPointerException ex) {
-			//LOGGER.log(Level.SEVERE, null, ex);
+			// LOGGER.log(Level.SEVERE, null, ex);
 		}
 		return groupName;
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see de.fhb.autobday.manager.connector.AImporter#isConnectionEtablished()
+	 */
 	public boolean isConnectionEtablished() {
 		return connectionEtablished;
 	}

@@ -1,20 +1,21 @@
 package de.fhb.autobday.exception.connector;
 
-
 /**
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class ConnectorNotFoundException extends ConnectorException{
+	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public ConnectorNotFoundException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public ConnectorNotFoundException(String string) {

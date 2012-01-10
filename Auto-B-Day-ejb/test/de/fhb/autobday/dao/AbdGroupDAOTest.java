@@ -22,6 +22,12 @@ import org.junit.Test;
 
 import de.fhb.autobday.data.AbdGroup;
 
+/**
+ * Test of AbdGroupDAO
+ * 
+ * @author 
+ * Christoph Ott
+ */
 public class AbdGroupDAOTest {
 
 	private static AbdGroupFacade groupDAOunderTest;
@@ -99,6 +105,7 @@ public class AbdGroupDAOTest {
 		List<AbdGroup> resultList = new ArrayList<AbdGroup>();
 		resultList.add(groupEntity);
 		resultList.add(new AbdGroup("family"));
+		
 		expect(emMock.getCriteriaBuilder()).andReturn(criteriaBuilderMock);
 		expect(criteriaBuilderMock.createQuery()).andReturn(criteriaQueryMock);
 		expect(criteriaQueryMock.from(AbdGroup.class)).andReturn(rootMock);
@@ -106,6 +113,7 @@ public class AbdGroupDAOTest {
 		expect(emMock.createQuery(criteriaQueryMock)).andReturn(typedQueryMock);
 		expect(typedQueryMock.getResultList()).andReturn(resultList);
 		assertEquals(resultList, groupDAOunderTest.findAll());
+		
 		replay(emMock);
 		replay(criteriaBuilderMock);
 		replay(criteriaQueryMock);

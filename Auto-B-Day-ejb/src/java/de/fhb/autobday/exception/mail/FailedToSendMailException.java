@@ -1,20 +1,21 @@
 package de.fhb.autobday.exception.mail;
 
-
 /**
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author
+ * Michael Koppen <koppen@fh-brandenburg.de>
  */
 public class FailedToSendMailException extends MailException {
+	
 	/**
-	 * Konstruktor
+	 * Constructor
 	 */
 	public FailedToSendMailException() {
 		super();
 	}
 	
 	/**
-	 * Konstruktor mit Parameter fuer die Message
+	 * Constructor with message
 	 * @param string
 	 */
 	public FailedToSendMailException(String string) {

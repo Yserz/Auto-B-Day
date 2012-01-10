@@ -16,6 +16,13 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+/**
+ * Test for AccountPropertiesFile
+ * 
+ * @author 
+ * Michael Koppen <koppen@fh-brandenburg.de>
+ * Andy Klay <klay@fh-brandenburg.de>
+ */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({BufferedInputStream.class, Properties.class})
 public class AccountPropertiesFileTest {
@@ -44,7 +51,7 @@ public class AccountPropertiesFileTest {
 	 */
 	@Test
 	public void testKonstruktor(){
-		assertEquals(true, new AccountPropertiesFile() instanceof AccountPropertiesFile);
+		assertEquals(true, new AccountPropertiesFileReader() instanceof AccountPropertiesFileReader);
 	}
 	
 	@Test
@@ -54,7 +61,7 @@ public class AccountPropertiesFileTest {
 		props.put("loginname", "testname");
 		props.put("password", "testpw");
 
-		assertEquals(props, AccountPropertiesFile.getProperties("test.txt"));
+		assertEquals(props, AccountPropertiesFileReader.getProperties("test.txt"));
 	}
 
 }

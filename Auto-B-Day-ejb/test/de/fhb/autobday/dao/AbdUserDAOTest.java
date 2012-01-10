@@ -24,6 +24,12 @@ import org.junit.Test;
 
 import de.fhb.autobday.data.AbdUser;
 
+/**
+ * Test of AbdUserDAO
+ * 
+ * @author 
+ * Christoph Ott
+ */
 public class AbdUserDAOTest {
 
 	private static AbdUserFacade userDAOunderTest;
@@ -45,11 +51,14 @@ public class AbdUserDAOTest {
 	@Test
 	public void testFindUserByUsername(){
 		Query queryMock = createMock(Query.class);
+		
 		expect(queryMock.setParameter("username", userEntity.getUsername())).andReturn(queryMock);
 		expect(queryMock.getSingleResult()).andReturn(userEntity);
 		expect(emMock.createNamedQuery("AbdUser.findByUsername")).andReturn(queryMock);
+		
 		replay(emMock);
 		replay(queryMock);
+		
 		AbdUser actual = userDAOunderTest.findUserByUsername(userEntity.getUsername());
 		assertEquals(userEntity, actual);
 		verify(emMock);
@@ -60,12 +69,16 @@ public class AbdUserDAOTest {
 	@Ignore
 	public void testFindUserByUsernameShouldThrowNoResultException() throws Exception{
 		Query queryMock = createMock(Query.class);
+		
 		expect(queryMock.setParameter("username", userEntity.getUsername())).andReturn(queryMock);
 		expect(queryMock.getSingleResult()).andReturn(null);
 		expect(emMock.createNamedQuery("AbdUser.findByUsername")).andReturn(queryMock);
 		replay(emMock);
+		
 		replay(queryMock);
+		
 		AbdUser actual = userDAOunderTest.findUserByUsername(userEntity.getUsername());
+		
 		verify(emMock);
 		verify(queryMock);
 	}
@@ -129,6 +142,7 @@ public class AbdUserDAOTest {
 		List<AbdUser> resultList = new ArrayList<AbdUser>();
 		resultList.add(userEntity);
 		resultList.add(new AbdUser(22));
+		
 		expect(emMock.getCriteriaBuilder()).andReturn(criteriaBuilderMock);
 		expect(criteriaBuilderMock.createQuery()).andReturn(criteriaQueryMock);
 		expect(criteriaQueryMock.from(AbdUser.class)).andReturn(rootMock);
@@ -136,21 +150,20 @@ public class AbdUserDAOTest {
 		expect(emMock.createQuery(criteriaQueryMock)).andReturn(typedQueryMock);
 		expect(typedQueryMock.getResultList()).andReturn(resultList);
 		assertEquals(resultList, userDAOunderTest.findAll());
+		
 		replay(emMock);
 		replay(criteriaBuilderMock);
 		replay(criteriaQueryMock);
 		replay(rootMock);
 		replay(typedQueryMock);
 		
-		
 		userDAOunderTest.findAll();
+		
 		verify(criteriaBuilderMock);
 		verify(criteriaQueryMock);
 		verify(rootMock);
 		verify(typedQueryMock);
 		verify(emMock);
-		
-
 	}
 
 	@Test

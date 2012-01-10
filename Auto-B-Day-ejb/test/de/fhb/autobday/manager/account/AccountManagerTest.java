@@ -7,7 +7,6 @@ import java.util.Collection;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -36,8 +35,7 @@ import de.fhb.autobday.manager.connector.google.GoogleImporter;
  *
  * @author 
  * Andy Klay <klay@fh-brandenburg.de>
- * Michael Koppen <koppen@fh-brandenburg.de>
- * Christoph Ott <>
+ * Christoph Ott
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest( {AccountManager.class, EMailValidator.class} )

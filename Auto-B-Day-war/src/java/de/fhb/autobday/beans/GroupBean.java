@@ -6,6 +6,7 @@ import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.manager.contact.ContactManagerLocal;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -39,7 +40,17 @@ public class GroupBean {
 	public GroupBean() {
 		
 	}
-	
+	public void diffBday(){
+		try {
+			AbdContact contact = contactManager.getContact("http://www.google.com/m8/feeds/contacts/fhbtestacc%40googlemail.com/base/420ecdae886214de");
+			Date now = new Date(System.currentTimeMillis());
+			System.out.println("Contact bday: "+contact.getBday().getTime());
+			System.out.println("Now Time:     "+now.getTime());
+			System.out.println("Diff "+new Date(now.getTime()-contact.getBday().getTime()));
+		} catch (ContactException ex) {
+			Logger.getLogger(GroupBean.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 	public String showGroup(){
 		return "showgroup";
 	}

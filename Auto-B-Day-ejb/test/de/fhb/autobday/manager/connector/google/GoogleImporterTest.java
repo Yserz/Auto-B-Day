@@ -885,6 +885,7 @@ private JavaEEGloss gloss;
 		groupToContactDAOMock.create((AbdGroupToContact) EasyMock.anyObject());
 		groupToContactDAOMock.flush();
 		groupDAOMock.edit((AbdGroup) EasyMock.anyObject());
+		groupDAOMock.flush();
 		
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);

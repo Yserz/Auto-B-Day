@@ -416,8 +416,28 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
+	public void testgetGContactFamilynameThrowNullPointer(){
+		GoogleImporter instance = new GoogleImporter();
+		
+		contactEntry.setName(null);
+		
+		//call method to test and verify
+		assertEquals("",instance.getGContactFamilyname(contactEntry));
+	}
+	
+	@Test
 	public void testgetGContactFirstname(){
 		GoogleImporter instance = new GoogleImporter();
+		
+		//call method to test and verify
+		assertEquals("Hans",instance.getGContactFirstname(contactEntry));
+	}
+	
+	@Test
+	public void testgetGContactFirstnameThrowNullPointer(){
+		GoogleImporter instance = new GoogleImporter();
+		
+		contactEntry.setName(null);
 		
 		//call method to test and verify
 		assertEquals("Hans",instance.getGContactFirstname(contactEntry));

@@ -188,6 +188,8 @@ public class AccountManager implements AccountManagerLocal {
 		importer.getConnection(account);
 		
 		importer.importContacts();
+		
+		accountDAO.refresh(account);
 	}
 	
 	/**

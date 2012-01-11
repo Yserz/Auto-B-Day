@@ -100,6 +100,7 @@ public class AbdManager implements AbdManagerLocal, Serializable {
 		for (AbdContact abdContact : Contacts) {
 			if((abdContact.getBday().getDay()==currentDate.getDay())&&(abdContact.getBday().getMonth()==currentDate.getMonth())){
 				birthdayContacts.add(abdContact);
+				System.out.println("test");
 			}
 		}
 		

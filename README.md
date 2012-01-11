@@ -20,7 +20,7 @@ zum automatischen Versand von Geburtstagsmails
   http://weblogs.java.net/blog/pelegri/archive/2005/11/running_glassfi.html
   * Set up Glassfish on Win:
   http://www.torsten-horn.de/techdocs/jee-sunglassfish.htm
-  * Set PATH:
+  * Set PATH on Mac:
   http://www.tech-recipes.com/rx/2621/os_x_change_path_environment_variable/
 
 2. Configure the Mailsystem.
@@ -30,7 +30,7 @@ zum automatischen Versand von Geburtstagsmails
 5. Check out the dist-Folder and copy the ```Auto-B-Day.ear```-File into your application server autodeploy-folder.
 6. Set up the Database take care to name the db ```autobday```.
 7. Start the Server.
-8. Go to the admin-console of the server (http://localhost:4848)
+8. Go to the admin-console of the server ( http://localhost:4848 )
 9. Set up a ```JDBC-Connectionpool``` with name ```AutoBDayPool``` for your database and a ```JDBC-Ressource``` with the name ```jdbc/autobday```.
 10. Access Auto-B-Day with this URL ```http://localhost:8080/Auto-B-Day-war/```
 

@@ -394,6 +394,18 @@ private JavaEEGloss gloss;
 		//call method to test and verify
 		assertEquals(null, instance.getGContactBirthday(contactEntry));
 	}
+	
+	@Test
+	public void testgetGContactBirthdayThrowNullPointer(){
+		System.out.println("getGContactBirthday");
+		
+		//prepare test variables
+		GoogleImporter instance = new GoogleImporter();
+		contactEntry.setBirthday(null);
+		
+		//call method to test and verify
+		assertEquals(null, instance.getGContactBirthday(contactEntry));
+	}
 
 	@Test
 	public void testgetGContactFamilyname(){
@@ -489,6 +501,15 @@ private JavaEEGloss gloss;
 		
 		//call method to test and verify
 		assertEquals("Dies ist der Titel",gImporterUnderTest.getGroupName(contactGroupEntry));
+	}
+	
+	@Test
+	public void testGetGroupnameThrowNullPoointer(){
+		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
+		contactGroupEntry.setTitle(null);
+		
+		//call method to test and verify
+		assertEquals("",gImporterUnderTest.getGroupName(contactGroupEntry));
 	}
 	
 	@Test

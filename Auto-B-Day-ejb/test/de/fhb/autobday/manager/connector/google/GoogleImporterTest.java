@@ -869,22 +869,17 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
-	@Ignore
-	public void updateContactThrowNullPointerException() throws IOException, ServiceException{
-		System.out.println("updateContactThrowNullPointerException");
+	public void updateContactMappedObjectNull() throws IOException, ServiceException{
+		System.out.println("updateContactMappedObjectNull");
 		
 		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
-		AbdContactFacade contactDAOMock = createMock(AbdContactFacade.class);
 		URL feedUrl;
 		List<ContactEntry> contactEntryList = new ArrayList<ContactEntry>();
 		DateTime dateTime = new DateTime();
 		dateTime = DateTime.now();
 		contactEntry.setUpdated(dateTime);
-		Email mail = new Email();
-		mail.setAddress("test@aol.de");
-		contactEntry.addEmailAddress(mail);
 		contactEntryList.add(contactEntry);
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
@@ -892,7 +887,6 @@ private JavaEEGloss gloss;
 		
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
-		expect(contactDAOMock.find(contactEntry.getId())).andThrow(new NullPointerException());
 		
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);

@@ -108,6 +108,7 @@ public class AbdManager implements AbdManagerLocal{
 			if((abdContact.getBday().getDay()==currentDate.getDay())&&(abdContact.getBday().getMonth()==currentDate.getMonth())){
 				LOGGER.log(Level.INFO, "Contact with bday found: {0}", abdContact);
 				birthdayContacts.add(abdContact);
+				System.out.println("test");
 			}
 		}
 		

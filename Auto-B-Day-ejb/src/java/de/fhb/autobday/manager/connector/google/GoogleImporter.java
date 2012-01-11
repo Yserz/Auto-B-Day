@@ -50,9 +50,9 @@ public class GoogleImporter extends AImporter {
 	@EJB
 	protected AbdContactFacade contactDAO;
 	@EJB
-	private AbdGroupFacade groupDAO;
+	protected AbdGroupFacade groupDAO;
 	@EJB
-	private AbdGroupToContactFacade groupToContactDAO;
+	protected AbdGroupToContactFacade groupToContactDAO;
 	@EJB
 	private AbdAccountFacade accountDAO;
 
@@ -145,13 +145,15 @@ public class GoogleImporter extends AImporter {
 				if (abdContactInDB == null) {
 					groupMembershipInfos = contactEntry.getGroupMembershipInfos();
 					membershipCounter = 0;
-					System.out.println("bla");
 					for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
 						membershipCounter++;
 						for (AbdGroup abdGroup : accdata.getAbdGroupCollection()) {
+							System.out.println("testbla");
 							if (abdGroup.getId().equals(groupMembershipInfo.getHref())) {
+								System.out.println("bla2");
 								contactDAO.create(abdContact);
 								contactDAO.flush();
+								System.out.println("bla34");
 								abdGroupToContact = new AbdGroupToContact();
 
 								gtcPK = new AbdGroupToContactPK(

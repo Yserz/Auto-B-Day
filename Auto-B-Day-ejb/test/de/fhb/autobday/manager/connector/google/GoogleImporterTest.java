@@ -27,6 +27,7 @@ import com.google.gdata.data.contacts.ContactGroupEntry;
 import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.Gender;
 import com.google.gdata.data.contacts.Gender.Value;
+import com.google.gdata.data.contacts.GroupMembershipInfo;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.data.extensions.FamilyName;
 import com.google.gdata.data.extensions.GivenName;
@@ -36,9 +37,12 @@ import com.google.gdata.util.ServiceException;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
 import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 
@@ -834,8 +838,14 @@ private JavaEEGloss gloss;
 		
 		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
+		GroupMembershipInfo membership = new GroupMembershipInfo();
+		AbdGroup abdGroup = new AbdGroup();
+		AbdAccount accdata = new AbdAccount();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		AbdContactFacade contactDAOMock = createMock(AbdContactFacade.class);
+		AbdGroupToContactFacade groupToContactDAOMock = createMock(AbdGroupToContactFacade.class);
+		AbdGroupFacade groupDAOMock = createMock(AbdGroupFacade.class);
+		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
 		URL feedUrl;
 		List<ContactEntry> contactEntryList = new ArrayList<ContactEntry>();
 		DateTime dateTime = new DateTime();
@@ -844,10 +854,21 @@ private JavaEEGloss gloss;
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
 		contactEntry.addEmailAddress(mail);
+		membership.setHref("1");
+		contactEntry.addGroupMembershipInfo(membership);
 		contactEntryList.add(contactEntry);
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
 		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		abdGroup.setActive(true);
+		abdGroup.setId("1");
+		abdGroup.setName("Dies ist der Titel");
+		abdGroup.setTemplate("Hier soll das Template rein");
+		abdGroup.setUpdated(new Date(dateTime.getValue()));
+		abdGroup.setAccount(accdata);
+		abdGroup.setAbdGroupToContactCollection(new ArrayList<AbdGroupToContact>());
+		abdGroups.add(abdGroup);
+		accdata.setAbdGroupCollection(abdGroups);
 		
 		@SuppressWarnings("deprecation")
 		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
@@ -859,11 +880,22 @@ private JavaEEGloss gloss;
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
 		expect(contactDAOMock.find(contactEntry.getId())).andReturn(null);
+		contactDAOMock.create((AbdContact) EasyMock.anyObject(AbdContact.class));
+		contactDAOMock.flush();
+		groupToContactDAOMock.create((AbdGroupToContact) EasyMock.anyObject());
+		groupToContactDAOMock.flush();
+		groupDAOMock.edit((AbdGroup) EasyMock.anyObject());
 		
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		replay(contactDAOMock);
+		replay(groupToContactDAOMock);
+		replay(groupDAOMock);
 		instance.contactDAO=contactDAOMock;
 		instance.myService = myServiceMock;
+		instance.groupToContactDAO = groupToContactDAOMock;
+		instance.groupDAO = groupDAOMock;
+		instance.accdata=accdata;
 		instance.updateContacts();
 	}
 	

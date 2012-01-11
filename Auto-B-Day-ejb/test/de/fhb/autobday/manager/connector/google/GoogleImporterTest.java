@@ -440,7 +440,7 @@ private JavaEEGloss gloss;
 		contactEntry.setName(null);
 		
 		//call method to test and verify
-		assertEquals("Hans",instance.getGContactFirstname(contactEntry));
+		assertEquals("",instance.getGContactFirstname(contactEntry));
 	}
 	
 	@Test

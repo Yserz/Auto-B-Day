@@ -1,15 +1,14 @@
 package de.fhb.autobday.manager.group;
 
-import java.util.List;
-
-import javax.ejb.Local;
-
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.exception.contact.ContactException;
+import de.fhb.autobday.exception.contact.ContactNotFoundException;
+import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.exception.group.GroupException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.exception.group.NoGroupGivenException;
+import java.util.List;
+import javax.ejb.Local;
 
 /**
  * The GroupManager processes all group specific things.
@@ -28,7 +27,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @return AbdGroup
 	 */
-	AbdGroup getGroup(String groupid) throws GroupException;
+	AbdGroup getGroup(String groupid) throws GroupNotFoundException;
 
 	/**
 	 * set the template of a group with specific id
@@ -36,7 +35,7 @@ public interface GroupManagerLocal {
 	 * @param AbdGroup - group
 	 * @param template
 	 */
-	void setTemplate(AbdGroup group, String template) throws GroupException;
+	void setTemplate(AbdGroup group, String template) throws GroupNotFoundException;
 	
 	/**
 	 * set the template of a group with specific id
@@ -44,7 +43,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param template
 	 */
-	void setTemplate(String groupId, String template) throws GroupException ;
+	void setTemplate(String groupId, String template) throws GroupNotFoundException ;
 
 	/**
 	 * get the template  of a group with specific id
@@ -52,7 +51,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @return String
 	 */
-	String getTemplate(String groupid) throws GroupException;
+	String getTemplate(String groupid) throws GroupNotFoundException;
 
 	/**
 	 *test template of group with a contact 
@@ -62,7 +61,7 @@ public interface GroupManagerLocal {
 	 * @return String - message
 	 * @throws GroupException
 	 */
-	String testTemplate(String groupid, String contactid) throws GroupException, ContactException;
+	String testTemplate(String groupid, String contactid) throws GroupNotFoundException, ContactNotFoundException, NoContactGivenException;
 
 	/**
 	 * set group to Active stat for sending mails
@@ -78,7 +77,7 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param boolean - active
 	 */
-	void setActive(String groupid, boolean active) throws GroupException;
+	void setActive(String groupid, boolean active) throws GroupNotFoundException;
 	
 	/**
 	 *  parses templates with the character format ${validExpression}
@@ -102,17 +101,7 @@ public interface GroupManagerLocal {
 	 * @param contact
 	 * @return String
 	 */
-	String parseTemplate(String template, AbdContact contact) throws ContactException;
-	
-	/**
-	 * parses strings wtih gender specific the contents separated by a slash, depending on gender.
-	 * according to this model female/male e.g. e/er
-	 * 
-	 * @param String expression
-	 * @param Char sex
-	 * @return String decesionOfOne
-	 */
-	String parseSlashExpression(String expression, char sex);
+	String parseTemplate(String template, AbdContact contact) throws NoContactGivenException;
 	
 	/**
 	 * Get all Contacts of a group

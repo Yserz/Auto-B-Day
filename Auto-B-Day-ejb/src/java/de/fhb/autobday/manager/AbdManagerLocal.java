@@ -46,6 +46,5 @@ public interface AbdManagerLocal {
 	 * this method checks once a day if someone has bday today
 	 * a sending a mail if this condition is fulfilled
 	 */
-	void checkEveryDay() throws AbdException;
-
+	void checkEveryDay();
 }

@@ -1,17 +1,17 @@
 package de.fhb.autobday.manager.account;
 
-import java.util.List;
-
-import javax.ejb.Local;
-
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
-import de.fhb.autobday.exception.connector.ConnectorException;
+import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
+import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
+import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
+import java.util.List;
+import javax.ejb.Local;
 
 /**
  * 
@@ -34,7 +34,8 @@ public interface AccountManagerLocal {
 	 * @param type
 	 * @throws UserNotFoundException
 	 */
-	AbdAccount addAccount(int abdUserId, String password, String userName, String type)  throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException  ;
+	AbdAccount addAccount(int abdUserId, String password, String userName, String type) 
+			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException;
 
 	/**
 	 * remove a account of a user by a AbdAccountobject
@@ -42,7 +43,8 @@ public interface AccountManagerLocal {
 	 * @param account - AbdAccount
 	 * @throws AccountException
 	 */
-	void removeAccount(AbdAccount account) throws AccountException;
+	void removeAccount(AbdAccount account) 
+			throws AccountNotFoundException;
 	
 	/**
 	 * remove a account of a user by a accountid
@@ -50,7 +52,8 @@ public interface AccountManagerLocal {
 	 * @param accountId - int
 	 * @throws AccountException
 	 */
-	void removeAccount(int accountId) throws AccountException;
+	void removeAccount(int accountId) 
+			throws AccountNotFoundException;
 
 	/**
 	 * import all groups and contacts
@@ -58,7 +61,8 @@ public interface AccountManagerLocal {
 	 * @param accountId
 	 * @throws AccountNotFoundException
 	 */
-	void importGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorException ;
+	void importGroupsAndContacts(int accountId) 
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException;
 	
 	/**
 	 * get all groups of a specific account by a AbdAccountobject
@@ -67,7 +71,8 @@ public interface AccountManagerLocal {
 	 * @return List<AbdGroup> 
 	 * @throws AccountNotFoundException
 	 */
-	List<AbdGroup> getAllGroupsFromAccount(AbdAccount account) throws AccountNotFoundException;
+	List<AbdGroup> getAllGroupsFromAccount(AbdAccount account) 
+			throws AccountNotFoundException;
 	
 	/**
 	 * 	get all groups of a specific account by a accountid
@@ -76,7 +81,8 @@ public interface AccountManagerLocal {
 	 * @return List<AbdGroup> 
 	 * @throws Exception
 	 */
-	List<AbdGroup> getAllGroupsFromAccount(int accountId) throws Exception;
+	List<AbdGroup> getAllGroupsFromAccount(int accountId) 
+			throws AccountNotFoundException;
 	
 	
 }

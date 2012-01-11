@@ -27,6 +27,7 @@ import de.fhb.autobday.exception.user.UserException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
+import javax.ejb.Local;
 
 /**
  * this class manage the userspecific things
@@ -37,6 +38,7 @@ import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
  * 
  */
 @Stateless
+@Local
 @Interceptors(LoggerInterceptor.class)
 public class UserManager implements UserManagerLocal {
 	

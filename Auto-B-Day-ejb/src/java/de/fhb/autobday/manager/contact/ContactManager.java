@@ -1,23 +1,20 @@
 package de.fhb.autobday.manager.contact;
 
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
-
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
-import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 /**
  * The Contactmanager processes all contact specific things.
@@ -46,7 +43,8 @@ public class ContactManager implements ContactManagerLocal {
 	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(de.fhb.autobday.data.AbdContact, boolean)
 	 */
 	@Override
-	public void setActive(AbdContact contact, AbdGroup group, boolean active) throws ContactException{
+	public void setActive(AbdContact contact, AbdGroup group, boolean active) 
+			throws ContactNotFoundException, ContactToGroupNotFoundException {
 		setActive(contact.getId(), group.getId(), active);
 	}
 	
@@ -55,7 +53,8 @@ public class ContactManager implements ContactManagerLocal {
 	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(java.lang.String, boolean)
 	 */
 	@Override
-	public void setActive(String contactId, String groupId, boolean active) throws ContactException {
+	public void setActive(String contactId, String groupId, boolean active) 
+			throws ContactNotFoundException, ContactToGroupNotFoundException {
 		
 		Collection<AbdGroupToContact> allGroupToContact=null;
 		
@@ -109,7 +108,9 @@ public class ContactManager implements ContactManagerLocal {
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#getContact(java.lang.String)
 	 */
-	public AbdContact getContact(String contactId)throws ContactException{
+	@Override
+	public AbdContact getContact(String contactId) 
+			throws ContactNotFoundException {
 		
 		//find group
 		AbdContact contact = contactDAO.find(contactId);

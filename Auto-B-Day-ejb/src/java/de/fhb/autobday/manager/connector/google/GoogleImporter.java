@@ -73,6 +73,7 @@ public class GoogleImporter extends AImporter {
 	 * @see de.fhb.autobday.manager.connector.AImporter#getConnection(de.fhb.autobday.data.AbdAccount)
 	 *      create connection to google contact api
 	 */
+	@Override
 	public void getConnection(AbdAccount data)
 			throws ConnectorCouldNotLoginException,
 			ConnectorInvalidAccountException {
@@ -106,6 +107,7 @@ public class GoogleImporter extends AImporter {
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.connector.AImporter#importContacts()
 	 */
+	@Override
 	public void importContacts() throws ConnectorNoConnectionException {
 
 		// if we have a connection and a valid accounddata then import the
@@ -518,6 +520,7 @@ public class GoogleImporter extends AImporter {
 	 * 
 	 * @see de.fhb.autobday.manager.connector.AImporter#isConnectionEtablished()
 	 */
+	@Override
 	public boolean isConnectionEtablished() {
 		return connectionEtablished;
 	}

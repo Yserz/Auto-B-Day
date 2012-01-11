@@ -21,6 +21,8 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
 import de.fhb.autobday.exception.mail.FailedToSendMailException;
 import de.fhb.autobday.manager.LoggerInterceptor;
+import java.io.Serializable;
+import javax.ejb.*;
 
 /**
  * This is the mailmanager, which is responsible for sending mails
@@ -28,11 +30,10 @@ import de.fhb.autobday.manager.LoggerInterceptor;
  * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
  * <koppen@fh-brandenburg.de>
  */
-@Singleton
-@Startup
-@LocalBean
+@Stateless
+@Local
 @Interceptors(LoggerInterceptor.class)
-public class GoogleMailManager implements GoogleMailManagerLocal {
+public class GoogleMailManager implements GoogleMailManagerLocal{
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleMailManager.class.getName());
 	private PropertyLoader propLoader;
@@ -41,8 +42,7 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 		propLoader = new PropertyLoader();
 	}
 
-	@Override
-	public synchronized void sendSystemMail(String subject, String message, String to) throws Exception {
+	public void sendSystemMail(String subject, String message, String to) throws Exception {
 
 		Properties accountProps = null;
 
@@ -68,12 +68,11 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 
 	}
 
-	@Override
-	public synchronized void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception {
+	public void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception {
 		sendUserMailInternal(account.getUsername(), account.getPasswort(), subject, message, to);
 	}
 
-	private synchronized void sendUserMailInternal(String username, String password, String subject, String message, String to) throws Exception {
+	private void sendUserMailInternal(String username, String password, String subject, String message, String to) throws Exception {
 		Properties systemProps = null;
 		try {
 
@@ -115,12 +114,10 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 
 	}
 
-	@Override
 	public PropertyLoader getPropLoader() {
 		return propLoader;
 	}
 
-	@Override
 	public void setPropLoader(PropertyLoader propLoader) {
 		this.propLoader = propLoader;
 	}

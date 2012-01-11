@@ -60,7 +60,7 @@ public class GroupBean {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		return "showgroup";
+		return "showaccount";
 	}
 
 	public void diffBday() {
@@ -131,7 +131,7 @@ public class GroupBean {
 		return active;
 	}
 
-	public void testTemplate() {
+	public String testTemplate() {
 		try {
 			AbdContact contact = sessionBean.getAktContact();
 			AbdGroup group = sessionBean.getAktGroup();
@@ -142,16 +142,20 @@ public class GroupBean {
 			} else {
 				System.out.println("Contact: " + contact);
 				System.out.println("Group: " + group);
-				parsedTemplate = "Could not parse the template with this user!";
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not parse the template with this user!", ""));
+				parsedTemplate = "ERROR";
 			}
 
 		} catch (GroupException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			parsedTemplate = ex.getMessage();
 		} catch (ContactException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			parsedTemplate = ex.getMessage();
 		}
+		return "showtemplate";
 	}
 
 	public boolean isActiveState() {

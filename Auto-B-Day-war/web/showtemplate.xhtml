@@ -1,0 +1,15 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:p="http://primefaces.org/ui"
+                template="./layout.xhtml"
+				xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="title">
+		Welcome to Auto-B-Day
+	</ui:define>
+	<ui:define name="content">
+		<p:panel id="templatepanel">
+			<h:outputText value="#{groupBean.parsedTemplate}"/>
+		</p:panel>
+	</ui:define>
+</ui:composition>

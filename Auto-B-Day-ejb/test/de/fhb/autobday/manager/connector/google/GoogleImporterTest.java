@@ -829,7 +829,6 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
-	@Ignore
 	public void updateContactWithNewContact() throws IOException, ServiceException{
 		System.out.println("updateContactWithNewContact");
 		
@@ -893,7 +892,5 @@ private JavaEEGloss gloss;
 		instance.myService = myServiceMock;
 		instance.updateContacts();
 	}
-	
-
-	
+		
 }

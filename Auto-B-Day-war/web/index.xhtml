@@ -8,7 +8,7 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
-			<p:panel id="importpanel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts">
+			<p:panel id="importpanel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts" style="margin-bottom: 10px;">
 				Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}.
 				<p:focus context="importpanel"/>
 				<h:panelGrid columns="4"> 
@@ -47,7 +47,7 @@
 			</p:panel>
 		</h:form>
 		<h:form prependId="false">
-			<p:panel id="systemmailpanel" rendered="#{sessionBean.loggedIn}" header="Senden einer System-Mail">
+			<p:panel id="systemmailpanel" rendered="#{sessionBean.loggedIn}" header="Senden einer System-Mail" style="margin-bottom: 10px;">
 				<h:outputLabel for="systemmailTo" value="MailTo:* " />
 						<p:inputText id="systemmailTo" 
 									value="#{mailTestBean.mailTo}"

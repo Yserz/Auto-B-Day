@@ -24,35 +24,34 @@ import javax.inject.Named;
 @Named
 @RequestScoped
 public class GroupBean {
-	private final static Logger LOGGER = Logger.getLogger(GroupBean.class.getName());
 
+	private final static Logger LOGGER = Logger.getLogger(GroupBean.class.getName());
 	@Inject
 	private GroupManagerLocal groupManager;
 	@Inject
 	private ContactManagerLocal contactManager;
 	@Inject
 	private SessionBean sessionBean;
-	
 	private ListDataModel<AbdContact> contactList;
 	private boolean activeState = false;
 	private String parsedTemplate = "";
 	private String template = "";
+
 	/**
 	 * Creates a new instance of GroupBean
 	 */
 	public GroupBean() {
-		
 	}
-	
-	public String showGroup(){
+
+	public String showGroup() {
 		return "showgroup";
 	}
-	
-	public String showTemplate(){
+
+	public String showTemplate() {
 		return "edittemplate";
 	}
-	
-	public String editTemplate(){
+
+	public String editTemplate() {
 		try {
 			groupManager.setTemplate(sessionBean.getAktGroup(), template);
 		} catch (GroupException ex) {
@@ -61,23 +60,23 @@ public class GroupBean {
 		}
 		return "showgroup";
 	}
-	
-	public void diffBday(){
+
+	public void diffBday() {
 		try {
 			AbdContact contact = contactManager.getContact("http://www.google.com/m8/feeds/contacts/fhbtestacc%40googlemail.com/base/420ecdae886214de");
 			Date now = new Date(System.currentTimeMillis());
-			System.out.println("Contact bday: "+contact.getBday().getTime());
-			System.out.println("Now Time:     "+now.getTime());
-			System.out.println("Diff "+new Date(now.getTime()-contact.getBday().getTime()));
+			System.out.println("Contact bday: " + contact.getBday().getTime());
+			System.out.println("Now Time:     " + now.getTime());
+			System.out.println("Diff " + new Date(now.getTime() - contact.getBday().getTime()));
 		} catch (ContactException ex) {
 			Logger.getLogger(GroupBean.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-	
-	private void getAllContactsFromGroup(){
+
+	private void getAllContactsFromGroup() {
 		try {
 			contactList = new ListDataModel(groupManager.getAllContactsFromGroup(sessionBean.getAktGroup()));
-			
+
 		} catch (Exception ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
@@ -88,14 +87,14 @@ public class GroupBean {
 		System.out.println("toggleContactActivation");
 		AbdGroup aktGroup = sessionBean.getAktGroup();
 		AbdContact aktContact = contactList.getRowData();
-  
+
 		for (AbdGroupToContact gtc : aktContact.getAbdGroupToContactCollection()) {
 			if (gtc.getAbdGroup().equals(aktGroup)) {
 				try {
 					if (gtc.getActive()) {
 						System.out.println("was aktive");
 						contactManager.setActive(aktContact, aktGroup, false);
-					}else{
+					} else {
 						System.out.println("was inaktive");
 						contactManager.setActive(aktContact, aktGroup, true);
 					}
@@ -103,43 +102,45 @@ public class GroupBean {
 					LOGGER.log(Level.SEVERE, null, ex);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 				}
-			}else{
-                         	LOGGER.log(Level.SEVERE, null, "Contact is not in the active group.");   
-                        }
+			} else {
+				LOGGER.log(Level.SEVERE, null, "Contact is not in the active group.");
+			}
 		}
-          
-    }
-	private boolean changeAktiveState(){
+
+	}
+
+	private boolean changeAktiveState() {
 		AbdGroup aktGroup = sessionBean.getAktGroup();
 		AbdContact aktContact = contactList.getRowData();
 		boolean active = false;
-		
-                System.out.println("group: "+aktGroup.getName());
-                System.out.println("contact: "+aktContact.getFirstname());
-		
+
+		System.out.println("group: " + aktGroup.getName());
+		System.out.println("contact: " + aktContact.getFirstname());
+
 		for (AbdGroupToContact gtc : aktContact.getAbdGroupToContactCollection()) {
-                    System.out.println("gtc: "+gtc.getActive());
+			System.out.println("gtc: " + gtc.getActive());
 			if (gtc.getAbdGroup().equals(aktGroup)) {
 				active = gtc.getActive();
 			}
 		}
-		
+
 		return active;
 	}
-	public void testTemplate(){
+
+	public void testTemplate() {
 		try {
 			AbdContact contact = sessionBean.getAktContact();
 			AbdGroup group = sessionBean.getAktGroup();
-			
+
 			if (contact != null && group != null) {
 				parsedTemplate = groupManager.testTemplate(group.getId(), contact.getId());
-				System.out.println("template: "+parsedTemplate);
-			}else{
-				System.out.println("Contact: "+contact);
-				System.out.println("Group: "+group);
-				parsedTemplate = "Couldn´t parse the template with this user!";
+				System.out.println("template: " + parsedTemplate);
+			} else {
+				System.out.println("Contact: " + contact);
+				System.out.println("Group: " + group);
+				parsedTemplate = "Could not parse the template with this user!";
 			}
-			
+
 		} catch (GroupException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			parsedTemplate = ex.getMessage();
@@ -151,7 +152,7 @@ public class GroupBean {
 
 	public boolean isActiveState() {
 		activeState = changeAktiveState();
-		System.out.println("is Aktive?: "+activeState);
+		System.out.println("is Aktive?: " + activeState);
 		return activeState;
 	}
 
@@ -166,7 +167,7 @@ public class GroupBean {
 	public void setParsedTemplate(String parsedTemplate) {
 		this.parsedTemplate = parsedTemplate;
 	}
-	
+
 	public ListDataModel<AbdContact> getContactList() {
 		getAllContactsFromGroup();
 		return contactList;
@@ -184,5 +185,4 @@ public class GroupBean {
 	public void setTemplate(String template) {
 		this.template = template;
 	}
-	
 }

@@ -9,7 +9,37 @@
 	</ui:define>
 	
 	<ui:define name="content">
+		<h:form>
+			<p:panel id="importpanel" rendered="#{sessionBean.loggedIn}" header="Erneutes Importieren eines Accounts" style="margin-bottom: 10px;">
+				<p:focus context="importpanel"/>
+				<h:panelGrid columns="1">
+					<h:inputHidden id="userName" 
+									value="#{sessionBean.aktAccount.username}"
+									required="true"
+									requiredMessage="Ein Username ist erforderlich."/>
+					<p:message for="userName" showSummary="true" />
+
+
+
+					<h:inputHidden id="accountpassword" 
+								value="#{sessionBean.aktAccount.passwort}" 
+								required="true"
+								requiredMessage="Ein Passwort ist erforderlich."/>
+					<p:message for="accountpassword" showSummary="true" />
+
+					<!-- TODO type -->
+				</h:panelGrid>
+
+
+				<p:commandButton value="Import again" 
+								update="importpanel" 
+								icon="ui-icon ui-icon-disk"
+								ajax="false"
+								actionListener="#{importNewAccountBean.importNewAccount}"/>
+			</p:panel>
+		</h:form>
 		<p:panel id="groupList" header="Groups" rendered="#{sessionBean.loggedIn}">
+			
 				<h:form>
 					<p:dataTable value="#{accountBean.groupList}" 
 									var="group"

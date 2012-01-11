@@ -136,23 +136,25 @@ public class AccountManager implements AccountManagerLocal {
 			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
 			throw new AccountNotFoundException("Account " + accountId + " not found!");
 		}
-		
 		//notice the contacts of this account
 		for (AbdGroup group : account.getAbdGroupCollection()) {
 			for (AbdGroupToContact gtc : group.getAbdGroupToContactCollection()) {
-				contactList.add(gtc.getAbdContact());
+				if (!contactList.contains(gtc.getAbdContact())) {
+					contactList.add(gtc.getAbdContact());
+				}
+				
 			}	
 		}
-		accountDAO.refresh(account);
 		//delete acccount itself
 		accountDAO.remove(account);
 		
-		//and remove addtionally the contacts
-		
 		for (AbdContact contact : contactList) {
-			contactDAO.refresh(contact);
+			contactDAO.edit(contact);
 			contactDAO.remove(contact);
 		}
+		//and remove addtionally the contacts
+		
+		
 		
 	}
 

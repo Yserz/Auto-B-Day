@@ -4,6 +4,7 @@
 prototypische Entwicklung eines Systems
 zum automatischen Versand von Geburtstagsmails
 
+
 #Configure SystemAccount
 1. Browse to ```Auto-B-Day/Auto-B-Day-ejb/src/java```.
 2. Rename ```SystemMailAccountTemplate.properties``` to ```SystemMailAccount.properties```.

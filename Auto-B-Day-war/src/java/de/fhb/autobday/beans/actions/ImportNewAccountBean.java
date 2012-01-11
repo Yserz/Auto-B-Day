@@ -43,8 +43,6 @@ public class ImportNewAccountBean {
 	 */
 	public ImportNewAccountBean() {
 		type = "google";
-		userName = "fhbtestacc@googlemail.com";
-		password = "TestGoogle123";
 	}
 
 	public String importNewAccount() {

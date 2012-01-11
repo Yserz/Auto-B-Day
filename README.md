@@ -16,14 +16,18 @@ zum automatischen Versand von Geburtstagsmails
 
 #How to Deploy Auto-B-Day
 1. Install an Application Server, e.g. Glassfish. 
-	#Useful Links:
-		* Set up Glassfish on Mac: 	*http://weblogs.java.net/blog/pelegri/archive/2005/11/running_glassfi.html
-		* Set up Glassfish on Win:	*http://www.torsten-horn.de/techdocs/jee-sunglassfish.htm
-		* Set PATH: 			*http://www.tech-recipes.com/rx/2621/os_x_change_path_environment_variable/
+Useful Links:
+* Set up Glassfish on Mac: 
+http://weblogs.java.net/blog/pelegri/archive/2005/11/running_glassfi.html
+* Set up Glassfish on Win:
+http://www.torsten-horn.de/techdocs/jee-sunglassfish.htm
+* Set PATH:
+http://www.tech-recipes.com/rx/2621/os_x_change_path_environment_variable/
+
 2. Configure the Mailsystem.
 3. Browse to ```Auto-B-Day```-Folder.
 4. Run the build-script in the Auto-B-Day-Folder with ```ant```. 
-	Note: if you want to test, just type ```ant test``` or ```ant test-integration``` and ```ant clear``` to clear the Project-Folder.
+* Note: if you want to test, just type ```ant test``` or ```ant test-integration``` and ```ant clear``` to clear the Project-Folder.
 5. Check out the dist-Folder and copy the ```Auto-B-Day.ear```-File into your application server autodeploy-folder.
 6. Set up the Database take care to name the db ```autobday```.
 7. Start the Server.

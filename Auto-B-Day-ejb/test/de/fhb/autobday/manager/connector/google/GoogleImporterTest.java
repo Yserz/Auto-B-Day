@@ -7,6 +7,7 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import com.google.gdata.util.AuthenticationException;
 import com.google.gdata.util.ServiceException;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
+import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
@@ -321,6 +323,44 @@ private JavaEEGloss gloss;
 		assertEquals(null,instance.getAllContacts());
 	}
 
+	/**
+	 * Test of importContacts method, of class GoogleImporter.
+	 * @throws ConnectorNoConnectionException 
+	 * @throws ServiceException 
+	 * @throws IOException 
+	 */
+	@Test
+	public void testImportContacts() throws ConnectorNoConnectionException, IOException, ServiceException {
+		System.out.println("importContacts");
+		
+		GoogleImporter instance = new GoogleImporter();
+		ContactGroupFeed resultFeedGroup = new ContactGroupFeed();
+		ContactFeed resultFeedContact = new ContactFeed();
+		AbdAccountFacade accountDAOMock = createMock(AbdAccountFacade.class);
+		AbdAccount abdAccount = new AbdAccount();
+		abdAccount.setAbdGroupCollection(new ArrayList<AbdGroup>());
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		instance.connectionEtablished = true;
+		instance.accdata = abdAccount;
+		
+		// Setting up the expected value of the method call of Mockobject
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeedGroup);
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeedContact);
+		accountDAOMock.flush();
+		accountDAOMock.edit(abdAccount);
+		
+		replay(accountDAOMock);
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		instance.accountDAO = accountDAOMock;
+		
+		instance.importContacts();
+				
+	}
+	
 	/**
 	 * Test of importContacts method, of class GoogleImporter.
 	 * @throws ConnectorNoConnectionException 

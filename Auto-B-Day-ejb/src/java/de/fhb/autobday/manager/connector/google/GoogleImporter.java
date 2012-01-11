@@ -54,7 +54,7 @@ public class GoogleImporter extends AImporter {
 	@EJB
 	protected AbdGroupToContactFacade groupToContactDAO;
 	@EJB
-	private AbdAccountFacade accountDAO;
+	protected AbdAccountFacade accountDAO;
 
 	public GoogleImporter() {
 		connectionEtablished = false;

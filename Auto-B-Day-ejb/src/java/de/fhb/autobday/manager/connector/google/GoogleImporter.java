@@ -187,6 +187,7 @@ public class GoogleImporter extends AImporter {
 								abdGroup.getAbdGroupToContactCollection().add(abdGroupToContact);
 
 								groupDAO.edit(abdGroup);
+								groupDAO.flush();
 							}
 						}
 					}

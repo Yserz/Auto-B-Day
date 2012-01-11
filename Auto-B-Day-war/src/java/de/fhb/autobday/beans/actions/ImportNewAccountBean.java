@@ -54,6 +54,7 @@ public class ImportNewAccountBean {
 			sessionBean.setAktAccount(aktAccount);
 			try {
 				accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!", ""));
 			} catch (AccountNotFoundException ex) {
 				LOGGER.log(Level.SEVERE, null, ex);
 				accountBean.deleteAccount();
@@ -74,7 +75,7 @@ public class ImportNewAccountBean {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!", ""));
+		
 		return null;
 	}
 

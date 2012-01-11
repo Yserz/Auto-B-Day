@@ -5,6 +5,8 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
+
 import javax.ejb.Local;
 
 /**
@@ -45,4 +47,15 @@ public interface ContactManagerLocal {
 	 * @throws ContactException
 	 */
 	AbdContact getContact(String contactId) throws ContactNotFoundException;
+	
+	/**
+	 * get the active stat of a contact in a group
+	 * 
+	 * @param contactId
+	 * @param groupTd
+	 * @return
+	 * @throws ContactNotFoundException
+	 * @throws GroupNotFoundException
+	 */
+	boolean getActive(String contactId, String groupTd) throws ContactNotFoundException, GroupNotFoundException;
 }

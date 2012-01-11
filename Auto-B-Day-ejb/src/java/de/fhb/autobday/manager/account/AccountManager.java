@@ -143,16 +143,17 @@ public class AccountManager implements AccountManagerLocal {
 				contactList.add(gtc.getAbdContact());
 			}	
 		}
-		
+		accountDAO.refresh(account);
 		//delete acccount itself
 		accountDAO.remove(account);
 		
 		//and remove addtionally the contacts
+		
 		for (AbdContact contact : contactList) {
+			contactDAO.refresh(contact);
 			contactDAO.remove(contact);
 		}
 		
-		accountDAO.flush();
 	}
 
 	/**

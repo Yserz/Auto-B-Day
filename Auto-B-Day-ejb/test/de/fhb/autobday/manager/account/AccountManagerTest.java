@@ -475,6 +475,7 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
+		accountDAOMock.refresh(account);
 		
 		gImporter.getConnection(account);
 		gImporter.importContacts();		

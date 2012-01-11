@@ -27,7 +27,8 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @return AbdGroup
 	 */
-	AbdGroup getGroup(String groupid) throws GroupNotFoundException;
+	AbdGroup getGroup(String groupid) 
+			throws GroupNotFoundException;
 
 	/**
 	 * set the template of a group with specific id
@@ -35,7 +36,8 @@ public interface GroupManagerLocal {
 	 * @param AbdGroup - group
 	 * @param template
 	 */
-	void setTemplate(AbdGroup group, String template) throws GroupNotFoundException;
+	void setTemplate(AbdGroup group, String template) 
+			throws GroupNotFoundException;
 	
 	/**
 	 * set the template of a group with specific id
@@ -43,7 +45,8 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param template
 	 */
-	void setTemplate(String groupId, String template) throws GroupNotFoundException ;
+	void setTemplate(String groupId, String template) 
+			throws GroupNotFoundException ;
 
 	/**
 	 * get the template  of a group with specific id
@@ -51,7 +54,8 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @return String
 	 */
-	String getTemplate(String groupid) throws GroupNotFoundException;
+	String getTemplate(String groupid) 
+			throws GroupNotFoundException;
 
 	/**
 	 *test template of group with a contact 
@@ -61,7 +65,8 @@ public interface GroupManagerLocal {
 	 * @return String - message
 	 * @throws GroupException
 	 */
-	String testTemplate(String groupid, String contactid) throws GroupNotFoundException, ContactNotFoundException, NoContactGivenException;
+	String testTemplate(String groupid, String contactid) 
+			throws GroupNotFoundException, ContactNotFoundException, NoContactGivenException;
 
 	/**
 	 * set group to Active stat for sending mails
@@ -69,7 +74,8 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param boolean - active
 	 */
-	void setActive(AbdGroup group, boolean active) throws GroupNotFoundException;
+	void setActive(AbdGroup group, boolean active) 
+			throws GroupNotFoundException;
 	
 	/**
 	 * set group to Active stat for sending mails
@@ -77,7 +83,8 @@ public interface GroupManagerLocal {
 	 * @param int - groupid
 	 * @param boolean - active
 	 */
-	void setActive(String groupid, boolean active) throws GroupNotFoundException;
+	void setActive(String groupid, boolean active) 
+			throws GroupNotFoundException;
 	
 	/**
 	 *  parses templates with the character format ${validExpression}
@@ -101,7 +108,8 @@ public interface GroupManagerLocal {
 	 * @param contact
 	 * @return String
 	 */
-	String parseTemplate(String template, AbdContact contact) throws NoContactGivenException;
+	String parseTemplate(String template, AbdContact contact) 
+			throws NoContactGivenException;
 	
 	/**
 	 * Get all Contacts of a group
@@ -110,7 +118,8 @@ public interface GroupManagerLocal {
 	 * @return List<AbdContact> 
 	 * @throws GroupNotFoundException
 	 */
-	List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException;
+	List<AbdContact> getAllContactsFromGroup(String groupId) 
+			throws GroupNotFoundException;
 	
 	/**
 	 * Get all Contacts of a group
@@ -119,5 +128,6 @@ public interface GroupManagerLocal {
 	 * @return List<AbdContact> 
 	 * @throws GroupNotFoundException 
 	 */
-	List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws NoGroupGivenException, GroupNotFoundException;
+	List<AbdContact> getAllContactsFromGroup(AbdGroup group) 
+			throws NoGroupGivenException, GroupNotFoundException;
 }

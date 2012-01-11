@@ -1,13 +1,16 @@
 package de.fhb.autobday.manager.mail;
 
+import de.fhb.autobday.commons.PropertyLoader;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
+import de.fhb.autobday.exception.mail.FailedToSendMailException;
+import de.fhb.autobday.manager.LoggerInterceptor;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.ejb.LocalBean;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.mail.AuthenticationFailedException;
 import javax.mail.Message.RecipientType;
@@ -15,14 +18,6 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
-import de.fhb.autobday.commons.PropertyLoader;
-import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
-import de.fhb.autobday.exception.mail.FailedToSendMailException;
-import de.fhb.autobday.manager.LoggerInterceptor;
-import java.io.Serializable;
-import javax.ejb.*;
 
 /**
  * This is the mailmanager, which is responsible for sending mails
@@ -42,7 +37,8 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 		propLoader = new PropertyLoader();
 	}
 
-	public void sendSystemMail(String subject, String message, String to) throws Exception {
+	@Override
+	public void sendSystemMail(String subject, String message, String to) throws FailedToLoadPropertiesException, FailedToSendMailException {
 
 		Properties accountProps = null;
 
@@ -68,11 +64,12 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 	}
 
-	public void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception {
+	@Override
+	public void sendUserMail(AbdAccount account, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
 		sendUserMailInternal(account.getUsername(), account.getPasswort(), subject, message, to);
 	}
 
-	private void sendUserMailInternal(String username, String password, String subject, String message, String to) throws Exception {
+	protected void sendUserMailInternal(String username, String password, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
 		Properties systemProps = null;
 		try {
 
@@ -114,11 +111,11 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 	}
 
-	public PropertyLoader getPropLoader() {
+	protected PropertyLoader getPropLoader() {
 		return propLoader;
 	}
 
-	public void setPropLoader(PropertyLoader propLoader) {
+	protected void setPropLoader(PropertyLoader propLoader) {
 		this.propLoader = propLoader;
 	}
 }

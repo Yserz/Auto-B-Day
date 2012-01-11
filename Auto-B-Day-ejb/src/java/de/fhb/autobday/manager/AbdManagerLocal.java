@@ -4,8 +4,6 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.AbdException;
-
 import java.util.List;
 import javax.ejb.Local;
 

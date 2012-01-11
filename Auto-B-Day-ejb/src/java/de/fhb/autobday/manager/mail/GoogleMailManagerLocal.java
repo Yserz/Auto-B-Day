@@ -1,10 +1,8 @@
 package de.fhb.autobday.manager.mail;
 
-import de.fhb.autobday.commons.PropertyLoader;
 import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.exception.mail.MailException;
-import de.fhb.autobday.exception.user.UserNotFoundException;
-
+import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
+import de.fhb.autobday.exception.mail.FailedToSendMailException;
 import javax.ejb.Local;
 
 /**
@@ -24,7 +22,8 @@ public interface GoogleMailManagerLocal {
 	 * @param to
 	 * @throws Exception
 	 */
-	void sendSystemMail(String subject, String message, String to) throws Exception ;
+	void sendSystemMail(String subject, String message, String to) 
+			throws FailedToLoadPropertiesException, FailedToSendMailException;
 
 	/**
 	 * send a user mail
@@ -35,20 +34,7 @@ public interface GoogleMailManagerLocal {
 	 * @param to
 	 * @throws Exception
 	 */
-	void sendUserMail(AbdAccount account, String subject, String message, String to) throws Exception;
-	
-	/**
-	 * get PropLoader
-	 * 
-	 * @return
-	 */
-	PropertyLoader getPropLoader();
-	
-	/**
-	 * set PropLoader
-	 * @param propLoader
-	 */
-	void setPropLoader(PropertyLoader propLoader);
-
+	void sendUserMail(AbdAccount account, String subject, String message, String to) 
+			throws FailedToSendMailException, FailedToLoadPropertiesException, Exception;
 	
 }

@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
@@ -199,6 +200,7 @@ public class AccountManagerTestIntegration {
 	 * 
 	 */
 	@Test
+	@Ignore
 	public void testImportGroupsAndContacts()throws Exception {
 		System.out.println("testImportGroupsAndContacts");
 		

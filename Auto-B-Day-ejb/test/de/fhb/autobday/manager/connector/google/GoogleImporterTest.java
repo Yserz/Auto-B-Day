@@ -7,6 +7,7 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import com.google.gdata.data.contacts.ContactGroupEntry;
 import com.google.gdata.data.contacts.ContactGroupFeed;
 import com.google.gdata.data.contacts.Gender;
 import com.google.gdata.data.contacts.Gender.Value;
+import com.google.gdata.data.contacts.GroupMembershipInfo;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.data.extensions.FamilyName;
 import com.google.gdata.data.extensions.GivenName;
@@ -35,12 +37,18 @@ import com.google.gdata.util.AuthenticationException;
 import com.google.gdata.util.ServiceException;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
 
+import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdGroupFacade;
+import de.fhb.autobday.dao.AbdGroupToContactFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
+import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
  *
@@ -317,14 +325,72 @@ private JavaEEGloss gloss;
 
 	/**
 	 * Test of importContacts method, of class GoogleImporter.
+	 * @throws ConnectorNoConnectionException 
+	 * @throws ServiceException 
+	 * @throws IOException 
 	 */
 	@Test
-	@Ignore
-	public void testImportContacts() {
+	public void testImportContacts() throws ConnectorNoConnectionException, IOException, ServiceException {
 		System.out.println("importContacts");
 		
+		GoogleImporter instance = new GoogleImporter();
+		ContactGroupFeed resultFeedGroup = new ContactGroupFeed();
+		ContactFeed resultFeedContact = new ContactFeed();
+		AbdAccountFacade accountDAOMock = createMock(AbdAccountFacade.class);
+		AbdAccount abdAccount = new AbdAccount();
+		abdAccount.setAbdGroupCollection(new ArrayList<AbdGroup>());
+		ContactsService myServiceMock = createMock(ContactsService.class);
+		URL feedUrl;
+		instance.connectionEtablished = true;
+		instance.accdata = abdAccount;
 		
+		// Setting up the expected value of the method call of Mockobject
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeedGroup);
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeedContact);
+		accountDAOMock.flush();
+		accountDAOMock.edit(abdAccount);
 		
+		replay(accountDAOMock);
+		replay(myServiceMock);
+		instance.myService = myServiceMock;
+		instance.accountDAO = accountDAOMock;
+		
+		instance.importContacts();
+				
+	}
+	
+	/**
+	 * Test of importContacts method, of class GoogleImporter.
+	 * @throws ConnectorNoConnectionException 
+	 */
+	@Test (expected = ConnectorNoConnectionException.class)
+	public void testImportContactsThrowConnectorNoConnectionExceptionBecouseAccountNull() throws ConnectorNoConnectionException {
+		System.out.println("importContacts");
+		
+		GoogleImporter instance = new GoogleImporter();
+		instance.connectionEtablished = true;
+		instance.accdata = null;
+		
+		instance.importContacts();
+				
+	}
+	
+	/**
+	 * Test of importContacts method, of class GoogleImporter.
+	 * @throws ConnectorNoConnectionException 
+	 */
+	@Test (expected = ConnectorNoConnectionException.class)
+	public void testImportContactsThrowConnectorNoConnectionExceptionBecouseConnectionFalse() throws ConnectorNoConnectionException {
+		System.out.println("importContacts");
+		
+		GoogleImporter instance = new GoogleImporter();
+		instance.connectionEtablished = false;
+		instance.accdata = new AbdAccount();
+		
+		instance.importContacts();
+				
 	}
 	
 	@Test
@@ -390,6 +456,18 @@ private JavaEEGloss gloss;
 		//call method to test and verify
 		assertEquals(null, instance.getGContactBirthday(contactEntry));
 	}
+	
+	@Test
+	public void testgetGContactBirthdayThrowNullPointer(){
+		System.out.println("getGContactBirthday");
+		
+		//prepare test variables
+		GoogleImporter instance = new GoogleImporter();
+		contactEntry.setBirthday(null);
+		
+		//call method to test and verify
+		assertEquals(null, instance.getGContactBirthday(contactEntry));
+	}
 
 	@Test
 	public void testgetGContactFamilyname(){
@@ -400,11 +478,31 @@ private JavaEEGloss gloss;
 	}
 	
 	@Test
+	public void testgetGContactFamilynameThrowNullPointer(){
+		GoogleImporter instance = new GoogleImporter();
+		
+		contactEntry.setName(null);
+		
+		//call method to test and verify
+		assertEquals("",instance.getGContactFamilyname(contactEntry));
+	}
+	
+	@Test
 	public void testgetGContactFirstname(){
 		GoogleImporter instance = new GoogleImporter();
 		
 		//call method to test and verify
 		assertEquals("Hans",instance.getGContactFirstname(contactEntry));
+	}
+	
+	@Test
+	public void testgetGContactFirstnameThrowNullPointer(){
+		GoogleImporter instance = new GoogleImporter();
+		
+		contactEntry.setName(null);
+		
+		//call method to test and verify
+		assertEquals("",instance.getGContactFirstname(contactEntry));
 	}
 	
 	@Test
@@ -452,21 +550,68 @@ private JavaEEGloss gloss;
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
-	/**
-	 * TODO das sollte hier null sein
-	 */
 	@Test
-	@Ignore
-	public void testMapGContacttoContactWithoutEmailandBirthday() {
+	public void testMapGContacttoContactWithoutFirstname() {
 		System.out.println("mapGContacttoContact");
 		
 		//prepare test variables
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
 		DateTime dateTime = new DateTime();
 		dateTime = DateTime.now();
 		contactEntry.setUpdated(dateTime);
+		contactEntry.addEmailAddress(mail);
+		contactEntry.getName().setGivenName(null);
+		
+		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
+		exptected.setFirstname("");
+		exptected.setName("Peter");
+		exptected.setSex('w');
+		exptected.setUpdated(new Date(dateTime.getValue()));
+		
+		//call method to test and verify
+		assertEquals(null, gImporterUnderTest.mapGContactToContact(contactEntry));
+	}
+	
+	@Test
+	public void testMapGContacttoContactWithoutFamilyname() {
+		System.out.println("mapGContacttoContact");
+		
+		//prepare test variables
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
+		contactEntry.addEmailAddress(mail);
+		contactEntry.getName().setFamilyName(null);
+		
+		@SuppressWarnings("deprecation")
+		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
+		exptected.setFirstname("Hans");
+		exptected.setName("");
+		exptected.setSex('w');
+		exptected.setUpdated(new Date(dateTime.getValue()));
+		
+		//call method to test and verify
+		assertEquals(null, gImporterUnderTest.mapGContactToContact(contactEntry));
+	}
+	
+	@Test
+	public void testMapGContacttoContactWithoutGender() {
+		System.out.println("mapGContacttoContact");
+		
+		//prepare test variables
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
+		contactEntry.addEmailAddress(mail);
 		contactEntry.setGender(null);
-		contactEntry.setBirthday(new Birthday("---"));
-		AbdContact exptected = new AbdContact("1", null, null, "");
+		
+		@SuppressWarnings("deprecation")
+		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
 		exptected.setFirstname("Hans");
 		exptected.setName("Peter");
 		exptected.setSex(null);
@@ -474,6 +619,23 @@ private JavaEEGloss gloss;
 		
 		//call method to test and verify
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
+	}
+	
+	@Test
+	public void testMapGContacttoContactWithoutBirthday() {
+		System.out.println("mapGContacttoContact");
+		
+		//prepare test variables
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
+		contactEntry.addEmailAddress(mail);
+		contactEntry.setBirthday(null);
+		
+		//call method to test and verify
+		assertEquals(null, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 
 	@Test
@@ -485,6 +647,15 @@ private JavaEEGloss gloss;
 		
 		//call method to test and verify
 		assertEquals("Dies ist der Titel",gImporterUnderTest.getGroupName(contactGroupEntry));
+	}
+	
+	@Test
+	public void testGetGroupnameThrowNullPoointer(){
+		ContactGroupEntry contactGroupEntry = new ContactGroupEntry();
+		contactGroupEntry.setTitle(null);
+		
+		//call method to test and verify
+		assertEquals("",gImporterUnderTest.getGroupName(contactGroupEntry));
 	}
 	
 	@Test
@@ -834,8 +1005,14 @@ private JavaEEGloss gloss;
 		
 		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
+		GroupMembershipInfo membership = new GroupMembershipInfo();
+		AbdGroup abdGroup = new AbdGroup();
+		AbdAccount accdata = new AbdAccount();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		AbdContactFacade contactDAOMock = createMock(AbdContactFacade.class);
+		AbdGroupToContactFacade groupToContactDAOMock = createMock(AbdGroupToContactFacade.class);
+		AbdGroupFacade groupDAOMock = createMock(AbdGroupFacade.class);
+		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>();
 		URL feedUrl;
 		List<ContactEntry> contactEntryList = new ArrayList<ContactEntry>();
 		DateTime dateTime = new DateTime();
@@ -844,10 +1021,21 @@ private JavaEEGloss gloss;
 		Email mail = new Email();
 		mail.setAddress("test@aol.de");
 		contactEntry.addEmailAddress(mail);
+		membership.setHref("1");
+		contactEntry.addGroupMembershipInfo(membership);
 		contactEntryList.add(contactEntry);
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
 		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		abdGroup.setActive(true);
+		abdGroup.setId("1");
+		abdGroup.setName("Dies ist der Titel");
+		abdGroup.setTemplate("Hier soll das Template rein");
+		abdGroup.setUpdated(new Date(dateTime.getValue()));
+		abdGroup.setAccount(accdata);
+		abdGroup.setAbdGroupToContactCollection(new ArrayList<AbdGroupToContact>());
+		abdGroups.add(abdGroup);
+		accdata.setAbdGroupCollection(abdGroups);
 		
 		@SuppressWarnings("deprecation")
 		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
@@ -859,11 +1047,23 @@ private JavaEEGloss gloss;
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
 		expect(contactDAOMock.find(contactEntry.getId())).andReturn(null);
+		contactDAOMock.create((AbdContact) EasyMock.anyObject(AbdContact.class));
+		contactDAOMock.flush();
+		groupToContactDAOMock.create((AbdGroupToContact) EasyMock.anyObject());
+		groupToContactDAOMock.flush();
+		groupDAOMock.edit((AbdGroup) EasyMock.anyObject());
+		groupDAOMock.flush();
 		
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		replay(contactDAOMock);
+		replay(groupToContactDAOMock);
+		replay(groupDAOMock);
 		instance.contactDAO=contactDAOMock;
 		instance.myService = myServiceMock;
+		instance.groupToContactDAO = groupToContactDAOMock;
+		instance.groupDAO = groupDAOMock;
+		instance.accdata=accdata;
 		instance.updateContacts();
 	}
 	

@@ -50,11 +50,11 @@ public class GoogleImporter extends AImporter {
 	@EJB
 	protected AbdContactFacade contactDAO;
 	@EJB
-	private AbdGroupFacade groupDAO;
+	protected AbdGroupFacade groupDAO;
 	@EJB
-	private AbdGroupToContactFacade groupToContactDAO;
+	protected AbdGroupToContactFacade groupToContactDAO;
 	@EJB
-	private AbdAccountFacade accountDAO;
+	protected AbdAccountFacade accountDAO;
 
 	public GoogleImporter() {
 		connectionEtablished = false;
@@ -145,13 +145,15 @@ public class GoogleImporter extends AImporter {
 				if (abdContactInDB == null) {
 					groupMembershipInfos = contactEntry.getGroupMembershipInfos();
 					membershipCounter = 0;
-					System.out.println("bla");
 					for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
 						membershipCounter++;
 						for (AbdGroup abdGroup : accdata.getAbdGroupCollection()) {
+							System.out.println("testbla");
 							if (abdGroup.getId().equals(groupMembershipInfo.getHref())) {
+								System.out.println("bla2");
 								contactDAO.create(abdContact);
 								contactDAO.flush();
+								System.out.println("bla34");
 								abdGroupToContact = new AbdGroupToContact();
 
 								gtcPK = new AbdGroupToContactPK(
@@ -314,7 +316,7 @@ public class GoogleImporter extends AImporter {
 
 		firstname = getGContactFirstname(contactEntry);
 		System.out.println("Firstname: " + firstname);
-		if (firstname != null) {
+		if (!firstname.equals("")) {
 			abdContact.setFirstname(firstname);
 		} else {
 			System.err.println("Skipping current Contact: No Firstname");
@@ -323,7 +325,7 @@ public class GoogleImporter extends AImporter {
 
 		name = getGContactFamilyname(contactEntry);
 		System.out.println("Name: " + name);
-		if (name != null) {
+		if (!name.equals("")) {
 			abdContact.setName(name);
 		} else {
 			System.err.println("Skipping current Contact: No Name");

@@ -33,6 +33,7 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.HashFailException;
+import de.fhb.autobday.exception.mail.FailedToSendMailException;
 import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.IncompleteLoginDataException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
@@ -1233,7 +1234,7 @@ public class UserManagerTest {
 
 		mailMock.sendSystemMail("Autobday Notification", mailBody, user.getMail());
 		
-		expectLastCall().andThrow(new Exception("TestExcesption"));
+		expectLastCall().andThrow(new FailedToSendMailException("TestExcesption"));
 		
 		// Setup is finished need to activate the mock
 		replay(userDAOMock);

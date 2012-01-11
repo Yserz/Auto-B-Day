@@ -8,7 +8,7 @@ zum automatischen Versand von Geburtstagsmails
 1. Browse to ```Auto-B-Day/Auto-B-Day-ejb/src/java```.
 2. Rename ```SystemMailAccountTemplate.properties``` to ```SystemMailAccount.properties```.
 3. Enter your credentials into the file.
-4. If your working with git, add the "SystemMailAccount.properties" to the ignore-file.
+4. If your working with git, add the ```SystemMailAccount.properties``` to the ignore-file.
 
 #Configure SystemMail
 1. Browse to ```Auto-B-Day/Auto-B-Day-ejb/src/java```.
@@ -17,9 +17,9 @@ zum automatischen Versand von Geburtstagsmails
 #How to Deploy Auto-B-Day
 1. Install an Application Server, e.g. Glassfish. 
 	#Useful Links:
-		* Set up Glassfish on Mac: 	http://weblogs.java.net/blog/pelegri/archive/2005/11/running_glassfi.html
-		* Set up Glassfish on Win:	http://www.torsten-horn.de/techdocs/jee-sunglassfish.htm
-		* Set PATH: 				http://www.tech-recipes.com/rx/2621/os_x_change_path_environment_variable/
+		* Set up Glassfish on Mac: 	*http://weblogs.java.net/blog/pelegri/archive/2005/11/running_glassfi.html
+		* Set up Glassfish on Win:	*http://www.torsten-horn.de/techdocs/jee-sunglassfish.htm
+		* Set PATH: 			*http://www.tech-recipes.com/rx/2621/os_x_change_path_environment_variable/
 2. Configure the Mailsystem.
 3. Browse to ```Auto-B-Day```-Folder.
 4. Run the build-script in the Auto-B-Day-Folder with ```ant```. 

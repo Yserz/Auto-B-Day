@@ -103,7 +103,9 @@ public class GroupBean {
 					LOGGER.log(Level.SEVERE, null, ex);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 				}
-			}
+			}else{
+                         	LOGGER.log(Level.SEVERE, null, "Contact is not in the active group.");   
+                        }
 		}
           
     }
@@ -112,8 +114,11 @@ public class GroupBean {
 		AbdContact aktContact = contactList.getRowData();
 		boolean active = false;
 		
+                System.out.println("group: "+aktGroup.getName());
+                System.out.println("contact: "+aktContact.getFirstname());
 		
 		for (AbdGroupToContact gtc : aktContact.getAbdGroupToContactCollection()) {
+                    System.out.println("gtc: "+gtc.getActive());
 			if (gtc.getAbdGroup().equals(aktGroup)) {
 				active = gtc.getActive();
 			}
@@ -132,7 +137,7 @@ public class GroupBean {
 			}else{
 				System.out.println("Contact: "+contact);
 				System.out.println("Group: "+group);
-				parsedTemplate = "CouldnÂ´t parse the template with this user!";
+				parsedTemplate = "Couldn´t parse the template with this user!";
 			}
 			
 		} catch (GroupException ex) {

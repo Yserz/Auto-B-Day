@@ -9,7 +9,7 @@ ant, gui, struktur
 - Ant-Script Ueberarbeiten?
 (- Projekt auf Maven umbauen?)
 
--Deployanleitung für Rambow schreiben in README.md!
+- TemplateParser alter errechnen
 
 *** DB 			***
 
@@ -25,9 +25,6 @@ ant, gui, struktur
 
 *** GUI 		***
 
-- Liste von Gruppen darstellen (warte auf GoogleImporter)
-- Liste von Kontakten darstellen (warte auf GoogleImporter)
-- Informationen zu Kontakten darstellen (warte auf GoogleImporter)
-- Interface zum Ã¤ndern der Templates erstellen (warte auf GoogleImporter)
+- Button für erneuten import erstellen
 
 

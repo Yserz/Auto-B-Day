@@ -1,10 +1,11 @@
 package de.fhb.autobday.manager.contact;
 
-import javax.ejb.Local;
-
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactException;
+import de.fhb.autobday.exception.contact.ContactNotFoundException;
+import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
+import javax.ejb.Local;
 
 /**
  * The Contactmanager processes all contact specific things.
@@ -24,7 +25,7 @@ public interface ContactManagerLocal {
 	 * @param active
 	 * @throws ContactException
 	 */
-	void setActive(AbdContact contact, AbdGroup group, boolean active) throws ContactException;
+	void setActive(AbdContact contact, AbdGroup group, boolean active) throws ContactNotFoundException, ContactToGroupNotFoundException;
 	
 	/**
 	 * set a contact to a active stat for sending bdaymails
@@ -34,7 +35,7 @@ public interface ContactManagerLocal {
 	 * @param active
 	 * @throws ContactException
 	 */
-	void setActive(String contactId, String groupId, boolean active)throws ContactException ;
+	void setActive(String contactId, String groupId, boolean active) throws ContactNotFoundException, ContactToGroupNotFoundException;
 	
 	/**
 	 * get a contact by a contactid
@@ -43,5 +44,5 @@ public interface ContactManagerLocal {
 	 * @return AbdContact
 	 * @throws ContactException
 	 */
-	AbdContact getContact(String contactId)throws ContactException ;
+	AbdContact getContact(String contactId) throws ContactNotFoundException;
 }

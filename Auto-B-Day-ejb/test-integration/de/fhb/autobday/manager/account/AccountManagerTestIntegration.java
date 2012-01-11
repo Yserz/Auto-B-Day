@@ -148,8 +148,9 @@ public class AccountManagerTestIntegration {
 		expect(emMock.merge(contact)).andReturn(contact);
 
 		emMock.remove(account);
+		
+		expect(emMock.merge(contact)).andReturn(contact);
 		emMock.remove(contact);
-		emMock.flush();
 		
 		// Setup is finished need to activate the mock
 		replay(emMock);

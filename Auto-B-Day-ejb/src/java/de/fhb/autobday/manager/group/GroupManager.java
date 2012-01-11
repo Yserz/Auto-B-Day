@@ -1,29 +1,25 @@
 package de.fhb.autobday.manager.group;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
-
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
-import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
-import de.fhb.autobday.exception.group.GroupException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.exception.group.NoGroupGivenException;
 import de.fhb.autobday.manager.LoggerInterceptor;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 /**
  * 
@@ -35,6 +31,7 @@ import java.util.List;
  * 
  */
 @Stateless
+@Local
 @Interceptors(LoggerInterceptor.class)
 public class GroupManager implements GroupManagerLocal {
 	
@@ -52,10 +49,14 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getGroup(java.lang.String)
 	 */
 	@Override
-	public AbdGroup getGroup(String groupId) throws GroupNotFoundException {
+	public AbdGroup getGroup(String groupId) 
+			throws GroupNotFoundException {
 		
 		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
+		
+		//TODO beim setten umlaute rausfiltern
+		
 		
 		if(actualGroup==null){
 			//if group not found
@@ -72,7 +73,8 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setTemplate(de.fhb.autobday.data.AbdGroup, java.lang.String)
 	 */
 	@Override
-	public void setTemplate(AbdGroup group, String template) throws GroupNotFoundException {
+	public void setTemplate(AbdGroup group, String template) 
+			throws GroupNotFoundException {
 		setTemplate(group.getId(), template);
 	}
 	
@@ -81,10 +83,13 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setTemplate(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void setTemplate(String groupId, String template) throws GroupNotFoundException {
+	public void setTemplate(String groupId, String template) 
+			throws GroupNotFoundException {
 		
 		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
+		
+		//TODO beim setten umlaute rausfiltern.
 		
 		if(actualGroup==null){
 			//if group not found
@@ -100,7 +105,8 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getTemplate(java.lang.String)
 	 */
 	@Override
-	public String getTemplate(String groupId) throws GroupNotFoundException {
+	public String getTemplate(String groupId) 
+			throws GroupNotFoundException {
 		
 		String output="dummy";
 		
@@ -124,7 +130,8 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#testTemplate(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public String testTemplate(String groupId, String contactId) throws GroupException, ContactException{
+	public String testTemplate(String groupId, String contactId) 
+			throws GroupNotFoundException, ContactNotFoundException, NoContactGivenException {
 		
 		String output="dummy";
 				
@@ -159,7 +166,8 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setActive(de.fhb.autobday.data.AbdGroup, boolean)
 	 */
 	@Override
-	public void setActive(AbdGroup group, boolean active) throws GroupNotFoundException{
+	public void setActive(AbdGroup group, boolean active) 
+			throws GroupNotFoundException{
 		setActive(group.getId(), active);
 	}
 	
@@ -168,7 +176,8 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#setActive(java.lang.String, boolean)
 	 */
 	@Override
-	public void setActive(String groupId, boolean active) throws GroupNotFoundException {
+	public void setActive(String groupId, boolean active) 
+			throws GroupNotFoundException {
 		
 		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
@@ -191,7 +200,8 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#parseTemplate(java.lang.String, de.fhb.autobday.data.AbdContact)
 	 */
 	@Override
-	public String parseTemplate(String template, AbdContact contact) throws NoContactGivenException{
+	public String parseTemplate(String template, AbdContact contact) 
+			throws NoContactGivenException{
 
 		String patternString="";		
 		StringBuilder output = new StringBuilder();
@@ -276,8 +286,7 @@ public class GroupManager implements GroupManagerLocal {
 	 * (non-Javadoc)
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#parseSlashExpression(java.lang.String, char)
 	 */
-	@Override
-	public String parseSlashExpression(String expression, char sex){
+	protected String parseSlashExpression(String expression, char sex){
 		
 		Pattern numberPattern = Pattern.compile("/");
 		Matcher numberMatcher = numberPattern.matcher(expression);
@@ -303,7 +312,8 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getAllContactsFromGroup(de.fhb.autobday.data.AbdGroup)
 	 */
 	@Override
-	public List<AbdContact> getAllContactsFromGroup(AbdGroup group) throws NoGroupGivenException, GroupNotFoundException{
+	public List<AbdContact> getAllContactsFromGroup(AbdGroup group) 
+			throws NoGroupGivenException, GroupNotFoundException{
 		
 		if (group==null) {
 			LOGGER.log(Level.SEVERE, "No group given!");
@@ -319,7 +329,8 @@ public class GroupManager implements GroupManagerLocal {
 	 * @see de.fhb.autobday.manager.group.GroupManagerLocal#getAllContactsFromGroup(java.lang.String)
 	 */
 	@Override
-	public List<AbdContact> getAllContactsFromGroup(String groupId) throws GroupNotFoundException{
+	public List<AbdContact> getAllContactsFromGroup(String groupId) 
+			throws GroupNotFoundException{
 
 		AbdGroup group=null;
 		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();
@@ -343,12 +354,12 @@ public class GroupManager implements GroupManagerLocal {
 	 * @param template
 	 * @return
 	 */
-	public String filterUmlauts(String template){
+	protected String filterUmlauts(String template){
 				
 		StringBuilder output = new StringBuilder();
 		
 		//create pattern for identifing of clamp-expresions
-		Pattern pattern = Pattern.compile("ä|ü|ö|Ä|Ö|Ü");
+		Pattern pattern = Pattern.compile("Ã¤|Ã¶|Ã¼|Ã„|Ã–|Ãœ");
 		Matcher matcher = pattern.matcher(template);
 		int lastend = 0;
 		
@@ -364,27 +375,27 @@ public class GroupManager implements GroupManagerLocal {
 			String tagExpression = template.substring(matcher.start(),matcher.end());
 			
 			//evaluation of the tag
-			if (tagExpression.equals("ä")) {
+			if (tagExpression.equals("Ã¤")) {
 				
 				output.append("ae");
 				
-			} else if (tagExpression.equals("ö")) {
+			} else if (tagExpression.equals("Ã¶")) {
 				
 				output.append("oe");
 				
-			} else if (tagExpression.equals("ü")) {
+			} else if (tagExpression.equals("Ã¼")) {
 				
 				output.append("ue");
 				
-			} else if (tagExpression.equals("Ä")) {
+			} else if (tagExpression.equals("Ã„")) {
 				
 				output.append("Ae");
 				
-			} else if (tagExpression.equals("Ö")) {
+			} else if (tagExpression.equals("Ã–")) {
 				
 				output.append("Oe");
 				
-			} else if (tagExpression.equals("Ü")) {
+			} else if (tagExpression.equals("Ãœ")) {
 				
 				output.append("Ue");
 				

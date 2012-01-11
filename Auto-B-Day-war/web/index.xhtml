@@ -6,16 +6,10 @@
     <ui:define name="title">
 		Welcome to Auto-B-Day
 	</ui:define>
-	<!--
-	<ui:define name="top">
-		
-	</ui:define>
-	-->
 	<ui:define name="content">
-		Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}.
-		
 		<h:form>
 			<p:panel id="importpanel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts">
+				Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}.
 				<p:focus context="importpanel"/>
 				<h:panelGrid columns="4"> 
 					<h:outputLabel for="userName" value="Username:* " />

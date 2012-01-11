@@ -6,6 +6,7 @@ package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.manager.mail.GoogleMailManager;
+import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -24,7 +25,7 @@ public class MailTestBean {
 	@Inject
 	private SessionBean sessionBean;
 	@Inject
-	private GoogleMailManager mailManager;
+	private GoogleMailManagerLocal mailManager;
 	
 	private String mailTo;
 	/**

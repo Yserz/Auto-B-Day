@@ -45,6 +45,8 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
+import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
  *
@@ -321,14 +323,34 @@ private JavaEEGloss gloss;
 
 	/**
 	 * Test of importContacts method, of class GoogleImporter.
+	 * @throws ConnectorNoConnectionException 
 	 */
-	@Test
-	@Ignore
-	public void testImportContacts() {
+	@Test (expected = ConnectorNoConnectionException.class)
+	public void testImportContactsThrowConnectorNoConnectionExceptionBecouseAccountNull() throws ConnectorNoConnectionException {
 		System.out.println("importContacts");
 		
+		GoogleImporter instance = new GoogleImporter();
+		instance.connectionEtablished = true;
+		instance.accdata = null;
 		
+		instance.importContacts();
+				
+	}
+	
+	/**
+	 * Test of importContacts method, of class GoogleImporter.
+	 * @throws ConnectorNoConnectionException 
+	 */
+	@Test (expected = ConnectorNoConnectionException.class)
+	public void testImportContactsThrowConnectorNoConnectionExceptionBecouseConnectionFalse() throws ConnectorNoConnectionException {
+		System.out.println("importContacts");
 		
+		GoogleImporter instance = new GoogleImporter();
+		instance.connectionEtablished = false;
+		instance.accdata = new AbdAccount();
+		
+		instance.importContacts();
+				
 	}
 	
 	@Test

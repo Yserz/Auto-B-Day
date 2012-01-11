@@ -4,11 +4,7 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.mail.MailException;
-import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
-import de.fhb.autobday.exception.user.NoValidUserNameException;
-import de.fhb.autobday.exception.user.PasswordInvalidException;
-import de.fhb.autobday.exception.user.UserException;
-import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.exception.user.*;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -39,7 +35,8 @@ public interface UserManagerLocal {
 	 * @throws UserException
 	 * @throws HashFailException
 	 */
-	AbdUser login(String loginName, String password) throws UserException, HashFailException ;
+	AbdUser login(String loginName, String password) 
+			throws UserException, HashFailException ;
 
 	/**
 	 * logout
@@ -60,7 +57,9 @@ public interface UserManagerLocal {
 	 * @throws NoValidUserNameException
 	 * @throws HashFailException
 	 */
-	AbdUser register(String firstName, String name, String userName, String mail, String password,String passwordRepeat) throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException;
+	AbdUser register(String firstName, String name, String userName, String mail, 
+			String password,String passwordRepeat) 
+			throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException;
 	
 	/**
 	 * 
@@ -70,7 +69,8 @@ public interface UserManagerLocal {
 	 * @return List<AbdAccount>
 	 * @throws UserNotFoundException
 	 */
-	List<AbdAccount> getAllAccountsFromUser(AbdUser user) throws UserNotFoundException;
+	List<AbdAccount> getAllAccountsFromUser(AbdUser user) 
+			throws UserNotFoundException;
 	
 	/**
 	 * get all accounts of a user by userid
@@ -79,7 +79,8 @@ public interface UserManagerLocal {
 	 * @return
 	 * @throws UserNotFoundException
 	 */
-	List<AbdAccount> getAllAccountsFromUser(int userId) throws UserNotFoundException;
+	List<AbdAccount> getAllAccountsFromUser(int userId) 
+			throws UserNotFoundException;
 
 	/**
 	 * send a mail with a new password
@@ -87,7 +88,8 @@ public interface UserManagerLocal {
 	 * @throws MailException
 	 * @throws UserNotFoundException
 	 */
-	void sendForgotPasswordMail(String userName) throws MailException,UserNotFoundException, HashFailException;
+	void sendForgotPasswordMail(String userName) 
+			throws MailException,UserNotFoundException, HashFailException;
 	
 
 	/**
@@ -99,7 +101,8 @@ public interface UserManagerLocal {
 	 * @throws MailException
 	 * @throws UserNotFoundException
 	 */
-	void changePassword(int userId, String oldPassword, String newPassword, String newPasswordRepeat) throws UserNotFoundException, PasswordInvalidException, HashFailException;
+	void changePassword(int userId, String oldPassword, String newPassword, String newPasswordRepeat) 
+			throws UserNotFoundException, PasswordInvalidException, HashFailException;
 	
 	/**
 	 * change a users password by userobject
@@ -110,7 +113,8 @@ public interface UserManagerLocal {
 	 * @throws MailException
 	 * @throws UserNotFoundException
 	 */
-	void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat) throws UserNotFoundException, PasswordInvalidException, HashFailException;
+	void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat) 
+			throws UserNotFoundException, PasswordInvalidException, HashFailException;
 	
 	
 }

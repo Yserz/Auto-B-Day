@@ -1,12 +1,11 @@
 package de.fhb.autobday.manager.contact;
 
-import javax.ejb.Local;
-
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
+import javax.ejb.Local;
 
 /**
  * The Contactmanager processes all contact specific things.

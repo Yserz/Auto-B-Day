@@ -1,16 +1,5 @@
 package de.fhb.autobday.manager.user;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
-
 import de.fhb.autobday.commons.EMailValidator;
 import de.fhb.autobday.commons.HashHelper;
 import de.fhb.autobday.commons.PasswordGenerator;
@@ -19,15 +8,19 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.HashFailException;
 import de.fhb.autobday.exception.mail.MailException;
-import de.fhb.autobday.exception.user.IncompleteLoginDataException;
-import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
-import de.fhb.autobday.exception.user.NoValidUserNameException;
-import de.fhb.autobday.exception.user.PasswordInvalidException;
-import de.fhb.autobday.exception.user.UserException;
-import de.fhb.autobday.exception.user.UserNotFoundException;
+import de.fhb.autobday.exception.user.*;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 /**
  * this class manage the userspecific things
@@ -69,7 +62,8 @@ public class UserManager implements UserManagerLocal {
 	 * @see de.fhb.autobday.manager.user.UserManagerLocal#login(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public AbdUser login(String loginName, String password) throws UserException, HashFailException {
+	public AbdUser login(String loginName, String password) 
+			throws UserException, HashFailException {
 		
 		AbdUser user = null;
 		String hash="";
@@ -100,10 +94,10 @@ public class UserManager implements UserManagerLocal {
 			hash=HashHelper.calcSHA1(password+user.getSalt());
 			
 		} catch (UnsupportedEncodingException e) {
-			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  {0}", e.getMessage());
 			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
 		} catch (NoSuchAlgorithmException e) {
-			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  {0}", e.getMessage());
 			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		
@@ -213,10 +207,10 @@ public class UserManager implements UserManagerLocal {
 		try {
 			hash= HashHelper.calcSHA1(password+salt);
 		} catch (UnsupportedEncodingException e) {
-			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  {0}", e.getMessage());
 			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
 		} catch (NoSuchAlgorithmException e) {
-			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  {0}", e.getMessage());
 			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		
@@ -233,7 +227,8 @@ public class UserManager implements UserManagerLocal {
 	 * @see de.fhb.autobday.manager.user.UserManagerLocal#getAllAccountsFromUser(de.fhb.autobday.data.AbdUser)
 	 */
 	@Override
-	public List<AbdAccount> getAllAccountsFromUser(AbdUser user) throws UserNotFoundException{
+	public List<AbdAccount> getAllAccountsFromUser(AbdUser user) 
+			throws UserNotFoundException{
 		return getAllAccountsFromUser(user.getId());
 	}
 	
@@ -243,7 +238,8 @@ public class UserManager implements UserManagerLocal {
 	 * @see de.fhb.autobday.manager.user.UserManagerLocal#getAllAccountsFromUser(int)
 	 */
 	@Override
-	public List<AbdAccount> getAllAccountsFromUser(int userId) throws UserNotFoundException{
+	public List<AbdAccount> getAllAccountsFromUser(int userId) 
+			throws UserNotFoundException{
 		
 		AbdUser user=null;
 		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
@@ -271,7 +267,8 @@ public class UserManager implements UserManagerLocal {
 	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
 	 */
 	@Override
-	public void sendForgotPasswordMail(String userName) throws MailException, UserNotFoundException, HashFailException {
+	public void sendForgotPasswordMail(String userName) 
+			throws MailException, UserNotFoundException, HashFailException {
 		// enge zusammenarbeit mit usermanager
 		
 		//getUser
@@ -299,10 +296,10 @@ public class UserManager implements UserManagerLocal {
 		try {
 			hash= HashHelper.calcSHA1(newPassword+salt);
 		} catch (UnsupportedEncodingException e) {
-			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  {0}", e.getMessage());
 			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
 		} catch (NoSuchAlgorithmException e) {
-			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  {0}", e.getMessage());
 			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		
@@ -327,7 +324,8 @@ public class UserManager implements UserManagerLocal {
 	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
 	 */
 	@Override
-	public void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat) throws UserNotFoundException, PasswordInvalidException, HashFailException{
+	public void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat) 
+			throws UserNotFoundException, PasswordInvalidException, HashFailException{
 		changePassword(user.getId(), oldPassword, password, passwordRepeat);
 	}
 	
@@ -338,7 +336,8 @@ public class UserManager implements UserManagerLocal {
 	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
 	 */
 	@Override
-	public void changePassword(int userId, String oldPassword, String password, String passwordRepeat) throws UserNotFoundException, PasswordInvalidException, HashFailException{
+	public void changePassword(int userId, String oldPassword, String password, String passwordRepeat) 
+			throws UserNotFoundException, PasswordInvalidException, HashFailException{
 		
 		AbdUser user = null;
 		String salt="";
@@ -376,10 +375,10 @@ public class UserManager implements UserManagerLocal {
 		try {
 			hash= HashHelper.calcSHA1(password+salt);
 		} catch (UnsupportedEncodingException e) {
-			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  " + e.getMessage());
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  {0}", e.getMessage());
 			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
 		} catch (NoSuchAlgorithmException e) {
-			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  " + e.getMessage());
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  {0}", e.getMessage());
 			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
 		}
 		

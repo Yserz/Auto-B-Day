@@ -147,10 +147,9 @@ public class AccountManagerTestIntegration {
 		expect(emMock.merge(account)).andReturn(account);
 		expect(emMock.merge(contact)).andReturn(contact);
 
-		emMock.refresh(account);
 		emMock.remove(account);
 		
-		emMock.refresh(contact);
+		expect(emMock.merge(contact)).andReturn(contact);
 		emMock.remove(contact);
 		
 		// Setup is finished need to activate the mock

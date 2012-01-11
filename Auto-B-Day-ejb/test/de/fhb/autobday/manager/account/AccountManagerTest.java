@@ -377,10 +377,10 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
-		accountDAOMock.refresh(account);
+
 		accountDAOMock.remove(account);
 		
-		contactDAOMock.refresh(contact);
+		contactDAOMock.edit(contact);
 		contactDAOMock.remove(contact);
 		
 		// Setup is finished need to activate the mock
@@ -420,10 +420,9 @@ System.out.println("testAddAccountWithSameNameButOtherType");
 		
 		// Setting up the expected value of the method call of Mockobject
 		EasyMock.expect(accountDAOMock.find(accountId)).andReturn(account);
-		accountDAOMock.refresh(account);
 		accountDAOMock.remove(account);
 		
-		contactDAOMock.refresh(contact);
+		contactDAOMock.edit(contact);
 		contactDAOMock.remove(contact);
 		
 		// Setup is finished need to activate the mock

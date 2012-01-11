@@ -1,5 +1,13 @@
 package de.fhb.autobday.manager.contact;
 
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
+
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
@@ -8,13 +16,8 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
-import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
 
 /**
  * The Contactmanager processes all contact specific things.
@@ -112,7 +115,7 @@ public class ContactManager implements ContactManagerLocal {
 	public AbdContact getContact(String contactId) 
 			throws ContactNotFoundException {
 		
-		//find group
+		//find contact
 		AbdContact contact = contactDAO.find(contactId);
 		
 		if(contact==null){
@@ -124,5 +127,51 @@ public class ContactManager implements ContactManagerLocal {
 		return contact;
 	}
 
+	/**
+	 * (non-Javadoc)
+	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#getContact(java.lang.String)
+	 */
+	@Override
+	public boolean getActive(String contactId, String groupTd) 
+			throws ContactNotFoundException, GroupNotFoundException {
+		
+		AbdGroupToContact markedGroupToContact = null;
+		
+		//find contact
+		AbdContact contact = contactDAO.find(contactId);
+		
+		//find group
+		AbdGroup group = groupDAO.find(contactId);
+		
+		
+		if(contact==null){
+			//if contact not found
+			LOGGER.log(Level.SEVERE, "Contact {0} not found!", contactId);
+			throw new ContactNotFoundException("Contact " + contactId + "not found!");
+		}
+		
+		if(group==null){
+			//if group not found
+			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupTd);
+			throw new GroupNotFoundException("Group " + groupTd + "not found!");
+		}
+		
+		//search for GroupToContact
+		for(AbdGroupToContact actGroupToContact :contact.getAbdGroupToContactCollection()){
+			if(actGroupToContact.getAbdGroup().equals(group)){
+				markedGroupToContact=actGroupToContact;
+			}
+		}
+		
+		
+		if(markedGroupToContact==null){
+			LOGGER.log(Level.SEVERE, "GroupToContact not found!");
+			throw new GroupNotFoundException("GroupToContact not found!");
+		}
+		
+		return markedGroupToContact.getActive();
+	}
+
+	
 	
 }

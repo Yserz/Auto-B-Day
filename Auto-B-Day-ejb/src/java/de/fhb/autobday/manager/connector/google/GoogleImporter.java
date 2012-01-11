@@ -148,12 +148,9 @@ public class GoogleImporter extends AImporter {
 					for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
 						membershipCounter++;
 						for (AbdGroup abdGroup : accdata.getAbdGroupCollection()) {
-							System.out.println("testbla");
 							if (abdGroup.getId().equals(groupMembershipInfo.getHref())) {
-								System.out.println("bla2");
 								contactDAO.create(abdContact);
 								contactDAO.flush();
-								System.out.println("bla34");
 								abdGroupToContact = new AbdGroupToContact();
 
 								gtcPK = new AbdGroupToContactPK(

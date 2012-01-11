@@ -508,7 +508,7 @@ private JavaEEGloss gloss;
 		exptected.setUpdated(new Date(dateTime.getValue()));
 		
 		//call method to test and verify
-		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
+		assertEquals(null, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
 	@Test
@@ -532,7 +532,7 @@ private JavaEEGloss gloss;
 		exptected.setUpdated(new Date(dateTime.getValue()));
 		
 		//call method to test and verify
-		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
+		assertEquals(null, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
 	@Test

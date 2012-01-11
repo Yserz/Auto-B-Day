@@ -316,7 +316,7 @@ public class GoogleImporter extends AImporter {
 
 		firstname = getGContactFirstname(contactEntry);
 		System.out.println("Firstname: " + firstname);
-		if (firstname.equals("")) {
+		if (!firstname.equals("")) {
 			abdContact.setFirstname(firstname);
 		} else {
 			System.err.println("Skipping current Contact: No Firstname");
@@ -325,7 +325,7 @@ public class GoogleImporter extends AImporter {
 
 		name = getGContactFamilyname(contactEntry);
 		System.out.println("Name: " + name);
-		if (name.equals("")) {
+		if (!name.equals("")) {
 			abdContact.setName(name);
 		} else {
 			System.err.println("Skipping current Contact: No Name");

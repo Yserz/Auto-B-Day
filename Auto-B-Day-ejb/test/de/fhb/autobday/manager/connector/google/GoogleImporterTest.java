@@ -488,28 +488,68 @@ private JavaEEGloss gloss;
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 	
-	/**
-	 * TODO das sollte hier null sein
-	 */
 	@Test
-	@Ignore
-	public void testMapGContacttoContactWithoutEmailandBirthday() {
+	public void testMapGContacttoContactWithoutFirstname() {
 		System.out.println("mapGContacttoContact");
 		
 		//prepare test variables
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
 		DateTime dateTime = new DateTime();
 		dateTime = DateTime.now();
 		contactEntry.setUpdated(dateTime);
-		contactEntry.setGender(null);
-		contactEntry.setBirthday(new Birthday("---"));
-		AbdContact exptected = new AbdContact("1", null, null, "");
-		exptected.setFirstname("Hans");
+		contactEntry.addEmailAddress(mail);
+		contactEntry.getName().setGivenName(null);
+		
+		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
+		exptected.setFirstname("");
 		exptected.setName("Peter");
-		exptected.setSex(null);
+		exptected.setSex('w');
 		exptected.setUpdated(new Date(dateTime.getValue()));
 		
 		//call method to test and verify
 		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
+	}
+	
+	@Test
+	public void testMapGContacttoContactWithoutFamilyname() {
+		System.out.println("mapGContacttoContact");
+		
+		//prepare test variables
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
+		contactEntry.addEmailAddress(mail);
+		contactEntry.getName().setFamilyName(null);
+		
+		@SuppressWarnings("deprecation")
+		AbdContact exptected = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
+		exptected.setFirstname("Hans");
+		exptected.setName("");
+		exptected.setSex('w');
+		exptected.setUpdated(new Date(dateTime.getValue()));
+		
+		//call method to test and verify
+		assertEquals(exptected, gImporterUnderTest.mapGContactToContact(contactEntry));
+	}
+	
+	@Test
+	public void testMapGContacttoContactWithoutBirthday() {
+		System.out.println("mapGContacttoContact");
+		
+		//prepare test variables
+		Email mail = new Email();
+		mail.setAddress("test@aol.de");
+		DateTime dateTime = new DateTime();
+		dateTime = DateTime.now();
+		contactEntry.setUpdated(dateTime);
+		contactEntry.addEmailAddress(mail);
+		contactEntry.setBirthday(null);
+		
+		//call method to test and verify
+		assertEquals(null, gImporterUnderTest.mapGContactToContact(contactEntry));
 	}
 
 	@Test

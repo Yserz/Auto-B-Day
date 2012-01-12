@@ -67,18 +67,6 @@ public class GroupBean {
 		return "showaccount";
 	}
 
-	public void diffBday() {
-		try {
-			AbdContact contact = contactManager.getContact("http://www.google.com/m8/feeds/contacts/fhbtestacc%40googlemail.com/base/420ecdae886214de");
-			Date now = new Date(System.currentTimeMillis());
-			System.out.println("Contact bday: " + contact.getBday().getTime());
-			System.out.println("Now Time:     " + now.getTime());
-			System.out.println("Diff " + new Date(now.getTime() - contact.getBday().getTime()));
-		} catch (ContactException ex) {
-			Logger.getLogger(GroupBean.class.getName()).log(Level.SEVERE, null, ex);
-		}
-	}
-
 	private void getAllContactsFromGroup() {
 		try {
 			contactList = new ListDataModel(groupManager.getAllContactsFromGroup(sessionBean.getAktGroup()));

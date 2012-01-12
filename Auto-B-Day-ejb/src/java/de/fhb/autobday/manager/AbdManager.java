@@ -12,6 +12,8 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.*;
@@ -53,6 +55,7 @@ public class AbdManager implements AbdManagerLocal{
 	
 	
 	public AbdManager() {
+		initLoggers();
 	}
 	
 	
@@ -79,7 +82,7 @@ public class AbdManager implements AbdManagerLocal{
 	
 	@Schedule(minute="*/1", hour="*")
 	private void checkEveryMinute(){
-		System.out.println("every minute idle message..."+new Date(System.currentTimeMillis()));
+		LOGGER.log(Level.INFO, "every minute idle message...{0}", new Date(System.currentTimeMillis()));
 
 	}
 	
@@ -157,6 +160,29 @@ public class AbdManager implements AbdManagerLocal{
 			LOGGER.log(Level.INFO,"No Birthdaycontacts found");
 		}
 		
+	}
+	
+	private void initLoggers(){
+		Level consoleHandlerLevel = Level.INFO;
+		
+		
+		Logger rootLogger = Logger.getLogger("");
+
+		Handler[] handlers = rootLogger.getHandlers();
+
+		ConsoleHandler chandler = null;
+
+		for (int i = 0; i < handlers.length; i++) {
+			if (handlers[i] instanceof ConsoleHandler) {
+				chandler = (ConsoleHandler) handlers[i];
+			}
+		}
+
+		if (chandler != null) {
+			chandler.setLevel(consoleHandlerLevel);
+		} else {
+			LOGGER.log(Level.SEVERE, "No ConsoleHandler there.");
+		}
 	}
 	
 	private String getSender(AbdGroupToContact aktGroupToContact){

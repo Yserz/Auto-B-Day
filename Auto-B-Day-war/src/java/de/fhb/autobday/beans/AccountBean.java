@@ -46,11 +46,14 @@ public class AccountBean {
 		try {
 			accountManager.removeAccount(sessionBean.getAktAccount());
 			sessionBean.setAktAccount(null);
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully deleted account!", ""));
 		} catch (AccountException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully deleted account!", ""));
+		
 		return "index";
 	}
 	private void getAllGroupsFromAccount(){
@@ -59,7 +62,8 @@ public class AccountBean {
 			
 		} catch (AccountNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}
 
@@ -71,7 +75,7 @@ public class AccountBean {
 	public void setGroupList(ListDataModel<AbdGroup> groupList) {
 		this.groupList = groupList;
 	}
-	public void toggleGroupActivation() {
+	public String toggleGroupActivation() {
 		AbdGroup aktGroup = groupList.getRowData();
 		String infoString = "";
 		boolean toggle = false;
@@ -85,11 +89,14 @@ public class AccountBean {
 		}
 		try {
 			groupManager.setActive(aktGroup, toggle);
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You successfully "+infoString+" this Group!", ""));
 		} catch (GroupNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You successfully "+infoString+" this Group!", ""));
+        return null;
     }  
 	
 }

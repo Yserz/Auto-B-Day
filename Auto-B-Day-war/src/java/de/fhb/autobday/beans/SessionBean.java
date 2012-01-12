@@ -36,7 +36,6 @@ public class SessionBean implements Serializable {
 	}
 
 	public void setAktContact(AbdContact aktContact) {
-		System.out.println("Setting aktContact to: "+aktContact);
 		this.aktContact = aktContact;
 	}
 	
@@ -45,7 +44,6 @@ public class SessionBean implements Serializable {
 	}
 
 	public void setAktUser(AbdUser aktUser) {
-		System.out.println("Setting aktUser to: "+aktUser);
 		this.aktUser = aktUser;
 	}
 
@@ -54,7 +52,6 @@ public class SessionBean implements Serializable {
 	}
 
 	public void setAktAccount(AbdAccount aktAccount) {
-		System.out.println("Setting aktAccount to: "+aktAccount);
 		this.aktAccount = aktAccount;
 	}
 
@@ -63,7 +60,6 @@ public class SessionBean implements Serializable {
 	}
 
 	public void setAktGroup(AbdGroup aktGroup) {
-		System.out.println("Setting aktGroup to: "+aktGroup);
 		this.aktGroup = aktGroup;
 	}
 	

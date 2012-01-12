@@ -52,26 +52,32 @@ public class ImportNewAccountBean {
 			sessionBean.setAktAccount(aktAccount);
 			try {
 				accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!", ""));
+				FacesContext.getCurrentInstance().addMessage(
+						null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!", ""));
 			} catch (AccountNotFoundException ex) {
 				LOGGER.log(Level.SEVERE, null, ex);
 				accountBean.deleteAccount();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+				FacesContext.getCurrentInstance().addMessage(
+						null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			} catch (ConnectorException ex) {
 				LOGGER.log(Level.SEVERE, null, ex);
 				accountBean.deleteAccount();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+				FacesContext.getCurrentInstance().addMessage(
+						null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 				
 			}
 		} catch (NoValidUserNameException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (UserNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (AccountAlreadyExsistsException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 		
 		return null;

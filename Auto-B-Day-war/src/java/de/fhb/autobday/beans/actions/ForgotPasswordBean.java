@@ -19,7 +19,7 @@ import javax.inject.Named;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named
 @RequestScoped
@@ -43,16 +43,20 @@ public class ForgotPasswordBean {
 			userManager.sendForgotPasswordMail(userName);
 		} catch (MailException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (UserNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (HashFailException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mail was send. Please check your mails.", ""));
+		FacesContext.getCurrentInstance().addMessage(
+				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mail was send. Please check your mails.", ""));
 		return "index";
 	}
 	

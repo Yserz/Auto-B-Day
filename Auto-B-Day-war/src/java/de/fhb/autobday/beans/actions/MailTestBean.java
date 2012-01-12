@@ -5,7 +5,6 @@
 package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
-import de.fhb.autobday.manager.mail.GoogleMailManager;
 import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +16,7 @@ import javax.inject.Named;
 
 /**
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named(value = "mailTestBean")
 @RequestScoped
@@ -36,20 +35,26 @@ public class MailTestBean {
 	public void testSystemMailManager(){
 		try {
 			mailManager.sendSystemMail("Betreff", "Message", mailTo);
+			FacesContext.getCurrentInstance().addMessage(
+				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SystemMail was send!", ""));
 		} catch (Exception ex) {
 			Logger.getLogger(MailTestBean.class.getName()).log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SystemMail was send!", ""));
+		
 	}
 	public void testUserMailManager(){
 		try {
 			mailManager.sendUserMail(sessionBean.getAktAccount(), "Betreff", "Message", mailTo);
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "UserMail was send!", ""));
 		} catch (Exception ex) {
 			Logger.getLogger(MailTestBean.class.getName()).log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "UserMail was send!", ""));
+		
 	}
 
 	public String getMailTo() {

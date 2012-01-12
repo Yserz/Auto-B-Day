@@ -50,18 +50,22 @@ public class RegisterBean {
 			sessionBean.setAktUser(user);
 		} catch (IncompleteUserRegisterException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			return "register";
 		} catch (NoValidUserNameException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			return "register";
 		} catch (HashFailException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			return "register";
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Congratulations! You are registered for Auto-B-Day. Please check your mails!", ""));
+		FacesContext.getCurrentInstance().addMessage(
+				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Congratulations! You are registered for Auto-B-Day. Please check your mails!", ""));
 		return "index";
 	}
 

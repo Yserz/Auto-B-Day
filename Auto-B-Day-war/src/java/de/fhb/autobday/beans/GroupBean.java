@@ -34,6 +34,7 @@ public class GroupBean {
 	private ContactManagerLocal contactManager;
 	@Inject
 	private SessionBean sessionBean;
+	
 	private ListDataModel<AbdContact> contactList;
 	private boolean activeState = false;
 	private String parsedTemplate = "";
@@ -56,6 +57,9 @@ public class GroupBean {
 	public String editTemplate() {
 		try {
 			groupManager.setTemplate(sessionBean.getAktGroup(), template);
+			FacesContext.getCurrentInstance().addMessage(
+								null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully edited template!", ""));
+				
 		} catch (GroupException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
@@ -85,8 +89,8 @@ public class GroupBean {
 		}
 	}
 
-	public void toggleContactActivation() {
-		System.out.println("toggleContactActivation");
+	public String toggleContactActivation() {
+		LOGGER.log(Level.INFO, "toggleContactActivation");
 		AbdGroup aktGroup = sessionBean.getAktGroup();
 		AbdContact aktContact = contactList.getRowData();
 
@@ -94,20 +98,30 @@ public class GroupBean {
 			if (gtc.getAbdGroup().equals(aktGroup)) {
 				try {
 					if (gtc.getActive()) {
-						System.out.println("was aktive");
+						LOGGER.log(Level.INFO, "was aktive");
 						contactManager.setActive(aktContact, aktGroup, false);
+						FacesContext.getCurrentInstance().addMessage(
+								null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully deaktivated "+aktContact.getFirstname()+" "+aktContact.getName()+"!", ""));
+				
 					} else {
-						System.out.println("was inaktive");
+						LOGGER.log(Level.INFO, "was inaktive");
 						contactManager.setActive(aktContact, aktGroup, true);
+						FacesContext.getCurrentInstance().addMessage(
+								null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Successfully aktivated "+aktContact.getFirstname()+" "+aktContact.getName()+"!", ""));
+				
 					}
 				} catch (ContactException ex) {
 					LOGGER.log(Level.SEVERE, null, ex);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 				}
 			} else {
-				LOGGER.log(Level.SEVERE, null, "Contact is not in the active group.");
+				LOGGER.log(Level.SEVERE, null, "Contact is not in a active group.");
+				FacesContext.getCurrentInstance().addMessage(
+								null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contact "+aktContact.getFirstname()+" "+aktContact.getName()+" is not in an aktive group!", ""));
+				
 			}
 		}
+		return null;
 
 	}
 
@@ -116,8 +130,8 @@ public class GroupBean {
 		AbdContact aktContact = contactList.getRowData();
 		boolean active = false;
 
-		System.out.println("group: " + aktGroup.getName());
-		System.out.println("contact: " + aktContact.getFirstname());
+		LOGGER.log(Level.INFO, "group: {0}", aktGroup.getName());
+		LOGGER.log(Level.INFO, "contact: {0}", aktContact.getFirstname());
 		try {
 			active = contactManager.getActive(aktContact.getId(), aktGroup.getId());
 		} catch (ContactNotFoundException ex) {
@@ -138,11 +152,12 @@ public class GroupBean {
 
 			if (contact != null && group != null) {
 				parsedTemplate = groupManager.testTemplate(group.getId(), contact.getId());
-				System.out.println("template: " + parsedTemplate);
+				LOGGER.log(Level.INFO, "template: {0}", parsedTemplate);
 			} else {
-				System.out.println("Contact: " + contact);
-				System.out.println("Group: " + group);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not parse the template with this user!", ""));
+				LOGGER.log(Level.INFO, "Contact: {0}", contact);
+				LOGGER.log(Level.INFO, "Group: {0}", group);
+				FacesContext.getCurrentInstance().addMessage(
+						null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Could not parse the template with this user!", ""));
 				parsedTemplate = "ERROR";
 			}
 
@@ -160,7 +175,7 @@ public class GroupBean {
 
 	public boolean isActiveState() {
 		activeState = changeAktiveState();
-		System.out.println("is Aktive?: " + activeState);
+		LOGGER.log(Level.INFO, "is Aktive?: {0}", activeState);
 		return activeState;
 	}
 

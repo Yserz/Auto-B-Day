@@ -27,6 +27,7 @@ public class LoginLogoutBean {
 	private UserManagerLocal userManager;
 	@Inject
 	private SessionBean sessionBean;
+	
 	private String userName;
 	private String password;
 
@@ -45,13 +46,16 @@ public class LoginLogoutBean {
 			password = "password";
 			sessionBean.setAktUser(aktUser);
 			
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are logged in!", ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are logged in!", ""));
 		} catch (UserException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (HashFailException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 
 		
@@ -65,7 +69,8 @@ public class LoginLogoutBean {
 		HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
 		session.invalidate();
 		
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are logged out!", ""));
+		FacesContext.getCurrentInstance().addMessage(
+				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are logged out!", ""));
 		return "index";
 	}
 

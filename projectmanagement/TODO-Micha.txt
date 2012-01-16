@@ -4,11 +4,6 @@ TODO - Micha
 
 --- Allgemein 	---
 
-ant, gui, struktur
-
-- Ant-Script Ueberarbeiten?
-(- Projekt auf Maven umbauen?)
-
 - TemplateParser alter errechnen
 
 *** DB 			***
@@ -26,5 +21,6 @@ ant, gui, struktur
 *** GUI 		***
 
 - Button fuer erneuten import erstellen
+- Scheduler einbauen
 
 

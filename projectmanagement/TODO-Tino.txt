@@ -4,7 +4,9 @@ TODO - Tino
 
 --- Allgemein 	---
 
- 	
+- Erneuten Import ermöglichen
+
+
 	nebenbei wenn moeglich...
  	*************************
  	- restl. TODOs ueberall in den Managern loesen, FALLS noch welche da sein sollten

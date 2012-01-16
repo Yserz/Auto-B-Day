@@ -4,10 +4,8 @@ TODO - Tino
 
 --- Allgemein 	---
 
-
- - den einen Test commiten
  	
-	nebenbei wenn möglich...
+	nebenbei wenn moeglich...
  	*************************
  	- restl. TODOs ueberall in den Managern loesen, FALLS noch welche da sein sollten
  	- fehlende Tests ergaenzen, FALLS noch welche auffallen sollten

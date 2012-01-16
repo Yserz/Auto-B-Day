@@ -2,29 +2,4 @@
 TODO - Chris
 ===========
 
---- Allgemein 	---
-
-	- bei tests helfen wenn welche anfallen
-		
-	nebenbei wenn möglich...
- 	*************************
- 	- restl. TODOs ueberall in den Managern loesen, FALLS noch welche da sein sollten
- 	- fehlende Tests ergaenzen, FALLS noch welche auffallen sollten
- 	- fehlende javadoc, FALLS noch welche fehlen sollten
-
-*** DB 			***
-
-- 
-
-*** Persistent 	***
-
-- 
-
-*** Session 	***
-
-
-
-
-*** GUI 		***
-
-- 
+- nichts, Soll abgeleistet

@@ -25,6 +25,6 @@ ant, gui, struktur
 
 *** GUI 		***
 
-- Button für erneuten import erstellen
+- Button fuer erneuten import erstellen
 
 

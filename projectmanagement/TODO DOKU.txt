@@ -16,6 +16,6 @@ DOKU TODO
 
  - kurze erläuterung zur projektstruktur EAR = JAR + WAR
 
- - bei dem diagramm noch die actions wegmachn
+ - DONE bei dem diagramm noch die actions wegmachn
 
  - dann willer wissen was wir für ne n-struktur ham

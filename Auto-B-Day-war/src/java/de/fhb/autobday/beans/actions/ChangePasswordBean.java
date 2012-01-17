@@ -1,12 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.exception.HashFailException;
-import de.fhb.autobday.exception.mail.MailException;
+import de.fhb.autobday.exception.user.PasswordInvalidException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.user.UserManagerLocal;
 import java.util.logging.Level;
@@ -23,32 +19,33 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class ForgotPasswordBean {
-	private final static Logger LOGGER = Logger.getLogger(ForgotPasswordBean.class.getName());
+public class ChangePasswordBean {
+	private final static Logger LOGGER = Logger.getLogger(ChangePasswordBean.class.getName());
 	@Inject
 	private UserManagerLocal userManager;
 	@Inject
 	private SessionBean sessionBean;
 	
-	private String userName;
+	private String oldPW;
+	private String newPW;
+	private String newPWRep;
 	/**
-	 * Creates a new instance of ForgotPasswordBean
+	 * Creates a new instance of ChangePasswordBean
 	 */
-	public ForgotPasswordBean() {
+	public ChangePasswordBean() {
 		
 	}
 
-	public String sendForgotPasswordMail(){
+	public String changePassword(){
 		try {
-			userManager.sendForgotPasswordMail(userName);
+			userManager.changePassword(sessionBean.getAktUser(), oldPW, newPW, newPWRep);
 			FacesContext.getCurrentInstance().addMessage(
-				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mail was send. Please check your mails.", ""));
-		
-		} catch (MailException ex) {
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully changed password!", ""));
+		} catch (UserNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-		} catch (UserNotFoundException ex) {
+		} catch (PasswordInvalidException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
@@ -57,17 +54,33 @@ public class ForgotPasswordBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		
 		return "index";
 	}
-	
-	public String getUserName() {
-		return userName;
+
+	public String getNewPW() {
+		return newPW;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setNewPW(String newPW) {
+		this.newPW = newPW;
 	}
+
+	public String getNewPWRep() {
+		return newPWRep;
+	}
+
+	public void setNewPWRep(String newPWRep) {
+		this.newPWRep = newPWRep;
+	}
+
+	public String getOldPW() {
+		return oldPW;
+	}
+
+	public void setOldPW(String oldPW) {
+		this.oldPW = oldPW;
+	}
+	
 	
 	
 }

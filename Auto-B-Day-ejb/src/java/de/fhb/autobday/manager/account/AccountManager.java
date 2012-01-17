@@ -91,10 +91,10 @@ public class AccountManager implements AccountManagerLocal {
 		}
 		
 		//add new Account
-		//TODO nicht dringend! Password verschluesseln...achtung googleimporter greift drauf zu im klartext dann
 		AbdAccount createdAccount=new AbdAccount();	
 		createdAccount.setId(Integer.SIZE);
 		createdAccount.setAbduser(actualUser);
+		//TODO password mit cipherhelper verschluesseln
 		createdAccount.setPasswort(password);
 		createdAccount.setUsername(userName);
 		createdAccount.setType("google");

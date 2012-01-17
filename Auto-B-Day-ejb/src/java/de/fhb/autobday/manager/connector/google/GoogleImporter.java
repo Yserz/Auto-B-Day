@@ -89,6 +89,7 @@ public class GoogleImporter extends AImporter {
 		// connect to google
 		try {
 			myService = new ContactsService("BDayReminder");
+			//TODO decipher verschluesseltes passwort des accounts
 			myService.setUserCredentials(accdata.getUsername(),
 					accdata.getPasswort());
 		} catch (ServiceException ex) {

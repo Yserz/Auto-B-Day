@@ -20,6 +20,7 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
 import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
+import de.fhb.autobday.exception.group.GroupNotFoundException;
 
 /**
  * Test the ContactManager
@@ -86,6 +87,7 @@ public class ContactManagerTest {
 		groupToContactTwo.setAbdContact(contactTwo);
 		groupToContactOne.setAbdGroup(groupTwo);
 		allGroupToContact.add(groupToContactTwo);
+		groupOne.setAbdGroupToContactCollection(allGroupToContact);
 	}
 	
 	
@@ -249,4 +251,100 @@ public class ContactManagerTest {
 		// verify		
 		verify(contactDAOMock);
 	}
+	
+	
+	/**
+	 * Test of getActive method, of class ContactManager.
+	 */
+	@Test
+	public void testGetActive() throws Exception {
+		
+		System.out.println("testGetActive");
+		
+		//prepare test variables
+		contactOne.setAbdGroupToContactCollection(allGroupToContact);
+		
+		// Setting up the expected value of the method call of Mockobject
+		groupDAOMock.flush();
+		expect(contactDAOMock.find(contactOne.getId())).andReturn(contactOne);
+		expect(groupDAOMock.find(groupOne.getId())).andReturn(groupOne);
+		
+		// Setup is finished need to activate the mock
+		replay(contactDAOMock);
+		replay(groupDAOMock);
+		replay(groupToContactDAOMock);
+		
+		//call method to test
+		managerUnderTest.getActive(contactOne.getId(), groupOne.getId());
+		
+		// verify
+		verify(contactDAOMock);
+		verify(groupDAOMock);
+		verify(groupToContactDAOMock);
+	}
+	
+	/**
+	 * Test of getActive method, of class ContactManager.
+	 * This test provokes a GroupNotFoundException!
+	 */
+	@Test(expected = GroupNotFoundException.class)
+	public void testGetActiveThrowsGroupNotFoundException() throws Exception {
+		
+		System.out.println("testGetActiveThrowsGroupNotFoundException");
+		
+		//prepare test variables
+		contactOne.setAbdGroupToContactCollection(allGroupToContact);
+		
+		// Setting up the expected value of the method call of Mockobject
+		groupDAOMock.flush();
+		expect(contactDAOMock.find(contactOne.getId())).andReturn(contactOne);
+		expect(groupDAOMock.find(groupOne.getId())).andReturn(null);
+		
+		// Setup is finished need to activate the mock
+		replay(contactDAOMock);
+		replay(groupDAOMock);
+		replay(groupToContactDAOMock);
+		
+		//call method to test
+		managerUnderTest.getActive(contactOne.getId(), groupOne.getId());
+		
+		// verify
+		verify(contactDAOMock);
+		verify(groupDAOMock);
+		verify(groupToContactDAOMock);
+	}
+	
+	
+	/**
+	 * Test of getActive method, of class ContactManager.
+	 * This test provokes a ContactNotFoundException!
+	 */
+	@Test(expected = ContactNotFoundException.class)
+	public void testGetActiveThrowsContactNotFoundException() throws Exception {
+		
+		System.out.println("testGetActiveThrowsContactNotFoundException");
+		
+		//prepare test variables
+		contactOne.setAbdGroupToContactCollection(allGroupToContact);
+		
+		// Setting up the expected value of the method call of Mockobject
+		groupDAOMock.flush();
+		expect(contactDAOMock.find(contactOne.getId())).andReturn(null);
+		expect(groupDAOMock.find(groupOne.getId())).andReturn(groupOne);
+		
+		// Setup is finished need to activate the mock
+		replay(contactDAOMock);
+		replay(groupDAOMock);
+		replay(groupToContactDAOMock);
+		
+		//call method to test
+		managerUnderTest.getActive(contactOne.getId(), groupOne.getId());
+		
+		// verify
+		verify(contactDAOMock);
+		verify(groupDAOMock);
+		verify(groupToContactDAOMock);
+	}
+	
+
 }

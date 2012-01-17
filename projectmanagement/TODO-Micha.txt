@@ -2,6 +2,10 @@
 TODO - Micha
 ===========
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+DEADLINE Sonntag den 29.02.2012 um 23:59 Uhr (Abgabe)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 --- Allgemein 	---
 
 - TemplateParser alter errechnen
@@ -23,5 +27,3 @@ TODO - Micha
 - Button fuer erneuten import erstellen
 - Scheduler einbauen
 - Passwort ändern
-
-

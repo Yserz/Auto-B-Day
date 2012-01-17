@@ -2,6 +2,10 @@
 TODO - Tino
 ===========
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+DEADLINE Sonntag den 29.02.2012 um 23:59 Uhr (Abgabe)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 --- Allgemein 	---
 
 - Erneuten Import ermöglichen

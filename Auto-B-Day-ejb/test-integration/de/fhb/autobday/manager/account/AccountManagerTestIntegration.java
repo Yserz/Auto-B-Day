@@ -1,33 +1,24 @@
 package de.fhb.autobday.manager.account;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-
+import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+import de.fhb.autobday.commons.CipherHelper;
+import de.fhb.autobday.commons.PropertyLoader;
+import de.fhb.autobday.dao.AbdAccountFacade;
+import de.fhb.autobday.dao.AbdContactFacade;
+import de.fhb.autobday.dao.AbdUserFacade;
+import de.fhb.autobday.data.*;
+import de.fhb.autobday.manager.connector.google.GoogleImporter;
 import java.util.ArrayList;
 import java.util.Collection;
-
+import java.util.Properties;
 import javax.persistence.EntityManager;
-
 import org.easymock.EasyMock;
+import static org.easymock.EasyMock.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import com.stvconsultants.easygloss.javaee.JavaEEGloss;
-
-import de.fhb.autobday.dao.AbdAccountFacade;
-import de.fhb.autobday.dao.AbdContactFacade;
-import de.fhb.autobday.dao.AbdUserFacade;
-import de.fhb.autobday.data.AbdAccount;
-import de.fhb.autobday.data.AbdContact;
-import de.fhb.autobday.data.AbdGroup;
-import de.fhb.autobday.data.AbdGroupToContact;
-import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.manager.connector.google.GoogleImporter;
+import org.powermock.api.easymock.PowerMock;
 
 
 /**
@@ -52,6 +43,8 @@ public class AccountManagerTestIntegration {
 	private static GoogleImporter gImporterMock;
 	
 	private EntityManager emMock;
+	
+	private PropertyLoader propLoader;
 	
 	@BeforeClass
 	public static void setUpClass(){
@@ -92,6 +85,9 @@ public class AccountManagerTestIntegration {
 	public void testAddAccount() throws Exception {
 		System.out.println("testAddAccount");
 		
+		propLoader = EasyMock.createMock(PropertyLoader.class);
+		managerUnderTest.setPropLoader(propLoader);
+		
 		//prepare test variables
 		String password="password";
 		String userName="test@googlemail.com";
@@ -103,19 +99,26 @@ public class AccountManagerTestIntegration {
 		int userId=1;
 		AbdUser user = new AbdUser(userId, "mustermann", "password", "salt", "mustermann", "max");
 		user.setAbdAccountCollection(abdAccountCollection);
+		
+		Properties masterPassword = new Properties();
+		masterPassword.setProperty("master", "sraeBrsc");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(emMock.find(AbdUser.class, user.getId())).andReturn(user);
+		expect(propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties")).andReturn(masterPassword);
+		
 		emMock.persist((AbdAccount)anyObject());
 		emMock.refresh((AbdUser)anyObject());
 		
 		// Setup is finished need to activate the mock
+		replay(propLoader);
 		replay(emMock);
 		
 		// testing Methodcall
 		managerUnderTest.addAccount(userId, password, userName, type);
 		
 		//verify
+		verify(propLoader);
 		verify(emMock);
 	}
 	

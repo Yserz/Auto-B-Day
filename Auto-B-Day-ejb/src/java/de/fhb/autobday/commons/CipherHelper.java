@@ -1,6 +1,8 @@
 package de.fhb.autobday.commons;
 
 import de.fhb.autobday.manager.LoggerInterceptor;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
@@ -9,8 +11,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import javax.interceptor.Interceptor;
-import javax.interceptor.Interceptors;
 
 /**
  *
@@ -31,23 +31,19 @@ public class CipherHelper {
 	 * @throws BadPaddingException
 	 * @throws InvalidKeyException 
 	 */
-	public static String cipher(String raw, String key) throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+	public static String cipher(String raw, String key) throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, UnsupportedEncodingException {
 		System.out.println("cip RAW: "+raw);
 		System.out.println("cip KEY: "+key);
 		
-		String output;
 		
 		Key k = new SecretKeySpec( key.getBytes(), "DES" );
 		
 		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 		cipher.init(Cipher.ENCRYPT_MODE, k);
 		
-		byte[] verschlusselt = cipher.doFinal(raw.getBytes());
-		output = new String(verschlusselt);
+		byte[] verschlusselt = cipher.doFinal(raw.getBytes("UTF8"));
+		return new sun.misc.BASE64Encoder().encode(verschlusselt);
 		
-		System.out.println("output: "+output);
-		
-		return output;
 	}
 	/**
 	 * Deciphers a given String.
@@ -62,7 +58,7 @@ public class CipherHelper {
 	 * @throws BadPaddingException
 	 * @throws InvalidKeyException 
 	 */
-	public static String decipher(String raw, String key) throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
+	public static String decipher(String raw, String key) throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, UnsupportedEncodingException, IOException {
 		System.out.println("decip RAW: "+raw);
 		System.out.println("bytes RAW: "+raw.getBytes());
 		System.out.println("decip KEY: "+key);
@@ -75,7 +71,11 @@ public class CipherHelper {
 		
 		Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
 		cipher.init(Cipher.DECRYPT_MODE, k);
-		byte[] unverschlusselt = cipher.doFinal(raw.getBytes());
+		
+		// Decode base64 to get bytes
+		byte[] dec = new sun.misc.BASE64Decoder().decodeBuffer(raw);
+		
+		byte[] unverschlusselt = cipher.doFinal(dec);
 		
 		output = new String(unverschlusselt);
 		

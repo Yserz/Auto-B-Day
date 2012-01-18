@@ -47,8 +47,10 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 			//DONT CHANGE THIS PATH
 			accountProps = propLoader.loadSystemMailAccountProperty("/SystemMailAccount.properties");
-
+			Properties masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
+			
 			String user = accountProps.getProperty("mail.smtp.user");
+			
 			String password = accountProps.getProperty("mail.smtp.password");
 
 			this.sendUserMailInternal(user, password, subject, message, to);
@@ -67,18 +69,21 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 	@Override
 	public void sendUserMail(AbdAccount account, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
-		sendUserMailInternal(account.getUsername(), account.getPasswort(), subject, message, to);
+		
+		System.out.println("password cip: "+account.getPasswort());
+		Properties masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
+		String passwordDeciphered = CipherHelper.decipher(account.getPasswort(), masterPassword.getProperty("master"));
+		System.out.println("password dec: "+passwordDeciphered);
+		
+		sendUserMailInternal(account.getUsername(), passwordDeciphered, subject, message, to);
 	}
 
 	protected void sendUserMailInternal(String username, String password, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
 		Properties systemProps = null;
-		String passwordDeciphered = "";
 		try {
-
+			
 			//DONT CHANGE THIS PATH
 			systemProps = propLoader.loadSystemMailProperty("/SystemMail.properties");
-			Properties masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
-			passwordDeciphered = CipherHelper.decipher(password, masterPassword.getProperty("master"));
 			
 			//systemProps
 			String host = systemProps.getProperty("mail.smtp.host");
@@ -98,7 +103,7 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 			//Use Transport to deliver the message
 			Transport transport = session.getTransport("smtp");
-			transport.connect(host, username, passwordDeciphered);
+			transport.connect(host, username, password);
 			transport.sendMessage(mail, mail.getAllRecipients());
 			transport.close();
 

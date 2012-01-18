@@ -223,9 +223,7 @@ public class AccountManager implements AccountManagerLocal {
 			throw new AccountNotFoundException("Account does not exist!");
 		}
 		
-		for(AbdGroup actualGroup :account.getAbdGroupCollection()){
-			outputCollection.add(actualGroup);
-		}
+		outputCollection=new ArrayList<AbdGroup>(account.getAbdGroupCollection());
 		
 		return outputCollection;
 	}

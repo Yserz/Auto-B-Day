@@ -18,6 +18,11 @@
 								actionListener="#{updateAccountBean.updateAccount}"/>
 			</p:panel>
 		</h:form>
+		<p:panel id="schedulepanel" header="Übersicht der aktiven Kontakte in diesem Account" rendered="#{sessionBean.loggedIn}" toggleable="true" toggleSpeed="200" >
+			<p:schedule value="#{scheduleBean.eventModel}" widgetVar="schedule">  
+  
+			</p:schedule>
+		</p:panel>
 		<p:panel id="groupList" header="Groups" rendered="#{sessionBean.loggedIn}">
 			
 				<h:form>

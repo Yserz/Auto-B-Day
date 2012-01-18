@@ -7,6 +7,7 @@ import org.junit.*;
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
+@Ignore
 public class CipherHelperTest {
 	
 	public CipherHelperTest() {

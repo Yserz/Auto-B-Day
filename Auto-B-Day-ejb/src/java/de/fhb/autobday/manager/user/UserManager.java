@@ -242,7 +242,7 @@ public class UserManager implements UserManagerLocal {
 			throws UserNotFoundException{
 		
 		AbdUser user=null;
-		ArrayList<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
+		List<AbdAccount> outputCollection=new ArrayList<AbdAccount>();
 		
 		//find object, verify input
 		user=userDAO.find(userId);

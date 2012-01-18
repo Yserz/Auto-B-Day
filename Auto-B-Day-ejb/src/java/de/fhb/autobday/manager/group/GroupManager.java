@@ -333,7 +333,7 @@ public class GroupManager implements GroupManagerLocal {
 			throws GroupNotFoundException{
 
 		AbdGroup group=null;
-		ArrayList<AbdContact> outputCollection=new ArrayList<AbdContact>();
+		List<AbdContact> outputCollection=new ArrayList<AbdContact>();
 		
 		//find object, verify input
 		group=groupDAO.find(groupId);			

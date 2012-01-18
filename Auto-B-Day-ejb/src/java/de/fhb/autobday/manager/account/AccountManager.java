@@ -162,7 +162,7 @@ public class AccountManager implements AccountManagerLocal {
 			throws AccountNotFoundException {
 		
 		AbdAccount account=null;
-		ArrayList<AbdContact> contactList = new ArrayList<AbdContact>();
+		List<AbdContact> contactList = new ArrayList<AbdContact>();
 		
 		//search
 		account=accountDAO.find(accountId);
@@ -249,7 +249,7 @@ public class AccountManager implements AccountManagerLocal {
 		
 		
 		AbdAccount account=null;
-		ArrayList<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
+		List<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
 		
 		//find object, verify input
 		account=accountDAO.find(accountId);

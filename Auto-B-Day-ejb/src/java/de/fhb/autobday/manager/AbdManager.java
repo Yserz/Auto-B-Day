@@ -9,9 +9,7 @@ import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
 import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -86,11 +84,15 @@ public class AbdManager implements AbdManagerLocal{
 
 	}
 	
-	@Schedule(minute="13", hour="1")
+	@Schedule(minute="39", hour="18")
 	@Override
 	public void checkEveryDay() {
 		
 		LOGGER.log(Level.INFO, "EverDayCheck {0}", new Date(System.currentTimeMillis()));
+		
+		
+		Calendar currentDateCal = Calendar.getInstance();
+		Calendar bdayDateCal = Calendar.getInstance();
 		
 		String parsedMessageFromTemplate = "Empty Message!";
 		String template;
@@ -100,6 +102,7 @@ public class AbdManager implements AbdManagerLocal{
 		
 		//search all contacts, which have bday today
 		Date currentDate = new Date(System.currentTimeMillis());
+		currentDateCal.setTime(currentDate);
 		LOGGER.log(Level.INFO, "Getting all Contacts");
 		Collection<AbdContact> Contacts = contactDAO.findAll();
 		
@@ -108,10 +111,18 @@ public class AbdManager implements AbdManagerLocal{
 		for (AbdContact abdContact : Contacts) {
 			System.out.println(abdContact.getFirstname()+" "+abdContact.getName()+" has bday on "+abdContact.getBday());
 			
-			if((abdContact.getBday().getDay()==currentDate.getDay())&&(abdContact.getBday().getMonth()==currentDate.getMonth())){
+			bdayDateCal.setTime(abdContact.getBday());
+			
+		
+			LOGGER.log(Level.INFO, "DAY: {0} CURRENT DAY: {1}", 
+					new Object[]{bdayDateCal.DAY_OF_MONTH, currentDateCal.DAY_OF_MONTH});
+			LOGGER.log(Level.INFO, "MONTH: {0} CURRENT MONTH: {1}", 
+					new Object[]{bdayDateCal.MONTH, currentDateCal.MONTH});
+			
+			if((bdayDateCal.DAY_OF_MONTH==currentDateCal.DAY_OF_MONTH)
+					&&(bdayDateCal.MONTH==currentDateCal.MONTH)){
 				LOGGER.log(Level.INFO, "Contact with bday found: {0}", abdContact);
 				birthdayContacts.add(abdContact);
-				System.out.println("test");
 			}
 		}
 		

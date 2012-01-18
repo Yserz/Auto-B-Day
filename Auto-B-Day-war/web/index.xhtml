@@ -47,7 +47,7 @@
 			</p:panel>
 		</h:form>
 		<h:form prependId="false">
-			<p:panel id="systemmailpanel" rendered="#{sessionBean.loggedIn}" header="Senden einer System-Mail" style="margin-bottom: 10px;">
+			<p:panel id="systemmailpanel" rendered="#{sessionBean.loggedIn}" header="DEBUG: Senden einer System-Mail" style="margin-bottom: 10px;">
 				<h:outputLabel for="systemmailTo" value="MailTo:* " />
 						<p:inputText id="systemmailTo" 
 									value="#{mailTestBean.mailTo}"
@@ -66,7 +66,7 @@
 			</p:panel>
 		</h:form>
 		<h:form prependId="false">
-			<p:panel id="usermailpanel" rendered="#{sessionBean.loggedIn}" header="Senden einer User-Mail">
+			<p:panel id="usermailpanel" rendered="#{sessionBean.loggedIn}" header="DEBUG: Senden einer User-Mail">
 				<h:outputLabel for="usermailTo" value="MailTo:* " />
 						<p:inputText id="usermailTo" 
 									value="#{mailTestBean.mailTo}"

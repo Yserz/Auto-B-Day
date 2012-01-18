@@ -45,7 +45,7 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 		try {
 
 			//DONT CHANGE THIS PATH
-			accountProps = propLoader.loadSystemMailAccountProperty("SystemMailAccount.properties");
+			accountProps = propLoader.loadSystemMailAccountProperty("/SystemMailAccount.properties");
 
 			String user = accountProps.getProperty("mail.smtp.user");
 			String password = accountProps.getProperty("mail.smtp.password");
@@ -74,7 +74,7 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 		try {
 
 			//DONT CHANGE THIS PATH
-			systemProps = propLoader.loadSystemMailProperty("SystemMail.properties");
+			systemProps = propLoader.loadSystemMailProperty("/SystemMail.properties");
 
 			//systemProps
 			String host = systemProps.getProperty("mail.smtp.host");

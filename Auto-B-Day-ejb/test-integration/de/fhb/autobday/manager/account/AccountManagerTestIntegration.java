@@ -1,7 +1,6 @@
 package de.fhb.autobday.manager.account;
 
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
-import de.fhb.autobday.commons.CipherHelper;
 import de.fhb.autobday.commons.PropertyLoader;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
@@ -18,7 +17,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.powermock.api.easymock.PowerMock;
 
 
 /**

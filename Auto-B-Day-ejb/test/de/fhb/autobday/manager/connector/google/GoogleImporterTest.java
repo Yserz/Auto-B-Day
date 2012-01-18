@@ -7,7 +7,6 @@ import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import org.easymock.EasyMock;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.gdata.client.contacts.ContactsService;
@@ -36,6 +34,8 @@ import com.google.gdata.data.extensions.Name;
 import com.google.gdata.util.AuthenticationException;
 import com.google.gdata.util.ServiceException;
 import com.stvconsultants.easygloss.javaee.JavaEEGloss;
+import de.fhb.autobday.commons.CipherHelper;
+import de.fhb.autobday.commons.PropertyLoader;
 
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
@@ -48,13 +48,19 @@ import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
-import de.fhb.autobday.exception.group.GroupNotFoundException;
+import java.util.Properties;
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  *
  * @author
  * Tino Reuschel <reuschel@fh-brandenburg.de>
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({CipherHelper.class})
 public class GoogleImporterTest {
 	
 private JavaEEGloss gloss;
@@ -62,7 +68,7 @@ private JavaEEGloss gloss;
 	private ContactsService contactsServiceMock;
 	private ContactEntry contactEntry;
 	private GoogleImporter gImporterUnderTest;
-	
+	private PropertyLoader propLoader;
 	public GoogleImporterTest() {
 	}
 
@@ -76,11 +82,13 @@ private JavaEEGloss gloss;
 		
 		//set Objekts to inject
 		gImporterUnderTest=gloss.make(GoogleImporter.class);
-		
+		PowerMock.mockStatic(CipherHelper.class);
 		
 		//prepare test variables
 		Name name = new Name();
 		gImporterUnderTest = new GoogleImporter();
+		
+		
 		contactEntry = new ContactEntry();
 		
 		name.setGivenName(new GivenName("Hans", ""));
@@ -98,18 +106,32 @@ private JavaEEGloss gloss;
 	 * @throws ConnectorCouldNotLoginException 
 	 */
 	@Test
-	public void testGetConnection() throws AuthenticationException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException{
+	public void testGetConnection() throws Exception{
 		System.out.println("getConnection");
+		
+		propLoader = EasyMock.createMock(PropertyLoader.class);
+		gImporterUnderTest.setPropLoader(propLoader);
 
 		AbdAccount data = new AbdAccount(1, "fhbtestacc@googlemail.com", "TestGoogle123", null);
 		
+		Properties masterPassword = new Properties();
+		masterPassword.setProperty("master", "sraeBrsc");
+		
+		EasyMock.expect(propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties")).andReturn(masterPassword);
+		EasyMock.expect(CipherHelper.decipher(data.getPasswort(), masterPassword.getProperty("master"))).andReturn("TestGoogle123");
+
+		
 		// Setup is finished need to activate the mock
 		replay(contactsServiceMock);
+		PowerMock.replay(CipherHelper.class);
+		replay(propLoader);
 		gImporterUnderTest.getConnection(data);
 		
 		//call method to test and verify
 		assertEquals(true, gImporterUnderTest.isConnectionEtablished());
 		verify(contactsServiceMock);
+		verify(propLoader);
+		PowerMock.verify(CipherHelper.class);
 	}
 	
 	/**

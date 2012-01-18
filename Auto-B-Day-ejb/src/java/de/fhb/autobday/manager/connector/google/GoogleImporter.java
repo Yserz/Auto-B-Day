@@ -523,4 +523,13 @@ public class GoogleImporter extends AImporter {
 	public boolean isConnectionEtablished() {
 		return connectionEtablished;
 	}
+
+	public PropertyLoader getPropLoader() {
+		return propLoader;
+	}
+
+	public void setPropLoader(PropertyLoader propLoader) {
+		this.propLoader = propLoader;
+	}
+	
 }

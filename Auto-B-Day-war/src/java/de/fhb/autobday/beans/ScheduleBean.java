@@ -59,9 +59,7 @@ public class ScheduleBean {
 		List<AbdGroup> groups = new ArrayList<AbdGroup>();
 		List<AbdContact> contacts = new ArrayList<AbdContact>();
 		try {
-			System.out.println("bla0");
 			groups = accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount());
-			System.out.println("bla");
 			
 			//getAllActiveContatcts
 			for (AbdGroup abdGroup : groups) {

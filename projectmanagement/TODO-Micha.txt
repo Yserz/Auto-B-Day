@@ -25,5 +25,3 @@ DEADLINE Sonntag den 29.01.2012 um 23:59 Uhr (Abgabe)
 *** GUI 		***
 
 - Button fuer erneuten import erstellen
-- Scheduler einbauen
-- Passwort ändern

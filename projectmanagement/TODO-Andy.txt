@@ -7,7 +7,6 @@ DEADLINE Sonntag den 29.01.2012 um 23:59 Uhr (Abgabe)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-Tests für die letztens hinzugefügten Methoden noch schreiben.
 =>zu "getActive(String contactId, String groupId)" evtl noch...
 habe wenig Zeit (andere Projekte und Faecher!), DOKU hat Vorrang!
 

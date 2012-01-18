@@ -55,8 +55,8 @@ public class GoogleMailManagerTestIntegration {
 		systemProps.setProperty("mail.smtp.starttls.enable", "true");
 		systemProps.setProperty("mail.smtp.debug", "true");
 
-		expect(propLoader.loadSystemMailAccountProperty("SystemMailAccount.properties")).andReturn(accountProps);
-		expect(propLoader.loadSystemMailProperty("SystemMail.properties")).andReturn(systemProps);
+		expect(propLoader.loadSystemMailAccountProperty("/SystemMailAccount.properties")).andReturn(accountProps);
+		expect(propLoader.loadSystemMailProperty("/SystemMail.properties")).andReturn(systemProps);
 		replay(propLoader);
 		
 		mailManagerUnderTest.sendSystemMail("It´s a test", "A test", "fhbtestacc@googlemail.com");
@@ -80,7 +80,7 @@ public class GoogleMailManagerTestIntegration {
 		props.setProperty("mail.smtp.starttls.enable", "true");
 		props.setProperty("mail.smtp.debug", "true");
 
-		expect(propLoader.loadSystemMailProperty("SystemMail.properties")).andReturn(props);
+		expect(propLoader.loadSystemMailProperty("/SystemMail.properties")).andReturn(props);
 		replay(propLoader);
 		
 		mailManagerUnderTest.sendUserMail(account, "It´s a testSendUserMail", "A test", "fhbtestacc@googlemail.com");

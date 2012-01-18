@@ -16,7 +16,6 @@ import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
-
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -25,7 +24,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -264,6 +262,14 @@ public class AccountManager implements AccountManagerLocal {
 		outputCollection=new ArrayList<AbdGroup>(account.getAbdGroupCollection());
 		
 		return outputCollection;
+	}
+
+	public PropertyLoader getPropLoader() {
+		return propLoader;
+	}
+
+	public void setPropLoader(PropertyLoader propLoader) {
+		this.propLoader = propLoader;
 	}
 	
 }

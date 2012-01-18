@@ -24,7 +24,7 @@ public class PropertyLoader {
 	public Properties loadSystemMailProperty(String path) throws IOException{
 		Properties props = new Properties();
 		try {
-			URL url =  de.fhb.autobday.commons.PropertyLoader.class.getResource("/SystemMail.properties");
+			URL url =  de.fhb.autobday.commons.PropertyLoader.class.getResource(path);
 			File temp = new File(url.getFile());
 			FileInputStream stream = new FileInputStream(temp);
 			props.load(stream);
@@ -46,7 +46,7 @@ public class PropertyLoader {
 		Properties props = new Properties();
 		try {
 			
-			URL url =  de.fhb.autobday.commons.PropertyLoader.class.getResource("/SystemMailAccount.properties");
+			URL url =  de.fhb.autobday.commons.PropertyLoader.class.getResource(path);
 			File temp = new File(url.getFile());
 			FileInputStream stream = new FileInputStream(temp);
 			props.load(stream);
@@ -56,4 +56,27 @@ public class PropertyLoader {
 		}
 		return props;
 	}
+	
+	/**
+	 * load the SystemChiperPassword
+	 * 
+	 * @param String path
+	 * @return Properties
+	 * @throws IOException
+	 */
+	public Properties loadSystemchiperPasswordProperty(String path) throws IOException{
+		Properties props = new Properties();
+		try {
+			
+			URL url =  de.fhb.autobday.commons.PropertyLoader.class.getResource(path);
+			File temp = new File(url.getFile());
+			FileInputStream stream = new FileInputStream(temp);
+			props.load(stream);
+			stream.close();
+		} finally {
+			
+		}
+		return props;
+	}
+	
 }

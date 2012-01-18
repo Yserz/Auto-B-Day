@@ -1,6 +1,8 @@
 package de.fhb.autobday.manager.account;
 
+import de.fhb.autobday.commons.CipherHelper;
 import de.fhb.autobday.commons.EMailValidator;
+import de.fhb.autobday.commons.PropertyLoader;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdUserFacade;
@@ -14,10 +16,19 @@ import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import de.fhb.autobday.manager.connector.google.GoogleImporter;
+
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -50,8 +61,11 @@ public class AccountManager implements AccountManagerLocal {
 	@EJB
 	private GoogleImporter importer;
 	
+	private PropertyLoader propLoader;
+	
 	
 	public AccountManager() {
+		propLoader = new PropertyLoader();
 	}
 
 	
@@ -66,6 +80,8 @@ public class AccountManager implements AccountManagerLocal {
 			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
 		
 		AbdUser actualUser=null;
+		String passwordChipher="";
+		Properties masterPassword;
 		
 		//search User
 		actualUser=userDAO.find(abdUserId);
@@ -90,12 +106,34 @@ public class AccountManager implements AccountManagerLocal {
 			throw new NoValidUserNameException("UserName is no GoogleMail-address!");
 		}
 		
+		try {
+			masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
+			passwordChipher = CipherHelper.cipher(password, masterPassword.getProperty("master"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//add new Account
 		AbdAccount createdAccount=new AbdAccount();	
 		createdAccount.setId(Integer.SIZE);
-		createdAccount.setAbduser(actualUser);
-		//TODO password mit cipherhelper verschluesseln
-		createdAccount.setPasswort(password);
+		createdAccount.setAbduser(actualUser);		
+		createdAccount.setPasswort(passwordChipher);
 		createdAccount.setUsername(userName);
 		createdAccount.setType("google");
 

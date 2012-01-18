@@ -5,7 +5,10 @@ import com.google.gdata.data.contacts.Gender.Value;
 import com.google.gdata.data.contacts.*;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.util.ServiceException;
+
+import de.fhb.autobday.commons.CipherHelper;
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
+import de.fhb.autobday.commons.PropertyLoader;
 import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
@@ -20,11 +23,18 @@ import de.fhb.autobday.manager.connector.AImporter;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -55,11 +65,14 @@ public class GoogleImporter extends AImporter {
 	protected AbdGroupToContactFacade groupToContactDAO;
 	@EJB
 	protected AbdAccountFacade accountDAO;
+	
+	private PropertyLoader propLoader;
 
 	public GoogleImporter() {
 		connectionEtablished = false;
 		accdata = null;
 		myService = null;
+		propLoader = new PropertyLoader();
 	}
 
 	/**
@@ -74,6 +87,8 @@ public class GoogleImporter extends AImporter {
 			throws ConnectorCouldNotLoginException,
 			ConnectorInvalidAccountException {
 
+		String password="";
+		Properties masterPassword;
 		connectionEtablished = false;
 
 		LOGGER.log(Level.INFO, "Account: {0}", data);
@@ -89,9 +104,32 @@ public class GoogleImporter extends AImporter {
 		// connect to google
 		try {
 			myService = new ContactsService("BDayReminder");
-			//TODO decipher verschluesseltes passwort des accounts
+			
+			try {
+				masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
+				password = CipherHelper.decipher(accdata.getPasswort(), masterPassword.getProperty("master"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchPaddingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalBlockSizeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (BadPaddingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			myService.setUserCredentials(accdata.getUsername(),
-					accdata.getPasswort());
+					password);
 		} catch (ServiceException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			throw new ConnectorCouldNotLoginException(

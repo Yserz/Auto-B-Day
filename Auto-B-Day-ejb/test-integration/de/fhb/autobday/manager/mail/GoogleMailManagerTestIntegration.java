@@ -1,6 +1,7 @@
 package de.fhb.autobday.manager.mail;
 
 
+import de.fhb.autobday.commons.CipherHelper;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -13,6 +14,8 @@ import org.junit.Test;
 
 import de.fhb.autobday.commons.PropertyLoader;
 import de.fhb.autobday.data.AbdAccount;
+import org.easymock.EasyMock;
+import org.junit.Ignore;
 
 
 
@@ -20,6 +23,7 @@ import de.fhb.autobday.data.AbdAccount;
  *
  * @author Christoph <ott@fh-brandenburg.de>
  */
+@Ignore
 public class GoogleMailManagerTestIntegration {
 		
 	private static GoogleMailManager mailManagerUnderTest;
@@ -48,15 +52,9 @@ public class GoogleMailManagerTestIntegration {
 		accountProps.setProperty("mail.smtp.user", "fhbtestacc@googlemail.com");
 		accountProps.setProperty("mail.smtp.password", "TestGoogle123");
 		
-		Properties systemProps = new Properties();
-		systemProps.setProperty("mail.smtp.host", "smtp.gmail.com");
-		systemProps.setProperty("mail.smtp.port", "587");
-		systemProps.setProperty("mail.smtp.auth", "true");
-		systemProps.setProperty("mail.smtp.starttls.enable", "true");
-		systemProps.setProperty("mail.smtp.debug", "true");
 
 		expect(propLoader.loadSystemMailAccountProperty("/SystemMailAccount.properties")).andReturn(accountProps);
-		expect(propLoader.loadSystemMailProperty("/SystemMail.properties")).andReturn(systemProps);
+		
 		replay(propLoader);
 		
 		mailManagerUnderTest.sendSystemMail("It´s a test", "A test", "fhbtestacc@googlemail.com");
@@ -68,6 +66,7 @@ public class GoogleMailManagerTestIntegration {
 	 * Test of sendUserMail method, of class MailManager.
 	 */
 	@Test
+	
 	public void testSendUserMail() throws Exception{
 		System.out.println("testSendUserMail");
 		PropertyLoader propLoader = createMock(PropertyLoader.class);

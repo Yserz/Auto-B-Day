@@ -1,5 +1,6 @@
 package de.fhb.autobday.manager.mail;
 
+import de.fhb.autobday.commons.CipherHelper;
 import de.fhb.autobday.commons.PropertyLoader;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.exception.mail.FailedToLoadPropertiesException;
@@ -71,11 +72,14 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 	protected void sendUserMailInternal(String username, String password, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
 		Properties systemProps = null;
+		String passwordDeciphered = "";
 		try {
 
 			//DONT CHANGE THIS PATH
 			systemProps = propLoader.loadSystemMailProperty("/SystemMail.properties");
-
+			Properties masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
+			passwordDeciphered = CipherHelper.decipher(password, masterPassword.getProperty("master"));
+			
 			//systemProps
 			String host = systemProps.getProperty("mail.smtp.host");
 
@@ -94,7 +98,7 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 			//Use Transport to deliver the message
 			Transport transport = session.getTransport("smtp");
-			transport.connect(host, username, password);
+			transport.connect(host, username, passwordDeciphered);
 			transport.sendMessage(mail, mail.getAllRecipients());
 			transport.close();
 

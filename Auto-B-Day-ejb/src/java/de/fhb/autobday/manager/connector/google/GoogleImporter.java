@@ -5,7 +5,6 @@ import com.google.gdata.data.contacts.Gender.Value;
 import com.google.gdata.data.contacts.*;
 import com.google.gdata.data.extensions.Email;
 import com.google.gdata.util.ServiceException;
-
 import de.fhb.autobday.commons.CipherHelper;
 import de.fhb.autobday.commons.GoogleBirthdayConverter;
 import de.fhb.autobday.commons.PropertyLoader;
@@ -20,7 +19,6 @@ import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import de.fhb.autobday.manager.connector.AImporter;
-
 import java.io.IOException;
 import java.net.URL;
 import java.security.InvalidKeyException;
@@ -31,7 +29,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -52,7 +49,7 @@ import javax.interceptor.Interceptors;
 @LocalBean
 @Interceptors(LoggerInterceptor.class)
 public class GoogleImporter extends AImporter {
-
+	
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
 	protected boolean connectionEtablished;
 	protected AbdAccount accdata;
@@ -65,9 +62,8 @@ public class GoogleImporter extends AImporter {
 	protected AbdGroupToContactFacade groupToContactDAO;
 	@EJB
 	protected AbdAccountFacade accountDAO;
-	
 	private PropertyLoader propLoader;
-
+	
 	public GoogleImporter() {
 		connectionEtablished = false;
 		accdata = null;
@@ -76,8 +72,9 @@ public class GoogleImporter extends AImporter {
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * {@inheritDoc}
 	 *
+	 * @param data
 	 * @see
 	 * de.fhb.autobday.manager.connector.AImporter#getConnection(de.fhb.autobday.data.AbdAccount)
 	 * create connection to google contact api
@@ -86,13 +83,13 @@ public class GoogleImporter extends AImporter {
 	public void getConnection(AbdAccount data)
 			throws ConnectorCouldNotLoginException,
 			ConnectorInvalidAccountException {
-
-		String password="";
+		
+		String password = "";
 		Properties masterPassword;
 		connectionEtablished = false;
-
+		
 		LOGGER.log(Level.INFO, "Account: {0}", data);
-
+		
 		if (data == null) {
 			throw new ConnectorInvalidAccountException();
 		}
@@ -106,7 +103,7 @@ public class GoogleImporter extends AImporter {
 			myService = new ContactsService("BDayReminder");
 			
 			try {
-				masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
+				masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
 				password = CipherHelper.decipher(accdata.getPasswort(), masterPassword.getProperty("master"));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -139,7 +136,7 @@ public class GoogleImporter extends AImporter {
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * {@inheritDoc}
 	 *
 	 * @see de.fhb.autobday.manager.connector.AImporter#importContacts()
 	 */
@@ -151,12 +148,12 @@ public class GoogleImporter extends AImporter {
 		// else throw an exception
 		if (connectionEtablished && accdata != null) {
 			accountDAO.flush();
-
+			
 			updateGroups();
 			updateContacts();
-
+			
 			accountDAO.edit(accdata);
-
+			
 		} else {
 			throw new ConnectorNoConnectionException();
 		}
@@ -171,14 +168,14 @@ public class GoogleImporter extends AImporter {
 		List<GroupMembershipInfo> groupMembershipInfos;
 		AbdGroupToContact abdGroupToContact;
 		AbdGroupToContactPK gtcPK;
-
+		
 		int membershipCounter;
-
+		
 		for (ContactEntry contactEntry : contacts) {
 			abdContact = mapGContactToContact(contactEntry);
 			if (abdContact != null) {
 				LOGGER.log(Level.INFO, "Mapped Contact: {0}", abdContact);
-
+				
 				abdContactInDB = contactDAO.find(abdContact.getId());
 				LOGGER.log(Level.INFO, "Contact in db: {0}", abdContactInDB);
 				if (abdContactInDB == null) {
@@ -191,32 +188,32 @@ public class GoogleImporter extends AImporter {
 								contactDAO.create(abdContact);
 								contactDAO.flush();
 								abdGroupToContact = new AbdGroupToContact();
-
+								
 								gtcPK = new AbdGroupToContactPK(
 										abdGroup.getId(),
 										abdContact.getId());
 								abdGroupToContact.setAbdGroupToContactPK(gtcPK);
-
+								
 								abdGroupToContact.setAbdContact(abdContact);
 								if (membershipCounter > 1) {
 									abdGroupToContact.setActive(false);
 								} else {
 									abdGroupToContact.setActive(true);
 								}
-
+								
 								abdGroupToContact.setAbdGroup(abdGroup);
-
+								
 								LOGGER.log(Level.INFO, "Contact: {0}", abdGroupToContact.getAbdContact());
 								LOGGER.log(Level.INFO, "Group: {0}", abdGroupToContact.getAbdGroup());
 								LOGGER.log(Level.INFO, "Active: {0}", abdGroupToContact.getActive());
 								LOGGER.log(Level.INFO, "ContactPK: {0}", abdGroupToContact.getAbdGroupToContactPK().getContact());
 								LOGGER.log(Level.INFO, "GroupPK: {0}", abdGroupToContact.getAbdGroupToContactPK().getGroup());
-
+								
 								groupToContactDAO.create(abdGroupToContact);
 								groupToContactDAO.flush();
-
+								
 								abdGroup.getAbdGroupToContactCollection().add(abdGroupToContact);
-
+								
 								groupDAO.edit(abdGroup);
 								groupDAO.flush();
 							}
@@ -239,7 +236,7 @@ public class GoogleImporter extends AImporter {
 		List<ContactGroupEntry> groups = getAllGroups();
 		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>(
 				accdata.getAbdGroupCollection());
-
+		
 		boolean foundMatch = false;
 		for (ContactGroupEntry contactGroupEntry : groups) {
 			abdGroup = mapGGroupToGroup(contactGroupEntry);
@@ -255,13 +252,13 @@ public class GoogleImporter extends AImporter {
 						abdGroups.remove(abdGroupOld);
 						abdGroups.add(abdGroup);
 					}
-
+					
 				}
 			}
 			if (!foundMatch) {
 				abdGroups.add(abdGroup);
 			}
-
+			
 		}
 		accdata.setAbdGroupCollection(abdGroups);
 	}
@@ -272,9 +269,11 @@ public class GoogleImporter extends AImporter {
 	 * if dont get information from google return null else a list of Google
 	 * ContactGroupEntrys
 	 *
+	 *
+	 * @return List<ContactGroupEntry>
 	 */
 	protected List<ContactGroupEntry> getAllGroups() {
-
+		
 		URL feedUrl;
 		try {
 			// url to get all groups
@@ -286,7 +285,7 @@ public class GoogleImporter extends AImporter {
 				return null;
 			}
 			return resultFeed.getEntries();
-
+			
 		} catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			//TODO Exception
@@ -302,9 +301,11 @@ public class GoogleImporter extends AImporter {
 	 *
 	 * if dont get information from google return null else a list of Google
 	 * ContactEntrys
+	 *
+	 * @return List<ContactEntry>
 	 */
 	protected List<ContactEntry> getAllContacts() {
-
+		
 		URL feedUrl;
 		try {
 			feedUrl = new URL(
@@ -328,11 +329,11 @@ public class GoogleImporter extends AImporter {
 	/**
 	 * methode to map a google contact to a auto-b-day contact
 	 *
-	 * @param ContactEntry contactEntry
+	 * @param contactEntry
 	 * @return AbdContact
 	 */
 	protected AbdContact mapGContactToContact(ContactEntry contactEntry) {
-
+		
 		AbdContact abdContact;
 		String firstname;
 		String name;
@@ -340,15 +341,15 @@ public class GoogleImporter extends AImporter {
 		String mailadress;
 		String id;
 		Date updated;
-
+		
 		abdContact = new AbdContact();
 		LOGGER.log(Level.INFO, "-------------------------------------------------");
 		abdContact.setHashid("12");
-
+		
 		id = contactEntry.getId();
 		LOGGER.log(Level.INFO, "ID: {0}", id);
 		abdContact.setId(id);
-
+		
 		firstname = getGContactFirstname(contactEntry);
 		LOGGER.log(Level.INFO, "Firstname: {0}", firstname);
 		if (!firstname.equals("")) {
@@ -357,7 +358,7 @@ public class GoogleImporter extends AImporter {
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Firstname");
 			return null;
 		}
-
+		
 		name = getGContactFamilyname(contactEntry);
 		LOGGER.log(Level.INFO, "Name: {0}", name);
 		if (!name.equals("")) {
@@ -366,7 +367,7 @@ public class GoogleImporter extends AImporter {
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Name");
 			return null;
 		}
-
+		
 		birthday = getGContactBirthday(contactEntry);
 		LOGGER.log(Level.INFO, "birthday: {0}", birthday);
 		if (birthday != null) {
@@ -375,7 +376,7 @@ public class GoogleImporter extends AImporter {
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Bday");
 			return null;
 		}
-
+		
 		if (!contactEntry.getEmailAddresses().isEmpty()) {
 			mailadress = getGContactFirstMailAdress(contactEntry);
 			abdContact.setMail(mailadress);
@@ -383,7 +384,7 @@ public class GoogleImporter extends AImporter {
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Mail");
 			return null;
 		}
-
+		
 		try {
 			if (contactEntry.getGender().getValue() == Value.FEMALE) {
 				abdContact.setSex('w');
@@ -393,7 +394,7 @@ public class GoogleImporter extends AImporter {
 		} catch (NullPointerException ex) {
 			abdContact.setSex(null);
 		}
-
+		
 		updated = new Date(contactEntry.getUpdated().getValue());
 		abdContact.setUpdated(updated);
 		return abdContact;
@@ -409,7 +410,7 @@ public class GoogleImporter extends AImporter {
 		AbdGroup abdGroupEntry;
 		// TODO Template einbinden
 		String template = "Herzlichen Glückwunsch zum Geburtstag ${firstname}.";
-
+		
 		abdGroupEntry = new AbdGroup();
 		abdGroupEntry.setId(contactGroupEntry.getId());
 		abdGroupEntry.setName(getGroupName(contactGroupEntry));
@@ -417,14 +418,14 @@ public class GoogleImporter extends AImporter {
 		abdGroupEntry.setActive(true);
 		abdGroupEntry.setTemplate(template);
 		abdGroupEntry.setUpdated(new Date(contactGroupEntry.getUpdated().getValue()));
-
+		
 		return abdGroupEntry;
 	}
 
 	/**
 	 * methode that return the firstname of a given contact
 	 *
-	 * @param ContactEntry contactEntry
+	 * @param contactEntry
 	 *
 	 * @return String
 	 */
@@ -435,15 +436,15 @@ public class GoogleImporter extends AImporter {
 		} catch (NullPointerException ex) {
 			// LOGGER.log(Level.SEVERE, null, ex);
 		}
-
+		
 		return firstname;
-
+		
 	}
 
 	/**
 	 * methode that return the familyname of a given Contact
 	 *
-	 * @param ContactEntry contactEntry
+	 * @param contactEntry
 	 *
 	 * @return String
 	 */
@@ -455,15 +456,15 @@ public class GoogleImporter extends AImporter {
 			// LOGGER.log(Level.SEVERE, null, ex);
 		}
 		return familyname;
-
+		
 	}
 
 	/**
 	 * methode that return the birthday of a given Contact
 	 *
-	 * @param ContactEntry contactEntry
+	 * @param contactEntry
 	 *
-	 * @ return Date
+	 * @return Date
 	 */
 	protected Date getGContactBirthday(ContactEntry contactEntry) {
 		String gContactBirthday = null;
@@ -482,7 +483,7 @@ public class GoogleImporter extends AImporter {
 	/**
 	 * Methode that return a mailadress of a given Contact
 	 *
-	 * @param ContactEntry contactEntry
+	 * @param contactEntry
 	 *
 	 * @return String
 	 */
@@ -505,7 +506,7 @@ public class GoogleImporter extends AImporter {
 	 */
 	protected String getGroupName(ContactGroupEntry contactGroupEntry) {
 		String groupName = "";
-
+		
 		try {
 			groupName = contactGroupEntry.getTitle().getPlainText();
 		} catch (NullPointerException ex) {
@@ -515,7 +516,7 @@ public class GoogleImporter extends AImporter {
 	}
 
 	/**
-	 * (non-Javadoc)
+	 * {@inheritDoc}
 	 *
 	 * @see de.fhb.autobday.manager.connector.AImporter#isConnectionEtablished()
 	 */
@@ -523,13 +524,12 @@ public class GoogleImporter extends AImporter {
 	public boolean isConnectionEtablished() {
 		return connectionEtablished;
 	}
-
+	
 	public PropertyLoader getPropLoader() {
 		return propLoader;
 	}
-
+	
 	public void setPropLoader(PropertyLoader propLoader) {
 		this.propLoader = propLoader;
 	}
-	
 }

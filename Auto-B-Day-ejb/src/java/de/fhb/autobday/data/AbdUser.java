@@ -11,8 +11,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * realizes the user of the autobday-system
  *
- * @author
- * Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Entity
 @Table(name = "abduser")
@@ -26,40 +25,41 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdUser.findByName", query = "SELECT a FROM AbdUser a WHERE a.name = :name"),
 	@NamedQuery(name = "AbdUser.findByFirstname", query = "SELECT a FROM AbdUser a WHERE a.firstname = :firstname")})
 public class AbdUser implements Serializable {
+
 	@Size(max = 255)
-    @Column(name = "mail")
+	@Column(name = "mail")
 	private String mail;
 	private static final long serialVersionUID = 1L;
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@NotNull
+	@Column(name = "id")
 	private Integer id;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "username")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "username")
 	private String username;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "passwort")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "passwort")
 	private String passwort;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "salt")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "salt")
 	private String salt;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "name")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "name")
 	private String name;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "firstname")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "firstname")
 	private String firstname;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abduser", fetch = FetchType.LAZY)
 	private Collection<AbdAccount> abdAccountCollection;
@@ -168,5 +168,4 @@ public class AbdUser implements Serializable {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
-	
 }

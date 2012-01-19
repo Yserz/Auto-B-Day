@@ -10,24 +10,24 @@ import javax.validation.constraints.Size;
 /**
  * the primary key for AbdGroupToContact
  *
- * @author
- * Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Embeddable
 public class AbdGroupToContactPK implements Serializable {
+
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "group1")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "group1")
 	private String group1;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "contact")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "contact")
 	private String contact;
 
 	public AbdGroupToContactPK() {
@@ -81,5 +81,4 @@ public class AbdGroupToContactPK implements Serializable {
 	public String toString() {
 		return "de.fhb.autobday.data.AbdGroupToContactPK[ group=" + group1 + ", contact=" + contact + " ]";
 	}
-	
 }

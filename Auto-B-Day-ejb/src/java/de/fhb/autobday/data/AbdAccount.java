@@ -9,11 +9,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * represents a managed account with logindata from e.g. google,
- * which contactdata could be imported to use the system of Autobday
+ * represents a managed account with logindata from e.g. google, which
+ * contactdata could be imported to use the system of Autobday
  *
- * @author
- * Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Entity
 @Table(name = "abdaccount")
@@ -25,30 +24,31 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdAccount.findByPasswort", query = "SELECT a FROM AbdAccount a WHERE a.passwort = :passwort"),
 	@NamedQuery(name = "AbdAccount.findByType", query = "SELECT a FROM AbdAccount a WHERE a.type = :type")})
 public class AbdAccount implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Basic(optional = false)
+	@NotNull
+	@Column(name = "id")
 	private Integer id;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "username")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "username")
 	private String username;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "passwort")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "passwort")
 	private String passwort;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "type")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "type")
 	private String type;
 	@JoinColumn(name = "abduser", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private AbdUser abduser;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
 	private Collection<AbdGroup> abdGroupCollection;
@@ -56,11 +56,9 @@ public class AbdAccount implements Serializable {
 	public AbdAccount() {
 	}
 
-
 	public AbdAccount(Integer id) {
 		this.id = id;
 	}
-
 
 	public AbdAccount(Integer id, String username, String passwort, String type) {
 		this.id = id;
@@ -141,5 +139,4 @@ public class AbdAccount implements Serializable {
 	public String toString() {
 		return "de.fhb.autobday.data.AbdAccount[ id=" + id + " ]";
 	}
-	
 }

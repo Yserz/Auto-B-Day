@@ -2,20 +2,20 @@ package de.fhb.autobday.exception;
 
 /**
  *
- * @author
- * Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
-public class HashFailException extends Exception{
-	
+public class HashFailException extends Exception {
+
 	/**
 	 * Constructor
 	 */
 	public HashFailException() {
 		super();
 	}
-	
+
 	/**
 	 * Konstruktor mit Parameter fuer die Message
+	 *
 	 * @param string
 	 */
 	public HashFailException(String string) {

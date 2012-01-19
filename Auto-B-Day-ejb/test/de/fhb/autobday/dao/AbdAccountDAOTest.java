@@ -1,39 +1,31 @@
 package de.fhb.autobday.dao;
 
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-
+import de.fhb.autobday.data.AbdAccount;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.fhb.autobday.data.AbdAccount;
-
 /**
  * Test of AbdAccountDAO
- * 
- * @author 
- * Christoph Ott
+ *
+ * @author Christoph Ott
  */
 public class AbdAccountDAOTest {
 
 	private static AbdAccountFacade accountDAOunderTest;
 	private EntityManager emMock;
 	private AbdAccount accountEntity;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		accountDAOunderTest = new AbdAccountFacade();
@@ -45,7 +37,7 @@ public class AbdAccountDAOTest {
 		accountDAOunderTest.setEntityManager(emMock);
 		accountEntity = new AbdAccount(11, "maja", "1234", "type");
 	}
-	
+
 	@Test
 	public void testContains() {
 		expect(emMock.contains(accountEntity)).andReturn(true);
@@ -61,15 +53,15 @@ public class AbdAccountDAOTest {
 		accountDAOunderTest.refresh(accountEntity);
 		verify(emMock);
 	}
-	
+
 	@Test
-	public void testCreate(){
+	public void testCreate() {
 		emMock.persist(accountEntity);
 		replay(emMock);
 		accountDAOunderTest.create(accountEntity);
 		verify(emMock);
 	}
-	
+
 	@Test
 	public void testEdit() {
 		expect(emMock.merge(accountEntity)).andReturn(accountEntity);
@@ -97,7 +89,7 @@ public class AbdAccountDAOTest {
 
 	@Test
 	@Ignore
-	public void testFindAll(){
+	public void testFindAll() {
 		CriteriaQuery criteriaQueryMock = createMock(CriteriaQuery.class);
 		CriteriaBuilder criteriaBuilderMock = createMock(CriteriaBuilder.class);
 		Root rootMock = createMock(Root.class);
@@ -117,28 +109,25 @@ public class AbdAccountDAOTest {
 		replay(criteriaQueryMock);
 		replay(rootMock);
 		replay(typedQueryMock);
-		
-		
+
+
 		accountDAOunderTest.findAll();
 		verify(criteriaBuilderMock);
 		verify(criteriaQueryMock);
 		verify(rootMock);
 		verify(typedQueryMock);
 		verify(emMock);
-		
+
 
 	}
 
 	@Test
 	@Ignore
 	public void testFindRange() {
-
 	}
 
 	@Test
 	@Ignore
 	public void testCount() {
-
 	}
-
 }

@@ -8,33 +8,35 @@ import javax.ejb.Local;
 /**
  * This is the mailmanager, which is responsible for sending mails
  *
- * @author
- * Andy Klay <klay@fh-brandenburg.de>
- * Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
+ * <koppen@fh-brandenburg.de>
  */
 @Local
 public interface GoogleMailManagerLocal {
 
 	/**
 	 * send a system mail
+	 *
 	 * @param subject
 	 * @param message
 	 * @param to
-	 * @throws Exception
+	 * @throws FailedToLoadPropertiesException
+	 * @throws FailedToSendMailException
 	 */
-	void sendSystemMail(String subject, String message, String to) 
+	void sendSystemMail(String subject, String message, String to)
 			throws FailedToLoadPropertiesException, FailedToSendMailException;
 
 	/**
 	 * send a user mail
-	 * 
+	 *
 	 * @param account
 	 * @param subject
 	 * @param message
 	 * @param to
+	 * @throws FailedToSendMailException
+	 * @throws FailedToLoadPropertiesException
 	 * @throws Exception
 	 */
-	void sendUserMail(AbdAccount account, String subject, String message, String to) 
+	void sendUserMail(AbdAccount account, String subject, String message, String to)
 			throws FailedToSendMailException, FailedToLoadPropertiesException, Exception;
-	
 }

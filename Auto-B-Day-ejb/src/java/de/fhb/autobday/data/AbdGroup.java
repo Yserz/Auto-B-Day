@@ -12,8 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * group for many contacts
  *
- * @author
- * Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Entity
 @Table(name = "abdgroup")
@@ -24,37 +23,38 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdGroup.findByName", query = "SELECT a FROM AbdGroup a WHERE a.name = :name"),
 	@NamedQuery(name = "AbdGroup.findByActive", query = "SELECT a FROM AbdGroup a WHERE a.active = :active")})
 public class AbdGroup implements Serializable {
-	@Basic(optional = 	false)
+
+	@Basic(optional = false)
 	@NotNull
 	@Column(name = "updated")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 	private static final long serialVersionUID = 1L;
 	@Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "id")
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "id")
 	private String id;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "name")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "name")
 	private String name;
 	@Basic(optional = false)
-    @NotNull
-    @Lob
-    @Size(min = 1, max = 65535)
-    @Column(name = "template")
+	@NotNull
+	@Lob
+	@Size(min = 1, max = 65535)
+	@Column(name = "template")
 	private String template;
 	@Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
+	@NotNull
+	@Column(name = "active")
 	private boolean active;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abdGroup", fetch = FetchType.LAZY)
 	private Collection<AbdGroupToContact> abdGroupToContactCollection;
 	@JoinColumn(name = "account", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private AbdAccount account;
 
 	public AbdGroup() {
@@ -151,5 +151,4 @@ public class AbdGroup implements Serializable {
 	public void setUpdated(Date updated) {
 		this.updated = updated;
 	}
-	
 }

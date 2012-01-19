@@ -1,42 +1,34 @@
 package de.fhb.autobday.dao;
 
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-
+import de.fhb.autobday.data.AbdContact;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import de.fhb.autobday.data.AbdContact;
-
 /**
  * Test of AbdContactDAO
- * 
- * @author 
- * Christoph Ott
+ *
+ * @author Christoph Ott
  */
 public class AbdContactDAOTest {
 
 	private static AbdContactFacade contactDAOunderTest;
 	private EntityManager emMock;
 	private AbdContact contactEntity;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		contactDAOunderTest = new AbdContactFacade();
@@ -50,7 +42,7 @@ public class AbdContactDAOTest {
 	}
 
 	@Test
-	public void testFindContactByBday(){
+	public void testFindContactByBday() {
 		Date bday = new Date(100, 5, 10);
 		List<AbdContact> collectionExpected = new ArrayList<AbdContact>();
 		collectionExpected.add(contactEntity);
@@ -66,7 +58,7 @@ public class AbdContactDAOTest {
 		verify(emMock);
 		verify(queryMock);
 	}
-	
+
 	@Test
 	public void testContains() {
 		expect(emMock.contains(contactEntity)).andReturn(true);
@@ -82,15 +74,15 @@ public class AbdContactDAOTest {
 		contactDAOunderTest.refresh(contactEntity);
 		verify(emMock);
 	}
-	
+
 	@Test
-	public void testCreate(){
+	public void testCreate() {
 		emMock.persist(contactEntity);
 		replay(emMock);
 		contactDAOunderTest.create(contactEntity);
 		verify(emMock);
 	}
-	
+
 	@Test
 	public void testEdit() {
 		expect(emMock.merge(contactEntity)).andReturn(contactEntity);
@@ -119,7 +111,7 @@ public class AbdContactDAOTest {
 
 	@Test
 	@Ignore
-	public void testFindAll(){
+	public void testFindAll() {
 		CriteriaQuery criteriaQueryMock = createMock(CriteriaQuery.class);
 		CriteriaBuilder criteriaBuilderMock = createMock(CriteriaBuilder.class);
 		Root rootMock = createMock(Root.class);
@@ -127,7 +119,7 @@ public class AbdContactDAOTest {
 		List<AbdContact> resultList = new ArrayList<AbdContact>();
 		resultList.add(contactEntity);
 		resultList.add(new AbdContact("22"));
-		
+
 		expect(emMock.getCriteriaBuilder()).andReturn(criteriaBuilderMock);
 		expect(criteriaBuilderMock.createQuery()).andReturn(criteriaQueryMock);
 		expect(criteriaQueryMock.from(AbdContact.class)).andReturn(rootMock);
@@ -135,34 +127,31 @@ public class AbdContactDAOTest {
 		expect(emMock.createQuery(criteriaQueryMock)).andReturn(typedQueryMock);
 		expect(typedQueryMock.getResultList()).andReturn(resultList);
 		assertEquals(resultList, contactDAOunderTest.findAll());
-		
+
 		replay(emMock);
 		replay(criteriaBuilderMock);
 		replay(criteriaQueryMock);
 		replay(rootMock);
 		replay(typedQueryMock);
-		
-		
+
+
 		contactDAOunderTest.findAll();
 		verify(criteriaBuilderMock);
 		verify(criteriaQueryMock);
 		verify(rootMock);
 		verify(typedQueryMock);
 		verify(emMock);
-		
+
 
 	}
 
 	@Test
 	@Ignore
 	public void testFindRange() {
-
 	}
 
 	@Test
 	@Ignore
 	public void testCount() {
-
 	}
-
 }

@@ -33,79 +33,74 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
 /**
- * The AccountManager processes all accountData specific things.
+ * {@inheritDoc}
  *
- * @author 
- * Andy Klay <klay@fh-brandenburg.de>
- * Michael Koppen <koppen@fh-brandenburg.de>
- * 
+ * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
+ * <koppen@fh-brandenburg.de>
+ *
  */
 @Stateless
 @Local
 @Interceptors(LoggerInterceptor.class)
 public class AccountManager implements AccountManagerLocal {
-	
+
 	private final static Logger LOGGER = Logger.getLogger(AccountManager.class.getName());
-	
 	@EJB
 	private AbdAccountFacade accountDAO;
-	
 	@EJB
 	private AbdContactFacade contactDAO;
-	
 	@EJB
 	private AbdUserFacade userDAO;
-	
 	@EJB
 	private GoogleImporter importer;
-	
 	private PropertyLoader propLoader;
-	
-	
+
 	public AccountManager() {
 		propLoader = new PropertyLoader();
 	}
 
-	
 	/**
-	 * (non-Javadoc)
-	 * @throws AccountAlreadyExsistsException 
-	 * @throws NoValidUserNameException 
-	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#addAccount(int, java.lang.String, java.lang.String, java.lang.String)
+	 * {@inheritDoc}
+	 *
+	 * @return AbdAccount
+	 * @throws AccountAlreadyExsistsException
+	 * @throws NoValidUserNameException
+	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#addAccount(int,
+	 * java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public AbdAccount addAccount(int abdUserId, String password, String userName, String type) 
+	public AbdAccount addAccount(int abdUserId, String password, String userName, String type)
 			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
-		
-		AbdUser actualUser=null;
-		String passwordChipher="";
+
+		AbdUser actualUser = null;
+		String passwordChipher = "";
 		Properties masterPassword;
-		
+
 		//search User
-		actualUser=userDAO.find(abdUserId);
-		
+		actualUser = userDAO.find(abdUserId);
+
 		//if account not found
-		if(actualUser==null){
+		if (actualUser == null) {
 			LOGGER.log(Level.SEVERE, "User {0} not found!", abdUserId);
 			throw new UserNotFoundException("User " + abdUserId + " not found!");
 		}
-		
+
 		//search if account already exists
-		for( AbdAccount actAccount : actualUser.getAbdAccountCollection()){
-			if(actAccount.getUsername().equals(userName)&&actAccount.getType().equals(type)){
+		for (AbdAccount actAccount : actualUser.getAbdAccountCollection()) {
+			if (actAccount.getUsername().equals(userName) && actAccount.getType().equals(type)) {
 				LOGGER.log(Level.SEVERE, "Account already exists!");
 				throw new AccountAlreadyExsistsException("Account already exists!");
 			}
 		}
-		
+
 		//check if userName is mailaddress
-		if(!EMailValidator.isGoogleMail(userName)){
+		if (!EMailValidator.isGoogleMail(userName)) {
 			LOGGER.log(Level.SEVERE, "UserName is no GoogleMail-address!");
 			throw new NoValidUserNameException("UserName is no GoogleMail-address!");
 		}
-		
+
 		try {
-			masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
+			masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
 			passwordChipher = CipherHelper.cipher(password, masterPassword.getProperty("master"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -126,11 +121,11 @@ public class AccountManager implements AccountManagerLocal {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		//add new Account
-		AbdAccount createdAccount=new AbdAccount();	
+		AbdAccount createdAccount = new AbdAccount();
 		createdAccount.setId(Integer.SIZE);
-		createdAccount.setAbduser(actualUser);		
+		createdAccount.setAbduser(actualUser);
 		createdAccount.setPasswort(passwordChipher);
 		createdAccount.setUsername(userName);
 		createdAccount.setType("google");
@@ -138,37 +133,43 @@ public class AccountManager implements AccountManagerLocal {
 		//create and save into db
 		accountDAO.create(createdAccount);
 		userDAO.refresh(actualUser);
-		
+
 		return createdAccount;
 	}
 
 	/**
-	 * (non-Javadoc)
-	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#removeAccount(de.fhb.autobday.data.AbdAccount)
+	 * {@inheritDoc}
+	 *
+	 * @throws AccountNotFoundException
+	 * @see
+	 * de.fhb.autobday.manager.account.AccountManagerLocal#removeAccount(de.fhb.autobday.data.AbdAccount)
 	 */
 	@Override
-	public void removeAccount(AbdAccount account) 
-			throws AccountNotFoundException{
-		
+	public void removeAccount(AbdAccount account)
+			throws AccountNotFoundException {
+
 		removeAccount(account.getId());
 	}
-	
+
 	/**
-	 * (non-Javadoc)
-	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#removeAccount(int)
+	 * {@inheritDoc}
+	 *
+	 * @throws AccountNotFoundException
+	 * @see
+	 * de.fhb.autobday.manager.account.AccountManagerLocal#removeAccount(int)
 	 */
 	@Override
-	public void removeAccount(int accountId) 
+	public void removeAccount(int accountId)
 			throws AccountNotFoundException {
-		
-		AbdAccount account=null;
+
+		AbdAccount account = null;
 		List<AbdContact> contactList = new ArrayList<AbdContact>();
-		
+
 		//search
-		account=accountDAO.find(accountId);
-		
+		account = accountDAO.find(accountId);
+
 		//if account not found
-		if(account==null){
+		if (account == null) {
 			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
 			throw new AccountNotFoundException("Account " + accountId + " not found!");
 		}
@@ -178,89 +179,94 @@ public class AccountManager implements AccountManagerLocal {
 				if (!contactList.contains(gtc.getAbdContact())) {
 					contactList.add(gtc.getAbdContact());
 				}
-				
-			}	
+
+			}
 		}
 		//delete acccount itself
 		accountDAO.remove(account);
-		
+
 		for (AbdContact contact : contactList) {
 			contactDAO.edit(contact);
 			contactDAO.remove(contact);
 		}
 		//and remove addtionally the contacts
-		
-		
-		
+
+
+
 	}
 
 	/**
-	 * (non-Javadoc)
-	 * @throws AccountNotFoundException 
-	 * @throws ConnectorNoConnectionException 
-	 * @throws NoConnectionException 
-	 * @throws ConnectorInvalidAccountException 
-	 * @throws ConnectorCouldNotLoginException 
-	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#importGroupsAndContacts(int)
+	 * {@inheritDoc}
+	 *
+	 * @throws AccountNotFoundException
+	 * @throws ConnectorNoConnectionException
+	 * @throws ConnectorInvalidAccountException
+	 * @throws ConnectorCouldNotLoginException
+	 * @see
+	 * de.fhb.autobday.manager.account.AccountManagerLocal#importGroupsAndContacts(int)
 	 */
 	@Override
-	public void importGroupsAndContacts(int accountId) 
-			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException{
-		
-		
-		AbdAccount account=null;
-		
+	public void importGroupsAndContacts(int accountId)
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
+
+
+		AbdAccount account = null;
+
 		//search
-		account=accountDAO.find(accountId);
-		
+		account = accountDAO.find(accountId);
+
 		//if account not found
-		if(account==null){
+		if (account == null) {
 			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
 			throw new AccountNotFoundException("Account " + accountId + " not found!");
 		}
-		
-		
+
+
 		//connect and import
 		importer.getConnection(account);
-		
+
 		importer.importContacts();
-		
+
 		accountDAO.refresh(account);
 	}
-	
+
 	/**
-	 * (non-Javadoc)
-	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#getAllGroupsFromAccount(de.fhb.autobday.data.AbdAccount)
+	 * {@inheritDoc}
+	 *
+	 * @see
+	 * de.fhb.autobday.manager.account.AccountManagerLocal#getAllGroupsFromAccount(de.fhb.autobday.data.AbdAccount)
 	 */
 	@Override
-	public List<AbdGroup> getAllGroupsFromAccount(AbdAccount account) 
-			throws AccountNotFoundException{
+	public List<AbdGroup> getAllGroupsFromAccount(AbdAccount account)
+			throws AccountNotFoundException {
 		return getAllGroupsFromAccount(account.getId());
 	}
-	
-	
+
 	/**
-	 * (non-Javadoc)
-	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#getAllGroupsFromAccount(int)
+	 * {@inheritDoc}
+	 *
+	 * @throws AccountNotFoundException
+	 * @see
+	 * de.fhb.autobday.manager.account.AccountManagerLocal#getAllGroupsFromAccount(int)
 	 */
 	@Override
-	public List<AbdGroup> getAllGroupsFromAccount(int accountId) 
-			throws AccountNotFoundException{
-		
-		
-		AbdAccount account=null;
-		List<AbdGroup> outputCollection=new ArrayList<AbdGroup>();
-		
+	public List<AbdGroup> getAllGroupsFromAccount(int accountId)
+			throws AccountNotFoundException {
+
+
+		AbdAccount account = null;
+		List<AbdGroup> outputCollection = new ArrayList<AbdGroup>();
+
 		//find object, verify input
-		account=accountDAO.find(accountId);
-		
-		if(account==null){
+		account = accountDAO.find(accountId);
+
+		if (account == null) {
 			LOGGER.log(Level.SEVERE, "Account does not exist!");
 			throw new AccountNotFoundException("Account does not exist!");
 		}
-		
-		outputCollection=new ArrayList<AbdGroup>(account.getAbdGroupCollection());
-		
+
+		outputCollection = new ArrayList<AbdGroup>(account.getAbdGroupCollection());
+
 		return outputCollection;
 	}
 
@@ -271,5 +277,4 @@ public class AccountManager implements AccountManagerLocal {
 	public void setPropLoader(PropertyLoader propLoader) {
 		this.propLoader = propLoader;
 	}
-	
 }

@@ -12,8 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * represents a dataconcept for contacts of a account
  *
- * @author
- * Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Entity
 @Table(name = "abdcontact")
@@ -28,40 +27,41 @@ import javax.xml.bind.annotation.XmlTransient;
 	@NamedQuery(name = "AbdContact.findByBday", query = "SELECT a FROM AbdContact a WHERE a.bday = :bday"),
 	@NamedQuery(name = "AbdContact.findByHashid", query = "SELECT a FROM AbdContact a WHERE a.hashid = :hashid")})
 public class AbdContact implements Serializable {
-	@Basic(optional = 	false)
+
+	@Basic(optional = false)
 	@NotNull
 	@Column(name = "bday")
 	@Temporal(TemporalType.DATE)
 	private Date bday;
-	@Basic(optional = 	false)
+	@Basic(optional = false)
 	@NotNull
 	@Column(name = "updated")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updated;
 	private static final long serialVersionUID = 1L;
 	@Id
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "id")
+	@Basic(optional = false)
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "id")
 	private String id;
 	@Size(max = 255)
-    @Column(name = "name")
+	@Column(name = "name")
 	private String name;
 	@Size(max = 255)
-    @Column(name = "firstname")
+	@Column(name = "firstname")
 	private String firstname;
 	@Column(name = "sex")
 	private Character sex;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "mail")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "mail")
 	private String mail = null;
 	@Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "hashid")
+	@NotNull
+	@Size(min = 1, max = 255)
+	@Column(name = "hashid")
 	private String hashid;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "abdContact", fetch = FetchType.LAZY)
 	private Collection<AbdGroupToContact> abdGroupToContactCollection;
@@ -176,5 +176,4 @@ public class AbdContact implements Serializable {
 	public void setUpdated(Date updated) {
 		this.updated = updated;
 	}
-	
 }

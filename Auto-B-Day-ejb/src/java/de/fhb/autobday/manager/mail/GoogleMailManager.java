@@ -21,7 +21,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * This is the mailmanager, which is responsible for sending mails
+ * {@inheritDoc}
  *
  * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
  * <koppen@fh-brandenburg.de>
@@ -29,7 +29,7 @@ import javax.mail.internet.MimeMessage;
 @Stateless
 @Local
 @Interceptors(LoggerInterceptor.class)
-public class GoogleMailManager implements GoogleMailManagerLocal{
+public class GoogleMailManager implements GoogleMailManagerLocal {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleMailManager.class.getName());
 	private PropertyLoader propLoader;
@@ -38,6 +38,15 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 		propLoader = new PropertyLoader();
 	}
 
+	/**
+	 * send a mail with the systemaccount (see property-file).
+	 *
+	 * @param subject
+	 * @param message
+	 * @param to
+	 * @throws FailedToLoadPropertiesException
+	 * @throws FailedToSendMailException
+	 */
 	@Override
 	public void sendSystemMail(String subject, String message, String to) throws FailedToLoadPropertiesException, FailedToSendMailException {
 
@@ -46,11 +55,11 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 		try {
 
 			//DONT CHANGE THIS PATH
-			accountProps = propLoader.loadSystemMailAccountProperty("/SystemMailAccount.properties");
-			Properties masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
-			
+			accountProps = propLoader.loadSystemProperty("/SystemMailAccount.properties");
+			Properties masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
+
 			String user = accountProps.getProperty("mail.smtp.user");
-			
+
 			String password = accountProps.getProperty("mail.smtp.password");
 
 			this.sendUserMailInternal(user, password, subject, message, to);
@@ -67,24 +76,47 @@ public class GoogleMailManager implements GoogleMailManagerLocal{
 
 	}
 
+	/**
+	 * send a mail with the useraccount.
+	 *
+	 * @param account
+	 * @param subject
+	 * @param message
+	 * @param to
+	 * @throws FailedToSendMailException
+	 * @throws FailedToLoadPropertiesException
+	 * @throws Exception
+	 */
 	@Override
 	public void sendUserMail(AbdAccount account, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
-		
-		System.out.println("password cip: "+account.getPasswort());
-		Properties masterPassword = propLoader.loadSystemchiperPasswordProperty("/SystemChiperPassword.properties");
+
+		System.out.println("password cip: " + account.getPasswort());
+		Properties masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
 		String passwordDeciphered = CipherHelper.decipher(account.getPasswort(), masterPassword.getProperty("master"));
-		System.out.println("password dec: "+passwordDeciphered);
-		
+		System.out.println("password dec: " + passwordDeciphered);
+
 		sendUserMailInternal(account.getUsername(), passwordDeciphered, subject, message, to);
 	}
 
+	/**
+	 * send a mail with any credentials.
+	 *
+	 * @param username
+	 * @param password
+	 * @param subject
+	 * @param message
+	 * @param to
+	 * @throws FailedToSendMailException
+	 * @throws FailedToLoadPropertiesException
+	 * @throws Exception
+	 */
 	protected void sendUserMailInternal(String username, String password, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
 		Properties systemProps = null;
 		try {
-			
+
 			//DONT CHANGE THIS PATH
-			systemProps = propLoader.loadSystemMailProperty("/SystemMail.properties");
-			
+			systemProps = propLoader.loadSystemProperty("/SystemMail.properties");
+
 			//systemProps
 			String host = systemProps.getProperty("mail.smtp.host");
 

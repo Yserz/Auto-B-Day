@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
+ * Facade-pattern for database operations.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
@@ -16,12 +17,13 @@ public abstract class AbstractFacade<T> {
 	}
 
 	public abstract EntityManager getEntityManager();
+
 	public abstract void setEntityManager(EntityManager em);
 
 	public void flush() {
 		getEntityManager().flush();
 	}
-	
+
 	public boolean contains(T entity) {
 		return getEntityManager().contains(entity);
 	}

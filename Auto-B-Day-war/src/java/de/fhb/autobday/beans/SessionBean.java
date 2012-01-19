@@ -9,12 +9,14 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 /**
+ * Bean for saving data into sessionscope.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named
 @SessionScoped
 public class SessionBean implements Serializable {
+
 	private AbdUser aktUser;
 	private AbdAccount aktAccount;
 	private AbdGroup aktGroup;
@@ -30,7 +32,6 @@ public class SessionBean implements Serializable {
 		return aktUser != null;
 	}
 
-	
 	public AbdContact getAktContact() {
 		return aktContact;
 	}
@@ -38,7 +39,7 @@ public class SessionBean implements Serializable {
 	public void setAktContact(AbdContact aktContact) {
 		this.aktContact = aktContact;
 	}
-	
+
 	public AbdUser getAktUser() {
 		return aktUser;
 	}
@@ -62,6 +63,4 @@ public class SessionBean implements Serializable {
 	public void setAktGroup(AbdGroup aktGroup) {
 		this.aktGroup = aktGroup;
 	}
-	
-	
 }

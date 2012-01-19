@@ -14,29 +14,30 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * ActionBean for changing the password-form.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named
 @RequestScoped
 public class ChangePasswordBean {
+
 	private final static Logger LOGGER = Logger.getLogger(ChangePasswordBean.class.getName());
 	@Inject
 	private UserManagerLocal userManager;
 	@Inject
 	private SessionBean sessionBean;
-	
 	private String oldPW;
 	private String newPW;
 	private String newPWRep;
+
 	/**
 	 * Creates a new instance of ChangePasswordBean
 	 */
 	public ChangePasswordBean() {
-		
 	}
 
-	public String changePassword(){
+	public String changePassword() {
 		try {
 			userManager.changePassword(sessionBean.getAktUser(), oldPW, newPW, newPWRep);
 			FacesContext.getCurrentInstance().addMessage(
@@ -80,7 +81,4 @@ public class ChangePasswordBean {
 	public void setOldPW(String oldPW) {
 		this.oldPW = oldPW;
 	}
-	
-	
-	
 }

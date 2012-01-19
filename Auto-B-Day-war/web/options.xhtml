@@ -11,7 +11,7 @@
 			<p:panel id="changepwpanel" rendered="#{sessionBean.loggedIn}" header="Ändern Ihres Passwortes" style="margin-bottom: 10px;">
 				<p:focus context="changepwpanel"/>
 				<h:panelGrid columns="4"> 
-					
+
 					<h:outputLabel for="oldPW" value="Old password:* " />
 					<p:password id="oldPW" 
 								value="#{changePasswordBean.oldPW}" 
@@ -23,7 +23,7 @@
 								maxlength="30"/>
 					<h:outputText value="(Max. 30 Zeichen)" />
 					<p:message for="oldPW" showSummary="true" />
-					
+
 					<h:outputLabel for="newPW" value="New password:* " />
 					<p:password id="newPW" 
 								value="#{changePasswordBean.newPW}" 
@@ -35,7 +35,7 @@
 								maxlength="30"/>
 					<h:outputText value="(Max. 30 Zeichen)" />
 					<p:message for="newPW" showSummary="true" />
-					
+
 					<h:outputLabel for="newPWWdhl" value="New password repetition:* " />
 					<p:password id="newPWWdhl" 
 								value="#{changePasswordBean.newPWRep}" 
@@ -58,7 +58,7 @@
 								 actionListener="#{changePasswordBean.changePassword}"/>
 			</p:panel>
 		</h:form>
-		
+
 	</ui:define>
 
 </ui:composition>

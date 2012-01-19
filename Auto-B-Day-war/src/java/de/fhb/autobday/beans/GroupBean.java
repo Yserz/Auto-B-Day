@@ -9,7 +9,6 @@ import de.fhb.autobday.exception.group.GroupException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.manager.contact.ContactManagerLocal;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
-import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -20,6 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * Bean for group-tasks.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
@@ -34,7 +34,6 @@ public class GroupBean {
 	private ContactManagerLocal contactManager;
 	@Inject
 	private SessionBean sessionBean;
-	
 	private ListDataModel<AbdContact> contactList;
 	private boolean activeState = false;
 	private String parsedTemplate = "";
@@ -58,8 +57,8 @@ public class GroupBean {
 		try {
 			groupManager.setTemplate(sessionBean.getAktGroup(), template);
 			FacesContext.getCurrentInstance().addMessage(
-								null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully edited template!", ""));
-				
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully edited template!", ""));
+
 		} catch (GroupException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
@@ -89,14 +88,14 @@ public class GroupBean {
 						LOGGER.log(Level.INFO, "was aktive");
 						contactManager.setActive(aktContact, aktGroup, false);
 						FacesContext.getCurrentInstance().addMessage(
-								null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully deaktivated "+aktContact.getFirstname()+" "+aktContact.getName()+"!", ""));
-				
+								null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully deaktivated " + aktContact.getFirstname() + " " + aktContact.getName() + "!", ""));
+
 					} else {
 						LOGGER.log(Level.INFO, "was inaktive");
 						contactManager.setActive(aktContact, aktGroup, true);
 						FacesContext.getCurrentInstance().addMessage(
-								null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Successfully aktivated "+aktContact.getFirstname()+" "+aktContact.getName()+"!", ""));
-				
+								null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Successfully aktivated " + aktContact.getFirstname() + " " + aktContact.getName() + "!", ""));
+
 					}
 				} catch (ContactException ex) {
 					LOGGER.log(Level.SEVERE, null, ex);
@@ -105,8 +104,8 @@ public class GroupBean {
 			} else {
 				LOGGER.log(Level.SEVERE, null, "Contact is not in a active group.");
 				FacesContext.getCurrentInstance().addMessage(
-								null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contact "+aktContact.getFirstname()+" "+aktContact.getName()+" is not in an aktive group!", ""));
-				
+						null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Contact " + aktContact.getFirstname() + " " + aktContact.getName() + " is not in an aktive group!", ""));
+
 			}
 		}
 		return null;
@@ -129,7 +128,7 @@ public class GroupBean {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		
+
 		return active;
 	}
 

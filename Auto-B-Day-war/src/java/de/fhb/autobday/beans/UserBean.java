@@ -14,21 +14,20 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * Bean for user-tasks.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named
 @RequestScoped
-public class UserBean implements Serializable{
+public class UserBean implements Serializable {
+
 	private final static Logger LOGGER = Logger.getLogger(UserBean.class.getName());
-	
 	@Inject
 	private UserManagerLocal userManager;
 	@Inject
 	private SessionBean sessionBean;
-	
 	private ListDataModel<AbdAccount> accountList;
-	
 
 	/**
 	 * Creates a new instance of UserBean
@@ -36,14 +35,14 @@ public class UserBean implements Serializable{
 	public UserBean() {
 		accountList = new ListDataModel<AbdAccount>();
 	}
-	
-	private void getAllAccountsFromUser(){
+
+	private void getAllAccountsFromUser() {
 		try {
 			accountList = new ListDataModel<AbdAccount>(userManager.getAllAccountsFromUser(sessionBean.getAktUser()));
-			
+
 		} catch (NullPointerException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (UserNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
@@ -58,6 +57,4 @@ public class UserBean implements Serializable{
 	public void setAccountList(ListDataModel<AbdAccount> accountList) {
 		this.accountList = accountList;
 	}
-
-	
 }

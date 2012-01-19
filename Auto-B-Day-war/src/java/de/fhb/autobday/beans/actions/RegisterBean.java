@@ -15,36 +15,34 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * ActionBean for register-form.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named
 @RequestScoped
 public class RegisterBean {
+
 	private final static Logger LOGGER = Logger.getLogger(RegisterBean.class.getName());
-	
 	@Inject
 	private UserManagerLocal userManager;
 	@Inject
 	private SessionBean sessionBean;
-	
 	private String firstName;
 	private String name;
 	private String userName;
 	private String mail;
 	private String password;
 	private String passwordWdhl;
-	
-	
 
 	/**
 	 * Creates a new instance of RegisterBean
 	 */
 	public RegisterBean() {
 	}
-	
-	public String register(){
-		
+
+	public String register() {
+
 		try {
 			AbdUser user = userManager.register(firstName, name, userName, mail, password, passwordWdhl);
 			sessionBean.setAktUser(user);
@@ -92,7 +90,6 @@ public class RegisterBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 
 	public String getFirstName() {
 		return firstName;
@@ -117,6 +114,4 @@ public class RegisterBean {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	
 }

@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * Bean for account-tasks.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */

@@ -3,19 +3,19 @@
       xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:p="http://primefaces.org/ui"
 	  xmlns:f="http://java.sun.com/jsf/core">
-    
+
     <h:body>
 		<ui:composition>
 			<p:panel id="accountList" header="AccountList" rendered="#{sessionBean.loggedIn}">
 				<h:form>
-					
+
 					<p:dataTable value="#{userBean.accountList}" 
-									var="account"
-									rows="20" 
-									paginator="true" 
-									emptyMessage="There are no Accounts"
-									paginatorAlwaysVisible="false">
-						
+								 var="account"
+								 rows="20" 
+								 paginator="true" 
+								 emptyMessage="There are no Accounts"
+								 paginatorAlwaysVisible="false">
+
 
 						<p:column>
 							<h:commandLink value="#{account.username}" action="#{accountBean.showAccount}">
@@ -32,7 +32,7 @@
 
 				</h:form>
 			</p:panel>
-	    </ui:composition>
+		</ui:composition>
     </h:body>
 </html>
 

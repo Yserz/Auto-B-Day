@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * ActionBean for update-account-form.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
@@ -25,7 +26,6 @@ public class UpdateAccountBean {
 	private AccountManagerLocal accountManager;
 	@Inject
 	private SessionBean sessionBean;
-	
 
 	/**
 	 * Creates a new instance of ImportNewAccountBean
@@ -48,7 +48,7 @@ public class UpdateAccountBean {
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 
 		}
-		
+
 		return null;
 	}
 }

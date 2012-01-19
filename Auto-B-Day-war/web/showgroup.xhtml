@@ -7,68 +7,68 @@
     <ui:define name="title">
 		Welcome to Auto-B-Day
 	</ui:define>
-	
+
 	<ui:define name="content">
 		<p:panel id="contactList" header="Contacts" rendered="#{sessionBean.loggedIn}">
-				<h:form>
-					<p:dataTable value="#{groupBean.contactList}" 
-									var="contact"
-									rows="10" 
-									paginator="true" 
-									emptyMessage="There are no Contacts"
-									paginatorAlwaysVisible="false">
-						
+			<h:form>
+				<p:dataTable value="#{groupBean.contactList}" 
+							 var="contact"
+							 rows="10" 
+							 paginator="true" 
+							 emptyMessage="There are no Contacts"
+							 paginatorAlwaysVisible="false">
 
-						<p:column>
-							<f:facet name="header"> 
-								<h:outputText value="Name" />
-							</f:facet>
-							#{contact.name}
-						</p:column>
-						<p:column>
-							<f:facet name="header"> 
-								<h:outputText value="Firstname" />
-							</f:facet>
-							#{contact.firstname}
-						</p:column>
-						<p:column>
-							<f:facet name="header"> 
-								<h:outputText value="Birthday" />
-							</f:facet>
-							<h:outputText value="#{contact.bday}">  
-								<f:convertDateTime pattern="dd.MM.yyyy"/>  
-							</h:outputText>
-							
-						</p:column>
-						<p:column>
-							<f:facet name="header"> 
-								<h:outputText value="Mail" />
-							</f:facet>
-							#{contact.mail}
-						</p:column>
-						<p:column style="width: 10px;">
-							<f:facet name="header"> 
-								<h:outputText value="aktive" />
-							</f:facet>
-							<p:selectBooleanCheckbox id="aktiv" value="#{groupBean.activeState}">
-								<p:ajax update="aktiv" listener="#{groupBean.toggleContactActivation}"/> 
-								
-							</p:selectBooleanCheckbox>
-						</p:column>
-						<p:column style="width: 20px;">
-							<f:facet name="header"> 
-								<h:outputText value="Test Template" />
-							</f:facet>
-							<p:commandButton value="Test" action="#{groupBean.testTemplate}" ajax="false">
-								<f:setPropertyActionListener target="#{sessionBean.aktContact}" value="#{contact}" />
-							</p:commandButton>
-						</p:column>
 
-					</p:dataTable>
-					
-				</h:form>
-			</p:panel>
-			
+					<p:column>
+						<f:facet name="header"> 
+							<h:outputText value="Name" />
+						</f:facet>
+						#{contact.name}
+					</p:column>
+					<p:column>
+						<f:facet name="header"> 
+							<h:outputText value="Firstname" />
+						</f:facet>
+						#{contact.firstname}
+					</p:column>
+					<p:column>
+						<f:facet name="header"> 
+							<h:outputText value="Birthday" />
+						</f:facet>
+						<h:outputText value="#{contact.bday}">  
+							<f:convertDateTime pattern="dd.MM.yyyy"/>  
+						</h:outputText>
+
+					</p:column>
+					<p:column>
+						<f:facet name="header"> 
+							<h:outputText value="Mail" />
+						</f:facet>
+						#{contact.mail}
+					</p:column>
+					<p:column style="width: 10px;">
+						<f:facet name="header"> 
+							<h:outputText value="aktive" />
+						</f:facet>
+						<p:selectBooleanCheckbox id="aktiv" value="#{groupBean.activeState}">
+							<p:ajax update="aktiv" listener="#{groupBean.toggleContactActivation}"/> 
+
+						</p:selectBooleanCheckbox>
+					</p:column>
+					<p:column style="width: 20px;">
+						<f:facet name="header"> 
+							<h:outputText value="Test Template" />
+						</f:facet>
+						<p:commandButton value="Test" action="#{groupBean.testTemplate}" ajax="false">
+							<f:setPropertyActionListener target="#{sessionBean.aktContact}" value="#{contact}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+
+			</h:form>
+		</p:panel>
+
 
 	</ui:define>
 

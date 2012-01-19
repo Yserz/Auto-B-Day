@@ -35,22 +35,22 @@
 											 update="loginpanel" />
 						</h:panelGrid>
 					</p:panel>
-					
+
 
 				</h:form>
 				<h:form>
 					<h:panelGrid columns="3" rendered="#{!sessionBean.loggedIn}">
 						<p:commandLink value="Passwort vergessen" 
-								   immediate="true"
-								   ajax="false"
-								   action="forgotpassword"/>
-						 | 
+									   immediate="true"
+									   ajax="false"
+									   action="forgotpassword"/>
+						| 
 						<p:commandLink value="Registrieren" 
-								   immediate="true"
-								   ajax="false"
-								   action="register"/>
+									   immediate="true"
+									   ajax="false"
+									   action="register"/>
 					</h:panelGrid>
-					
+
 
 					<p:commandButton value="Logout" 
 									 ajax="false"

@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * ActionBean for importing-new-account-form.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
@@ -33,7 +34,6 @@ public class ImportNewAccountBean {
 	private SessionBean sessionBean;
 	@Inject
 	private AccountBean accountBean;
-	
 	private String password;
 	private String userName;
 	private String type;
@@ -64,7 +64,7 @@ public class ImportNewAccountBean {
 				accountBean.deleteAccount();
 				FacesContext.getCurrentInstance().addMessage(
 						null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-				
+
 			}
 		} catch (NoValidUserNameException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
@@ -79,7 +79,7 @@ public class ImportNewAccountBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		
+
 		return null;
 	}
 

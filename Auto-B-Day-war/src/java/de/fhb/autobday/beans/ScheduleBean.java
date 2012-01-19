@@ -1,10 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.beans;
 
-import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
@@ -21,23 +16,22 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
-import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 /**
+ * Bean for schedule-tasks.
  *
- * @author MacYser
+ * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named
 @RequestScoped
 public class ScheduleBean {
-	private final static Logger LOGGER = Logger.getLogger(ScheduleBean.class.getName());
 
+	private final static Logger LOGGER = Logger.getLogger(ScheduleBean.class.getName());
 	@Inject
 	private AccountManagerLocal accountManager;
 	@Inject
@@ -46,21 +40,20 @@ public class ScheduleBean {
 	private ContactManagerLocal contactManager;
 	@Inject
 	private SessionBean sessionBean;
-	
 	private ScheduleModel eventModel;
 
 	/**
 	 * Creates a new instance of ScheduleBean
 	 */
 	public ScheduleBean() {
-		
 	}
-	private void getAllContactsFromAccount(){
+
+	private void getAllContactsFromAccount() {
 		List<AbdGroup> groups = new ArrayList<AbdGroup>();
 		List<AbdContact> contacts = new ArrayList<AbdContact>();
 		try {
 			groups = accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount());
-			
+
 			//getAllActiveContatcts
 			for (AbdGroup abdGroup : groups) {
 				List<AbdContact> tempcontacts = groupManager.getAllContactsFromGroup(abdGroup);
@@ -73,17 +66,17 @@ public class ScheduleBean {
 						LOGGER.log(Level.SEVERE, null, ex);
 					}
 				}
-				
+
 			}
 			eventModel = new DefaultScheduleModel();
 			for (AbdContact abdContact : contacts) {
-				eventModel.addEvent(new DefaultScheduleEvent(abdContact.getFirstname()+" "+abdContact.getName(), abdContact.getBday(), abdContact.getBday(), true));
+				eventModel.addEvent(new DefaultScheduleEvent(abdContact.getFirstname() + " " + abdContact.getName(), abdContact.getBday(), abdContact.getBday(), true));
 			}
 		} catch (AccountNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-		}  catch (NoGroupGivenException ex) {
+		} catch (NoGroupGivenException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
@@ -92,8 +85,8 @@ public class ScheduleBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		
-		
+
+
 	}
 
 	public ScheduleModel getEventModel() {
@@ -104,5 +97,4 @@ public class ScheduleBean {
 	public void setEventModel(ScheduleModel eventModel) {
 		this.eventModel = eventModel;
 	}
-	
 }

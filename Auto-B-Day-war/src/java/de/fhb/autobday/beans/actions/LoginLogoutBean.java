@@ -15,6 +15,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 /**
+ * ActionBean for login-logout-form.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */

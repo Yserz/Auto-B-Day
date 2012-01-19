@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
@@ -15,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * ActionBean for mail-form.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */

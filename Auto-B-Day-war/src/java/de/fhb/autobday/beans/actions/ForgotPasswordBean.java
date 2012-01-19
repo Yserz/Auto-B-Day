@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
@@ -18,32 +14,33 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * ActionBean for sending a new password-form.
  *
  * @author Michael Koppen <koppen@fh-brandenburg.de>
  */
 @Named
 @RequestScoped
 public class ForgotPasswordBean {
+
 	private final static Logger LOGGER = Logger.getLogger(ForgotPasswordBean.class.getName());
 	@Inject
 	private UserManagerLocal userManager;
 	@Inject
 	private SessionBean sessionBean;
-	
 	private String userName;
+
 	/**
 	 * Creates a new instance of ForgotPasswordBean
 	 */
 	public ForgotPasswordBean() {
-		
 	}
 
-	public String sendForgotPasswordMail(){
+	public String sendForgotPasswordMail() {
 		try {
 			userManager.sendForgotPasswordMail(userName);
 			FacesContext.getCurrentInstance().addMessage(
-				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mail was send. Please check your mails.", ""));
-		
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Mail was send. Please check your mails.", ""));
+
 		} catch (MailException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(
@@ -57,10 +54,10 @@ public class ForgotPasswordBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
-		
+
 		return "index";
 	}
-	
+
 	public String getUserName() {
 		return userName;
 	}
@@ -68,6 +65,4 @@ public class ForgotPasswordBean {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	
-	
 }

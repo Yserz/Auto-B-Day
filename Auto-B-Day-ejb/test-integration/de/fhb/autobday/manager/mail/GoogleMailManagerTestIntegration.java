@@ -39,9 +39,9 @@ public class GoogleMailManagerTestIntegration {
 		accountProps.setProperty("mail.smtp.user", "fhbtestacc@googlemail.com");
 		accountProps.setProperty("mail.smtp.password", "TestGoogle123");
 
-
+		
 		expect(propLoader.loadSystemProperty("/SystemMailAccount.properties")).andReturn(accountProps);
-
+		expect(propLoader.loadSystemProperty("/SystemChiperPassword.properties")).andReturn(accountProps);
 		replay(propLoader);
 
 		mailManagerUnderTest.sendSystemMail("It´s a test", "A test", "fhbtestacc@googlemail.com");
@@ -59,13 +59,13 @@ public class GoogleMailManagerTestIntegration {
 		mailManagerUnderTest.setPropLoader(propLoader);
 
 		Properties props = new Properties();
-		props.setProperty("mail.smtp.host", "smtp.gmail.com");
-		props.setProperty("mail.smtp.port", "587");
-		props.setProperty("mail.smtp.auth", "true");
-		props.setProperty("mail.smtp.starttls.enable", "true");
-		props.setProperty("mail.smtp.debug", "true");
+		props.setProperty("master", "xxx");
+//		props.setProperty("mail.smtp.port", "587");
+//		props.setProperty("mail.smtp.auth", "true");
+//		props.setProperty("mail.smtp.starttls.enable", "true");
+//		props.setProperty("mail.smtp.debug", "true");
 
-		expect(propLoader.loadSystemProperty("/SystemMail.properties")).andReturn(props);
+		expect(propLoader.loadSystemProperty("/SystemChiperPassword.properties")).andReturn(props);
 		replay(propLoader);
 
 		mailManagerUnderTest.sendUserMail(account, "It´s a testSendUserMail", "A test", "fhbtestacc@googlemail.com");

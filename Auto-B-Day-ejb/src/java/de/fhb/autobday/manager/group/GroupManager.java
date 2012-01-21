@@ -1,5 +1,19 @@
 package de.fhb.autobday.manager.group;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
+
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
@@ -10,16 +24,6 @@ import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.exception.group.NoGroupGivenException;
 import de.fhb.autobday.manager.LoggerInterceptor;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
 
 /**
  *
@@ -303,6 +307,10 @@ public class GroupManager implements GroupManagerLocal {
 
 					output.append(contact.getBday());
 
+				} else if (tagExpression.equals("age")) {
+
+					output.append(calcAge(contact.getBday()));
+					
 				} else if (tagExpression.contains("/")) {
 
 					output.append(this.parseSlashExpression(tagExpression, 'm'));
@@ -456,5 +464,30 @@ public class GroupManager implements GroupManagerLocal {
 
 		return output.toString();
 
+	}
+	
+
+	/**
+	 *  calc the age of a contact
+	 * @param birthday
+	 * @return
+	 */
+	protected int calcAge(Date birthday) {
+
+		int age=0;
+		Date currentDate = new Date(System.currentTimeMillis());
+		Calendar currentDateCal = Calendar.getInstance();
+		Calendar bdayDateCal = Calendar.getInstance();
+		
+		bdayDateCal.setTime(birthday);
+		currentDateCal.setTime(currentDate);
+		
+		if(bdayDateCal.get(Calendar.MONTH)<currentDateCal.get(Calendar.MONTH)&&bdayDateCal.get(Calendar.DAY_OF_MONTH)<currentDateCal.get(Calendar.DAY_OF_MONTH)){
+			age=currentDateCal.get(Calendar.YEAR)-bdayDateCal.get(Calendar.YEAR);
+		}else{
+			age=currentDateCal.get(Calendar.YEAR)-bdayDateCal.get(Calendar.YEAR)-1;
+		}
+
+		return age;
 	}
 }

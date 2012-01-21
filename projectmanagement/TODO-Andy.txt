@@ -9,7 +9,3 @@ DEADLINE Sonntag den 29.01.2012 um 23:59 Uhr (Abgabe)
 - DOKU hat Vorrang!
 - Tests fixen, nicht mehr machbar mit meinem Zeitbudet!
 
-Implementieren
-*****************
-- templatecommand wie alt der contact denn nu eigentlich geworden ist! (MACH ICH HEUTE)
-- TemplateParser alter errechnen  (MACH ICH HEUTE)

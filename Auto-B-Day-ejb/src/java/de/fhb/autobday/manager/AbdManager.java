@@ -8,7 +8,7 @@ import de.fhb.autobday.data.*;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
 import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;

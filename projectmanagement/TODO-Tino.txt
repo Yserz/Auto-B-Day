@@ -6,32 +6,14 @@ TODO - Tino
 DEADLINE Sonntag den 29.01.2012 um 23:59 Uhr (Abgabe)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
---- Allgemein 	---
+****************************************************************************************************
+- ne zeichnung Anfertigen für die DOKU wie wir mit google interagieren, was das fuern webservice is
+***************************************************************************************************
 
-- Erneuten Import ermöglichen
-
-
-	nebenbei wenn moeglich...
+	 mal nen Check machen...
  	*************************
  	- restl. TODOs ueberall in den Managern loesen, FALLS noch welche da sein sollten
  	- fehlende Tests ergaenzen, FALLS noch welche auffallen sollten
  	- fehlende javadoc, FALLS noch welche fehlen sollten
  	
-
-*** DB 			***
-
-- 
-
-*** Persistent 	***
-
-- 
-
-*** Session 	***
-
-- 
-
-*** GUI 		***
-
-- 
-
-
+ 	

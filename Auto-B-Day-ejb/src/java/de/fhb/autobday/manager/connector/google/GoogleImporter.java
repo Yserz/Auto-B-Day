@@ -159,7 +159,7 @@ public class GoogleImporter extends AImporter {
 		}
 	}
 
-	/**
+        /**
 	 * Methode that update the Contact of an Account
 	 */
 	protected void updateContacts() {
@@ -179,48 +179,12 @@ public class GoogleImporter extends AImporter {
 				abdContactInDB = contactDAO.find(abdContact.getId());
 				LOGGER.log(Level.INFO, "Contact in db: {0}", abdContactInDB);
 				if (abdContactInDB == null) {
-					groupMembershipInfos = contactEntry.getGroupMembershipInfos();
-					membershipCounter = 0;
-					for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
-						membershipCounter++;
-						for (AbdGroup abdGroup : accdata.getAbdGroupCollection()) {
-							if (abdGroup.getId().equals(groupMembershipInfo.getHref())) {
-								contactDAO.create(abdContact);
-								contactDAO.flush();
-								abdGroupToContact = new AbdGroupToContact();
-								
-								gtcPK = new AbdGroupToContactPK(
-										abdGroup.getId(),
-										abdContact.getId());
-								abdGroupToContact.setAbdGroupToContactPK(gtcPK);
-								
-								abdGroupToContact.setAbdContact(abdContact);
-								if (membershipCounter > 1) {
-									abdGroupToContact.setActive(false);
-								} else {
-									abdGroupToContact.setActive(true);
-								}
-								
-								abdGroupToContact.setAbdGroup(abdGroup);
-								
-								LOGGER.log(Level.INFO, "Contact: {0}", abdGroupToContact.getAbdContact());
-								LOGGER.log(Level.INFO, "Group: {0}", abdGroupToContact.getAbdGroup());
-								LOGGER.log(Level.INFO, "Active: {0}", abdGroupToContact.getActive());
-								LOGGER.log(Level.INFO, "ContactPK: {0}", abdGroupToContact.getAbdGroupToContactPK().getContact());
-								LOGGER.log(Level.INFO, "GroupPK: {0}", abdGroupToContact.getAbdGroupToContactPK().getGroup());
-								
-								groupToContactDAO.create(abdGroupToContact);
-								groupToContactDAO.flush();
-								
-								abdGroup.getAbdGroupToContactCollection().add(abdGroupToContact);
-								
-								groupDAO.edit(abdGroup);
-								groupDAO.flush();
-							}
-						}
-					}
+					contactDAO.create(abdContact);
+					contactDAO.flush();
+					updateMembership(abdContact, contactEntry);
 				} else {
 					if (abdContact.getUpdated().after(abdContactInDB.getUpdated())) {
+                                                updateMembership(abdContact, contactEntry);
 						contactDAO.edit(abdContact);
 					}
 				}
@@ -262,6 +226,56 @@ public class GoogleImporter extends AImporter {
 		}
 		accdata.setAbdGroupCollection(abdGroups);
 	}
+        
+        public void updateMembership(AbdContact abdContact, ContactEntry contactEntry){
+            
+            List<GroupMembershipInfo> groupMembershipInfos = contactEntry.getGroupMembershipInfos();
+            List<AbdGroupToContact> abdMemberships = new ArrayList<AbdGroupToContact>(abdContact.getAbdGroupToContactCollection());
+            AbdGroupToContact abdMembership;
+            
+            boolean match=false;
+            
+            for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos){
+                for(AbdGroupToContact abdGroupToContact : abdMemberships){
+                    match = false;
+                    if(abdGroupToContact.getAbdGroup().getId().equals(groupMembershipInfo.getHref())){
+                        match = true;
+                    }
+                }
+                if (!match){
+                    abdMembership = new AbdGroupToContact(groupMembershipInfo.getHref(), abdContact.getId());
+                    groupToContactDAO.create(abdMembership);
+                    groupToContactDAO.flush();
+                    
+                }
+            }
+           
+            for(AbdGroupToContact abdGroupToContact : abdMemberships){
+                for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos){
+                    match = false;
+                    if(abdGroupToContact.getAbdGroup().getId().equals(groupMembershipInfo.getHref())){
+                        match = true;
+                    }
+                }
+                if (!match){
+                    abdMemberships.remove(abdGroupToContact);
+                    groupToContactDAO.remove(abdGroupToContact);
+                    groupToContactDAO.flush();
+                }
+            }
+            
+            match=false;
+            for(AbdGroupToContact abdGroupToContact : abdMemberships){
+                if (abdGroupToContact.getActive()){
+                    match = true;
+                }
+            }
+            if (!match){
+                abdMemberships.get(0).setActive(true);
+                groupToContactDAO.edit(abdMemberships.get(0));
+                groupToContactDAO.flush();
+            }
+        }
 
 	/**
 	 * get all groups from google from the connected account
@@ -467,7 +481,7 @@ public class GoogleImporter extends AImporter {
 	 * @return Date
 	 */
 	protected Date getGContactBirthday(ContactEntry contactEntry) {
-		String gContactBirthday = null;
+		String gContactBirthday;
 		Date bday = null;
 		try {
 			gContactBirthday = contactEntry.getBirthday().getValue();

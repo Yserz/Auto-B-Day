@@ -59,8 +59,6 @@ public class GroupManager implements GroupManagerLocal {
 		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
 
-		//TODO beim setten umlaute rausfiltern
-
 
 		if (actualGroup == null) {
 			//if group not found
@@ -103,8 +101,6 @@ public class GroupManager implements GroupManagerLocal {
 
 		//find group
 		AbdGroup actualGroup = groupDAO.find(groupId);
-
-		//TODO beim setten umlaute rausfiltern.
 
 		if (actualGroup == null) {
 			//if group not found
@@ -268,7 +264,8 @@ public class GroupManager implements GroupManagerLocal {
 
 			//appending of text between expresions
 			output.append(template.substring(lastend, matcher.start()));
-			//merke das ende fuer den Anfang des naechsten zwischen Textes
+			
+			//save the end of this for the next start of the text between
 			lastend = matcher.end();
 
 			//analyze content of clamp
@@ -409,7 +406,7 @@ public class GroupManager implements GroupManagerLocal {
 	 * @param template
 	 * @return
 	 */
-	//TODO Entfernen
+	//TODO ersetzen/verbessern
 	@Deprecated
 	protected String filterUmlauts(String template) {
 
@@ -425,7 +422,8 @@ public class GroupManager implements GroupManagerLocal {
 
 			//appending of text between expresions
 			output.append(template.substring(lastend, matcher.start()));
-			//merke das ende fuer den Anfang des naechsten zwischen Textes
+			
+			//save the end of this for the next start of the text between
 			lastend = matcher.end();
 
 			// fetch content

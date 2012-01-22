@@ -67,6 +67,18 @@ public interface AccountManagerLocal {
 	 */
 	void importGroupsAndContacts(int accountId)
 			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException;
+        
+        /**
+	 * update all groups and contacts
+	 *
+	 * @param accountId
+	 * @throws AccountNotFoundException
+	 * @throws ConnectorCouldNotLoginException
+	 * @throws ConnectorInvalidAccountException
+	 * @throws ConnectorNoConnectionException
+	 */
+	void updateGroupsAndContacts(int accountId)
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException;
 
 	/**
 	 * get all groups of a specific account by a AbdAccountobject

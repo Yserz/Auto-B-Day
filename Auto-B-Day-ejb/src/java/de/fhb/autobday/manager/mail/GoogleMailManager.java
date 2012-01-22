@@ -56,7 +56,6 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 
 			//DONT CHANGE THIS PATH
 			accountProps = propLoader.loadSystemProperty("/SystemMailAccount.properties");
-			Properties masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
 
 			String user = accountProps.getProperty("mail.smtp.user");
 
@@ -90,10 +89,8 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 	@Override
 	public void sendUserMail(AbdAccount account, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
 
-		System.out.println("password cip: " + account.getPasswort());
 		Properties masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
 		String passwordDeciphered = CipherHelper.decipher(account.getPasswort(), masterPassword.getProperty("master"));
-		System.out.println("password dec: " + passwordDeciphered);
 
 		sendUserMailInternal(account.getUsername(), passwordDeciphered, subject, message, to);
 	}

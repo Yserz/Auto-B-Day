@@ -10,9 +10,9 @@
 
 	<ui:define name="content">
 		<h:form>
-			<p:panel visible="false" id="importpanel" rendered="#{sessionBean.loggedIn}" header="Erneutes Importieren eines Accounts" style="margin-bottom: 10px;">
+			<p:panel id="updatepanel" rendered="#{sessionBean.loggedIn}" header="Update eines Accounts" style="margin-bottom: 10px;">
 
-				<p:commandButton value="Import again" 
+				<p:commandButton value="Update account" 
 								 icon="ui-icon ui-icon-disk"
 								 ajax="false"
 								 actionListener="#{updateAccountBean.updateAccount}"/>

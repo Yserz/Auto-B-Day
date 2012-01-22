@@ -35,7 +35,7 @@ public class UpdateAccountBean {
 
 	public String updateAccount() {
 		try {
-			accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
+			accountManager.updateGroupsAndContacts(sessionBean.getAktAccount().getId());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!", ""));
 		} catch (AccountNotFoundException ex) {

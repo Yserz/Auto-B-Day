@@ -16,7 +16,7 @@ import javax.inject.Named;
 /**
  * ActionBean for sending a new password-form.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Named
 @RequestScoped

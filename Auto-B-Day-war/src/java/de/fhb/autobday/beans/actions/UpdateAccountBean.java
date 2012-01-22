@@ -15,7 +15,7 @@ import javax.inject.Named;
 /**
  * ActionBean for update-account-form.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Named
 @RequestScoped

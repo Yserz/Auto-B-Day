@@ -29,6 +29,7 @@ public class PropertyLoader {
 			props.load(stream);
 			stream.close();
 		} finally {
+			//May set some default values.
 		}
 		return props;
 	}

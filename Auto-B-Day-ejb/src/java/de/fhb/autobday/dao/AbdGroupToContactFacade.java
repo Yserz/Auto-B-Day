@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 /**
  * Facade-pattern for database operations for GroupToContact.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Stateless
 public class AbdGroupToContactFacade extends AbstractFacade<AbdGroupToContact> {

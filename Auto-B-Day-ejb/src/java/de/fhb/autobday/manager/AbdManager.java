@@ -8,11 +8,7 @@ import de.fhb.autobday.data.*;
 import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
 import de.fhb.autobday.manager.mail.GoogleMailManagerLocal;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -21,10 +17,10 @@ import javax.ejb.*;
 import javax.interceptor.Interceptors;
 
 /**
- * {@inheritDoc}
+ * Implementation of AbdManager.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>, Andy Klay
- * <klay@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
+ * @author Andy Klay mail: klay@fh-brandenburg.de
  */
 @Startup
 @Stateless

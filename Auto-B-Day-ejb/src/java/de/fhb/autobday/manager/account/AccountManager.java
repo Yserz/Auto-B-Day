@@ -33,10 +33,10 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
 /**
- * {@inheritDoc}
+ * Implementation of AccountManager.
  *
- * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de>
+ * @author Andy Klay mail: klay@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  *
  */
 @Stateless

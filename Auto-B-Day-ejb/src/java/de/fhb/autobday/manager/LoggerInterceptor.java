@@ -10,7 +10,7 @@ import javax.interceptor.InvocationContext;
  * responsible for logging genaral information about actual classname methodname
  * and params.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 public class LoggerInterceptor {
 
@@ -19,7 +19,7 @@ public class LoggerInterceptor {
 	 * params.
 	 *
 	 * @param context
-	 * @return
+	 * @return context proceed
 	 * @throws Exception
 	 */
 	@AroundInvoke

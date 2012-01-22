@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  * group for many contacts
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Entity
 @Table(name = "abdgroup")

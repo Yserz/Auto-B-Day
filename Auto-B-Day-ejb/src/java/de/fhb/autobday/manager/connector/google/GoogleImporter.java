@@ -43,7 +43,7 @@ import javax.interceptor.Interceptors;
  *
  * variablename if the variable start with abd this is an Auto-B-Day model
  *
- * @author Tino Reuschel <reuschel@fh-brandenburg.de>
+ * @author Tino Reuschel mail: reuschel@fh-brandenburg.de
  */
 @Stateless
 @LocalBean

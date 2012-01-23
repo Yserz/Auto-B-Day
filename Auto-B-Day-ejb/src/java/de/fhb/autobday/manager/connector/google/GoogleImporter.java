@@ -150,6 +150,8 @@ public class GoogleImporter extends AImporter {
 			accountDAO.flush();
 			
 			updateGroups();
+                        accountDAO.edit(accdata);
+                        accountDAO.flush();
 			updateContacts();
 			
 			accountDAO.edit(accdata);
@@ -186,6 +188,7 @@ public class GoogleImporter extends AImporter {
                                         abdContact.setAbdGroupToContactCollection(abdContactInDB.getAbdGroupToContactCollection());
 					if (abdContact.getUpdated().after(abdContactInDB.getUpdated())) {
 						contactDAO.edit(abdContact);
+                                                contactDAO.flush();
 					}
 				}
                                 updateMembership(abdContact, contactEntry);
@@ -278,8 +281,8 @@ public class GoogleImporter extends AImporter {
                     abdMembership = new AbdGroupToContact(groupMembershipInfo.getHref(), abdContact.getId());
                     abdMembership.setAbdGroup(abdGroup);
                     abdMembership.setAbdContact(abdContact);
-                    //abdMemberships.add(abdMembership);
-                    groupToContactDAO.create(abdMembership);
+                    abdMemberships.add(abdMembership);
+                    //groupToContactDAO.create(abdMembership);
                     groupToContactDAO.flush();
                 }
             }

@@ -280,23 +280,6 @@ public class AccountManager implements AccountManagerLocal {
 
     @Override
     public void updateGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
-        		AbdAccount account = null;
-
-		//search
-		account = accountDAO.find(accountId);
-
-		//if account not found
-		if (account == null) {
-			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
-			throw new AccountNotFoundException("Account " + accountId + " not found!");
-		}
-
-
-		//connect and import
-		importer.getConnection(account);
-
-		importer.importContacts();
-
-		accountDAO.refresh(account);
+        	importGroupsAndContacts(accountId);
     }
 }

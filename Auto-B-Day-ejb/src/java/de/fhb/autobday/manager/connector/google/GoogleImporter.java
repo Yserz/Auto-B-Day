@@ -149,7 +149,7 @@ public class GoogleImporter extends AImporter {
 		if (connectionEtablished && accdata != null) {
 			accountDAO.flush();
 			
-			updateGroups();
+			//updateGroups();
 			updateContacts();
 			
 			accountDAO.edit(accdata);
@@ -170,6 +170,7 @@ public class GoogleImporter extends AImporter {
 		AbdGroupToContactPK gtcPK;
 		
 		int membershipCounter;
+                boolean foundMatch;
 		
 		for (ContactEntry contactEntry : contacts) {
 			abdContact = mapGContactToContact(contactEntry);
@@ -181,49 +182,76 @@ public class GoogleImporter extends AImporter {
 				if (abdContactInDB == null) {
 					contactDAO.create(abdContact);
 					contactDAO.flush();
-					updateMembership(abdContact, contactEntry);
 				} else {
+                                        abdContact.setAbdGroupToContactCollection(abdContactInDB.getAbdGroupToContactCollection());
 					if (abdContact.getUpdated().after(abdContactInDB.getUpdated())) {
-                                                updateMembership(abdContact, contactEntry);
 						contactDAO.edit(abdContact);
 					}
 				}
+                                updateMembership(abdContact, contactEntry);
 			}
 		}
-	}
+                                
+        }
 
 	/**
 	 * Method that update the Groups of an Account
 	 */
 	protected void updateGroups() {
 		AbdGroup abdGroup;
+                AbdGroup abdGroupOld;
 		List<ContactGroupEntry> groups = getAllGroups();
 		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>(
 				accdata.getAbdGroupCollection());
+                List<Integer> toRemove = new ArrayList<Integer>();
 		
 		boolean foundMatch = false;
+        
 		for (ContactGroupEntry contactGroupEntry : groups) {
 			abdGroup = mapGGroupToGroup(contactGroupEntry);
 			LOGGER.log(Level.INFO, "Found GroupID: {0} Name: {1}", new Object[]{abdGroup, abdGroup.getName()});
 			// iterare over old groups
-			for (AbdGroup abdGroupOld : abdGroups) {
-				foundMatch = false;
+                        foundMatch = false;
+			for (int i=0; i<abdGroups.size(); i++) {
+                                abdGroupOld = abdGroups.get(i);
 				// if new group == old group
 				if (abdGroup.getId().equals(abdGroupOld.getId())) {
 					foundMatch = true;
 					// and if new group newer than the old group
 					if (abdGroup.getUpdated().after(abdGroupOld.getUpdated())) {
-						abdGroups.remove(abdGroupOld);
-						abdGroups.add(abdGroup);
+                                                groupDAO.edit(abdGroup);
+                                                groupDAO.flush();
+                                                abdGroups.remove(i);
+						//abdGroups.remove(abdGroupOld);
+                                                abdGroups.add(i, abdGroup);
 					}
 					
 				}
 			}
 			if (!foundMatch) {
 				abdGroups.add(abdGroup);
+                                System.out.println("Create new Group");
 			}
 			
 		}
+                
+                for(AbdGroup abdGroupInDB : abdGroups){
+                    foundMatch=false;
+                    for(ContactGroupEntry groupEntry: groups){
+                        if (abdGroupInDB.getId().equals(groupEntry.getId())){
+                            foundMatch=true;
+                        }
+                    }
+                    if(!foundMatch){
+                         toRemove.add(0, abdGroups.indexOf(abdGroupInDB));
+                    }
+                }
+                
+                for(Integer index:toRemove){
+                    groupDAO.remove(abdGroups.get(index.intValue()));
+                    abdGroups.remove(index.intValue());
+                }
+                
 		accdata.setAbdGroupCollection(abdGroups);
 	}
         
@@ -231,39 +259,56 @@ public class GoogleImporter extends AImporter {
             
             List<GroupMembershipInfo> groupMembershipInfos = contactEntry.getGroupMembershipInfos();
             List<AbdGroupToContact> abdMemberships = new ArrayList<AbdGroupToContact>(abdContact.getAbdGroupToContactCollection());
+            List<Integer> toRemove = new ArrayList<Integer>();
             AbdGroupToContact abdMembership;
+            AbdGroup abdGroup;
             
             boolean match=false;
             
             for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos){
+                match = false;
                 for(AbdGroupToContact abdGroupToContact : abdMemberships){
-                    match = false;
+                    
                     if(abdGroupToContact.getAbdGroup().getId().equals(groupMembershipInfo.getHref())){
                         match = true;
                     }
                 }
                 if (!match){
+                    abdGroup = groupDAO.find(groupMembershipInfo.getHref());
                     abdMembership = new AbdGroupToContact(groupMembershipInfo.getHref(), abdContact.getId());
+                    abdMembership.setAbdGroup(abdGroup);
+                    abdMembership.setAbdContact(abdContact);
+                    //abdMemberships.add(abdMembership);
                     groupToContactDAO.create(abdMembership);
                     groupToContactDAO.flush();
-                    
                 }
             }
-           
-            for(AbdGroupToContact abdGroupToContact : abdMemberships){
+           /*
+  
+                for(Integer index:toRemove){
+                    groupDAO.remove(abdGroups.get(index.intValue()));
+                    abdGroups.remove(index.intValue());
+                }
+            */
+            System.out.println("before remove1");
+             for(AbdGroupToContact abdGroupToContact : abdMemberships){
+                match = false;
                 for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos){
-                    match = false;
                     if(abdGroupToContact.getAbdGroup().getId().equals(groupMembershipInfo.getHref())){
                         match = true;
                     }
                 }
                 if (!match){
-                    abdMemberships.remove(abdGroupToContact);
-                    groupToContactDAO.remove(abdGroupToContact);
-                    groupToContactDAO.flush();
+                    toRemove.add(0, abdMemberships.indexOf(abdGroupToContact));                           
                 }
             }
             
+            for(Integer index: toRemove){
+                System.out.println("remove");
+                groupToContactDAO.remove(abdMemberships.get(index.intValue()));
+                abdMemberships.remove(index.intValue());
+            }
+             
             match=false;
             for(AbdGroupToContact abdGroupToContact : abdMemberships){
                 if (abdGroupToContact.getActive()){
@@ -275,6 +320,10 @@ public class GoogleImporter extends AImporter {
                 groupToContactDAO.edit(abdMemberships.get(0));
                 groupToContactDAO.flush();
             }
+            
+            abdContact.setAbdGroupToContactCollection(abdMemberships);
+            contactDAO.edit(abdContact);
+            
         }
 
 	/**

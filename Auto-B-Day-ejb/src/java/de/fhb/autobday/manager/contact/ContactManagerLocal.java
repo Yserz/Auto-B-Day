@@ -25,8 +25,9 @@ public interface ContactManagerLocal {
 	 * @param active
 	 * @throws ContactNotFoundException
 	 * @throws ContactToGroupNotFoundException
+	 * @throws GroupNotFoundException  
 	 */
-	void setActive(AbdContact contact, AbdGroup group, boolean active) throws ContactNotFoundException, ContactToGroupNotFoundException;
+	void setActive(AbdContact contact, AbdGroup group, boolean active) throws ContactNotFoundException, ContactToGroupNotFoundException, GroupNotFoundException;
 
 	/**
 	 * set a contact to a active stat for sending bdaymails by a contactid
@@ -36,8 +37,9 @@ public interface ContactManagerLocal {
 	 * @param active
 	 * @throws ContactNotFoundException
 	 * @throws ContactToGroupNotFoundException
+	 * @throws GroupNotFoundException  
 	 */
-	void setActive(String contactId, String groupId, boolean active) throws ContactNotFoundException, ContactToGroupNotFoundException;
+	void setActive(String contactId, String groupId, boolean active) throws ContactNotFoundException, ContactToGroupNotFoundException, GroupNotFoundException;
 
 	/**
 	 * get a contact by a contactid

@@ -132,8 +132,8 @@ public class UserManager implements UserManagerLocal {
 	public AbdUser register(String firstName, String name, String userName, String mail, String password, String passwordRepeat)
 			throws IncompleteUserRegisterException, NoValidUserNameException, HashFailException {
 
-		AbdUser user = null;
-		AbdUser checkUser = null;
+		AbdUser user;
+		AbdUser checkUser;
 		String salt = "";
 		String hash = "";
 
@@ -250,16 +250,12 @@ public class UserManager implements UserManagerLocal {
 	public List<AbdAccount> getAllAccountsFromUser(int userId)
 			throws UserNotFoundException {
 
-		AbdUser user = null;
+		AbdUser user;
 		List<AbdAccount> outputCollection = new ArrayList<AbdAccount>();
 
-		//find object, verify input
-		user = userDAO.find(userId);
-
-		if (user == null) {
-			LOGGER.log(Level.SEVERE, "User does not exist!");
-			throw new UserNotFoundException("User does not exist!");
-		}
+		//lookup for user
+		user = findUser(userId);
+		
 		userDAO.refresh(user);
 		for (AbdAccount actualAccount : user.getAbdAccountCollection()) {
 			outputCollection.add(actualAccount);
@@ -281,7 +277,7 @@ public class UserManager implements UserManagerLocal {
 			throws MailException, UserNotFoundException, HashFailException {
 
 		//getUser
-		AbdUser user = null;
+		AbdUser user;
 		String newPassword;
 		String mailBody;
 		String hash = "";
@@ -357,7 +353,7 @@ public class UserManager implements UserManagerLocal {
 	public void changePassword(int userId, String oldPassword, String password, String passwordRepeat)
 			throws UserNotFoundException, PasswordInvalidException, HashFailException {
 
-		AbdUser user = null;
+		AbdUser user;
 		String salt = "";
 		String hash = "";
 
@@ -377,13 +373,8 @@ public class UserManager implements UserManagerLocal {
 			throw new PasswordInvalidException("Password too short!");
 		}
 
-		//search user
-		user = userDAO.find(userId);
-
-		if (user == null) {
-			LOGGER.log(Level.SEVERE, "User is not found!");
-			throw new UserNotFoundException("User is not found!");
-		}
+		//lookup for user
+		user = findUser(userId);
 
 		// generate Salt
 		salt = PasswordGenerator.generateSalt();
@@ -404,5 +395,25 @@ public class UserManager implements UserManagerLocal {
 		user.setSalt(salt);
 		user.setPasswort(hash);
 		userDAO.edit(user);
+	}
+	/**
+	 * Method to lookup for a user.
+	 * if no user exists exception is thrown.
+	 * 
+	 * @param userId user to find
+	 * @return found user
+	 * @throws UserNotFoundException 
+	 */
+	protected AbdUser findUser(int userId) throws UserNotFoundException{
+		AbdUser user;
+		//search User
+		user = userDAO.find(userId);
+
+		//if account not found
+		if (user == null) {
+			LOGGER.log(Level.SEVERE, "User {0} not found!", userId);
+			throw new UserNotFoundException("User " + userId + " not found!");
+		}
+		return user;
 	}
 }

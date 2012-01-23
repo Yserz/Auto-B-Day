@@ -54,15 +54,8 @@ public class GroupManager implements GroupManagerLocal {
 	public AbdGroup getGroup(String groupId)
 			throws GroupNotFoundException {
 
-		//find group
-		AbdGroup actualGroup = groupDAO.find(groupId);
-
-
-		if (actualGroup == null) {
-			//if group not found
-			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
-			throw new GroupNotFoundException("Group " + groupId + "not found!");
-		}
+		//lookup for group
+		AbdGroup actualGroup = findGroup(groupId);
 
 		return actualGroup;
 	}
@@ -97,14 +90,8 @@ public class GroupManager implements GroupManagerLocal {
 	public void setTemplate(String groupId, String template)
 			throws GroupNotFoundException {
 
-		//find group
-		AbdGroup actualGroup = groupDAO.find(groupId);
-
-		if (actualGroup == null) {
-			//if group not found
-			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
-			throw new GroupNotFoundException("Group " + groupId + "not found!");
-		}
+		//lookup for group
+		AbdGroup actualGroup = findGroup(groupId);
 
 		actualGroup.setTemplate(template);
 	}
@@ -123,14 +110,8 @@ public class GroupManager implements GroupManagerLocal {
 
 		String output = "dummy";
 
-		//find group
-		AbdGroup actualGroup = groupDAO.find(groupId);
-
-		if (actualGroup == null) {
-			//if group not found
-			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
-			throw new GroupNotFoundException("Group " + groupId + "not found!");
-		}
+		//lookup for group
+		AbdGroup actualGroup = findGroup(groupId);
 
 		output = actualGroup.getTemplate();
 
@@ -155,25 +136,13 @@ public class GroupManager implements GroupManagerLocal {
 
 		String output = "dummy";
 
-		//find group
-		AbdGroup actualGroup = groupDAO.find(groupId);
-
-		if (actualGroup == null) {
-			//if group not found
-			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
-			throw new GroupNotFoundException("Group " + groupId + "not found!");
-		}
+		//lookup for group
+		AbdGroup actualGroup = findGroup(groupId);
 
 		String template = actualGroup.getTemplate();
 
-		//find contact for test
-		AbdContact chosenContact = contactDAO.find(contactId);
-
-		if (chosenContact == null) {
-			//if contact not found
-			LOGGER.log(Level.SEVERE, "Contact {0} not found!", contactId);
-			throw new ContactNotFoundException("Contact " + contactId + "not found!");
-		}
+		//lookup for contact
+		AbdContact chosenContact = findContact(contactId);
 
 		output = this.parseTemplate(template, chosenContact);
 
@@ -210,14 +179,8 @@ public class GroupManager implements GroupManagerLocal {
 	public void setActive(String groupId, boolean active)
 			throws GroupNotFoundException {
 
-		//find group
-		AbdGroup actualGroup = groupDAO.find(groupId);
-
-		if (actualGroup == null) {
-			//if group not found
-			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
-			throw new GroupNotFoundException("Group " + groupId + "not found!");
-		}
+		//lookup for group
+		AbdGroup actualGroup = findGroup(groupId);
 
 		actualGroup.setActive(active);
 
@@ -378,16 +341,12 @@ public class GroupManager implements GroupManagerLocal {
 	public List<AbdContact> getAllContactsFromGroup(String groupId)
 			throws GroupNotFoundException {
 
-		AbdGroup group = null;
+		AbdGroup group;
 		List<AbdContact> outputCollection = new ArrayList<AbdContact>();
 
-		//find object, verify input
-		group = groupDAO.find(groupId);
-
-		if (group == null) {
-			LOGGER.log(Level.SEVERE, "Group does not exist!");
-			throw new GroupNotFoundException("Group does not exist!");
-		}
+		//lookup for group
+		group = findGroup(groupId);
+		
 		for (AbdGroupToContact actualGroupToContact : group.getAbdGroupToContactCollection()) {
 			outputCollection.add(actualGroupToContact.getAbdContact());
 		}
@@ -469,7 +428,7 @@ public class GroupManager implements GroupManagerLocal {
 	 */
 	protected int calcAge(Date birthday) {
 
-		int age=0;
+		int age;
 		Date currentDate = new Date(System.currentTimeMillis());
 		Calendar currentDateCal = Calendar.getInstance();
 		Calendar bdayDateCal = Calendar.getInstance();
@@ -484,5 +443,46 @@ public class GroupManager implements GroupManagerLocal {
 		}
 
 		return age;
+	}
+	/**
+	 * Method to lookup for a group.
+	 * if no group exists exception is thrown.
+	 * 
+	 * @param groupId group to find
+	 * @return found group
+	 * @throws GroupNotFoundException 
+	 */
+	protected AbdGroup findGroup(String groupId) throws GroupNotFoundException{
+		AbdGroup group;
+		
+		//find group
+		group = groupDAO.find(groupId);
+
+		if (group == null) {
+			//if group not found
+			LOGGER.log(Level.SEVERE, "Group {0} not found!", groupId);
+			throw new GroupNotFoundException("Group " + groupId + " not found!");
+		}
+		return group;
+	}
+	/**
+	 * Method to lookup for a contact.
+	 * if no contact exists exception is thrown.
+	 * 
+	 * @param contactId contact to find
+	 * @return found contact
+	 * @throws ContactNotFoundException 
+	 */
+	protected AbdContact findContact(String contactId) throws ContactNotFoundException{
+		AbdContact contact;
+		
+		contact = contactDAO.find(contactId);
+
+		if (contact == null) {
+			//if contact not found
+			LOGGER.log(Level.SEVERE, "Contact {0} not found!", contactId);
+			throw new ContactNotFoundException("Contact " + contactId + " not found!");
+		}
+		return contact;
 	}
 }

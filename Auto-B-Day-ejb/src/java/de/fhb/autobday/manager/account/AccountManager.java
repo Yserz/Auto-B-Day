@@ -62,6 +62,7 @@ public class AccountManager implements AccountManagerLocal {
 	/**
 	 * {@inheritDoc}
 	 *
+	 * @param userId 
 	 * @return AbdAccount
 	 * @throws AccountAlreadyExsistsException
 	 * @throws NoValidUserNameException
@@ -69,24 +70,18 @@ public class AccountManager implements AccountManagerLocal {
 	 * java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public AbdAccount addAccount(int abdUserId, String password, String userName, String type)
+	public AbdAccount addAccount(int userId, String password, String userName, String type)
 			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
 
-		AbdUser actualUser = null;
+		AbdUser user;
 		String passwordChipher = "";
 		Properties masterPassword;
 
-		//search User
-		actualUser = userDAO.find(abdUserId);
-
-		//if account not found
-		if (actualUser == null) {
-			LOGGER.log(Level.SEVERE, "User {0} not found!", abdUserId);
-			throw new UserNotFoundException("User " + abdUserId + " not found!");
-		}
+		//lookup for user
+		user = findUser(userId);
 
 		//search if account already exists
-		for (AbdAccount actAccount : actualUser.getAbdAccountCollection()) {
+		for (AbdAccount actAccount : user.getAbdAccountCollection()) {
 			if (actAccount.getUsername().equals(userName) && actAccount.getType().equals(type)) {
 				LOGGER.log(Level.SEVERE, "Account already exists!");
 				throw new AccountAlreadyExsistsException("Account already exists!");
@@ -125,14 +120,14 @@ public class AccountManager implements AccountManagerLocal {
 		//add new Account
 		AbdAccount createdAccount = new AbdAccount();
 		createdAccount.setId(Integer.SIZE);
-		createdAccount.setAbduser(actualUser);
+		createdAccount.setAbduser(user);
 		createdAccount.setPasswort(passwordChipher);
 		createdAccount.setUsername(userName);
 		createdAccount.setType("google");
 
 		//create and save into db
 		accountDAO.create(createdAccount);
-		userDAO.refresh(actualUser);
+		userDAO.refresh(user);
 
 		return createdAccount;
 	}
@@ -165,14 +160,9 @@ public class AccountManager implements AccountManagerLocal {
 		AbdAccount account = null;
 		List<AbdContact> contactList = new ArrayList<AbdContact>();
 
-		//search
-		account = accountDAO.find(accountId);
-
-		//if account not found
-		if (account == null) {
-			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
-			throw new AccountNotFoundException("Account " + accountId + " not found!");
-		}
+		//lookup for account
+		account = findAccount(accountId);
+		
 		//notice the contacts of this account
 		for (AbdGroup group : account.getAbdGroupCollection()) {
 			for (AbdGroupToContact gtc : group.getAbdGroupToContactCollection()) {
@@ -191,8 +181,6 @@ public class AccountManager implements AccountManagerLocal {
 		}
 		//and remove addtionally the contacts
 
-
-
 	}
 
 	/**
@@ -210,16 +198,10 @@ public class AccountManager implements AccountManagerLocal {
 			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
 
 
-		AbdAccount account = null;
+		AbdAccount account;
 
-		//search
-		account = accountDAO.find(accountId);
-
-		//if account not found
-		if (account == null) {
-			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
-			throw new AccountNotFoundException("Account " + accountId + " not found!");
-		}
+		//lookup for account
+		account = findAccount(accountId);
 
 
 		//connect and import
@@ -254,8 +236,8 @@ public class AccountManager implements AccountManagerLocal {
 			throws AccountNotFoundException {
 
 
-		AbdAccount account = null;
-		List<AbdGroup> outputCollection = new ArrayList<AbdGroup>();
+		AbdAccount account;
+		List<AbdGroup> outputCollection;
 
 		//find object, verify input
 		account = accountDAO.find(accountId);
@@ -270,16 +252,58 @@ public class AccountManager implements AccountManagerLocal {
 		return outputCollection;
 	}
 
-	public PropertyLoader getPropLoader() {
-		return propLoader;
-	}
-
-	public void setPropLoader(PropertyLoader propLoader) {
-		this.propLoader = propLoader;
-	}
-
-    @Override
+	@Override
     public void updateGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
         	importGroupsAndContacts(accountId);
     }
+	/**
+	 * Method to lookup for a account.
+	 * if no account exists exception is thrown.
+	 * 
+	 * @param accountId account to find
+	 * @return found account
+	 * @throws AccountNotFoundException 
+	 */
+	protected AbdAccount findAccount(int accountId) throws AccountNotFoundException{
+		AbdAccount account;
+		//search
+		account = accountDAO.find(accountId);
+
+		//if account not found
+		if (account == null) {
+			LOGGER.log(Level.SEVERE, "Account {0} not found!", accountId);
+			throw new AccountNotFoundException("Account " + accountId + " not found!");
+		}
+		return account;
+	}
+	/**
+	 * Method to lookup for a user.
+	 * if no user exists exception is thrown.
+	 * 
+	 * @param userId user to find
+	 * @return found user
+	 * @throws UserNotFoundException 
+	 */
+	protected AbdUser findUser(int userId) throws UserNotFoundException{
+		AbdUser user;
+		//search User
+		user = userDAO.find(userId);
+
+		//if account not found
+		if (user == null) {
+			LOGGER.log(Level.SEVERE, "User {0} not found!", userId);
+			throw new UserNotFoundException("User " + userId + " not found!");
+		}
+		return user;
+	}
+	
+	protected PropertyLoader getPropLoader() {
+		return propLoader;
+	}
+
+	protected void setPropLoader(PropertyLoader propLoader) {
+		this.propLoader = propLoader;
+	}
+
+    
 }

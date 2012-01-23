@@ -11,7 +11,6 @@ import de.fhb.autobday.manager.contact.ContactManagerLocal;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,11 +76,10 @@ public class ScheduleBean {
 				for (int j = 0; j < 120; j++) {
 					Calendar bday = Calendar.getInstance();
 					bday.setTime(abdContact.getBday());
-					bday.add(bday.DAY_OF_MONTH, -1);
+					bday.add(bday.HOUR, -1);
 					bday.add(bday.YEAR, +i);
-					System.out.println("Added date: "+new Date(bday.getTimeInMillis()));
 					eventModel.addEvent(new DefaultScheduleEvent(abdContact.getFirstname() + " " + abdContact.getName(), bday.getTime(),
-						abdContact.getBday(),
+						bday.getTime(),
 						true));
 					i++;
 				}

@@ -141,9 +141,9 @@ public class ContactManagerTest {
 	 * Test fail of setActive method, of class ContactManager. This test
 	 * provokes a ContactNotFoundException!
 	 */
-	@Test(expected = ContactNotFoundException.class)
-	public void testSetActiveShouldThrowContactNotFoundExceptionBecauseNoGroup() throws Exception {
-		System.out.println("testSetActiveShouldThrowContactNotFoundException");
+	@Test(expected = GroupNotFoundException.class)
+	public void testSetActiveShouldThrowGroupNotFoundException() throws Exception {
+		System.out.println("testSetActiveShouldThrowGroupNotFoundException");
 
 		//prepare test variables
 		boolean isActive = true;

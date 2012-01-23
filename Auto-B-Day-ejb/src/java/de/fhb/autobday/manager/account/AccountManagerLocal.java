@@ -16,8 +16,8 @@ import javax.ejb.Local;
  *
  * The AccountManager processes all accountData specific things.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de> Andy Klay
- * <klay@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
+ * @author Andy Klay mail: klay@fh-brandenburg.de
  *
  */
 @Local
@@ -30,7 +30,7 @@ public interface AccountManagerLocal {
 	 * @param password
 	 * @param userName
 	 * @param type
-	 * @return
+	 * @return the currently added Account
 	 * @throws UserNotFoundException
 	 * @throws AccountAlreadyExsistsException
 	 * @throws NoValidUserNameException

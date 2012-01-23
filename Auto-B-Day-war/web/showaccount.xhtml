@@ -9,21 +9,10 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form>
-			<p:panel id="updatepanel" rendered="#{sessionBean.loggedIn}" header="Update eines Accounts" style="margin-bottom: 10px;">
-
-				<p:commandButton value="Update account" 
-								 icon="ui-icon ui-icon-disk"
-								 ajax="false"
-								 actionListener="#{updateAccountBean.updateAccount}"/>
-			</p:panel>
-		</h:form>
-		<p:panel id="schedulepanel" header="Übersicht der aktiven Kontakte in diesem Account" rendered="#{sessionBean.loggedIn}" toggleable="true" toggleSpeed="200" >
-			<p:schedule value="#{scheduleBean.eventModel}" widgetVar="schedule">  
-
-			</p:schedule>
+		<p:panel id="schedulepanel" header="Übersicht der aktiven Kontakte in diesem Account" rendered="#{sessionBean.loggedIn}" toggleable="true" toggleSpeed="200" style="margin-bottom: 10px;">
+			<p:schedule value="#{scheduleBean.eventModel}" widgetVar="schedule" />
 		</p:panel>
-		<p:panel id="groupList" header="Groups" rendered="#{sessionBean.loggedIn}">
+		<p:panel id="groupList" header="Groups" rendered="#{sessionBean.loggedIn}" style="margin-bottom: 10px;">
 
 			<h:form>
 				<p:dataTable value="#{accountBean.groupList}" 
@@ -83,7 +72,14 @@
 
 			</h:form>
 		</p:panel>
-
+		<p:panel id="updatepanel" rendered="#{sessionBean.loggedIn}" header="Update dieses Accounts" style="margin-bottom: 10px;">
+			<h:form>
+				<p:commandButton value="Update account" 
+								icon="ui-icon ui-icon-disk"
+								ajax="false"
+								actionListener="#{updateAccountBean.updateAccount}"/>
+			</h:form>
+		</p:panel>
 
 	</ui:define>
 

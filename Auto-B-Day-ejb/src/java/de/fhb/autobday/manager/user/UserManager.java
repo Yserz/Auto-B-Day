@@ -23,10 +23,10 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
 /**
- * {@inheritDoc}
+ * Implementation of UserManager.
  *
- * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de>
+ * @author Andy Klay mail: klay@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  *
  */
 @Stateless
@@ -274,13 +274,11 @@ public class UserManager implements UserManagerLocal {
 	 *
 	 * @param userName
 	 * @throws HashFailException
-	 * @see
-	 * de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
+	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendSystemMail(String, String, String)
 	 */
 	@Override
 	public void sendForgotPasswordMail(String userName)
 			throws MailException, UserNotFoundException, HashFailException {
-		// enge zusammenarbeit mit usermanager
 
 		//getUser
 		AbdUser user = null;
@@ -338,8 +336,7 @@ public class UserManager implements UserManagerLocal {
 	 * @param passwordRepeat
 	 * @throws PasswordInvalidException
 	 * @throws HashFailException
-	 * @see
-	 * de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
+	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendSystemMail(String, String, String)
 	 */
 	@Override
 	public void changePassword(AbdUser user, String oldPassword, String password, String passwordRepeat)
@@ -354,8 +351,7 @@ public class UserManager implements UserManagerLocal {
 	 * @param password
 	 * @throws HashFailException
 	 * @throws PasswordInvalidException
-	 * @see
-	 * de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendForgotPasswordMail(int)
+	 * @see de.fhb.autobday.manager.mail.GoogleMailManagerLocal#sendSystemMail(String, String, String)
 	 */
 	@Override
 	public void changePassword(int userId, String oldPassword, String password, String passwordRepeat)

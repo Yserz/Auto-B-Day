@@ -9,7 +9,7 @@ import java.util.Properties;
 /**
  * Loads some propertyfiles
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 public class PropertyLoader {
 
@@ -29,6 +29,7 @@ public class PropertyLoader {
 			props.load(stream);
 			stream.close();
 		} finally {
+			//May set some default values.
 		}
 		return props;
 	}

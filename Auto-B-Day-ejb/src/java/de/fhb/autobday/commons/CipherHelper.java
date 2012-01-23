@@ -14,21 +14,22 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * Helper for cipher Strings with DES.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 public class CipherHelper {
 
 	/**
 	 * Ciphers a given String. key length has to be 8 characters.
 	 *
-	 * @param raw
-	 * @param key
+	 * @param raw the String to cipher
+	 * @param key the key to cipher the String
 	 * @return ciphered String
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchPaddingException
 	 * @throws IllegalBlockSizeException
 	 * @throws BadPaddingException
 	 * @throws InvalidKeyException
+	 * @throws UnsupportedEncodingException  
 	 */
 	public static String cipher(String raw, String key) throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, UnsupportedEncodingException {
 
@@ -45,14 +46,16 @@ public class CipherHelper {
 	/**
 	 * Deciphers a given String. key length has to be 8 characters.
 	 *
-	 * @param raw
-	 * @param key
+	 * @param raw the String to decipher
+	 * @param key the key to decipher the String
 	 * @return decipered String
 	 * @throws NoSuchAlgorithmException
 	 * @throws NoSuchPaddingException
 	 * @throws IllegalBlockSizeException
 	 * @throws BadPaddingException
 	 * @throws InvalidKeyException
+	 * @throws UnsupportedEncodingException
+	 * @throws IOException  
 	 */
 	public static String decipher(String raw, String key) throws NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException, UnsupportedEncodingException, IOException {
 		String output;

@@ -8,8 +8,8 @@ import javax.ejb.Local;
 /**
  * This is the mailmanager, which is responsible for sending mails
  *
- * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de>
+ * @author Andy Klay mail: klay@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Local
 public interface GoogleMailManagerLocal {

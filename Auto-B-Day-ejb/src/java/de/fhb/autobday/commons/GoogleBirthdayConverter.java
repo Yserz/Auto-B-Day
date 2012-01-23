@@ -1,14 +1,14 @@
 package de.fhb.autobday.commons;
 
-import java.sql.Date;
-
 import de.fhb.autobday.exception.CanNotConvetGoogleBirthdayException;
+import java.sql.Date;
 
 /**
  * Helper to convert a string with a birthdaydate to a date-object.
  *
- * @author Tino Reuschel <reuschel@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de> Andy Klay <klay@fh-brandenburg.de>
+ * @author Tino Reuschel mail: reuschel@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
+ * @author Andy Klay mail: klay@fh-brandenburg.de
  */
 public class GoogleBirthdayConverter {
 

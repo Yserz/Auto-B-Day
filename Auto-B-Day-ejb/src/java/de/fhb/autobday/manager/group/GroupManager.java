@@ -1,19 +1,5 @@
 package de.fhb.autobday.manager.group;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.interceptor.Interceptors;
-
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.data.AbdContact;
@@ -24,13 +10,25 @@ import de.fhb.autobday.exception.contact.NoContactGivenException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.exception.group.NoGroupGivenException;
 import de.fhb.autobday.manager.LoggerInterceptor;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 
 /**
  *
- * {@inheritDoc}
+ * Implementation of GroupManager.
  *
- * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de>
+ * @author Andy Klay mail: klay@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  *
  */
 @Stateless
@@ -323,14 +321,11 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * TODO beschreibung
 	 *
 	 * @param expression
 	 * @param sex
-	 * @return
-	 * @see
-	 * de.fhb.autobday.manager.group.GroupManagerLocal#parseSlashExpression(java.lang.String,
-	 * char)
+	 * @return left or right input
 	 */
 	protected String parseSlashExpression(String expression, char sex) {
 
@@ -404,9 +399,11 @@ public class GroupManager implements GroupManagerLocal {
 	 * filters umlauts
 	 *
 	 * @param template
-	 * @return
+	 * @return edited template
+	 * 
+	 * @deprecated 
 	 */
-	//TODO ersetzen/verbessern
+	//TODO ersetzen/verbessern...nein entfernen
 	@Deprecated
 	protected String filterUmlauts(String template) {
 
@@ -468,7 +465,7 @@ public class GroupManager implements GroupManagerLocal {
 	/**
 	 *  calc the age of a contact
 	 * @param birthday
-	 * @return
+	 * @return age of contact
 	 */
 	protected int calcAge(Date birthday) {
 

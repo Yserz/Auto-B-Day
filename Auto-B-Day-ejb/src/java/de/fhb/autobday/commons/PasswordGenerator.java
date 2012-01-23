@@ -4,8 +4,9 @@ package de.fhb.autobday.commons;
  * This class generates passwords and signs for security affairs.
  *
  *
- * @author Tino Reuschel <reuschel@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de> Andy Klay <klay@fh-brandenburg.de>
+ * @author Tino Reuschel mail: reuschel@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de 
+ * @author Andy Klay mail: klay@fh-brandenburg.de
  *
  */
 public class PasswordGenerator {

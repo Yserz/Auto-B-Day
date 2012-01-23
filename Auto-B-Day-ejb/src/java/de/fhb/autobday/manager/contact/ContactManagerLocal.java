@@ -10,8 +10,8 @@ import javax.ejb.Local;
 /**
  * The Contactmanager processes all contact specific tasks.
  *
- * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de>
+ * @author Andy Klay mail: klay@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Local
 public interface ContactManagerLocal {

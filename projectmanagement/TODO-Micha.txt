@@ -25,7 +25,6 @@ INSBESONDERE:
 - ebendso für "- kurze erlaeuterung zur projektstruktur EAR = JAR + WAR" (dafür fehlt das TODO inner DOKU noch!!)
 
 
-BITTE auch kenntlich machen wenn du es erledigt hast!!!
 - aso und da is auch noch ne Issue..fuer dich in Github!
 
 *** DB 			***

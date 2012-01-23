@@ -10,6 +10,8 @@ import de.fhb.autobday.manager.account.AccountManagerLocal;
 import de.fhb.autobday.manager.contact.ContactManagerLocal;
 import de.fhb.autobday.manager.group.GroupManagerLocal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +27,7 @@ import org.primefaces.model.ScheduleModel;
 /**
  * Bean for schedule-tasks.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Named
 @RequestScoped
@@ -69,8 +71,21 @@ public class ScheduleBean {
 
 			}
 			eventModel = new DefaultScheduleModel();
+			
 			for (AbdContact abdContact : contacts) {
-				eventModel.addEvent(new DefaultScheduleEvent(abdContact.getFirstname() + " " + abdContact.getName(), abdContact.getBday(), abdContact.getBday(), true));
+				int i = 0;
+				for (int j = 0; j < 120; j++) {
+					Calendar bday = Calendar.getInstance();
+					bday.setTime(abdContact.getBday());
+					bday.add(bday.DAY_OF_MONTH, -1);
+					bday.add(bday.YEAR, +i);
+					System.out.println("Added date: "+new Date(bday.getTimeInMillis()));
+					eventModel.addEvent(new DefaultScheduleEvent(abdContact.getFirstname() + " " + abdContact.getName(), bday.getTime(),
+						abdContact.getBday(),
+						true));
+					i++;
+				}
+				
 			}
 		} catch (AccountNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);

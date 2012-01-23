@@ -18,10 +18,10 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
 /**
- * {@inheritDoc}
+ * implementation of ContactManager.
  *
- * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de>
+ * @author Andy Klay mail: klay@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Stateless
 @Interceptors(LoggerInterceptor.class)
@@ -41,9 +41,7 @@ public class ContactManager implements ContactManagerLocal {
 	 * @param group
 	 * @throws ContactNotFoundException
 	 * @throws ContactToGroupNotFoundException
-	 * @see
-	 * de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(de.fhb.autobday.data.AbdContact,
-	 * boolean)
+	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(de.fhb.autobday.data.AbdContact, de.fhb.autobday.data.AbdGroup,boolean)
 	 */
 	@Override
 	public void setActive(AbdContact contact, AbdGroup group, boolean active)
@@ -57,9 +55,7 @@ public class ContactManager implements ContactManagerLocal {
 	 * @param groupId
 	 * @throws ContactNotFoundException
 	 * @throws ContactToGroupNotFoundException
-	 * @see
-	 * de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(java.lang.String,
-	 * boolean)
+	 * @see de.fhb.autobday.manager.contact.ContactManagerLocal#setActive(de.fhb.autobday.data.AbdContact, de.fhb.autobday.data.AbdGroup,boolean)
 	 */
 	@Override
 	public void setActive(String contactId, String groupId, boolean active)

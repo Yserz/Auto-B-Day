@@ -11,8 +11,8 @@ import javax.ejb.Local;
 /**
  * this class manage the userspecific things
  *
- * @author Andy Klay <klay@fh-brandenburg.de> Michael Koppen
- * <koppen@fh-brandenburg.de>
+ * @author Andy Klay mail: klay@fh-brandenburg.de
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Local
 public interface UserManagerLocal {
@@ -30,7 +30,7 @@ public interface UserManagerLocal {
 	 *
 	 * @param loginName
 	 * @param password
-	 * @return
+	 * @return User which currently logged in
 	 * @throws UserException
 	 * @throws HashFailException
 	 */
@@ -76,7 +76,7 @@ public interface UserManagerLocal {
 	 * get all accounts of a user by userid
 	 *
 	 * @param userId
-	 * @return
+	 * @return AbdAccountList from User
 	 * @throws UserNotFoundException
 	 */
 	List<AbdAccount> getAllAccountsFromUser(int userId)

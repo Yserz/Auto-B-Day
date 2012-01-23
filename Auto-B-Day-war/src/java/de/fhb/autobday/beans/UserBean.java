@@ -16,7 +16,7 @@ import javax.inject.Named;
 /**
  * Bean for user-tasks.
  *
- * @author Michael Koppen <koppen@fh-brandenburg.de>
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
 @Named
 @RequestScoped

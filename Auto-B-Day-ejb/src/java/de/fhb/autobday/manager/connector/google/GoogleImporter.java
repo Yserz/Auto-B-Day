@@ -149,7 +149,7 @@ public class GoogleImporter extends AImporter {
 		if (connectionEtablished && accdata != null) {
 			accountDAO.flush();
 			
-			//updateGroups();
+			updateGroups();
 			updateContacts();
 			
 			accountDAO.edit(accdata);

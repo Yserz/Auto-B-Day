@@ -308,6 +308,8 @@ public class GoogleImporter extends AImporter {
             
             for(Integer index: toRemove){
                 System.out.println("remove");
+                abdMembership = abdMemberships.get(index.intValue());
+                groupToContactDAO.refresh(abdMembership);
                 groupToContactDAO.remove(abdMemberships.get(index.intValue()));
                 abdMemberships.remove(index.intValue());
             }

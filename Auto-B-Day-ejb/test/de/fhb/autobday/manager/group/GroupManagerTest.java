@@ -272,7 +272,7 @@ public class GroupManagerTest {
 
 		//test variables
 		String groupId = "friends";
-		String template = "Hello ${name} ${firstname} ${id} ${mail} ${bday} ${e/er} ${sex}";
+		String template = "Hello ${name} ${firstname} ${mail} ${bday} ${e/er}";
 
 		//setting group
 		AbdGroup group = new AbdGroup();
@@ -280,7 +280,7 @@ public class GroupManagerTest {
 		group.setTemplate(template);
 		String output = "";
 
-		String expectedOutput = "Hello " + testContact.getName() + " " + testContact.getFirstname() + " " + testContact.getId() + " " + testContact.getMail() + " " + testContact.getBday() + " er " + testContact.getSex();
+		String expectedOutput = "Hello " + testContact.getName() + " " + testContact.getFirstname() + " " + testContact.getMail() + " " + testContact.getBday() + " er";
 
 
 		// Setting up the expected value of the method call of Mockobject
@@ -470,35 +470,13 @@ public class GroupManagerTest {
 		System.out.println("parseTemplate");
 
 		//test variables
-		String template = "Hello ${name} ${e/er} ${sex}";
+		String template = "Hello ${name} ${e/er} ";
 
 		//prepare expected variables
-		String expResult = "Hello " + testContact.getName() + " er " + testContact.getSex();
+		String expResult = "Hello " + testContact.getName() + " er ";
 
 		//call method to test
 		String result = managerUnderTest.parseTemplate(template, testContact);
-
-		// verify
-		assertEquals(expResult, result);
-	}
-
-	/**
-	 * Test of filterUmlauts method, of class GroupManager.
-	 */
-	@Test
-	@Ignore
-	public void testFilterUmlauts() throws Exception {
-		// Wird ignoriert weil Jenkins keine Umlaute richtig verarbeiten kann
-		System.out.println("testFilterUmlauts");
-
-		//test variables
-		String template = "Ä test Ü test Ö test ö test ä test ü";
-
-		//prepare expected variables
-		String expResult = "Ae test Ue test Oe test oe test ae test ue test";
-
-		//call method to test
-		String result = managerUnderTest.filterUmlauts(template);
 
 		// verify
 		assertEquals(expResult, result);

@@ -212,9 +212,6 @@ public class GroupManager implements GroupManagerLocal {
 			throw new NoContactGivenException("No Contact given");
 		}
 
-		//filter umlauts	
-		template = filterUmlauts(template);
-
 		//create pattern for identifing of clamp-expresions
 		Pattern pattern = Pattern.compile("\\$\\{\\S+\\}");
 		Matcher matcher = pattern.matcher(template);
@@ -241,21 +238,13 @@ public class GroupManager implements GroupManagerLocal {
 				String tagExpression = innerGroup.substring(innerMatcher.start(), innerMatcher.end());
 
 				//evaluation of the tag
-				if (tagExpression.equals("id")) {
-
-					output.append(contact.getId());
-
-				} else if (tagExpression.equals("name")) {
+				if (tagExpression.equals("name")) {
 
 					output.append(contact.getName());
 
 				} else if (tagExpression.equals("firstname")) {
 
 					output.append(contact.getFirstname());
-
-				} else if (tagExpression.equals("sex")) {
-
-					output.append(contact.getSex());
 
 				} else if (tagExpression.equals("mail")) {
 
@@ -355,73 +344,6 @@ public class GroupManager implements GroupManagerLocal {
 	}
 
 	/**
-	 * filters umlauts
-	 *
-	 * @param template
-	 * @return edited template
-	 * 
-	 * @deprecated 
-	 */
-	//TODO ersetzen/verbessern...nein entfernen
-	@Deprecated
-	protected String filterUmlauts(String template) {
-
-		StringBuilder output = new StringBuilder();
-
-		//create pattern for identifing of clamp-expresions
-		Pattern pattern = Pattern.compile("ä|ö|ü|Ä|Ö|Ü");
-		Matcher matcher = pattern.matcher(template);
-		int lastend = 0;
-
-		//find clamp expression
-		while (matcher.find()) {
-
-			//appending of text between expresions
-			output.append(template.substring(lastend, matcher.start()));
-			
-			//save the end of this for the next start of the text between
-			lastend = matcher.end();
-
-			// fetch content
-			String tagExpression = template.substring(matcher.start(), matcher.end());
-
-			//evaluation of the tag
-			if (tagExpression.equals("ä")) {
-
-				output.append("ae");
-
-			} else if (tagExpression.equals("ö")) {
-
-				output.append("oe");
-
-			} else if (tagExpression.equals("ü")) {
-
-				output.append("ue");
-
-			} else if (tagExpression.equals("Ä")) {
-
-				output.append("Ae");
-
-			} else if (tagExpression.equals("Ö")) {
-
-				output.append("Oe");
-
-			} else if (tagExpression.equals("Ü")) {
-
-				output.append("Ue");
-
-			}
-		}
-
-		//append textend
-		output.append(template.substring(lastend, template.length()));
-
-		return output.toString();
-
-	}
-	
-
-	/**
 	 *  calc the age of a contact
 	 * @param birthday
 	 * @return age of contact
@@ -436,7 +358,8 @@ public class GroupManager implements GroupManagerLocal {
 		bdayDateCal.setTime(birthday);
 		currentDateCal.setTime(currentDate);
 		
-		if(bdayDateCal.get(Calendar.MONTH)<currentDateCal.get(Calendar.MONTH)&&bdayDateCal.get(Calendar.DAY_OF_MONTH)<currentDateCal.get(Calendar.DAY_OF_MONTH)){
+		if(bdayDateCal.get(Calendar.MONTH)<=currentDateCal.get(Calendar.MONTH)
+				&& bdayDateCal.get(Calendar.DAY_OF_MONTH)<=currentDateCal.get(Calendar.DAY_OF_MONTH)){
 			age=currentDateCal.get(Calendar.YEAR)-bdayDateCal.get(Calendar.YEAR);
 		}else{
 			age=currentDateCal.get(Calendar.YEAR)-bdayDateCal.get(Calendar.YEAR)-1;

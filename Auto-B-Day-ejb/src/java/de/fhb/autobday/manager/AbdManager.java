@@ -92,7 +92,7 @@ public class AbdManager implements AbdManagerLocal {
 	 * {@inheritDoc}
 	 *
 	 */
-	@Schedule(minute = "39", hour = "18")
+	@Schedule(minute = "54", hour = "19")
 	@Override
 	public void checkEveryDay() {
 
@@ -123,12 +123,12 @@ public class AbdManager implements AbdManagerLocal {
 
 
 			LOGGER.log(Level.INFO, "DAY: {0} CURRENT DAY: {1}",
-					new Object[]{bdayDateCal.DAY_OF_MONTH, currentDateCal.DAY_OF_MONTH});
+					new Object[]{bdayDateCal.get(Calendar.DAY_OF_MONTH), currentDateCal.get(Calendar.DAY_OF_MONTH)});
 			LOGGER.log(Level.INFO, "MONTH: {0} CURRENT MONTH: {1}",
-					new Object[]{bdayDateCal.MONTH, currentDateCal.MONTH});
+					new Object[]{bdayDateCal.get(Calendar.MONTH), currentDateCal.get(Calendar.MONTH)});
 
-			if ((bdayDateCal.DAY_OF_MONTH == currentDateCal.DAY_OF_MONTH)
-					&& (bdayDateCal.MONTH == currentDateCal.MONTH)) {
+			if ((bdayDateCal.get(Calendar.DAY_OF_MONTH) == currentDateCal.get(Calendar.DAY_OF_MONTH)) 
+					&& (bdayDateCal.get(Calendar.MONTH) == currentDateCal.get(Calendar.MONTH))) {
 				LOGGER.log(Level.INFO, "Contact with bday found: {0}", abdContact);
 				birthdayContacts.add(abdContact);
 			}

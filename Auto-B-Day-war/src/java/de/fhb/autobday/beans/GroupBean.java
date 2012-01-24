@@ -5,6 +5,7 @@ import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.contact.ContactException;
 import de.fhb.autobday.exception.contact.ContactNotFoundException;
+import de.fhb.autobday.exception.contact.ContactToGroupNotFoundException;
 import de.fhb.autobday.exception.group.GroupException;
 import de.fhb.autobday.exception.group.GroupNotFoundException;
 import de.fhb.autobday.manager.contact.ContactManagerLocal;
@@ -97,7 +98,13 @@ public class GroupBean {
 								null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Successfully aktivated " + aktContact.getFirstname() + " " + aktContact.getName() + "!", ""));
 
 					}
-				} catch (ContactException ex) {
+				} catch (ContactNotFoundException ex) {
+					LOGGER.log(Level.SEVERE, null, ex);
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+				} catch (ContactToGroupNotFoundException ex) {
+					LOGGER.log(Level.SEVERE, null, ex);
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+				} catch (GroupNotFoundException ex) {
 					LOGGER.log(Level.SEVERE, null, ex);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 				}

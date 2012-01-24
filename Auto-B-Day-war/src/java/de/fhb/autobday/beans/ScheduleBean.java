@@ -76,7 +76,7 @@ public class ScheduleBean {
 				for (int j = 0; j < 120; j++) {
 					Calendar bday = Calendar.getInstance();
 					bday.setTime(abdContact.getBday());
-					bday.add(bday.HOUR, -1);
+					//bday.add(bday.HOUR, -1);
 					bday.add(bday.YEAR, +i);
 					eventModel.addEvent(new DefaultScheduleEvent(abdContact.getFirstname() + " " + abdContact.getName(), bday.getTime(),
 						bday.getTime(),

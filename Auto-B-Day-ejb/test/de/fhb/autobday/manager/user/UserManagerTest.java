@@ -7,7 +7,7 @@ import de.fhb.autobday.commons.PasswordGenerator;
 import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.HashFailException;
+import de.fhb.autobday.exception.commons.HashFailException;
 import de.fhb.autobday.exception.mail.FailedToSendMailException;
 import de.fhb.autobday.exception.mail.MailException;
 import de.fhb.autobday.exception.user.*;

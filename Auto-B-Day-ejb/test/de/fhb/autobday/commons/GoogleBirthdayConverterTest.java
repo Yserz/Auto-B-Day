@@ -1,6 +1,6 @@
 package de.fhb.autobday.commons;
 
-import de.fhb.autobday.exception.CanNotConvetGoogleBirthdayException;
+import de.fhb.autobday.exception.commons.CanNotConvetGoogleBirthdayException;
 import java.sql.Date;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

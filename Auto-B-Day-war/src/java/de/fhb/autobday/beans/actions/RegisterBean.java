@@ -2,7 +2,7 @@ package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.data.AbdUser;
-import de.fhb.autobday.exception.HashFailException;
+import de.fhb.autobday.exception.commons.HashFailException;
 import de.fhb.autobday.exception.user.IncompleteUserRegisterException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.manager.user.UserManagerLocal;

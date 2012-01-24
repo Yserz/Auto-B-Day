@@ -1,4 +1,4 @@
-package de.fhb.autobday.exception;
+package de.fhb.autobday.exception.commons;
 
 /**
  *

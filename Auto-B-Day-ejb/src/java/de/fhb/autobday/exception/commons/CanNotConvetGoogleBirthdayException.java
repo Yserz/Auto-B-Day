@@ -1,4 +1,6 @@
-package de.fhb.autobday.exception;
+package de.fhb.autobday.exception.commons;
+
+import de.fhb.autobday.exception.AbdException;
 
 /**
  *

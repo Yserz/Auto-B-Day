@@ -14,7 +14,7 @@
 				<p:panel id="templatepanel">
 					<p:inputTextarea value="#{groupBean.template}" 
 									 autoResize="true"
-									 cols="100"
+									 cols="120"
 									 maxlength="2000" 
 									 required="true" 
 									 requiredMessage="Template is needed" 
@@ -22,36 +22,24 @@
 					<p:commandButton value="Save" action="#{groupBean.editTemplate}" ajax="false" />
 				</p:panel>
 				<p:panel id="legendepanel">
-					<h:panelGrid columns="2">
-						<h:panelGroup>
-							<p:panel>
-								Command:
-							</p:panel>
-							<p:panel>
-								<p:outputPanel>
-									\${name}
-									\${firstname}
-									\${mail}
-									\${bday}
-									\${age}
-									\${male-expression/female-expression}
-								</p:outputPanel>
-							</p:panel>
-						</h:panelGroup>
-						<h:panelGroup>
-							<p:panel>
-								Explanation:
-							</p:panel>
-							<p:panel>
-								<p:outputPanel>
-									- gibt Nachnamen aus 
-									- gibt Vornamen aus
-									- gibt E-Mail aus
-									- gibt Geburtsdatum aus
-								</p:outputPanel>
-							</p:panel>
-						</h:panelGroup>
-					</h:panelGrid>
+					<p:panel id="ttname">\${name}</p:panel>
+						<p:tooltip for="ttname" value="This will parse out the full name of the contact." showEffect="fade" hideEffect="fade" />  
+					
+					<p:panel id="ttfirstname">\${firstname}</p:panel>
+						<p:tooltip for="ttfirstname" value="This will parse out the firstname of the contact." showEffect="fade" hideEffect="fade" />  
+						
+					<p:panel id="ttmail">\${mail}</p:panel>
+						<p:tooltip for="ttmail" value="This will parse out the mail of the contact." showEffect="fade" hideEffect="fade" />  
+					
+					<p:panel id="ttbday">\${bday}</p:panel>
+						<p:tooltip for="ttbday" value="This will parse out the birthday of the contact." showEffect="fade" hideEffect="fade" />  
+					
+					<p:panel id="ttage">\${age}</p:panel>
+						<p:tooltip for="ttage" value="This will parse out the age of the contact." showEffect="fade" hideEffect="fade" />  
+					
+					<p:panel id="ttmw">\${f/m}</p:panel>
+						<p:tooltip for="ttmw" value="This will parse out the male or female expression e.g. \${she/he} " showEffect="fade" hideEffect="fade" />  
+					
 				</p:panel>
 
 

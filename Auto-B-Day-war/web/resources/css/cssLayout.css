@@ -17,13 +17,13 @@
 #left {
     float: left;
     padding: 5px;
-    width: 300px;
+    width: 380px;
 }
 
 #right {
     float: right;
     padding: 5px;
-    width: 300px;
+    width: 380px;
 }
 
 .center_content {
@@ -33,12 +33,12 @@
 
 .left_content {
     padding: 5px;
-    margin-left: 310px;
+    margin-left: 390px;
 }
 
 .right_content {
     padding: 5px;
-    margin: 0px 310px 0px 310px;
+    margin: 0px 390px 0px 390px;
 }
 
 #top a:link, #top a:visited {

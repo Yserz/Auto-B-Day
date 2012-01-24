@@ -17,12 +17,17 @@
 								 paginatorAlwaysVisible="false">
 
 
-						<p:column>
+						<p:column headerText="Account">
 							<h:commandLink value="#{account.username}" action="#{accountBean.showAccount}">
 								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
 							</h:commandLink>
 						</p:column>
-						<p:column>
+						<p:column headerText="Update">
+							<p:commandButton icon="ui-icon ui-icon-disk" action="#{updateAccountBean.updateAccount}" ajax="false">
+								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
+							</p:commandButton>
+						</p:column>
+						<p:column headerText="Delete">
 							<p:commandButton icon="ui-icon-close" action="#{accountBean.deleteAccount}" ajax="false">
 								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
 							</p:commandButton>

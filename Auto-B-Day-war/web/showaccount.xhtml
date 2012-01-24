@@ -9,8 +9,12 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<p:panel id="schedulepanel" header="Übersicht der aktiven Kontakte in diesem Account" rendered="#{sessionBean.loggedIn}" toggleable="true" toggleSpeed="200" style="margin-bottom: 10px;">
-			<p:schedule value="#{scheduleBean.eventModel}" widgetVar="schedule" />
+		<p:panel id="schedulepanel" header="Übersicht der aktiven Kontakte in diesem Account" rendered="#{sessionBean.loggedIn}" toggleable="true" collapsed="true" toggleSpeed="200" style="margin-bottom: 10px;">
+			<p:ajax event="toggle" update="schedule"/>
+			<p:panel id="schedule">
+				<p:schedule value="#{scheduleBean.eventModel}"/>
+			</p:panel>
+			
 		</p:panel>
 		<p:panel id="groupList" header="Groups" rendered="#{sessionBean.loggedIn}" style="margin-bottom: 10px;">
 
@@ -70,14 +74,6 @@
 
 				</p:dataTable>
 
-			</h:form>
-		</p:panel>
-		<p:panel id="updatepanel" rendered="#{sessionBean.loggedIn}" header="Update dieses Accounts" style="margin-bottom: 10px;">
-			<h:form>
-				<p:commandButton value="Update account" 
-								icon="ui-icon ui-icon-disk"
-								ajax="false"
-								actionListener="#{updateAccountBean.updateAccount}"/>
 			</h:form>
 		</p:panel>
 

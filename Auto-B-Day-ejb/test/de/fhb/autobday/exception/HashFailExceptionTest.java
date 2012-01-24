@@ -1,5 +1,6 @@
 package de.fhb.autobday.exception;
 
+import de.fhb.autobday.exception.commons.HashFailException;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

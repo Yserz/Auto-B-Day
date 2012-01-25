@@ -9,7 +9,10 @@
 	<ui:define name="content">
 		<h:form>
 			<p:panel id="importpanel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts" style="margin-bottom: 10px;">
-				Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}.
+				Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}. 
+				Now you can import one or more Google account/s to send your friends automated birthday-mails.
+				Note: Auto-B-Day will import your contacts but only if they have a name, firstname, gender, birthday and a valid mail-address. 500 Contacts are max.
+				
 				<p:focus context="importpanel"/>
 				<h:panelGrid columns="4"> 
 					<h:outputLabel for="userName" value="Username:* " />

@@ -12,7 +12,10 @@ import de.fhb.autobday.dao.AbdAccountFacade;
 import de.fhb.autobday.dao.AbdContactFacade;
 import de.fhb.autobday.dao.AbdGroupFacade;
 import de.fhb.autobday.dao.AbdGroupToContactFacade;
-import de.fhb.autobday.data.*;
+import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.data.AbdContact;
+import de.fhb.autobday.data.AbdGroup;
+import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.commons.CanNotConvetGoogleBirthdayException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
@@ -167,32 +170,35 @@ public class GoogleImporter extends AImporter {
 	protected void updateContacts() {
 		AbdContact abdContact, abdContactInDB;
 		List<ContactEntry> contacts = getAllContacts();
-		List<GroupMembershipInfo> groupMembershipInfos;
-		AbdGroupToContact abdGroupToContact;
-		AbdGroupToContactPK gtcPK;
-
-		int membershipCounter;
-		boolean foundMatch;
-
+		int counter = 0;
+		
+		LOGGER.log(Level.INFO, "Updating Contacts!");
+		LOGGER.log(Level.INFO, "{0} Contacts in queue!",contacts.size());
 		for (ContactEntry contactEntry : contacts) {
+			counter++;
 			abdContact = mapGContactToContact(contactEntry);
 			if (abdContact != null) {
-				LOGGER.log(Level.INFO, "Mapped Contact: {0}", abdContact);
+				LOGGER.log(Level.INFO, "Mapped Contact {0}: {1}", new Object[]{counter, abdContact});
 
 				abdContactInDB = contactDAO.find(abdContact.getId());
-				LOGGER.log(Level.INFO, "Contact in db: {0}", abdContactInDB);
+				
 				if (abdContactInDB == null) {
+					LOGGER.log(Level.INFO, "Adding Contact to db!");
 					contactDAO.create(abdContact);
 					contactDAO.flush();
 				} else {
+					LOGGER.log(Level.INFO, "Contact already in db: {0}", abdContactInDB);
 					abdContact.setAbdGroupToContactCollection(abdContactInDB.getAbdGroupToContactCollection());
 					if (abdContact.getUpdated().after(abdContactInDB.getUpdated())) {
+						LOGGER.log(Level.INFO, "Updating Contact in db!");
 						contactDAO.edit(abdContact);
 						contactDAO.flush();
 					}
 				}
 				contactDAO.flush();
 				updateMembership(abdContact, contactEntry);
+			}else{
+				LOGGER.log(Level.INFO, "Failed to map Contact {0}!", counter);
 			}
 		}
 
@@ -220,9 +226,11 @@ public class GoogleImporter extends AImporter {
 				abdGroupOld = abdGroups.get(i);
 				// if new group == old group
 				if (abdGroup.getId().equals(abdGroupOld.getId())) {
+					LOGGER.log(Level.INFO, "Group already in DB!");
 					foundMatch = true;
 					// and if new group newer than the old group
 					if (abdGroup.getUpdated().after(abdGroupOld.getUpdated())) {
+						LOGGER.log(Level.INFO, "Updating Group!");
 						groupDAO.edit(abdGroup);
 						groupDAO.flush();
 						abdGroups.remove(i);
@@ -233,12 +241,13 @@ public class GoogleImporter extends AImporter {
 				}
 			}
 			if (!foundMatch) {
+				LOGGER.log(Level.INFO, "Creating new Group!");
 				abdGroups.add(abdGroup);
-				System.out.println("Create new Group");
+				
 			}
 
 		}
-
+		
 		for (AbdGroup abdGroupInDB : abdGroups) {
 			foundMatch = false;
 			for (ContactGroupEntry groupEntry : groups) {
@@ -293,7 +302,7 @@ public class GoogleImporter extends AImporter {
 		 * groupDAO.remove(abdGroups.get(index.intValue()));
 		 * abdGroups.remove(index.intValue()); }
 		 */
-		System.out.println("before remove1");
+		LOGGER.log(Level.INFO, "before remove1");
 		for (AbdGroupToContact abdGroupToContact : abdMemberships) {
 			match = false;
 			for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
@@ -307,7 +316,7 @@ public class GoogleImporter extends AImporter {
 		}
 		groupToContactDAO.flush();
 		for (Integer index : toRemove) {
-			System.out.println("remove" + index.intValue());
+			LOGGER.log(Level.INFO, "remove {0}", index.intValue());
 			abdMembership = abdMemberships.get(index.intValue());
 			if (groupDAO.find(abdMembership.getAbdGroup().getId()) != null) {
 				groupToContactDAO.remove(abdMemberships.get(index.intValue()));
@@ -378,7 +387,7 @@ public class GoogleImporter extends AImporter {
 		URL feedUrl;
 		try {
 			feedUrl = new URL(
-					"https://www.google.com/m8/feeds/contacts/default/full");
+					"https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 			ContactFeed resultFeed = myService.getFeed(feedUrl,
 					ContactFeed.class);
 			if (resultFeed == null) {

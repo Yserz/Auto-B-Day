@@ -357,12 +357,11 @@ public class UserManager implements UserManagerLocal {
 		String salt = "";
 		String hash = "";
 
-
 		if (oldPassword.equals("") || password.equals("") || passwordRepeat.equals("")) {
 			LOGGER.log(Level.SEVERE, "Incomplete passwordsfields!");
 			throw new PasswordInvalidException("Incomplete passwordsfields!");
 		}
-
+		//TODO Ueberpruefen ob oldpassword auch das oldPassword is....
 		if (!password.equals(passwordRepeat)) {
 			LOGGER.log(Level.SEVERE, "Password not similar to the repetition!");
 			throw new PasswordInvalidException("Password not similar to the repetition!");

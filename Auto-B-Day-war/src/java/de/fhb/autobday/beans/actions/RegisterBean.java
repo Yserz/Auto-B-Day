@@ -63,7 +63,7 @@ public class RegisterBean {
 			return "register";
 		}
 		FacesContext.getCurrentInstance().addMessage(
-				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Congratulations! You are registered for Auto-B-Day. Please check your mails!", ""));
+				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Congratulations! You are registered for Auto-B-Day!", ""));
 		return "index";
 	}
 

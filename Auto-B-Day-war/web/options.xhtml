@@ -19,10 +19,10 @@
 								feedback="false"
 								required="true"
 								requiredMessage="Ihr altes Passwort ist erforderlich."
-								minLength="1"
-								maxlength="30"/>
-					<h:outputText value="(Max. 30 Zeichen)" />
-					<p:message for="oldPW" showSummary="true" />
+								minLength="5"
+								maxlength="20"/>
+					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<p:message for="oldPW"/>
 
 					<h:outputLabel for="newPW" value="New password:* " />
 					<p:password id="newPW" 
@@ -31,10 +31,10 @@
 								feedback="true"
 								required="true"
 								requiredMessage="Ein neues Passwort ist erforderlich."
-								minLength="1"
-								maxlength="30"/>
-					<h:outputText value="(Max. 30 Zeichen)" />
-					<p:message for="newPW" showSummary="true" />
+								minLength="5"
+								maxlength="20"/>
+					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<p:message for="newPW"/>
 
 					<h:outputLabel for="newPWWdhl" value="New password repetition:* " />
 					<p:password id="newPWWdhl" 
@@ -43,10 +43,10 @@
 								feedback="true"
 								required="true"
 								requiredMessage="Eine Wiederholung des neuen Passwortes ist erforderlich."
-								minLength="1"
-								maxlength="30"/>
-					<h:outputText value="(Max. 30 Zeichen)" />
-					<p:message for="newPWWdhl" showSummary="true" />
+								minLength="5"
+								maxlength="20"/>
+					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<p:message for="newPWWdhl"/>
 
 				</h:panelGrid>
 

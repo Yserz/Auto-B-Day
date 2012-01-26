@@ -31,11 +31,13 @@ public interface UserManagerLocal {
 	 * @param loginName
 	 * @param password
 	 * @return User which currently logged in
-	 * @throws UserException
+	 * @throws IncompleteLoginDataException 
+	 * @throws UserNotFoundException 
 	 * @throws HashFailException
+	 * @throws PasswordInvalidException  
 	 */
 	AbdUser login(String loginName, String password)
-			throws UserException, HashFailException;
+			throws HashFailException, IncompleteLoginDataException, UserNotFoundException, PasswordInvalidException;
 
 	/**
 	 * logout

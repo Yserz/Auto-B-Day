@@ -57,13 +57,14 @@ public class UserManager implements UserManagerLocal {
 	 * {@inheritDoc}
 	 *
 	 * @throws HashFailException
+	 * @throws IncompleteLoginDataException 
 	 * @see
 	 * de.fhb.autobday.manager.user.UserManagerLocal#login(java.lang.String,
 	 * java.lang.String)
 	 */
 	@Override
 	public AbdUser login(String loginName, String password)
-			throws UserException, HashFailException {
+			throws HashFailException, IncompleteLoginDataException, UserNotFoundException, PasswordInvalidException {
 
 		AbdUser user = null;
 		String hash = "";

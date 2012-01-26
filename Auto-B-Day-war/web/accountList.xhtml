@@ -18,11 +18,11 @@
 								 paginator="true" 
 								 emptyMessage="There are no Accounts"
 								 paginatorAlwaysVisible="false">
-						
-						
+
+
 
 						<p:column headerText="Account" filterBy="#{account.username}" filterMatchMode="contains">
-							
+
 							<h:commandLink action="#{accountBean.showAccount}">
 								<h:outputText value="#{account.username}">
 									<f:converter converterId="maxLengthConv" />
@@ -36,9 +36,17 @@
 							</p:commandButton>
 						</p:column>
 						<p:column headerText="Delete">
-							<p:commandButton icon="ui-icon-close" action="#{accountBean.deleteAccount}" ajax="false">
-								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
-							</p:commandButton>
+							<p:commandButton icon="ui-icon-close" onclick="confirmation.show()" />
+							
+							<p:confirmDialog message="Are you sure about destroying this account?"
+											 header="Initiating destroy process" severity="alert" widgetVar="confirmation">
+								<p:commandButton icon="ui-icon-close" oncomplete="confirmation.hide()" action="#{accountBean.deleteAccount}" ajax="false">
+									<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
+								</p:commandButton>
+								
+								<p:commandButton value="Not Yet" onclick="confirmation.hide()" type="button" />   
+
+							</p:confirmDialog>
 						</p:column>
 
 					</p:dataTable>

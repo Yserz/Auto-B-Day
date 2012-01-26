@@ -52,7 +52,7 @@ public class LoginLogoutBean {
 		} catch (UserException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(
-					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong Username or Password!", ""));
 		} catch (HashFailException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(

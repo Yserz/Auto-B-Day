@@ -7,10 +7,21 @@
 		Welcome to Auto-B-Day
 	</ui:define>
 	<ui:define name="content">
+		<p:panel id="welcomepanel" rendered="#{!sessionBean.loggedIn}" header="Welcome" style="margin-bottom: 10px;">
+			<h:panelGroup layout="block">
+				<h:outputText value="Welcome to Auto-B-Day.&lt;br/&gt;&lt;br/&gt;" escape="false" style="font-size: 16px;font-weight: bold;"/>
+				
+				Auto-B-Day is an automated birthday-mail-sending system.
+				You can add a Google-Mail-Account and we send automated mails to your contacts.
+			</h:panelGroup>
+		</p:panel>
+		
 		<h:form>
-			<p:panel id="importpanel" rendered="#{sessionBean.loggedIn}" header="Importieren eines neuen Accounts" style="margin-bottom: 10px;">
-				Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}. 
+			<p:panel id="importpanel" rendered="#{sessionBean.loggedIn}" header="Import a new Account" style="margin-bottom: 10px;">
+				<h:outputText value="Welcome to Auto-B-Day #{sessionBean.aktUser.firstname} #{sessionBean.aktUser.name}.&lt;br/&gt;&lt;br/&gt;" escape="false" style="font-size: 16px;font-weight: bold;"/>
+				 
 				Now you can import one or more Google account/s to send your friends automated birthday-mails.
+				<h:outputText value="&lt;br/&gt;" escape="false"/>
 				Note: Auto-B-Day will import your contacts but only if they have a name, firstname, gender, birthday and a valid mail-address. 500 Contacts are max.
 				
 				<p:focus context="importpanel"/>
@@ -20,9 +31,9 @@
 								 value="#{importNewAccountBean.userName}"
 								 label="Username"
 								 required="true"
-								 requiredMessage="Ein Username ist erforderlich."
+								 requiredMessage="Username is required."
 								 maxlength="40"/>
-					<h:outputText value="(Max. 40 Zeichen)" />
+					<h:outputText value="(Max. 40 Signs)" />
 					<p:message for="userName" showSummary="true" />
 
 
@@ -32,17 +43,17 @@
 								label="Password"
 								feedback="false"
 								required="true"
-								requiredMessage="Ein Passwort ist erforderlich."
+								requiredMessage="Passwort is required."
 								minLength="1"
 								maxlength="30"/>
-					<h:outputText value="(Max. 30 Zeichen)" />
+					<h:outputText value="(Max. 30 Signs)" />
 					<p:message for="accountpassword" showSummary="true" />
 
 					<!-- TODO type -->
 				</h:panelGrid>
 
 
-				<p:commandButton value="Importieren" 
+				<p:commandButton value="Import" 
 								 update="importpanel" 
 								 icon="ui-icon ui-icon-disk"
 								 ajax="false"

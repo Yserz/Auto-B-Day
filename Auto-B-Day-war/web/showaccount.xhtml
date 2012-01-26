@@ -9,7 +9,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<p:panel id="schedulepanel" header="Übersicht der aktiven Kontakte in diesem Account" rendered="#{sessionBean.loggedIn}" toggleable="true" collapsed="true" toggleSpeed="200" style="margin-bottom: 10px;">
+		<p:panel id="schedulepanel" header="Overview of aktive Contacts in this Account" rendered="#{sessionBean.loggedIn}" toggleable="true" collapsed="true" toggleSpeed="200" style="margin-bottom: 10px;">
 			<p:ajax event="toggle" update="schedule"/>
 			<p:panel id="schedule">
 				<p:schedule value="#{scheduleBean.eventModel}"/>

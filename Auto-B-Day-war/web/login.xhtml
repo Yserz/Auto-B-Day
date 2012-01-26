@@ -15,7 +15,7 @@
 										 value="#{loginLogoutBean.userName}"
 										 label="Username"
 										 required="true"
-										 requiredMessage="Ein Username ist erforderlich."
+										 requiredMessage="Username is required."
 										 maxlength="20"
 										 onfocus="if(this.value=='username') this.value=''"/>
 
@@ -24,7 +24,7 @@
 										label="Password"
 										feedback="false"
 										required="true"
-										requiredMessage="Ein Passwort ist erforderlich."
+										requiredMessage="Password is required."
 										minLength="5"
 										maxlength="20"
 										onfocus="this.value=''"/>
@@ -40,12 +40,12 @@
 				</h:form>
 				<h:form>
 					<h:panelGrid columns="3" rendered="#{!sessionBean.loggedIn}">
-						<p:commandLink value="Passwort vergessen" 
+						<p:commandLink value="Forgot Password?" 
 									   immediate="true"
 									   ajax="false"
 									   action="forgotpassword"/>
 						| 
-						<p:commandLink value="Registrieren" 
+						<p:commandLink value="Register" 
 									   immediate="true"
 									   ajax="false"
 									   action="register"/>

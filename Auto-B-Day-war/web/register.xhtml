@@ -11,7 +11,7 @@
 
 	<ui:define name="content">
 		<h:form prependId="false">
-			<p:panel id="registerpanel" rendered="#{!sessionBean.loggedIn}" header="Registrieren">
+			<p:panel id="registerpanel" rendered="#{!sessionBean.loggedIn}" header="Register">
 				<p:focus context="registerpanel"/>
 				<h:panelGrid columns="4"> 
 					<h:outputLabel for="userName" value="Username:* " />
@@ -19,20 +19,20 @@
 								 value="#{registerBean.userName}"
 								 label="Username"
 								 required="true"
-								 requiredMessage="Ein Username ist erforderlich."
+								 requiredMessage="Username is required."
 								 maxlength="20"/>
-					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<h:outputText value="(Max. 20 Signs, min. 5 Signs)" />
 					<p:message for="userName" />
 
 
-					<h:outputLabel for="firstName" value="Vorname:* " />
+					<h:outputLabel for="firstName" value="Firstname:* " />
 					<p:inputText id="firstName" 
 								 value="#{registerBean.firstName}"
 								 label="Vorname"
 								 required="true"
-								 requiredMessage="Vorname ist erforderlich."
+								 requiredMessage="Firstname is required."
 								 maxlength="20"/>
-					<h:outputText value="(Max. 20 Zeichen)" />
+					<h:outputText value="(Max. 20 Signs)" />
 					<p:message for="firstName" />
 
 					<h:outputLabel for="name" value="Name:* " />
@@ -40,9 +40,9 @@
 								 value="#{registerBean.name}"
 								 label="Name"
 								 required="true"
-								 requiredMessage="Ein Nachname ist erforderlich."
+								 requiredMessage="Name is required."
 								 maxlength="20"/>
-					<h:outputText value="(Max. 20 Zeichen)" />
+					<h:outputText value="(Max. 20 Signs)" />
 					<p:message for="name" />
 
 					<h:outputLabel for="mail" value="Mail:* " />
@@ -50,7 +50,7 @@
 								 value="#{registerBean.mail}" 
 								 label="Mail"
 								 required="true"
-								 requiredMessage="Eine Mail ist erforderlich."
+								 requiredMessage="Mail is required."
 								 maxlength="40"/>
 					<h:outputText value="(Max. 40 Zeichen)" />
 					<p:message for="mail" />
@@ -61,27 +61,27 @@
 								label="Password"
 								feedback="true"
 								required="true"
-								requiredMessage="Ein Passwort ist erforderlich."
+								requiredMessage="Password is required."
 								minLength="5"
 								maxlength="20"/>
-					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<h:outputText value="(Max. 20 Signs, min. 5 Signs)" />
 					<p:message for="registerpassword" />
 
-					<h:outputLabel for="registerpasswordWdhl" value="Password Wiederholung:* " />
+					<h:outputLabel for="registerpasswordWdhl" value="Password Repetition* " />
 					<p:password id="registerpasswordWdhl" 
 								value="#{registerBean.passwordWdhl}" 
 								label="PasswordWdhl"
 								feedback="true"
 								required="true"
-								requiredMessage="Eine Wiederholung des Passwortes ist erforderlich."
+								requiredMessage="Repetition of Password is required."
 								minLength="5"
 								maxlength="20"/>
-					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<h:outputText value="(Max. 20 Signs, min. 5 Signs)" />
 					<p:message for="registerpasswordWdhl" />
 				</h:panelGrid>
 
 
-				<p:commandButton value="Registrieren" 
+				<p:commandButton value="Register" 
 								 update="registerpanel" 
 								 icon="ui-icon ui-icon-disk"
 								 ajax="false"

@@ -8,50 +8,50 @@
 	</ui:define>
 	<ui:define name="content">
 		<h:form>
-			<p:panel id="changepwpanel" rendered="#{sessionBean.loggedIn}" header="Ändern Ihres Passwortes" style="margin-bottom: 10px;">
+			<p:panel id="changepwpanel" rendered="#{sessionBean.loggedIn}" header="Change Password" style="margin-bottom: 10px;">
 				<p:focus context="changepwpanel"/>
 				<h:panelGrid columns="4"> 
 
-					<h:outputLabel for="oldPW" value="Old password:* " />
+					<h:outputLabel for="oldPW" value="Old Password:* " />
 					<p:password id="oldPW" 
 								value="#{changePasswordBean.oldPW}" 
 								label="Old password"
 								feedback="false"
 								required="true"
-								requiredMessage="Ihr altes Passwort ist erforderlich."
+								requiredMessage="Old Password is required."
 								minLength="5"
 								maxlength="20"/>
-					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<h:outputText value="(Max. 20 Signs, min. 5 Signs)" />
 					<p:message for="oldPW"/>
 
-					<h:outputLabel for="newPW" value="New password:* " />
+					<h:outputLabel for="newPW" value="New Password:* " />
 					<p:password id="newPW" 
 								value="#{changePasswordBean.newPW}" 
 								label="New Password"
 								feedback="true"
 								required="true"
-								requiredMessage="Ein neues Passwort ist erforderlich."
+								requiredMessage="Passwort is required."
 								minLength="5"
 								maxlength="20"/>
-					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<h:outputText value="(Max. 20 Signs, min. 5 Signs)" />
 					<p:message for="newPW"/>
 
-					<h:outputLabel for="newPWWdhl" value="New password repetition:* " />
+					<h:outputLabel for="newPWWdhl" value="New Password Repetition:* " />
 					<p:password id="newPWWdhl" 
 								value="#{changePasswordBean.newPWRep}" 
 								label="New Password Wdhl."
 								feedback="true"
 								required="true"
-								requiredMessage="Eine Wiederholung des neuen Passwortes ist erforderlich."
+								requiredMessage="Repetition of Password is required."
 								minLength="5"
 								maxlength="20"/>
-					<h:outputText value="(Max. 20 Zeichen, min. 5 Zeichen)" />
+					<h:outputText value="(Max. 20 Signs, min. 5 Signs)" />
 					<p:message for="newPWWdhl"/>
 
 				</h:panelGrid>
 
 
-				<p:commandButton value="Change password" 
+				<p:commandButton value="Change Password" 
 								 update="changepwpanel" 
 								 icon="ui-icon ui-icon-disk"
 								 ajax="false"

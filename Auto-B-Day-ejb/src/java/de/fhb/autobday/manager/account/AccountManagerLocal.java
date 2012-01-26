@@ -60,24 +60,26 @@ public interface AccountManagerLocal {
 	 * import all groups and contacts
 	 *
 	 * @param accountId
+	 * @return errorStack
 	 * @throws AccountNotFoundException
 	 * @throws ConnectorCouldNotLoginException
 	 * @throws ConnectorInvalidAccountException
 	 * @throws ConnectorNoConnectionException
 	 */
-	void importGroupsAndContacts(int accountId)
+	List<String> importGroupsAndContacts(int accountId)
 			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException;
         
-        /**
+    /**
 	 * update all groups and contacts
 	 *
 	 * @param accountId
+	 * @return errorStack
 	 * @throws AccountNotFoundException
 	 * @throws ConnectorCouldNotLoginException
 	 * @throws ConnectorInvalidAccountException
 	 * @throws ConnectorNoConnectionException
 	 */
-	void updateGroupsAndContacts(int accountId)
+	List<String> updateGroupsAndContacts(int accountId)
 			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException;
 
 	/**

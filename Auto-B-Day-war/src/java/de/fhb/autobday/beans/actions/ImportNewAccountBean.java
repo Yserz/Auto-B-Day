@@ -10,6 +10,7 @@ import de.fhb.autobday.exception.connector.ConnectorException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.account.AccountManagerLocal;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -38,6 +39,8 @@ public class ImportNewAccountBean {
 	private String userName;
 	private String type;
 
+	
+
 	/**
 	 * Creates a new instance of ImportNewAccountBean
 	 */
@@ -46,14 +49,19 @@ public class ImportNewAccountBean {
 	}
 
 	public String importNewAccount() {
+		List<String> errorStack;
 		try {
 			AbdUser aktUser = sessionBean.getAktUser();
 			AbdAccount aktAccount = accountManager.addAccount(aktUser.getId(), password, userName, type);
 			sessionBean.setAktAccount(aktAccount);
 			try {
-				accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
+				errorStack = accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
+				for (String string : errorStack) {
 				FacesContext.getCurrentInstance().addMessage(
-						null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!", ""));
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Skipped Contact: "+string , ""));
+			}
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!" , ""));
 			} catch (AccountNotFoundException ex) {
 				LOGGER.log(Level.SEVERE, null, ex);
 				accountBean.deleteAccount();

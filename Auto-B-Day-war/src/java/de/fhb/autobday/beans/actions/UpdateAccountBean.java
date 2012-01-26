@@ -4,6 +4,7 @@ import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
 import de.fhb.autobday.exception.connector.ConnectorException;
 import de.fhb.autobday.manager.account.AccountManagerLocal;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -34,10 +35,15 @@ public class UpdateAccountBean {
 	}
 
 	public String updateAccount() {
+		List<String> errorStack;
 		try {
-			accountManager.updateGroupsAndContacts(sessionBean.getAktAccount().getId());
+			errorStack = accountManager.updateGroupsAndContacts(sessionBean.getAktAccount().getId());
+			for (String string : errorStack) {
+				FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Skipped Contact: "+string , ""));
+			}
 			FacesContext.getCurrentInstance().addMessage(
-					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is up-to-date now!", ""));
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is up-to-date now!" , ""));
 		} catch (AccountNotFoundException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
 			FacesContext.getCurrentInstance().addMessage(

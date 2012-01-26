@@ -61,44 +61,25 @@
 			</p:panel>
 		</h:form>
 		<h:form prependId="false">
-			<p:panel id="systemmailpanel" rendered="#{sessionBean.loggedIn}" header="DEBUG: Senden einer System-Mail" style="margin-bottom: 10px;">
+			<p:panel id="systemmailpanel" rendered="#{sessionBean.loggedIn}" header="DEBUG: Send a System-Mail" style="margin-bottom: 10px;">
 				<h:outputLabel for="systemmailTo" value="MailTo:* " />
 				<p:inputText id="systemmailTo" 
 							 value="#{mailTestBean.mailTo}"
 							 label="Mail"
 							 required="true"
-							 requiredMessage="Eine Mail ist erforderlich."
+							 requiredMessage="Mail is required."
 							 maxlength="40"/>
 				<h:outputText value="(Max. 40 Zeichen)" />
 				<p:message for="systemmailTo" showSummary="true" />
 
-				<p:commandButton value="send Mail" 
+				<p:commandButton value="Send Mail" 
 								 update="systemmailpanel" 
 								 icon="ui-icon ui-icon-disk"
 								 ajax="false"
 								 actionListener="#{mailTestBean.testSystemMailManager}"/>
 			</p:panel>
 		</h:form>
-		<h:form prependId="false">
-			<p:panel id="usermailpanel" rendered="#{sessionBean.loggedIn}" header="DEBUG: Senden einer User-Mail">
-				<h:outputLabel for="usermailTo" value="MailTo:* " />
-				<p:inputText id="usermailTo" 
-							 value="#{mailTestBean.mailTo}"
-							 label="Mail"
-							 required="true"
-							 requiredMessage="Eine Mail ist erforderlich."
-							 maxlength="40"/>
-				<h:outputText value="(Max. 40 Zeichen)" />
-				<p:message for="usermailTo" showSummary="true" />
-
-				<p:commandButton value="send Mail" 
-								 update="usermailpanel" 
-								 icon="ui-icon ui-icon-disk"
-								 ajax="false"
-								 actionListener="#{mailTestBean.testUserMailManager}"/>
-
-			</p:panel>
-		</h:form>
+		
 
 	</ui:define>
 

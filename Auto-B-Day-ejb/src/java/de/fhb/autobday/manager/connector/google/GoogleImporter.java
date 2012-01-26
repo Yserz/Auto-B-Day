@@ -66,6 +66,7 @@ public class GoogleImporter extends AImporter {
 	@EJB
 	protected AbdAccountFacade accountDAO;
 	private PropertyLoader propLoader;
+	private List<String> errorStack = new ArrayList();
 
 	public GoogleImporter() {
 		connectionEtablished = false;
@@ -141,11 +142,12 @@ public class GoogleImporter extends AImporter {
 	/**
 	 * {@inheritDoc}
 	 *
+	 * @return errorStack
 	 * @see de.fhb.autobday.manager.connector.AImporter#importContacts()
 	 */
 	@Override
-	public void importContacts() throws ConnectorNoConnectionException {
-
+	public List<String> importContacts() throws ConnectorNoConnectionException {
+		errorStack = new ArrayList<String>();
 		// if we have a connection and a valid accounddata then import the
 		// contacts and groups
 		// else throw an exception
@@ -162,6 +164,7 @@ public class GoogleImporter extends AImporter {
 		} else {
 			throw new ConnectorNoConnectionException();
 		}
+		return errorStack;
 	}
 
 	/**
@@ -419,6 +422,8 @@ public class GoogleImporter extends AImporter {
 		String mailadress;
 		String id;
 		Date updated;
+		
+		
 
 		abdContact = new AbdContact();
 		LOGGER.log(Level.INFO, "-------------------------------------------------");
@@ -433,6 +438,7 @@ public class GoogleImporter extends AImporter {
 		if (!firstname.equals("")) {
 			abdContact.setFirstname(firstname);
 		} else {
+			errorStack.add("Skipping Contact "+abdContact.getFirstname()+" "+abdContact.getName()+": No Firstname");
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Firstname");
 			return null;
 		}
@@ -442,6 +448,7 @@ public class GoogleImporter extends AImporter {
 		if (!name.equals("")) {
 			abdContact.setName(name);
 		} else {
+			errorStack.add("Skipping Contact "+abdContact.getFirstname()+" "+abdContact.getName()+": No Name");
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Name");
 			return null;
 		}
@@ -451,6 +458,7 @@ public class GoogleImporter extends AImporter {
 		if (birthday != null) {
 			abdContact.setBday(birthday);
 		} else {
+			errorStack.add("Skipping Contact "+abdContact.getFirstname()+" "+abdContact.getName()+": No Bday");
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Bday");
 			return null;
 		}
@@ -459,6 +467,7 @@ public class GoogleImporter extends AImporter {
 			mailadress = getGContactFirstMailAdress(contactEntry);
 			abdContact.setMail(mailadress);
 		} else {
+			errorStack.add("Skipping Contact "+abdContact.getFirstname()+" "+abdContact.getName()+": No Mail");
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Mail");
 			return null;
 		}

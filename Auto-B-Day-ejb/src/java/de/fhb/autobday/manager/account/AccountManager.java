@@ -186,6 +186,7 @@ public class AccountManager implements AccountManagerLocal {
 	/**
 	 * {@inheritDoc}
 	 *
+	 * @return errorStack
 	 * @throws AccountNotFoundException
 	 * @throws ConnectorNoConnectionException
 	 * @throws ConnectorInvalidAccountException
@@ -194,9 +195,9 @@ public class AccountManager implements AccountManagerLocal {
 	 * de.fhb.autobday.manager.account.AccountManagerLocal#importGroupsAndContacts(int)
 	 */
 	@Override
-	public void importGroupsAndContacts(int accountId)
+	public List<String> importGroupsAndContacts(int accountId)
 			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
-
+		List<String> errorStack;
 
 		AbdAccount account;
 
@@ -207,9 +208,11 @@ public class AccountManager implements AccountManagerLocal {
 		//connect and import
 		importer.getConnection(account);
 
-		importer.importContacts();
+		errorStack = importer.importContacts();
 
 		accountDAO.refresh(account);
+		
+		return errorStack;
 	}
 
 	/**
@@ -253,8 +256,8 @@ public class AccountManager implements AccountManagerLocal {
 	}
 
 	@Override
-    public void updateGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
-        	importGroupsAndContacts(accountId);
+    public List<String> updateGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
+        	return importGroupsAndContacts(accountId);
     }
 	/**
 	 * Method to lookup for a account.

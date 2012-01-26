@@ -76,6 +76,26 @@
 
 			</h:form>
 		</p:panel>
+		<h:form prependId="false">
+			<p:panel id="usermailpanel" rendered="#{sessionBean.loggedIn}" header="DEBUG: Send an User-Mail">
+				<h:outputLabel for="usermailTo" value="MailTo:* " />
+				<p:inputText id="usermailTo" 
+							 value="#{mailTestBean.mailTo}"
+							 label="Mail"
+							 required="true"
+							 requiredMessage="Mail is required."
+							 maxlength="40"/>
+				<h:outputText value="(Max. 40 Signs)" />
+				<p:message for="usermailTo" showSummary="true" />
+
+				<p:commandButton value="Send Mail" 
+								 update="usermailpanel" 
+								 icon="ui-icon ui-icon-disk"
+								 ajax="false"
+								 actionListener="#{mailTestBean.testUserMailManager}"/>
+
+			</p:panel>
+		</h:form>
 
 	</ui:define>
 

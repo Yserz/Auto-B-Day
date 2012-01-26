@@ -374,6 +374,24 @@ public class UserManager implements UserManagerLocal {
 
 		//lookup for user
 		user = findUser(userId);
+		
+		//check password
+		try {
+
+			hash = HashHelper.calcSHA1(oldPassword + user.getSalt());
+
+		} catch (UnsupportedEncodingException e) {
+			LOGGER.log(Level.SEVERE, "UnsupportedEncodingException  {0}", e.getMessage());
+			throw new HashFailException("UnsupportedEncodingException in Hashhelper");
+		} catch (NoSuchAlgorithmException e) {
+			LOGGER.log(Level.SEVERE, "NoSuchAlgorithmException  {0}", e.getMessage());
+			throw new HashFailException("NoSuchAlgorithmException in Hashhelper");
+		}
+
+		if (!user.getPasswort().equals(hash)) {
+			LOGGER.log(Level.SEVERE, "Invalid password!");
+			throw new PasswordInvalidException("Invalid password!");
+		}
 
 		// generate Salt
 		salt = PasswordGenerator.generateSalt();

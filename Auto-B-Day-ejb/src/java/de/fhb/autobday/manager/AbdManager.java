@@ -92,7 +92,7 @@ public class AbdManager implements AbdManagerLocal {
 	 * {@inheritDoc}
 	 *
 	 */
-	@Schedule(minute = "54", hour = "19")
+	@Schedule(minute = "53", hour = "20")
 	@Override
 	public void checkEveryDay() {
 

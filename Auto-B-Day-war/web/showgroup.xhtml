@@ -13,56 +13,45 @@
 			<h:form>
 				<p:dataTable value="#{groupBean.contactList}" 
 							 var="contact"
-							 rows="10" 
+							 widgetVar="contactTable"
+							 rows="15"
+							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+							 rowsPerPageTemplate="15,30,100"
 							 paginator="true" 
 							 emptyMessage="There are no Contacts"
 							 paginatorAlwaysVisible="false">
 
 
-					<p:column>
-						<f:facet name="header"> 
-							<h:outputText value="Name" />
-						</f:facet>
+					<p:column headerText="Name" filterBy="#{contact.name}" filterMatchMode="contains">
 						#{contact.name}
 					</p:column>
-					<p:column>
-						<f:facet name="header"> 
-							<h:outputText value="Firstname" />
-						</f:facet>
+					
+					<p:column headerText="Firstname" filterBy="#{contact.firstname}" filterMatchMode="contains">
 						#{contact.firstname}
 					</p:column>
-					<p:column>
-						<f:facet name="header"> 
-							<h:outputText value="Birthday" />
-						</f:facet>
+					
+					<p:column headerText="Birthday(e.g. Fri Feb 02 1990)" filterBy="#{contact.bday}" filterMatchMode="contains">
 						<h:outputText value="#{contact.bday}">  
-							<f:convertDateTime pattern="dd.MM.yyyy" locale="de_DE" type="date"/>  
+							<f:convertDateTime pattern="dd.MM.yyyy" locale="de_DE" type="date"/>
 						</h:outputText>
-
 					</p:column>
-					<p:column>
-						<f:facet name="header"> 
-							<h:outputText value="Mail" />
-						</f:facet>
+					
+					<p:column headerText="Mail" filterBy="#{contact.mail}" filterMatchMode="contains">
 						#{contact.mail}
 					</p:column>
-					<p:column style="width: 10px;">
-						<f:facet name="header"> 
-							<h:outputText value="aktive" />
-						</f:facet>
-						<p:selectBooleanCheckbox id="aktiv" value="#{groupBean.activeState}">
-							<p:ajax update="aktiv" listener="#{groupBean.toggleContactActivation}"/> 
-
-						</p:selectBooleanCheckbox>
-					</p:column>
-					<p:column style="width: 20px;">
-						<f:facet name="header"> 
-							<h:outputText value="Test Template" />
-						</f:facet>
+					
+					<p:column headerText="Test Template" style="width: 20px;">
 						<p:commandButton value="Test" action="#{groupBean.testTemplate}" ajax="false">
 							<f:setPropertyActionListener target="#{sessionBean.aktContact}" value="#{contact}" />
 						</p:commandButton>
 					</p:column>
+					
+					<p:column headerText="aktive" filterBy="#{groupBean.activeState}" filterOptions="#{tableOptions.trueFalseOption}" filterMatchMode="exact" style="width: 10px;">
+						<p:selectBooleanCheckbox id="aktiv" value="#{groupBean.activeState}">
+							<p:ajax update="aktiv" listener="#{groupBean.toggleContactActivation}"/>
+						</p:selectBooleanCheckbox>
+					</p:column>
+					
 
 				</p:dataTable>
 

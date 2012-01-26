@@ -11,14 +11,22 @@
 
 					<p:dataTable value="#{userBean.accountList}" 
 								 var="account"
-								 rows="20" 
+								 widgetVar="accountTable"
+								 rows="15"
+								 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+								 rowsPerPageTemplate="15,30,100"
 								 paginator="true" 
 								 emptyMessage="There are no Accounts"
 								 paginatorAlwaysVisible="false">
+						
+						
 
-
-						<p:column headerText="Account">
-							<h:commandLink value="#{account.username}" action="#{accountBean.showAccount}">
+						<p:column headerText="Account" filterBy="#{account.username}" filterMatchMode="contains">
+							
+							<h:commandLink action="#{accountBean.showAccount}">
+								<h:outputText value="#{account.username}">
+									<f:converter converterId="maxLengthConv" />
+								</h:outputText>
 								<f:setPropertyActionListener target="#{sessionBean.aktAccount}" value="#{account}" />
 							</h:commandLink>
 						</p:column>

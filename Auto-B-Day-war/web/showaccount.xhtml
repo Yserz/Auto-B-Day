@@ -14,45 +14,41 @@
 			<p:panel id="schedule">
 				<p:schedule value="#{scheduleBean.eventModel}"/>
 			</p:panel>
-			
+
 		</p:panel>
 		<p:panel id="groupList" header="Groups" rendered="#{sessionBean.loggedIn}" style="margin-bottom: 10px;">
 
 			<h:form>
 				<p:dataTable value="#{accountBean.groupList}" 
 							 var="group"
-							 rows="10" 
+							 widgetVar="groupTable"
+							 rows="15"
+							 paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+							 rowsPerPageTemplate="15,30,100"
 							 paginator="true" 
 							 emptyMessage="There are no Groups"
 							 paginatorAlwaysVisible="false">
 
 
-					<p:column>
-						<f:facet name="header"> 
-							<h:outputText value="Group" />
-						</f:facet>
+					<p:column headerText="Group" filterBy="#{group.name}" filterMatchMode="contains">
 
 						<h:commandLink value="#{group.name}" action="#{groupBean.showGroup}">
 							<f:setPropertyActionListener target="#{sessionBean.aktGroup}" value="#{group}" />
 						</h:commandLink>
 					</p:column>
-					<p:column style="width: 10px;">
-						<f:facet name="header"> 
-							<h:outputText value="#Contacts" />
-						</f:facet>
+					
+					<p:column headerText="#Contacts" style="width: 10px;">
 						#{group.abdGroupToContactCollection.size()}
 					</p:column>
-					<p:column style="width: 500px;">
-						<f:facet name="header"> 
-							<h:outputText value="Template" />
-						</f:facet>
+					
+					<p:column headerText="Template" style="width: 500px;">
 						<h:panelGrid columns="2" style="border-color: white;" cellpadding="10">
 							<h:panelGroup layout="block">
 								<p:panel header="Template" 
 										 toggleable="true" 
 										 collapsed="true" 
 										 toggleSpeed="200" 
-										 style="width: 500px; word-break: break-all;">
+										 style="width: 430px; word-break: break-all;">
 									#{group.template}
 								</p:panel>
 							</h:panelGroup>
@@ -63,10 +59,8 @@
 							</h:panelGroup>
 						</h:panelGrid>
 					</p:column>
-					<p:column style="width: 10px">
-						<f:facet name="header"> 
-							<h:outputText value="aktive" />
-						</f:facet>
+					
+					<p:column headerText="aktive" filterBy="#{group.active}" filterOptions="#{tableOptions.trueFalseOption}" filterMatchMode="exact" style="width: 10px">
 						<p:selectBooleanCheckbox value="#{group.active}" >
 							<p:ajax listener="#{accountBean.toggleGroupActivation}"/> 
 						</p:selectBooleanCheckbox>

@@ -4,10 +4,20 @@
  */
 package de.fhb.autobday.exception.commons;
 
+import de.fhb.autobday.exception.AbdException;
+
 /**
  *
  * @author Dragon
  */
-public class CouldNotDecryptException {
+public class CouldNotDecryptException extends AbdException{
+	
+	public CouldNotDecryptException(){
+		super();
+	}
+	
+	public CouldNotDecryptException(String s){
+		super(s);
+	}
 	
 }

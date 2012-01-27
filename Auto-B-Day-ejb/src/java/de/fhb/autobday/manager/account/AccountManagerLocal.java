@@ -4,6 +4,8 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.commons.CouldNotDecryptException;
+import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
@@ -36,7 +38,7 @@ public interface AccountManagerLocal {
 	 * @throws NoValidUserNameException
 	 */
 	AbdAccount addAccount(int abdUserId, String password, String userName, String type)
-			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException;
+			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException, CouldNotLoadMasterPasswordException, CouldNotDecryptException;
 
 	/**
 	 * remove a account of a user by a AbdAccountobject

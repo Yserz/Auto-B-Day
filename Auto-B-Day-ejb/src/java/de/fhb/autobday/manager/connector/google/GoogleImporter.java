@@ -17,6 +17,8 @@ import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
 import de.fhb.autobday.exception.commons.CanNotConvetGoogleBirthdayException;
+import de.fhb.autobday.exception.commons.CouldNotDecryptException;
+import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
@@ -85,7 +87,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	@Override
 	public void getConnection(AbdAccount data)
 			throws ConnectorCouldNotLoginException,
-			ConnectorInvalidAccountException {
+			ConnectorInvalidAccountException, CouldNotDecryptException, CouldNotLoadMasterPasswordException {
 
 		String password = "";
 		Properties masterPassword;
@@ -101,32 +103,27 @@ public class GoogleImporter implements GoogleImporterLocal {
 		LOGGER.log(Level.INFO, "Username: {0}", accdata.getUsername());
 		LOGGER.log(Level.INFO, "Passwort: {0}", accdata.getPasswort());
 
+		//load master password
+		try {
+			masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
+			password = CipherHelper.decipher(accdata.getPasswort(), masterPassword.getProperty("master"));
+		} catch (IOException e) {
+			throw new CouldNotLoadMasterPasswordException();
+		} catch (InvalidKeyException e) {
+			throw new CouldNotDecryptException();
+		} catch (NoSuchAlgorithmException e) {
+			throw new CouldNotDecryptException();
+		} catch (NoSuchPaddingException e) {
+			throw new CouldNotDecryptException();
+		} catch (IllegalBlockSizeException e) {
+			throw new CouldNotDecryptException();
+		} catch (BadPaddingException e) {
+			throw new CouldNotDecryptException();
+		}
+
 		// connect to google
 		try {
 			myService = new ContactsService("BDayReminder");
-
-			try {
-				masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
-				password = CipherHelper.decipher(accdata.getPasswort(), masterPassword.getProperty("master"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidKeyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchPaddingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalBlockSizeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (BadPaddingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 
 			myService.setUserCredentials(accdata.getUsername(),
 					password);
@@ -158,10 +155,9 @@ public class GoogleImporter implements GoogleImporterLocal {
 			accountDAO.refresh(accdata);
 			updateContacts();
 
-			//accountDAO.edit(accdata);
 
 		} else {
-			throw new ConnectorNoConnectionException();//TODO Add Message
+			throw new ConnectorNoConnectionException("Connection to Google failed");
 		}
 		return errorStack;
 	}
@@ -173,9 +169,9 @@ public class GoogleImporter implements GoogleImporterLocal {
 		AbdContact abdContact, abdContactInDB;
 		List<ContactEntry> contacts = getAllContacts();
 		int counter = 0;
-		
+
 		LOGGER.log(Level.INFO, "Updating Contacts!");
-		LOGGER.log(Level.INFO, "{0} Contacts in queue!",contacts.size());
+		LOGGER.log(Level.INFO, "{0} Contacts in queue!", contacts.size());
 		for (ContactEntry contactEntry : contacts) {
 			counter++;
 			abdContact = mapGContactToContact(contactEntry);
@@ -183,7 +179,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 				LOGGER.log(Level.INFO, "Mapped Contact {0}: {1}", new Object[]{counter, abdContact});
 
 				abdContactInDB = contactDAO.find(abdContact.getId());
-				
+
 				if (abdContactInDB == null) {
 					LOGGER.log(Level.INFO, "Adding Contact to db!");
 					contactDAO.create(abdContact);
@@ -199,7 +195,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 				}
 				contactDAO.flush();
 				updateMembership(abdContact, contactEntry);
-			}else{
+			} else {
 				LOGGER.log(Level.INFO, "Failed to map Contact {0}!", counter);
 			}
 		}
@@ -236,7 +232,6 @@ public class GoogleImporter implements GoogleImporterLocal {
 						groupDAO.edit(abdGroup);
 						groupDAO.flush();
 						abdGroups.remove(i);
-						//abdGroups.remove(abdGroupOld);
 						abdGroups.add(i, abdGroup);
 					}
 
@@ -245,11 +240,11 @@ public class GoogleImporter implements GoogleImporterLocal {
 			if (!foundMatch) {
 				LOGGER.log(Level.INFO, "Creating new Group!");
 				abdGroups.add(abdGroup);
-				
+
 			}
 
 		}
-		
+
 		for (AbdGroup abdGroupInDB : abdGroups) {
 			foundMatch = false;
 			for (ContactGroupEntry groupEntry : groups) {
@@ -270,6 +265,12 @@ public class GoogleImporter implements GoogleImporterLocal {
 		accdata.setAbdGroupCollection(abdGroups);
 	}
 
+	/**
+	 * methode that update the relationship between contact and group
+	 * 
+	 * @param abdContact
+	 * @param contactEntry 
+	 */
 	public void updateMembership(AbdContact abdContact, ContactEntry contactEntry) {
 
 		List<GroupMembershipInfo> groupMembershipInfos = contactEntry.getGroupMembershipInfos();
@@ -294,17 +295,9 @@ public class GoogleImporter implements GoogleImporterLocal {
 				abdMembership.setAbdGroup(abdGroup);
 				abdMembership.setAbdContact(abdContact);
 				abdMemberships.add(abdMembership);
-				//groupToContactDAO.create(abdMembership);
-				//groupToContactDAO.flush();
 			}
 		}
-		/*
-		 *
-		 * for(Integer index:toRemove){
-		 * groupDAO.remove(abdGroups.get(index.intValue()));
-		 * abdGroups.remove(index.intValue()); }
-		 */
-		LOGGER.log(Level.INFO, "before remove1");
+
 		for (AbdGroupToContact abdGroupToContact : abdMemberships) {
 			match = false;
 			for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
@@ -421,8 +414,8 @@ public class GoogleImporter implements GoogleImporterLocal {
 		String mailadress;
 		String id;
 		Date updated;
-		
-		
+
+
 
 		abdContact = new AbdContact();
 		LOGGER.log(Level.INFO, "-------------------------------------------------");
@@ -437,7 +430,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		if (!firstname.equals("")) {
 			abdContact.setFirstname(firstname);
 		} else {
-			errorStack.add("Skipping Contact "+abdContact.getFirstname()+" "+abdContact.getName()+": No Firstname");
+			errorStack.add("Skipping Contact " + abdContact.getFirstname() + " " + abdContact.getName() + ": No Firstname");
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Firstname");
 			return null;
 		}
@@ -447,7 +440,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		if (!name.equals("")) {
 			abdContact.setName(name);
 		} else {
-			errorStack.add("Skipping Contact "+abdContact.getFirstname()+" "+abdContact.getName()+": No Name");
+			errorStack.add("Skipping Contact " + abdContact.getFirstname() + " " + abdContact.getName() + ": No Name");
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Name");
 			return null;
 		}
@@ -457,7 +450,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		if (birthday != null) {
 			abdContact.setBday(birthday);
 		} else {
-			errorStack.add("Skipping Contact "+abdContact.getFirstname()+" "+abdContact.getName()+": No Bday");
+			errorStack.add("Skipping Contact " + abdContact.getFirstname() + " " + abdContact.getName() + ": No Bday");
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Bday");
 			return null;
 		}
@@ -466,7 +459,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 			mailadress = getGContactFirstMailAdress(contactEntry);
 			abdContact.setMail(mailadress);
 		} else {
-			errorStack.add("Skipping Contact "+abdContact.getFirstname()+" "+abdContact.getName()+": No Mail");
+			errorStack.add("Skipping Contact " + abdContact.getFirstname() + " " + abdContact.getName() + ": No Mail");
 			LOGGER.log(Level.SEVERE, "Skipping current Contact: No Mail");
 			return null;
 		}
@@ -494,7 +487,6 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 */
 	protected AbdGroup mapGGroupToGroup(ContactGroupEntry contactGroupEntry) {
 		AbdGroup abdGroupEntry;
-		// TODO Template einbinden
 		String template = "Herzlichen Glückwunsch zum Geburtstag ${firstname}.";
 
 		abdGroupEntry = new AbdGroup();
@@ -520,7 +512,6 @@ public class GoogleImporter implements GoogleImporterLocal {
 		try {
 			firstname = contactEntry.getName().getGivenName().getValue();
 		} catch (NullPointerException ex) {
-			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
 
 		return firstname;
@@ -539,7 +530,6 @@ public class GoogleImporter implements GoogleImporterLocal {
 		try {
 			familyname = contactEntry.getName().getFamilyName().getValue();
 		} catch (NullPointerException ex) {
-			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
 		return familyname;
 
@@ -559,9 +549,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 			gContactBirthday = contactEntry.getBirthday().getValue();
 			bday = GoogleBirthdayConverter.convertBirthday(gContactBirthday);
 		} catch (CanNotConvetGoogleBirthdayException ex) {
-			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 		} catch (NullPointerException ex) {
-			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
 		return bday;
 	}
@@ -596,7 +584,6 @@ public class GoogleImporter implements GoogleImporterLocal {
 		try {
 			groupName = contactGroupEntry.getTitle().getPlainText();
 		} catch (NullPointerException ex) {
-			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
 		return groupName;
 	}

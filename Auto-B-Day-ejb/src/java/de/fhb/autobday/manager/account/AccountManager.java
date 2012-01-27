@@ -9,6 +9,8 @@ import de.fhb.autobday.dao.AbdUserFacade;
 import de.fhb.autobday.data.*;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.commons.CouldNotDecryptException;
+import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
@@ -71,7 +73,7 @@ public class AccountManager implements AccountManagerLocal {
 	 */
 	@Override
 	public AbdAccount addAccount(int userId, String password, String userName, String type)
-			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException {
+			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException, CouldNotLoadMasterPasswordException, CouldNotDecryptException {
 
 		AbdUser user;
 		String passwordChipher = "";
@@ -98,23 +100,17 @@ public class AccountManager implements AccountManagerLocal {
 			masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
 			passwordChipher = CipherHelper.cipher(password, masterPassword.getProperty("master"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CouldNotLoadMasterPasswordException();
 		} catch (InvalidKeyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CouldNotDecryptException();
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CouldNotDecryptException();
 		} catch (NoSuchPaddingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CouldNotDecryptException();
 		} catch (IllegalBlockSizeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CouldNotDecryptException();
 		} catch (BadPaddingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new CouldNotDecryptException();
 		}
 
 		//add new Account
@@ -206,7 +202,16 @@ public class AccountManager implements AccountManagerLocal {
 
 
 		//connect and import
+		//TODO keine ahnung wie wir auch die exception reagieren sollen
+		try {
 		importer.getConnection(account);
+		} catch (CouldNotDecryptException e){
+			e.printStackTrace();
+			//TODO
+		} catch (CouldNotLoadMasterPasswordException e){
+			e.printStackTrace();
+			//TODO
+		}
 
 		errorStack = importer.importContacts();
 

@@ -1,6 +1,8 @@
 package de.fhb.autobday.manager.connector;
 
 import de.fhb.autobday.data.AbdAccount;
+import de.fhb.autobday.exception.commons.CouldNotDecryptException;
+import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
@@ -18,7 +20,7 @@ public interface IImporter {
 	 * @throws ConnectorCouldNotLoginException
 	 * @throws ConnectorInvalidAccountException
 	 */
-	void getConnection(AbdAccount data) throws ConnectorCouldNotLoginException, ConnectorInvalidAccountException;
+	void getConnection(AbdAccount data) throws ConnectorCouldNotLoginException, ConnectorInvalidAccountException, CouldNotDecryptException, CouldNotLoadMasterPasswordException;
 
 	/**
 	 * importing the contacts information of the account which is given with the

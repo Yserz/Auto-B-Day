@@ -4,10 +4,20 @@
  */
 package de.fhb.autobday.exception.commons;
 
+import de.fhb.autobday.exception.AbdException;
+
 /**
  *
  * @author Dragon
  */
-public class CouldNotLoadMasterPasswordException {
+public class CouldNotLoadMasterPasswordException extends AbdException{
+	
+		public CouldNotLoadMasterPasswordException(){
+		super();
+	}
+	
+	public CouldNotLoadMasterPasswordException(String s){
+		super(s);
+	}
 	
 }

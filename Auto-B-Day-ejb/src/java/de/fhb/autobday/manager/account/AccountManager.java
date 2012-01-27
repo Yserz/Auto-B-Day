@@ -15,7 +15,7 @@ import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
-import de.fhb.autobday.manager.connector.google.GoogleImporter;
+import de.fhb.autobday.manager.connector.google.GoogleImporterLocal;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -52,7 +52,7 @@ public class AccountManager implements AccountManagerLocal {
 	@EJB
 	private AbdUserFacade userDAO;
 	@EJB
-	private GoogleImporter importer;
+	private GoogleImporterLocal importer;
 	private PropertyLoader propLoader;
 
 	public AccountManager() {

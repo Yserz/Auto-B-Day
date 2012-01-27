@@ -21,7 +21,6 @@ import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
 import de.fhb.autobday.manager.LoggerInterceptor;
-import de.fhb.autobday.manager.connector.AImporter;
 import java.io.IOException;
 import java.net.URL;
 import java.security.InvalidKeyException;
@@ -36,7 +35,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
+import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
@@ -49,9 +48,9 @@ import javax.interceptor.Interceptors;
  * @author Tino Reuschel mail: reuschel@fh-brandenburg.de
  */
 @Stateless
-@LocalBean
+@Local
 @Interceptors(LoggerInterceptor.class)
-public class GoogleImporter extends AImporter {
+public class GoogleImporter implements GoogleImporterLocal {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
 	protected boolean connectionEtablished;

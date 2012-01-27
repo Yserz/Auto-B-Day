@@ -43,15 +43,15 @@ public class ChangePasswordBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully changed password!", ""));
 		} catch (UserNotFoundException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (PasswordInvalidException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (HashFailException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}

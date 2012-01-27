@@ -47,17 +47,17 @@ public class RegisterBean {
 			AbdUser user = userManager.register(firstName, name, userName, mail, password, passwordWdhl);
 			sessionBean.setAktUser(user);
 		} catch (IncompleteUserRegisterException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			return "register";
 		} catch (NoValidUserNameException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			return "register";
 		} catch (HashFailException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			return "register";

@@ -63,27 +63,27 @@ public class ImportNewAccountBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!" , ""));
 			} catch (AccountNotFoundException ex) {
-				LOGGER.log(Level.SEVERE, null, ex);
+				LOGGER.log(Level.SEVERE, null, ex.getMessage());
 				accountBean.deleteAccount();
 				FacesContext.getCurrentInstance().addMessage(
 						null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			} catch (ConnectorException ex) {
-				LOGGER.log(Level.SEVERE, null, ex);
+				LOGGER.log(Level.SEVERE, null, ex.getMessage());
 				accountBean.deleteAccount();
 				FacesContext.getCurrentInstance().addMessage(
 						null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 
 			}
 		} catch (NoValidUserNameException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (UserNotFoundException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (AccountAlreadyExsistsException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}

@@ -15,9 +15,10 @@ import javax.inject.Named;
  *
  * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
-@Named(value = "mailTestBean")
+@Named
 @RequestScoped
 public class MailTestBean {
+	private final static Logger LOGGER = Logger.getLogger(MailTestBean.class.getName());
 	@Inject
 	private SessionBean sessionBean;
 	@Inject
@@ -35,7 +36,7 @@ public class MailTestBean {
 			FacesContext.getCurrentInstance().addMessage(
 				null, new FacesMessage(FacesMessage.SEVERITY_INFO, "SystemMail was send!", ""));
 		} catch (Exception ex) {
-			Logger.getLogger(MailTestBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
@@ -47,7 +48,7 @@ public class MailTestBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "UserMail was send!", ""));
 		} catch (Exception ex) {
-			Logger.getLogger(MailTestBean.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}

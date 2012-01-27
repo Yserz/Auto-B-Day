@@ -61,7 +61,7 @@ public class GroupBean {
 					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully edited template!", ""));
 
 		} catch (GroupException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 		return "showaccount";
@@ -72,7 +72,7 @@ public class GroupBean {
 			contactList = new ListDataModel(groupManager.getAllContactsFromGroup(sessionBean.getAktGroup()));
 
 		} catch (Exception ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}
@@ -99,13 +99,13 @@ public class GroupBean {
 
 					}
 				} catch (ContactNotFoundException ex) {
-					LOGGER.log(Level.SEVERE, null, ex);
+					LOGGER.log(Level.SEVERE, null, ex.getMessage());
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 				} catch (ContactToGroupNotFoundException ex) {
-					LOGGER.log(Level.SEVERE, null, ex);
+					LOGGER.log(Level.SEVERE, null, ex.getMessage());
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 				} catch (GroupNotFoundException ex) {
-					LOGGER.log(Level.SEVERE, null, ex);
+					LOGGER.log(Level.SEVERE, null, ex.getMessage());
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 				}
 			} else {
@@ -129,10 +129,10 @@ public class GroupBean {
 		try {
 			active = contactManager.getActive(aktContact.getId(), aktGroup.getId());
 		} catch (ContactNotFoundException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (GroupNotFoundException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 
@@ -156,11 +156,11 @@ public class GroupBean {
 			}
 
 		} catch (GroupException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			parsedTemplate = ex.getMessage();
 		} catch (ContactException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 			parsedTemplate = ex.getMessage();
 		}

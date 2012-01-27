@@ -3,7 +3,6 @@ package de.fhb.autobday.beans;
 import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.user.UserManagerLocal;
-import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -20,7 +19,7 @@ import javax.inject.Named;
  */
 @Named
 @RequestScoped
-public class UserBean implements Serializable {
+public class UserBean {
 
 	private final static Logger LOGGER = Logger.getLogger(UserBean.class.getName());
 	@Inject
@@ -41,10 +40,10 @@ public class UserBean implements Serializable {
 			accountList = new ListDataModel<AbdAccount>(userManager.getAllAccountsFromUser(sessionBean.getAktUser()));
 
 		} catch (NullPointerException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (UserNotFoundException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}

@@ -64,7 +64,7 @@ public class ScheduleBean {
 							contacts.add(abdContact);
 						}
 					} catch (ContactNotFoundException ex) {
-						LOGGER.log(Level.SEVERE, null, ex);
+						LOGGER.log(Level.SEVERE, null, ex.getMessage());
 					}
 				}
 
@@ -86,15 +86,15 @@ public class ScheduleBean {
 				
 			}
 		} catch (AccountNotFoundException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (NoGroupGivenException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (GroupNotFoundException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}

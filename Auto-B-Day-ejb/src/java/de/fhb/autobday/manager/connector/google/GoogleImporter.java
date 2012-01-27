@@ -132,7 +132,7 @@ public class GoogleImporter extends AImporter {
 			myService.setUserCredentials(accdata.getUsername(),
 					password);
 		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			throw new ConnectorCouldNotLoginException(
 					"Importer cant connect to the account!");
 		}
@@ -162,7 +162,7 @@ public class GoogleImporter extends AImporter {
 			//accountDAO.edit(accdata);
 
 		} else {
-			throw new ConnectorNoConnectionException();
+			throw new ConnectorNoConnectionException();//TODO Add Message
 		}
 		return errorStack;
 	}
@@ -368,10 +368,10 @@ public class GoogleImporter extends AImporter {
 			return resultFeed.getEntries();
 
 		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 			//TODO Exception
 		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 			//TODO Exception
 		}
 		return null;
@@ -398,10 +398,10 @@ public class GoogleImporter extends AImporter {
 			}
 			return resultFeed.getEntries();
 		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 			//TODO Exception
 		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 			//TODO Exception
 		}
 		return null;
@@ -521,7 +521,7 @@ public class GoogleImporter extends AImporter {
 		try {
 			firstname = contactEntry.getName().getGivenName().getValue();
 		} catch (NullPointerException ex) {
-			// LOGGER.log(Level.SEVERE, null, ex);
+			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
 
 		return firstname;
@@ -540,7 +540,7 @@ public class GoogleImporter extends AImporter {
 		try {
 			familyname = contactEntry.getName().getFamilyName().getValue();
 		} catch (NullPointerException ex) {
-			// LOGGER.log(Level.SEVERE, null, ex);
+			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
 		return familyname;
 
@@ -560,9 +560,9 @@ public class GoogleImporter extends AImporter {
 			gContactBirthday = contactEntry.getBirthday().getValue();
 			bday = GoogleBirthdayConverter.convertBirthday(gContactBirthday);
 		} catch (CanNotConvetGoogleBirthdayException ex) {
-			LOGGER.log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 		} catch (NullPointerException ex) {
-			// LOGGER.log(Level.SEVERE, null, ex);
+			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
 		return bday;
 	}
@@ -597,7 +597,7 @@ public class GoogleImporter extends AImporter {
 		try {
 			groupName = contactGroupEntry.getTitle().getPlainText();
 		} catch (NullPointerException ex) {
-			// LOGGER.log(Level.SEVERE, null, ex);
+			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
 		return groupName;
 	}

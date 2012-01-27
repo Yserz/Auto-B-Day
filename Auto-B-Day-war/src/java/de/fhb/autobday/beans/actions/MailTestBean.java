@@ -30,6 +30,9 @@ public class MailTestBean {
 	 */
 	public MailTestBean() {
 	}
+	/**
+	 * sends a System-Mail
+	 */
 	public void testSystemMailManager(){
 		try {
 			mailManager.sendSystemMail("Betreff", "Message", mailTo);
@@ -42,6 +45,9 @@ public class MailTestBean {
 		}
 		
 	}
+	/**
+	 * sends an UserMail
+	 */
 	public void testUserMailManager(){
 		try {
 			mailManager.sendUserMail(sessionBean.getAktAccount(), "Betreff", "Message", mailTo);

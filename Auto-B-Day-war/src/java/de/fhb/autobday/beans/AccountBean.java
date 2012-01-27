@@ -39,10 +39,17 @@ public class AccountBean {
 	public AccountBean() {
 		groupList = new ListDataModel<AbdGroup>();
 	}
-	
+	/**
+	 * will redirect to showaccount-page
+	 * @return redirect to showaccount
+	 */
 	public String showAccount(){
 		return "showaccount";
 	}
+	/**
+	 * will delete a Google-Account.
+	 * @return redirect to index
+	 */
 	public String deleteAccount(){
 		try {
 			accountManager.removeAccount(sessionBean.getAktAccount());
@@ -57,6 +64,9 @@ public class AccountBean {
 		
 		return "index";
 	}
+	/**
+	 * will get all groups from given account and format it to ListDataModel.
+	 */
 	private void getAllGroupsFromAccount(){
 		try {
 			groupList = new ListDataModel<AbdGroup>(accountManager.getAllGroupsFromAccount(sessionBean.getAktAccount()));
@@ -76,6 +86,10 @@ public class AccountBean {
 	public void setGroupList(ListDataModel<AbdGroup> groupList) {
 		this.groupList = groupList;
 	}
+	/**
+	 * will toggle group active/deaktive
+	 * @return reload aktSite
+	 */
 	public String toggleGroupActivation() {
 		AbdGroup aktGroup = groupList.getRowData();
 		String infoString = "";

@@ -34,7 +34,10 @@ public class ForgotPasswordBean {
 	 */
 	public ForgotPasswordBean() {
 	}
-
+	/**
+	 * will send a System-Mail with a new Password.
+	 * @return redirect to index
+	 */
 	public String sendForgotPasswordMail() {
 		try {
 			userManager.sendForgotPasswordMail(userName);

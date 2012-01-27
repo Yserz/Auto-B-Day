@@ -45,15 +45,24 @@ public class GroupBean {
 	 */
 	public GroupBean() {
 	}
-
+	/**
+	 * will redirect to showgroup-page
+	 * @return 
+	 */
 	public String showGroup() {
 		return "showgroup";
 	}
-
+	/**
+	 * will redirect to edittemplate-page
+	 * @return 
+	 */
 	public String showTemplate() {
 		return "edittemplate";
 	}
-
+	/**
+	 * will edit the given template
+	 * @return redirect to showaccount
+	 */
 	public String editTemplate() {
 		try {
 			groupManager.setTemplate(sessionBean.getAktGroup(), template);
@@ -66,7 +75,9 @@ public class GroupBean {
 		}
 		return "showaccount";
 	}
-
+	/**
+	 * will get all contacts from given group and format it to ListDataModel
+	 */
 	private void getAllContactsFromGroup() {
 		try {
 			contactList = new ListDataModel(groupManager.getAllContactsFromGroup(sessionBean.getAktGroup()));
@@ -76,7 +87,10 @@ public class GroupBean {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 	}
-
+	/**
+	 * will toggle contact active/deactive
+	 * @return 
+	 */
 	public String toggleContactActivation() {
 		LOGGER.log(Level.INFO, "toggleContactActivation");
 		AbdGroup aktGroup = sessionBean.getAktGroup();
@@ -118,7 +132,10 @@ public class GroupBean {
 		return null;
 
 	}
-
+	/**
+	 * will change the aktive state of a contact in gui.
+	 * @return active
+	 */
 	private boolean changeAktiveState() {
 		AbdGroup aktGroup = sessionBean.getAktGroup();
 		AbdContact aktContact = contactList.getRowData();
@@ -138,7 +155,10 @@ public class GroupBean {
 
 		return active;
 	}
-
+	/**
+	 * will test a template with the given contact.
+	 * @return redirect to showtemplate
+	 */
 	public String testTemplate() {
 		try {
 			AbdContact contact = sessionBean.getAktContact();

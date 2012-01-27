@@ -36,7 +36,10 @@ public class ChangePasswordBean {
 	 */
 	public ChangePasswordBean() {
 	}
-
+	/**
+	 * will change the password of aktUser
+	 * @return 
+	 */
 	public String changePassword() {
 		try {
 			userManager.changePassword(sessionBean.getAktUser(), oldPW, newPW, newPWRep);

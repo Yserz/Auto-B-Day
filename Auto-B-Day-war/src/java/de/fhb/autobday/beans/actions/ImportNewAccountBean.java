@@ -47,7 +47,10 @@ public class ImportNewAccountBean {
 	public ImportNewAccountBean() {
 		type = "google";
 	}
-
+	/**
+	 * will import a new Google-Account.
+	 * @return 
+	 */
 	public String importNewAccount() {
 		List<String> errorStack;
 		try {

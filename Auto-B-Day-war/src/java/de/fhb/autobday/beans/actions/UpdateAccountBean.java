@@ -33,7 +33,10 @@ public class UpdateAccountBean {
 	 */
 	public UpdateAccountBean() {
 	}
-
+	/**
+	 * will update the given Google-Account.
+	 * @return 
+	 */
 	public String updateAccount() {
 		List<String> errorStack;
 		try {

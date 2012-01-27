@@ -48,7 +48,9 @@ public class ScheduleBean {
 	 */
 	public ScheduleBean() {
 	}
-
+	/**
+	 * will get all contacts of all groups from the given account and add it to the schedule.
+	 */
 	private void getAllContactsFromAccount() {
 		List<AbdGroup> groups = new ArrayList<AbdGroup>();
 		List<AbdContact> contacts = new ArrayList<AbdContact>();

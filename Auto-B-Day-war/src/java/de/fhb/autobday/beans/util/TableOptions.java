@@ -5,10 +5,10 @@ import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
 /**
- * TODO
- * @author MacYser
+ * This Class creates the options for the filter in Primefaces
+ * @author Michael Koppen mail: koppen@fh-brandenburg.de
  */
-@Named(value = "tableOptions")
+@Named
 @RequestScoped
 public class TableOptions {
 
@@ -20,7 +20,11 @@ public class TableOptions {
 	public TableOptions() {
 		trueFalseOption = createFilterOptionsBoolean();
 	}
-
+	/**
+	 * Formats options into SelectItem[] out of a String[].
+	 * @param data
+	 * @return itemArray
+	 */
 	private SelectItem[] createFilterOptions(String[] data) {
 		SelectItem[] options = new SelectItem[data.length + 1];
 
@@ -31,7 +35,10 @@ public class TableOptions {
 
 		return options;
 	}
-
+	/**
+	 * Formats true and false into SelectItem[].
+	 * @return itemArray
+	 */
 	private SelectItem[] createFilterOptionsBoolean() {
 		SelectItem[] options = new SelectItem[3];
 

@@ -39,7 +39,10 @@ public class LoginLogoutBean {
 		userName = "username";
 		password = "password";
 	}
-
+	/**
+	 * will login a user.
+	 * @return redirect to index.
+	 */
 	public String login() {
 		AbdUser aktUser = null;
 		try {
@@ -62,7 +65,10 @@ public class LoginLogoutBean {
 		
 		return "index";
 	}
-
+	/**
+	 * will logout a user and invalidating the session.
+	 * @return redirect to index.
+	 */
 	public String logout() {
 		sessionBean.setAktUser(null);
 

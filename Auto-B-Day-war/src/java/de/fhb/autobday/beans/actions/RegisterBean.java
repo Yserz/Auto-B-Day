@@ -40,7 +40,10 @@ public class RegisterBean {
 	 */
 	public RegisterBean() {
 	}
-
+	/**
+	 * will register a new user.
+	 * @return redirect to index
+	 */
 	public String register() {
 
 		try {

@@ -34,7 +34,9 @@ public class UserBean {
 	public UserBean() {
 		accountList = new ListDataModel<AbdAccount>();
 	}
-
+	/**
+	 * will get all accounts from the given user.
+	 */
 	private void getAllAccountsFromUser() {
 		try {
 			accountList = new ListDataModel<AbdAccount>(userManager.getAllAccountsFromUser(sessionBean.getAktUser()));

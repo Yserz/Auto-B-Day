@@ -32,6 +32,7 @@ import javax.mail.internet.MimeMessage;
 public class GoogleMailManager implements GoogleMailManagerLocal {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleMailManager.class.getName());
+	
 	private PropertyLoader propLoader;
 
 	public GoogleMailManager() {
@@ -70,9 +71,6 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 			LOGGER.log(Level.SEVERE, null, ex);
 			throw new FailedToSendMailException("Failed to send mail.");
 		}
-
-
-
 	}
 
 	/**
@@ -89,9 +87,13 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 	@Override
 	public void sendUserMail(AbdAccount account, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
 
+		//load properties
 		Properties masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
+		
+		//load password
 		String passwordDeciphered = CipherHelper.decipher(account.getPasswort(), masterPassword.getProperty("master"));
 
+		//send mail out
 		sendUserMailInternal(account.getUsername(), passwordDeciphered, subject, message, to);
 	}
 
@@ -108,7 +110,9 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 	 * @throws Exception
 	 */
 	protected void sendUserMailInternal(String username, String password, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
+		
 		Properties systemProps = null;
+		
 		try {
 
 			//DONT CHANGE THIS PATH

@@ -27,7 +27,6 @@ import javax.interceptor.Interceptors;
  *
  * @author Andy Klay mail: klay@fh-brandenburg.de
  * @author Michael Koppen mail: koppen@fh-brandenburg.de
- *
  */
 @Stateless
 @Local
@@ -35,8 +34,10 @@ import javax.interceptor.Interceptors;
 public class UserManager implements UserManagerLocal {
 
 	private final static Logger LOGGER = Logger.getLogger(UserManager.class.getName());
+	
 	@EJB
 	private AbdUserFacade userDAO;
+	
 	@EJB
 	private GoogleMailManagerLocal mailManager;
 

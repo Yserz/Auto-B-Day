@@ -88,7 +88,7 @@ public class GoogleMailManager implements GoogleMailManagerLocal {
 	public void sendUserMail(AbdAccount account, String subject, String message, String to) throws FailedToSendMailException, FailedToLoadPropertiesException, Exception {
 
 		//load properties
-		Properties masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
+		Properties masterPassword = propLoader.loadSystemProperty("/SystemCipherPassword.properties");
 		
 		//load password
 		String passwordDeciphered = CipherHelper.decipher(account.getPasswort(), masterPassword.getProperty("master"));

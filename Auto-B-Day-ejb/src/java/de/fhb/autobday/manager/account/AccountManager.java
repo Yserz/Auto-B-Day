@@ -97,7 +97,7 @@ public class AccountManager implements AccountManagerLocal {
 		}
 
 		try {
-			masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
+			masterPassword = propLoader.loadSystemProperty("/SystemCipherPassword.properties");
 			passwordChipher = CipherHelper.cipher(password, masterPassword.getProperty("master"));
 		} catch (IOException e) {
 			throw new CouldNotLoadMasterPasswordException();

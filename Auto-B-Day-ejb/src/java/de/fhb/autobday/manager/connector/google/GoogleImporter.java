@@ -107,7 +107,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 
 		//load master password
 		try {
-			masterPassword = propLoader.loadSystemProperty("/SystemChiperPassword.properties");
+			masterPassword = propLoader.loadSystemProperty("/SystemCipherPassword.properties");
 			password = CipherHelper.decipher(accdata.getPasswort(), masterPassword.getProperty("master"));
 		} catch (IOException e) {
 			throw new CouldNotLoadMasterPasswordException();

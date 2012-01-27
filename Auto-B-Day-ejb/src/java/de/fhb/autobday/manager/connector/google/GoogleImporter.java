@@ -56,6 +56,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
 	protected boolean connectionEtablished;
+	
 	protected AbdAccount accdata;
 	protected ContactsService myService;
 	@EJB
@@ -66,6 +67,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	protected AbdGroupToContactFacade groupToContactDAO;
 	@EJB
 	protected AbdAccountFacade accountDAO;
+	
 	private PropertyLoader propLoader;
 	private List<String> errorStack = new ArrayList();
 
@@ -309,6 +311,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 				toRemove.add(0, abdMemberships.indexOf(abdGroupToContact));
 			}
 		}
+		
 		groupToContactDAO.flush();
 		for (Integer index : toRemove) {
 			LOGGER.log(Level.INFO, "remove {0}", index.intValue());
@@ -388,6 +391,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 			if (resultFeed == null) {
 				return null;
 			}
+			
 			return resultFeed.getEntries();
 		} catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
@@ -486,6 +490,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 * @return AbdGroup
 	 */
 	protected AbdGroup mapGGroupToGroup(ContactGroupEntry contactGroupEntry) {
+		
 		AbdGroup abdGroupEntry;
 		String template = "Herzlichen Glückwunsch zum Geburtstag ${firstname}.";
 

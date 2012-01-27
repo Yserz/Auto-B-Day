@@ -5,38 +5,3 @@ TODO - Micha
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 DEADLINE Sonntag den 29.01.2012 um 23:59 Uhr (Abgabe)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
---- Allgemein 	---
-
-WIR brauchen noch ne Endpräsentation...dazu können wir bereits...bekannte  Präsentationen nutzen,
-es geht nochmal darum nen Ueberblick zu schaffenn: Was wollten Wir, was haben wir festgelegt, was ist daraus geworden!
-Fuer erstere beiden können wir unsere Alten Präsentationen nutzen..fuer letzte Live Vorführung und/oder Screenshots..
-(btw... hab ich nur rein geschriebn, das wir es nciht vergessen rechtzeitig...die Präse zu machen)
-
-*** DOKU 			***
-
-viele TODOs der DOKU die uebrig gebliebn sind, sind jetzt gelb markiert in der DOKU
-BITTE Mal versuchen in der Doku ein, zwei TODOs zu machen!, ich kann nicht alles beantworten!
-
-INSBESONDERE:
-*************
-- timer erklaerung (manuell ausfuehrbar?) (@Micher ...kannst du die Frage beantworten und nachtragen in die DOKU Bitte!)
-(dafür fehlt das TODO inner DOKU noch!!)
-- ebendso für "- kurze erlaeuterung zur projektstruktur EAR = JAR + WAR" (dafür fehlt das TODO inner DOKU noch!!)
-
-
-- aso und da is auch noch ne Issue..fuer dich in Github!
-
-*** DB 			***
-
-- 
-
-*** Persistent 	***
-
-- 
-
-*** Session 	***
-
-- 
-
-*** GUI 		***

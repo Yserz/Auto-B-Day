@@ -104,7 +104,6 @@ public class AbdManager implements AbdManagerLocal {
 
 		String parsedMessageFromTemplate = "Empty Message!";
 		String template;
-		String sender;
 		AbdContact contact;
 		AbdAccount actAccount;
 
@@ -153,7 +152,7 @@ public class AbdManager implements AbdManagerLocal {
 								actAccount = aktGroupToContact.getAbdGroup().getAccount();
 								template = aktGroupToContact.getAbdGroup().getTemplate();
 								contact = aktGroupToContact.getAbdContact();
-								sender = getSender(aktGroupToContact);
+								
 								try {
 									//parse Template
 									parsedMessageFromTemplate = groupManager.parseTemplate(template, contact);
@@ -166,7 +165,6 @@ public class AbdManager implements AbdManagerLocal {
 									mailManager.sendUserMail(actAccount, "Happy Birthday", parsedMessageFromTemplate, contact.getMail());
 								} catch (Exception e) {
 									LOGGER.log(Level.SEVERE, e.getMessage());
-									//throw new MailException(e.getMessage());
 								}
 							}
 						}
@@ -208,7 +206,7 @@ public class AbdManager implements AbdManagerLocal {
 		}
 	}
 
-	private String getSender(AbdGroupToContact aktGroupToContact) {
-		return aktGroupToContact.getAbdGroup().getAccount().getUsername();
-	}
+//	private String getSender(AbdGroupToContact aktGroupToContact) {
+//		return aktGroupToContact.getAbdGroup().getAccount().getUsername();
+//	}
 }

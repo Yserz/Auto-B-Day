@@ -53,18 +53,27 @@ import javax.interceptor.Interceptors;
 public class GoogleImporter implements GoogleImporterLocal {
 
 	private final static Logger LOGGER = Logger.getLogger(GoogleImporter.class.getName());
+	
 	protected boolean connectionEtablished;
+	
 	protected AbdAccount accdata;
+	
 	protected ContactsService myService;
+	
 	@EJB
 	protected AbdContactFacade contactDAO;
+	
 	@EJB
 	protected AbdGroupFacade groupDAO;
+	
 	@EJB
 	protected AbdGroupToContactFacade groupToContactDAO;
+	
 	@EJB
 	protected AbdAccountFacade accountDAO;
+	
 	private PropertyLoader propLoader;
+	
 	private List<String> errorStack = new ArrayList();
 
 	public GoogleImporter() {
@@ -83,9 +92,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 * create connection to google contact api
 	 */
 	@Override
-	public void getConnection(AbdAccount data)
-			throws ConnectorCouldNotLoginException,
-			ConnectorInvalidAccountException {
+	public void getConnection(AbdAccount data)throws ConnectorCouldNotLoginException, ConnectorInvalidAccountException {
 
 		String password = "";
 		Properties masterPassword;
@@ -135,6 +142,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 			throw new ConnectorCouldNotLoginException(
 					"Importer cant connect to the account!");
 		}
+		
 		connectionEtablished = true;
 	}
 
@@ -163,6 +171,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		} else {
 			throw new ConnectorNoConnectionException();//TODO Add Message
 		}
+		
 		return errorStack;
 	}
 
@@ -176,6 +185,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		
 		LOGGER.log(Level.INFO, "Updating Contacts!");
 		LOGGER.log(Level.INFO, "{0} Contacts in queue!",contacts.size());
+		
 		for (ContactEntry contactEntry : contacts) {
 			counter++;
 			abdContact = mapGContactToContact(contactEntry);
@@ -213,8 +223,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		AbdGroup abdGroup;
 		AbdGroup abdGroupOld;
 		List<ContactGroupEntry> groups = getAllGroups();
-		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>(
-				accdata.getAbdGroupCollection());
+		List<AbdGroup> abdGroups = new ArrayList<AbdGroup>(accdata.getAbdGroupCollection());
 		List<Integer> toRemove = new ArrayList<Integer>();
 
 		boolean foundMatch = false;
@@ -282,12 +291,14 @@ public class GoogleImporter implements GoogleImporterLocal {
 
 		for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
 			match = false;
+			
 			for (AbdGroupToContact abdGroupToContact : abdMemberships) {
 
 				if (abdGroupToContact.getAbdGroup().getId().equals(groupMembershipInfo.getHref())) {
 					match = true;
 				}
 			}
+			
 			if (!match) {
 				abdGroup = groupDAO.find(groupMembershipInfo.getHref());
 				abdMembership = new AbdGroupToContact(groupMembershipInfo.getHref(), abdContact.getId());
@@ -305,6 +316,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		 * abdGroups.remove(index.intValue()); }
 		 */
 		LOGGER.log(Level.INFO, "before remove1");
+		
 		for (AbdGroupToContact abdGroupToContact : abdMemberships) {
 			match = false;
 			for (GroupMembershipInfo groupMembershipInfo : groupMembershipInfos) {
@@ -316,7 +328,9 @@ public class GoogleImporter implements GoogleImporterLocal {
 				toRemove.add(0, abdMemberships.indexOf(abdGroupToContact));
 			}
 		}
+		
 		groupToContactDAO.flush();
+		
 		for (Integer index : toRemove) {
 			LOGGER.log(Level.INFO, "remove {0}", index.intValue());
 			abdMembership = abdMemberships.get(index.intValue());
@@ -332,6 +346,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 				match = true;
 			}
 		}
+		
 		if (!match) {
 			abdMemberships.get(0).setActive(true);
 			groupToContactDAO.edit(abdMemberships.get(0));
@@ -355,6 +370,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	protected List<ContactGroupEntry> getAllGroups() {
 
 		URL feedUrl;
+		
 		try {
 			// url to get all groups
 			feedUrl = new URL(
@@ -373,6 +389,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 			//TODO Exception
 		}
+		
 		return null;
 	}
 
@@ -387,6 +404,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	protected List<ContactEntry> getAllContacts() {
 
 		URL feedUrl;
+		
 		try {
 			feedUrl = new URL(
 					"https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
@@ -395,7 +413,9 @@ public class GoogleImporter implements GoogleImporterLocal {
 			if (resultFeed == null) {
 				return null;
 			}
+			
 			return resultFeed.getEntries();
+			
 		} catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 			//TODO Exception
@@ -403,6 +423,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
 			//TODO Exception
 		}
+		
 		return null;
 	}
 
@@ -421,8 +442,6 @@ public class GoogleImporter implements GoogleImporterLocal {
 		String mailadress;
 		String id;
 		Date updated;
-		
-		
 
 		abdContact = new AbdContact();
 		LOGGER.log(Level.INFO, "-------------------------------------------------");
@@ -483,6 +502,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 
 		updated = new Date(contactEntry.getUpdated().getValue());
 		abdContact.setUpdated(updated);
+		
 		return abdContact;
 	}
 
@@ -493,7 +513,9 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 * @return AbdGroup
 	 */
 	protected AbdGroup mapGGroupToGroup(ContactGroupEntry contactGroupEntry) {
+		
 		AbdGroup abdGroupEntry;
+		
 		// TODO Template einbinden
 		String template = "Herzlichen Glückwunsch zum Geburtstag ${firstname}.";
 
@@ -517,6 +539,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 */
 	protected String getGContactFirstname(ContactEntry contactEntry) {
 		String firstname = "";
+		
 		try {
 			firstname = contactEntry.getName().getGivenName().getValue();
 		} catch (NullPointerException ex) {
@@ -536,13 +559,14 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 */
 	protected String getGContactFamilyname(ContactEntry contactEntry) {
 		String familyname = "";
+		
 		try {
 			familyname = contactEntry.getName().getFamilyName().getValue();
 		} catch (NullPointerException ex) {
 			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
+		
 		return familyname;
-
 	}
 
 	/**
@@ -553,8 +577,10 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 * @return Date
 	 */
 	protected Date getGContactBirthday(ContactEntry contactEntry) {
+		
 		String gContactBirthday;
 		Date bday = null;
+		
 		try {
 			gContactBirthday = contactEntry.getBirthday().getValue();
 			bday = GoogleBirthdayConverter.convertBirthday(gContactBirthday);
@@ -563,6 +589,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		} catch (NullPointerException ex) {
 			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
+		
 		return bday;
 	}
 
@@ -574,13 +601,16 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 * @return String
 	 */
 	protected String getGContactFirstMailAdress(ContactEntry contactEntry) {
+		
 		List<Email> mailadresses;
 		String mailadress;
 		mailadresses = contactEntry.getEmailAddresses();
+		
 		if (mailadresses.size() > 0) {
 			mailadress = mailadresses.get(0).getAddress();
 			return mailadress;
 		}
+		
 		return "";
 	}
 
@@ -598,6 +628,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		} catch (NullPointerException ex) {
 			// LOGGER.log(Level.SEVERE, null, ex.getMessage());
 		}
+		
 		return groupName;
 	}
 

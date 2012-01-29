@@ -201,7 +201,7 @@ public class AccountManager implements AccountManagerLocal {
 	 */
 	@Override
 	public List<String> importGroupsAndContacts(int accountId)
-			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException {
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException, CouldNotDecryptException, CouldNotLoadMasterPasswordException {
 		List<String> errorStack;
 
 		AbdAccount account;
@@ -211,16 +211,7 @@ public class AccountManager implements AccountManagerLocal {
 
 
 		//connect and import
-		//TODO keine ahnung wie wir auch die exception reagieren sollen
-		try {
 		importer.getConnection(account);
-		} catch (CouldNotDecryptException e){
-			e.printStackTrace();
-			//TODO
-		} catch (CouldNotLoadMasterPasswordException e){
-			e.printStackTrace();
-			//TODO
-		}
 
 		errorStack = importer.importContacts();
 
@@ -270,7 +261,7 @@ public class AccountManager implements AccountManagerLocal {
 	}
 
 	@Override
-    public List<String> updateGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException {
+    public List<String> updateGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException, CouldNotDecryptException, CouldNotLoadMasterPasswordException {
         	return importGroupsAndContacts(accountId);
     }
 	/**

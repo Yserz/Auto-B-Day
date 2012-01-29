@@ -72,7 +72,7 @@ public interface AccountManagerLocal {
 	 * @throws ConnectorNoConnectionException
 	 */
 	List<String> importGroupsAndContacts(int accountId)
-			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException;
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException, CouldNotDecryptException, CouldNotLoadMasterPasswordException;
         
     /**
 	 * update all groups and contacts
@@ -85,7 +85,7 @@ public interface AccountManagerLocal {
 	 * @throws ConnectorNoConnectionException
 	 */
 	List<String> updateGroupsAndContacts(int accountId)
-			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException;
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException, CouldNotDecryptException, CouldNotLoadMasterPasswordException;
 
 	/**
 	 * get all groups of a specific account by a AbdAccountobject

@@ -68,6 +68,8 @@ public class AccountManager implements AccountManagerLocal {
 	 * @return AbdAccount
 	 * @throws AccountAlreadyExsistsException
 	 * @throws NoValidUserNameException
+	 * @throws CouldNotLoadMasterPasswordException 
+	 * @throws CouldNotDecryptException 
 	 * @see de.fhb.autobday.manager.account.AccountManagerLocal#addAccount(int,
 	 * java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -102,15 +104,15 @@ public class AccountManager implements AccountManagerLocal {
 		} catch (IOException e) {
 			throw new CouldNotLoadMasterPasswordException();
 		} catch (InvalidKeyException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		} catch (NoSuchAlgorithmException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		} catch (NoSuchPaddingException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		} catch (IllegalBlockSizeException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		} catch (BadPaddingException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		}
 
 		//add new Account

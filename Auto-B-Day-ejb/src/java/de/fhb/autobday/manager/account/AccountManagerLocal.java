@@ -36,6 +36,8 @@ public interface AccountManagerLocal {
 	 * @throws UserNotFoundException
 	 * @throws AccountAlreadyExsistsException
 	 * @throws NoValidUserNameException
+	 * @throws CouldNotLoadMasterPasswordException
+	 * @throws CouldNotDecryptException  
 	 */
 	AbdAccount addAccount(int abdUserId, String password, String userName, String type)
 			throws UserNotFoundException, AccountAlreadyExsistsException, NoValidUserNameException, CouldNotLoadMasterPasswordException, CouldNotDecryptException;

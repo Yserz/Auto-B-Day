@@ -19,6 +19,8 @@ public interface IImporter {
 	 * @param data
 	 * @throws ConnectorCouldNotLoginException
 	 * @throws ConnectorInvalidAccountException
+	 * @throws CouldNotDecryptException
+	 * @throws CouldNotLoadMasterPasswordException  
 	 */
 	void getConnection(AbdAccount data) throws ConnectorCouldNotLoginException, ConnectorInvalidAccountException, CouldNotDecryptException, CouldNotLoadMasterPasswordException;
 

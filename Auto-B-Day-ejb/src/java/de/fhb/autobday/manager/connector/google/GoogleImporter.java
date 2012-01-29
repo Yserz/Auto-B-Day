@@ -82,6 +82,8 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 * {@inheritDoc}
 	 *
 	 * @param data
+	 * @throws CouldNotDecryptException 
+	 * @throws CouldNotLoadMasterPasswordException 
 	 * @see
 	 * de.fhb.autobday.manager.connector.AImporter#getConnection(de.fhb.autobday.data.AbdAccount)
 	 * create connection to google contact api
@@ -110,17 +112,17 @@ public class GoogleImporter implements GoogleImporterLocal {
 			masterPassword = propLoader.loadSystemProperty("/SystemCipherPassword.properties");
 			password = CipherHelper.decipher(accdata.getPasswort(), masterPassword.getProperty("master"));
 		} catch (IOException e) {
-			throw new CouldNotLoadMasterPasswordException();
+			throw new CouldNotLoadMasterPasswordException();//TODO Message + Logger
 		} catch (InvalidKeyException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		} catch (NoSuchAlgorithmException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		} catch (NoSuchPaddingException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		} catch (IllegalBlockSizeException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		} catch (BadPaddingException e) {
-			throw new CouldNotDecryptException();
+			throw new CouldNotDecryptException();//TODO Message + Logger
 		}
 
 		// connect to google

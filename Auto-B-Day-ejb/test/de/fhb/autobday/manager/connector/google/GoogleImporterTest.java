@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import org.easymock.EasyMock;
@@ -370,6 +371,7 @@ public class GoogleImporterTest {
 		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeedContact);
 		accountDAOMock.flush();
+		accountDAOMock.refresh(abdAccount);
 		accountDAOMock.edit(abdAccount);
 
 		replay(accountDAOMock);
@@ -763,6 +765,7 @@ public class GoogleImporterTest {
 
 		//prepare test variables
 		ContactsService myServiceMock = createMock(ContactsService.class);
+		AbdGroupFacade groupDAOMock = createMock(AbdGroupFacade.class);
 		URL feedUrl;
 		ContactGroupFeed resultFeed = new ContactGroupFeed();
 		List<ContactGroupEntry> contactGroupList = new ArrayList<ContactGroupEntry>();
@@ -810,12 +813,15 @@ public class GoogleImporterTest {
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		groupDAOMock.remove((AbdGroup) EasyMock.anyObject());
 
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		replay(groupDAOMock);
 
 		//call method to test and verify
 		gImporterUnderTest.myService = myServiceMock;
+		gImporterUnderTest.groupDAO = groupDAOMock;
 		gImporterUnderTest.updateGroups();
 		assertEquals(exceptedAccount, gImporterUnderTest.accdata);
 	}
@@ -880,6 +886,7 @@ public class GoogleImporterTest {
 
 		//prepare test variables
 		ContactsService myServiceMock = createMock(ContactsService.class);
+		AbdGroupFacade groupDAO = createMock(AbdGroupFacade.class);
 		URL feedUrl;
 		ContactGroupFeed resultFeed = new ContactGroupFeed();
 		List<ContactGroupEntry> contactGroupList = new ArrayList<ContactGroupEntry>();
@@ -926,12 +933,16 @@ public class GoogleImporterTest {
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
+		groupDAO.edit(abdGroup);
+		groupDAO.flush();
 
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
+		replay(groupDAO);
 
 		//call method to test and verify
 		gImporterUnderTest.myService = myServiceMock;
+		gImporterUnderTest.groupDAO = groupDAO;
 		gImporterUnderTest.updateGroups();
 		assertEquals(exceptedAccount, gImporterUnderTest.accdata);
 	}
@@ -944,6 +955,8 @@ public class GoogleImporterTest {
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		AbdContactFacade contactDAOMock = createMock(AbdContactFacade.class);
+		AbdGroupFacade groupDAO = createMock(AbdGroupFacade.class);
+		AbdGroupToContactFacade groupTOContactDAO = createMock(AbdGroupToContactFacade.class);
 		URL feedUrl;
 		List<ContactEntry> contactEntryList = new ArrayList<ContactEntry>();
 		DateTime dateTime = new DateTime();
@@ -963,18 +976,25 @@ public class GoogleImporterTest {
 		abdContactInDB.setName("Peter");
 		abdContactInDB.setSex('w');
 		abdContactInDB.setUpdated(new Date(dateTime.getValue()));
+		abdContactInDB.setAbdGroupToContactCollection(new ArrayList<AbdGroupToContact>());
 
 		System.out.println(abdContactInDB);
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
 		expect(contactDAOMock.find("1")).andReturn(abdContactInDB);
+		contactDAOMock.flush();
+		groupDAO.flush();
+		groupTOContactDAO.flush();
+		contactDAOMock.edit(abdContactInDB);
 
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
 		replay(contactDAOMock);
+		replay(groupTOContactDAO);
 		instance.contactDAO = contactDAOMock;
 		instance.myService = myServiceMock;
+		instance.groupToContactDAO = groupTOContactDAO;
 		instance.updateContacts();
 	}
 
@@ -1012,6 +1032,8 @@ public class GoogleImporterTest {
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
 		expect(contactDAOMock.find("1")).andReturn(abdContactInDB);
 		contactDAOMock.edit(abdContactInDB);
+		contactDAOMock.flush();
+		contactDAOMock.flush();
 
 		// Setup is finished need to activate the mock
 		replay(myServiceMock);
@@ -1069,9 +1091,14 @@ public class GoogleImporterTest {
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
 		expect(contactDAOMock.find(contactEntry.getId())).andReturn(null);
+		expect(groupDAOMock.find("1")).andReturn(new AbdGroup("1"));
 		contactDAOMock.create((AbdContact) EasyMock.anyObject(AbdContact.class));
+		contactDAOMock.edit((AbdContact) EasyMock.anyObject());
+		contactDAOMock.flush();
 		contactDAOMock.flush();
 		groupToContactDAOMock.create((AbdGroupToContact) EasyMock.anyObject());
+		groupToContactDAOMock.edit((AbdGroupToContact) EasyMock.anyObject());
+		groupToContactDAOMock.flush();
 		groupToContactDAOMock.flush();
 		groupDAOMock.edit((AbdGroup) EasyMock.anyObject());
 		groupDAOMock.flush();

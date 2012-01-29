@@ -338,9 +338,11 @@ public class GoogleImporter implements GoogleImporterLocal {
 			}
 		}
 		if (!match) {
+			if (abdMemberships.size()>0){
 			abdMemberships.get(0).setActive(true);
 			groupToContactDAO.edit(abdMemberships.get(0));
 			groupToContactDAO.flush();
+			}
 		}
 
 		abdContact.setAbdGroupToContactCollection(abdMemberships);
@@ -487,6 +489,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 
 		updated = new Date(contactEntry.getUpdated().getValue());
 		abdContact.setUpdated(updated);
+		abdContact.setAbdGroupToContactCollection(new ArrayList<AbdGroupToContact>());
 		return abdContact;
 	}
 

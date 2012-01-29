@@ -45,7 +45,7 @@ public class UpdateAccountBean {
 			errorStack = accountManager.updateGroupsAndContacts(sessionBean.getAktAccount().getId());
 			for (String string : errorStack) {
 				FacesContext.getCurrentInstance().addMessage(
-					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Skipped Contact: "+string , ""));
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, string , ""));
 			}
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is up-to-date now!" , ""));

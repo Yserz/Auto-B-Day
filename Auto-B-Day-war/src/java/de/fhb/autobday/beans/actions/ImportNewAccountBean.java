@@ -64,7 +64,7 @@ public class ImportNewAccountBean {
 				errorStack = accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
 				for (String string : errorStack) {
 				FacesContext.getCurrentInstance().addMessage(
-					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Skipped Contact: "+string , ""));
+					null, new FacesMessage(FacesMessage.SEVERITY_INFO, string , ""));
 			}
 				
 			FacesContext.getCurrentInstance().addMessage(

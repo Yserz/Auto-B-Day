@@ -6,6 +6,8 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdUser;
 import de.fhb.autobday.exception.account.AccountAlreadyExsistsException;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
+import de.fhb.autobday.exception.commons.CouldNotDecryptException;
+import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
@@ -57,12 +59,14 @@ public class ImportNewAccountBean {
 			AbdUser aktUser = sessionBean.getAktUser();
 			AbdAccount aktAccount = accountManager.addAccount(aktUser.getId(), password, userName, type);
 			sessionBean.setAktAccount(aktAccount);
+			
 			try {
 				errorStack = accountManager.importGroupsAndContacts(sessionBean.getAktAccount().getId());
 				for (String string : errorStack) {
 				FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Skipped Contact: "+string , ""));
 			}
+				
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Account is imported!" , ""));
 			} catch (AccountNotFoundException ex) {
@@ -77,6 +81,7 @@ public class ImportNewAccountBean {
 						null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 
 			}
+			
 		} catch (NoValidUserNameException ex) {
 			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
@@ -86,6 +91,14 @@ public class ImportNewAccountBean {
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		} catch (AccountAlreadyExsistsException ex) {
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+		} catch (CouldNotDecryptException ex) {
+			LOGGER.log(Level.SEVERE, null, ex.getMessage());
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+		} catch (CouldNotLoadMasterPasswordException ex) {
 			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));

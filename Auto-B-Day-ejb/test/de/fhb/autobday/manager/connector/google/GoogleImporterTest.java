@@ -22,6 +22,8 @@ import de.fhb.autobday.data.AbdAccount;
 import de.fhb.autobday.data.AbdContact;
 import de.fhb.autobday.data.AbdGroup;
 import de.fhb.autobday.data.AbdGroupToContact;
+import de.fhb.autobday.exception.commons.CouldNotDecryptException;
+import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
@@ -127,9 +129,11 @@ public class GoogleImporterTest {
 	 * @throws AuthenticationException
 	 * @throws ConnectorInvalidAccountException
 	 * @throws ConnectorCouldNotLoginException
+	 * @throws CouldNotLoadMasterPasswordException 
+	 * @throws CouldNotDecryptException 
 	 */
 	@Test(expected = ConnectorInvalidAccountException.class)
-	public void testGetConnectionCouldThrowConnectorInvalidAccountException() throws AuthenticationException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException {
+	public void testGetConnectionCouldThrowConnectorInvalidAccountException() throws AuthenticationException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, CouldNotDecryptException, CouldNotLoadMasterPasswordException {
 		System.out.println("getConnection");
 
 		// Setup is finished need to activate the mock

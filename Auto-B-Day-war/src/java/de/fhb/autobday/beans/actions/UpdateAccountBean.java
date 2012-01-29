@@ -2,7 +2,9 @@ package de.fhb.autobday.beans.actions;
 
 import de.fhb.autobday.beans.SessionBean;
 import de.fhb.autobday.exception.account.AccountNotFoundException;
-import de.fhb.autobday.exception.connector.ConnectorException;
+import de.fhb.autobday.exception.commons.CouldNotDecryptException;
+import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
+import de.fhb.autobday.exception.connector.*;
 import de.fhb.autobday.manager.account.AccountManagerLocal;
 import java.util.List;
 import java.util.logging.Level;
@@ -55,7 +57,14 @@ public class UpdateAccountBean {
 			LOGGER.log(Level.SEVERE, null, ex.getMessage());
 			FacesContext.getCurrentInstance().addMessage(
 					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
-
+		}  catch (CouldNotDecryptException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
+		} catch (CouldNotLoadMasterPasswordException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+			FacesContext.getCurrentInstance().addMessage(
+					null, new FacesMessage(FacesMessage.SEVERITY_ERROR, ex.getMessage(), ""));
 		}
 
 		return null;

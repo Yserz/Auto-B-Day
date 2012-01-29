@@ -105,7 +105,7 @@ public class AccountManagerTest {
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(true);
 
-		EasyMock.expect(propLoader.loadSystemProperty("/SystemChiperPassword.properties")).andReturn(masterPassword);
+		EasyMock.expect(propLoader.loadSystemProperty("/SystemCipherPassword.properties")).andReturn(masterPassword);
 		EasyMock.expect(CipherHelper.cipher(password, masterPassword.getProperty("master"))).andReturn(password);
 
 		accountDAOMock.create((AbdAccount) EasyMock.anyObject());
@@ -171,7 +171,7 @@ public class AccountManagerTest {
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(true);
 
-		EasyMock.expect(propLoader.loadSystemProperty("/SystemChiperPassword.properties")).andReturn(masterPassword);
+		EasyMock.expect(propLoader.loadSystemProperty("/SystemCipherPassword.properties")).andReturn(masterPassword);
 		EasyMock.expect(CipherHelper.cipher(password, masterPassword.getProperty("master"))).andReturn(password);
 
 
@@ -237,7 +237,7 @@ public class AccountManagerTest {
 		EasyMock.expect(userDAOMock.find(userId)).andReturn(user);
 		EasyMock.expect(EMailValidator.isGoogleMail(userName)).andReturn(true);
 
-		EasyMock.expect(propLoader.loadSystemProperty("/SystemChiperPassword.properties")).andReturn(masterPassword);
+		EasyMock.expect(propLoader.loadSystemProperty("/SystemCipherPassword.properties")).andReturn(masterPassword);
 		EasyMock.expect(CipherHelper.cipher(password, masterPassword.getProperty("master"))).andReturn(password);
 
 

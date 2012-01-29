@@ -106,7 +106,7 @@ public class GoogleImporterTest {
 		Properties masterPassword = new Properties();
 		masterPassword.setProperty("master", "sraeBrsc");
 
-		EasyMock.expect(propLoader.loadSystemProperty("/SystemChiperPassword.properties")).andReturn(masterPassword);
+		EasyMock.expect(propLoader.loadSystemProperty("/SystemCipherPassword.properties")).andReturn(masterPassword);
 		EasyMock.expect(CipherHelper.decipher(data.getPasswort(), masterPassword.getProperty("master"))).andReturn("TestGoogle123");
 
 

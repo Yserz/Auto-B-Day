@@ -354,7 +354,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 		try {
 			// url to get all groups
 			feedUrl = new URL(
-					"https://www.google.com/m8/feeds/groups/default/full");
+					"https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 			ContactGroupFeed resultFeed = myService.getFeed(feedUrl,
 					ContactGroupFeed.class);
 			if (resultFeed == null) {

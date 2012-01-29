@@ -158,7 +158,7 @@ public class GoogleImporterTest {
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(null);
@@ -189,7 +189,7 @@ public class GoogleImporterTest {
 		contactGroup.setId("hsfsfd");
 		contactGroupList.add(contactGroup);
 		resultFeed.setEntries(contactGroupList);
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
@@ -209,7 +209,7 @@ public class GoogleImporterTest {
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andThrow(new IOException());
@@ -230,7 +230,7 @@ public class GoogleImporterTest {
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andThrow(new ServiceException(""));
@@ -257,7 +257,7 @@ public class GoogleImporterTest {
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(null);
@@ -288,7 +288,7 @@ public class GoogleImporterTest {
 		contactEntryList.add(contactEntry);
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);
@@ -308,7 +308,7 @@ public class GoogleImporterTest {
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andThrow(new IOException());
@@ -328,7 +328,7 @@ public class GoogleImporterTest {
 		GoogleImporter instance = new GoogleImporter();
 		ContactsService myServiceMock = createMock(ContactsService.class);
 		URL feedUrl;
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andThrow(new ServiceException(""));
@@ -364,9 +364,9 @@ public class GoogleImporterTest {
 		instance.accdata = abdAccount;
 
 		// Setting up the expected value of the method call of Mockobject
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeedGroup);
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeedContact);
 		accountDAOMock.flush();
 		accountDAOMock.edit(abdAccount);
@@ -743,7 +743,7 @@ public class GoogleImporterTest {
 		groupList.add(abdGroup);
 		exceptedAccount.setAbdGroupCollection(groupList);
 
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
@@ -805,7 +805,7 @@ public class GoogleImporterTest {
 		groupList.add(abdGroupOld);
 		exceptedAccount.setAbdGroupCollection(groupList);
 
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
@@ -859,7 +859,7 @@ public class GoogleImporterTest {
 		groupList.add(abdGroup);
 		exceptedAccount.setAbdGroupCollection(groupList);
 
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
@@ -921,7 +921,7 @@ public class GoogleImporterTest {
 		groupList.add(abdGroup);
 		exceptedAccount.setAbdGroupCollection(groupList);
 
-		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/groups/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactGroupFeed.class)).andReturn(resultFeed);
@@ -954,7 +954,7 @@ public class GoogleImporterTest {
 		contactEntryList.add(contactEntry);
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 
 		@SuppressWarnings("deprecation")
 		AbdContact abdContactInDB = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
@@ -996,7 +996,7 @@ public class GoogleImporterTest {
 		contactEntryList.add(contactEntry);
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 
 		@SuppressWarnings("deprecation")
 		AbdContact abdContactInDB = new AbdContact("1", "test@fhb.de", new Date(90, 4, 22), "");
@@ -1047,7 +1047,7 @@ public class GoogleImporterTest {
 		contactEntryList.add(contactEntry);
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 		abdGroup.setActive(true);
 		abdGroup.setId("1");
 		abdGroup.setName("Dies ist der Titel");
@@ -1103,7 +1103,7 @@ public class GoogleImporterTest {
 		contactEntryList.add(contactEntry);
 		ContactFeed resultFeed = new ContactFeed();
 		resultFeed.setEntries(contactEntryList);
-		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full");
+		feedUrl = new URL("https://www.google.com/m8/feeds/contacts/default/full?max-results=500");
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(myServiceMock.getFeed(feedUrl, ContactFeed.class)).andReturn(resultFeed);

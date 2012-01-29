@@ -14,6 +14,7 @@ import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
+import de.fhb.autobday.exception.connector.ConnectorRequestFailedException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import de.fhb.autobday.manager.LoggerInterceptor;
@@ -102,17 +103,23 @@ public class AccountManager implements AccountManagerLocal {
 			masterPassword = propLoader.loadSystemProperty("/SystemCipherPassword.properties");
 			passwordChipher = CipherHelper.cipher(password, masterPassword.getProperty("master"));
 		} catch (IOException e) {
-			throw new CouldNotLoadMasterPasswordException();
+			LOGGER.log(Level.SEVERE, "File can´t read!");
+			throw new CouldNotLoadMasterPasswordException("File can´t read!");
 		} catch (InvalidKeyException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Key not valid to decrypt Password");
+			throw new CouldNotDecryptException("Key not valid");
 		} catch (NoSuchAlgorithmException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Algorithm not known");
+			throw new CouldNotDecryptException("Algorithm not known");
 		} catch (NoSuchPaddingException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Padding not possible");
+			throw new CouldNotDecryptException("Padding not possible");
 		} catch (IllegalBlockSizeException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Blocksize not valid");
+			throw new CouldNotDecryptException("Blocksize not valid");
 		} catch (BadPaddingException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Padding invalid");
+			throw new CouldNotDecryptException("Padding invalid");
 		}
 
 		//add new Account
@@ -194,7 +201,7 @@ public class AccountManager implements AccountManagerLocal {
 	 */
 	@Override
 	public List<String> importGroupsAndContacts(int accountId)
-			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException {
 		List<String> errorStack;
 
 		AbdAccount account;
@@ -263,7 +270,7 @@ public class AccountManager implements AccountManagerLocal {
 	}
 
 	@Override
-    public List<String> updateGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException {
+    public List<String> updateGroupsAndContacts(int accountId) throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException {
         	return importGroupsAndContacts(accountId);
     }
 	/**

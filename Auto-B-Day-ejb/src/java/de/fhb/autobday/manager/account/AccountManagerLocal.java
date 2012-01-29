@@ -9,6 +9,7 @@ import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
+import de.fhb.autobday.exception.connector.ConnectorRequestFailedException;
 import de.fhb.autobday.exception.user.NoValidUserNameException;
 import de.fhb.autobday.exception.user.UserNotFoundException;
 import java.util.List;
@@ -71,7 +72,7 @@ public interface AccountManagerLocal {
 	 * @throws ConnectorNoConnectionException
 	 */
 	List<String> importGroupsAndContacts(int accountId)
-			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException;
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException;
         
     /**
 	 * update all groups and contacts
@@ -84,7 +85,7 @@ public interface AccountManagerLocal {
 	 * @throws ConnectorNoConnectionException
 	 */
 	List<String> updateGroupsAndContacts(int accountId)
-			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException;
+			throws AccountNotFoundException, ConnectorCouldNotLoginException, ConnectorInvalidAccountException, ConnectorNoConnectionException, ConnectorRequestFailedException;
 
 	/**
 	 * get all groups of a specific account by a AbdAccountobject

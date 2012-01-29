@@ -22,6 +22,7 @@ import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
+import de.fhb.autobday.exception.connector.ConnectorRequestFailedException;
 import de.fhb.autobday.manager.LoggerInterceptor;
 import java.io.IOException;
 import java.net.URL;
@@ -112,17 +113,23 @@ public class GoogleImporter implements GoogleImporterLocal {
 			masterPassword = propLoader.loadSystemProperty("/SystemCipherPassword.properties");
 			password = CipherHelper.decipher(accdata.getPasswort(), masterPassword.getProperty("master"));
 		} catch (IOException e) {
-			throw new CouldNotLoadMasterPasswordException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "File can´t read!");
+			throw new CouldNotLoadMasterPasswordException("File can´t read!");
 		} catch (InvalidKeyException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Key not valid to decrypt Password");
+			throw new CouldNotDecryptException("Key not valid");
 		} catch (NoSuchAlgorithmException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Algorithm not known");
+			throw new CouldNotDecryptException("Algorithm not known");
 		} catch (NoSuchPaddingException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Padding not possible");
+			throw new CouldNotDecryptException("Padding not possible");
 		} catch (IllegalBlockSizeException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Blocksize not valid");
+			throw new CouldNotDecryptException("Blocksize not valid");
 		} catch (BadPaddingException e) {
-			throw new CouldNotDecryptException();//TODO Message + Logger
+			LOGGER.log(Level.SEVERE, "Padding invalid");
+			throw new CouldNotDecryptException("Padding invalid");
 		}
 
 		// connect to google
@@ -146,7 +153,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 * @see de.fhb.autobday.manager.connector.AImporter#importContacts()
 	 */
 	@Override
-	public List<String> importContacts() throws ConnectorNoConnectionException {
+	public List<String> importContacts() throws ConnectorNoConnectionException, ConnectorRequestFailedException {
 		errorStack = new ArrayList<String>();
 		// if we have a connection and a valid accounddata then import the
 		// contacts and groups
@@ -169,7 +176,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	/**
 	 * Methode that update the Contact of an Account
 	 */
-	protected void updateContacts() {
+	protected void updateContacts() throws ConnectorRequestFailedException{
 		AbdContact abdContact, abdContactInDB;
 		List<ContactEntry> contacts = getAllContacts();
 		int counter = 0;
@@ -209,7 +216,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	/**
 	 * Method that update the Groups of an Account
 	 */
-	protected void updateGroups() {
+	protected void updateGroups() throws ConnectorRequestFailedException{
 		AbdGroup abdGroup;
 		AbdGroup abdGroupOld;
 		List<ContactGroupEntry> groups = getAllGroups();
@@ -350,7 +357,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 *
 	 * @return List<ContactGroupEntry>
 	 */
-	protected List<ContactGroupEntry> getAllGroups() {
+	protected List<ContactGroupEntry> getAllGroups() throws ConnectorRequestFailedException {
 
 		URL feedUrl;
 		try {
@@ -365,13 +372,12 @@ public class GoogleImporter implements GoogleImporterLocal {
 			return resultFeed.getEntries();
 
 		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
-			//TODO Exception
+			LOGGER.log(Level.SEVERE, "Fail to get Groups from Google");
+			throw new ConnectorRequestFailedException("Fail to get Groups");
 		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
-			//TODO Exception
+			LOGGER.log(Level.SEVERE, "Fail to get Groups from Google");
+			throw new ConnectorRequestFailedException("Fail to get Groups");
 		}
-		return null;
 	}
 
 	/**
@@ -382,7 +388,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	 *
 	 * @return List<ContactEntry>
 	 */
-	protected List<ContactEntry> getAllContacts() {
+	protected List<ContactEntry> getAllContacts() throws ConnectorRequestFailedException{
 
 		URL feedUrl;
 		try {
@@ -396,13 +402,12 @@ public class GoogleImporter implements GoogleImporterLocal {
 			
 			return resultFeed.getEntries();
 		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
-			//TODO Exception
+			LOGGER.log(Level.SEVERE, "Fail to get Groups from Google");
+			throw new ConnectorRequestFailedException("Fail to get Contacts");
 		} catch (ServiceException ex) {
-			LOGGER.log(Level.SEVERE, null, ex.getMessage());//TODO Add Message
-			//TODO Exception
+			LOGGER.log(Level.SEVERE, "Fail to get Groups from Google");
+			throw new ConnectorRequestFailedException("Fail to get Contacts");
 		}
-		return null;
 	}
 
 	/**

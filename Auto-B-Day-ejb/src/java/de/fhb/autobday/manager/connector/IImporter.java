@@ -6,6 +6,7 @@ import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
+import de.fhb.autobday.exception.connector.ConnectorRequestFailedException;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public interface IImporter {
 	 * @return errorStack
 	 * @throws ConnectorNoConnectionException
 	 */
-	List<String> importContacts() throws ConnectorNoConnectionException;
+	List<String> importContacts() throws ConnectorNoConnectionException, ConnectorRequestFailedException;
 
 	/**
 	 * get information about success of connect

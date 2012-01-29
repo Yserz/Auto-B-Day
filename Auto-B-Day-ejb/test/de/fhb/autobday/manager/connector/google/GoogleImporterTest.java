@@ -27,6 +27,7 @@ import de.fhb.autobday.exception.commons.CouldNotLoadMasterPasswordException;
 import de.fhb.autobday.exception.connector.ConnectorCouldNotLoginException;
 import de.fhb.autobday.exception.connector.ConnectorInvalidAccountException;
 import de.fhb.autobday.exception.connector.ConnectorNoConnectionException;
+import de.fhb.autobday.exception.connector.ConnectorRequestFailedException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -151,7 +152,7 @@ public class GoogleImporterTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testGetAllGroupsWithNull() throws IOException, ServiceException {
+	public void testGetAllGroupsWithNull() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("getAllGroups");
 
 		//prepare test variables
@@ -176,7 +177,7 @@ public class GoogleImporterTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testGetAllGroupsWithGroupFeed() throws IOException, ServiceException {
+	public void testGetAllGroupsWithGroupFeed() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("getAllGroups");
 
 		//prepare test variables
@@ -202,8 +203,8 @@ public class GoogleImporterTest {
 		assertEquals(contactGroupList, instance.getAllGroups());
 	}
 
-	@Test
-	public void testGetAllGroupsByThrowingIOException() throws IOException, ServiceException {
+	@Test (expected = ConnectorRequestFailedException.class)
+	public void testGetAllGroupsByThrowingIOException() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("testGetAllGroupsByThrowingIOException");
 
 		GoogleImporter instance = new GoogleImporter();
@@ -219,11 +220,11 @@ public class GoogleImporterTest {
 
 		//call method to test and verify
 		instance.myService = myServiceMock;
-		assertEquals(null, instance.getAllGroups());
+		instance.getAllGroups();
 	}
 
-	@Test
-	public void testGetAllGroupsByThrowingServiceException() throws IOException, ServiceException {
+	@Test (expected = ConnectorRequestFailedException.class)
+	public void testGetAllGroupsByThrowingServiceException() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("testGetAllGroupsByThrowingServiceException");
 
 		//prepare test variables
@@ -240,7 +241,7 @@ public class GoogleImporterTest {
 
 		//call method to test and verify
 		instance.myService = myServiceMock;
-		assertEquals(null, instance.getAllGroups());
+		instance.getAllGroups();
 	}
 
 	/**
@@ -250,7 +251,7 @@ public class GoogleImporterTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testGetAllContactsReturnNull() throws IOException, ServiceException {
+	public void testGetAllContactsReturnNull() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("getAllContacts");
 
 		//prepare test variables
@@ -277,7 +278,7 @@ public class GoogleImporterTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testGetAllContactsReturnList() throws IOException, ServiceException {
+	public void testGetAllContactsReturnList() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("getAllContacts");
 
 		//prepare test variables
@@ -302,7 +303,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void testGetAllContactsByThrowingIOException() throws IOException, ServiceException {
+	public void testGetAllContactsByThrowingIOException() throws IOException, ServiceException, ConnectorRequestFailedException {
 
 		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
@@ -322,7 +323,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void testGetAllContactsByThrowingServiceException() throws IOException, ServiceException {
+	public void testGetAllContactsByThrowingServiceException() throws IOException, ServiceException, ConnectorRequestFailedException {
 
 		//prepare test variables
 		GoogleImporter instance = new GoogleImporter();
@@ -349,7 +350,7 @@ public class GoogleImporterTest {
 	 * @throws IOException
 	 */
 	@Test
-	public void testImportContacts() throws ConnectorNoConnectionException, IOException, ServiceException {
+	public void testImportContacts() throws ConnectorNoConnectionException, IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("importContacts");
 
 		GoogleImporter instance = new GoogleImporter();
@@ -386,7 +387,7 @@ public class GoogleImporterTest {
 	 * @throws ConnectorNoConnectionException
 	 */
 	@Test(expected = ConnectorNoConnectionException.class)
-	public void testImportContactsThrowConnectorNoConnectionExceptionBecouseAccountNull() throws ConnectorNoConnectionException {
+	public void testImportContactsThrowConnectorNoConnectionExceptionBecouseAccountNull() throws ConnectorNoConnectionException, ConnectorRequestFailedException {
 		System.out.println("importContacts");
 
 		GoogleImporter instance = new GoogleImporter();
@@ -403,7 +404,7 @@ public class GoogleImporterTest {
 	 * @throws ConnectorNoConnectionException
 	 */
 	@Test(expected = ConnectorNoConnectionException.class)
-	public void testImportContactsThrowConnectorNoConnectionExceptionBecouseConnectionFalse() throws ConnectorNoConnectionException {
+	public void testImportContactsThrowConnectorNoConnectionExceptionBecouseConnectionFalse() throws ConnectorNoConnectionException, ConnectorRequestFailedException {
 		System.out.println("importContacts");
 
 		GoogleImporter instance = new GoogleImporter();
@@ -707,7 +708,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void testupdateGroups() throws IOException, ServiceException {
+	public void testupdateGroups() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("testupdateGroups");
 
 		//prepare test variables
@@ -757,7 +758,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void testupdateGroupsWithANewGroup() throws IOException, ServiceException {
+	public void testupdateGroupsWithANewGroup() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("testupdateGroupsWithANewGroup");
 
 		//prepare test variables
@@ -820,7 +821,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void testupdateGroupsWithNoUpdates() throws IOException, ServiceException {
+	public void testupdateGroupsWithNoUpdates() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("testupdateGroupsWithNoUpdates");
 
 		//prepare test variables
@@ -874,7 +875,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void testupdateGroupsWithAUpdateGroup() throws IOException, ServiceException {
+	public void testupdateGroupsWithAUpdateGroup() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("testupdateGroupsWithAUpdateGroup");
 
 		//prepare test variables
@@ -936,7 +937,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void updateContactWithExistContact() throws IOException, ServiceException {
+	public void updateContactWithExistContact() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("updateContactWithExistContact");
 
 		//prepare test variables
@@ -978,7 +979,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void updateContactWithEditContact() throws IOException, ServiceException {
+	public void updateContactWithEditContact() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("updateContactWithEditContact");
 
 		//prepare test variables
@@ -1021,7 +1022,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void updateContactWithNewContact() throws IOException, ServiceException {
+	public void updateContactWithNewContact() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("updateContactWithNewContact");
 
 		//prepare test variables
@@ -1089,7 +1090,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
-	public void updateContactMappedObjectNull() throws IOException, ServiceException {
+	public void updateContactMappedObjectNull() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("updateContactMappedObjectNull");
 
 		//prepare test variables

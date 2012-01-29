@@ -147,7 +147,7 @@ public class GroupManagerTestIntegration {
 		// Setup is finished need to activate the mock
 		replay(emMock);
 		
-		assertEquals("Hello biene w", managerUnderTest.testTemplate(group.getId(), contact.getId()));
+		assertEquals("Hello biene ", managerUnderTest.testTemplate(group.getId(), contact.getId()));
 		
 		//verify
 		verify(emMock);

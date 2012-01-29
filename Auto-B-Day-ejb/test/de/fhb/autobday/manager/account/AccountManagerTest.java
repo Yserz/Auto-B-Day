@@ -515,7 +515,7 @@ public class AccountManagerTest {
 		accountDAOMock.refresh(account);
 
 		gImporter.getConnection(account);
-		gImporter.importContacts();
+		EasyMock.expect(gImporter.importContacts()).andReturn(new ArrayList<String>());
 
 		// Setup is finished need to activate the mock
 		EasyMock.replay(accountDAOMock);

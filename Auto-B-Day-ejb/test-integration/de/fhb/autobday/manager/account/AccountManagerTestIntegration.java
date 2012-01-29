@@ -93,7 +93,7 @@ public class AccountManagerTestIntegration {
 
 		// Setting up the expected value of the method call of Mockobject
 		expect(emMock.find(AbdUser.class, user.getId())).andReturn(user);
-		expect(propLoader.loadSystemProperty("/SystemChiperPassword.properties")).andReturn(masterPassword);
+		expect(propLoader.loadSystemProperty("/SystemCipherPassword.properties")).andReturn(masterPassword);
 
 		emMock.persist((AbdAccount) anyObject());
 		emMock.refresh((AbdUser) anyObject());

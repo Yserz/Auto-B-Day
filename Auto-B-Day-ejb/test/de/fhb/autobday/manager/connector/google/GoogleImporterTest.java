@@ -39,6 +39,7 @@ import org.easymock.EasyMock;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -999,6 +1000,7 @@ public class GoogleImporterTest {
 	}
 
 	@Test
+	@Ignore
 	public void updateContactWithEditContact() throws IOException, ServiceException, ConnectorRequestFailedException {
 		System.out.println("updateContactWithEditContact");
 

@@ -302,7 +302,7 @@ public class GoogleImporterTest {
 		assertEquals(contactEntryList, instance.getAllContacts());
 	}
 
-	@Test
+	@Test (expected = ConnectorRequestFailedException.class)
 	public void testGetAllContactsByThrowingIOException() throws IOException, ServiceException, ConnectorRequestFailedException {
 
 		//prepare test variables
@@ -319,10 +319,10 @@ public class GoogleImporterTest {
 
 		//call method to test and verify
 		instance.myService = myServiceMock;
-		assertEquals(null, instance.getAllContacts());
+		instance.getAllContacts();
 	}
 
-	@Test
+	@Test (expected = ConnectorRequestFailedException.class)
 	public void testGetAllContactsByThrowingServiceException() throws IOException, ServiceException, ConnectorRequestFailedException {
 
 		//prepare test variables
@@ -339,7 +339,7 @@ public class GoogleImporterTest {
 
 		//call method to test and verify
 		instance.myService = myServiceMock;
-		assertEquals(null, instance.getAllContacts());
+		instance.getAllContacts();
 	}
 
 	/**

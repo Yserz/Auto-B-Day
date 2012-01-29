@@ -70,7 +70,7 @@ public class GoogleImporter implements GoogleImporterLocal {
 	protected AbdAccountFacade accountDAO;
 	
 	private PropertyLoader propLoader;
-	private List<String> errorStack = new ArrayList();
+	private List<String> errorStack = new ArrayList<String>();
 
 	public GoogleImporter() {
 		connectionEtablished = false;
